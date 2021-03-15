@@ -1,0 +1,17 @@
+# jemdoc: menu{MENU}{code.html}
+
+== Codes
+
+~~~
+{}{img_left}{imgs/double_q_learning.gif}{alt text}{200}{150}{}
+Double Q-Learning (agent learns to dig a hole in Breakout game) \[[https://github.com/anhddo/double_q_learning github]\] \n
+~~~
+
+== Resources
+
+~~~
+{}{img_left}{images/awe-mkup.png}{alt text}{200}{150}{}
+A curated list of Awesome Makeup Transfer resources 🌱\n
+
+\[[https://github.com/thaoshibe/awesome-makeup-transfer awesome-makeup-transfer]\]
+~~~
