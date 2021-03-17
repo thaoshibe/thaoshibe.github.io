@@ -13,7 +13,7 @@ A curated list of Awesome Makeup Transfer resources 🌱\n
 {}{img_left}{images/makeup-gui.gif}{alt text}{200}{140}{}
 Demo on Makeup Transfer with BeautyGAN\n
 
-\[[https://github.com/thaoshibe/GUI-Makeup-Transfer GUI (Live-camera)], [https://github.com/thaoshibe/Facial-Makeup-Web Web Demo]\] \n
+\[[https://youtu.be/fy1PN4uPbq4 video], [https://github.com/thaoshibe/GUI-Makeup-Transfer github (GUI)], [https://github.com/thaoshibe/Facial-Makeup-Web github (web)]\] \n
 ~~~
 
 == Codes
@@ -23,20 +23,20 @@ Demo on Makeup Transfer with BeautyGAN\n
 A re-implementation of BeautyGAN (PyTorch):\n
 Instance-level Facial Makeup Transfer with Deep Generative Adversarial Network (ACM MM'18) \n
 
-\[[https://github.com/thaoshibe/BeautyGAN-PyTorch-reimplementation BeautyGAN-PyTorch-Reimplementation]\]
+\[[https://github.com/thaoshibe/BeautyGAN-PyTorch-reimplementation github]\]
 ~~~
 
 ~~~
 {}{img_left}{images/crawl.png}{alt text}{200}{150}{}
 Download original images (not thumbnails!!)\n
-from Google Images Search by keywords, with multithreading!!\n
+from Google Images Search by keywords, with multi-threading!!\n
 
-\[[https://github.com/thaoshibe/crawl-original-google-images crawl-images-from-google-search]\]
+\[[https://github.com/thaoshibe/crawl-original-google-images github]\]
 ~~~
 
 ~~~
 {}{img_left}{images/chair.png}{alt text}{200}{150}{}
 Project: Let's grab a chair 💺!\n
 Chair detectors & segmentors (Yolo, MaskRCNN, etc.) \n
-\[[https://github.com/anhddo/double_q_learning github]\]
+\[[https://github.com/thaoshibe/lets-grab-a-chair- github]\]
 ~~~
