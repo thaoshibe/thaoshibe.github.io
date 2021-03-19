@@ -142,6 +142,7 @@ def standardconf():
   
   [defaultcss]
   <link rel="stylesheet" href="jemdoc.css" type="text/css" />
+  <link rel="icon" type="image/png" href="./images/favicon.png"/>
   
   [windowtitle]
   # used in header for window title.
