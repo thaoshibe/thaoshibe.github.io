@@ -25,10 +25,11 @@ You can find my long resume [https://drive.google.com/file/d/1eZYCRn4jXJ3bDBURUd
 == Publications
 
 ~~~
-{}{img_left}{images/placeholder.jpg}{alt text}{200}{150}{}
+{}{img_left}{images/CPM/result.gif}{alt text}{200}{200}{}
 Lipstick ain't enough: Beyond Color Matching for In-the-Wild Makeup Transfer \n
 /*Thao Nguyen*, Anh Tran, Minh Hoai/ \n
-\[[https://thaoshibe.github.io/CPM ProjectPage], [github.com/VinAIResearch/CPM Code]\]
+In Conference on Computer Vision and Pattern Recognition (CVPR) 2021 \n
+\[[https://thaoshibe.github.io/CPM ProjectPage], [github.com/VinAIResearch/CPM Code], [github.com/VinAIResearch/CPM Paper]\]
 
 ~~~
 
