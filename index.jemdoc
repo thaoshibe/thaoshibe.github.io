@@ -4,11 +4,7 @@
 ~~~
 {}{img_left}{images/avatar.png}{alt text}{200}{200}{}
 
-{{<font color="red"<b>}}Note: This website is under development. I'm currently improving it, so sorry for any inconvenience.{{</b></font>}}
-
 I am AI Resident @ [https://www.vinai.io VinAI Research], supervised by [https://sites.google.com/site/anhttranusc/ Dr. Anh Tran] & [https://www3.cs.stonybrook.edu/~minhhoai/ Prof. Minh Hoai Nguyen]. \n
-
-I'm looking for a {{<font color="red"<b>}}Ph.D. position starting Fall 2022{{</b></font>}}
 
 ~~~
 
@@ -26,11 +22,18 @@ You can find my long resume [https://drive.google.com/file/d/1eZYCRn4jXJ3bDBURUd
 
 ~~~
 {}{img_left}{images/CPM/result.gif}{alt text}{200}{200}{}
-Lipstick ain't enough: Beyond Color Matching for In-the-Wild Makeup Transfer \n
+*Lipstick ain't enough: Beyond Color Matching for In-the-Wild Makeup Transfer* \n
 /*Thao Nguyen*, Anh Tran, Minh Hoai/ \n
 In Conference on Computer Vision and Pattern Recognition (*CVPR*) 2021 \n
 \[[https://thaoshibe.github.io/CPM ProjectPage], [https://github.com/VinAIResearch/CPM Code], [https://arxiv.org/abs/2104.01867 Paper]\]
+~~~
 
+~~~
+{}{img_left}{images/finenet.png}{alt text}{200}{200}{}
+*FineNet: Frame Interpolation and Enhancement for Face Video Deblurring* \n
+/Phong Tran, Anh Tran, *Thao Nguyen*, Minh Hoai/ \n
+In arXiv 2021 \n
+\[[https://arxiv.org/abs/2103.00871 Paper]\]
 ~~~
 
 == Academic Experience
