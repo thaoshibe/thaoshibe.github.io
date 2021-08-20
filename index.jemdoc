@@ -2,38 +2,37 @@
 = Thao Nguyen
 
 ~~~
-{}{img_left}{images/avatar.png}{alt text}{200}{200}{}
+{}{img_left}{images/avatar-2.jpg}{alt text}{200}{200}{https://thaoshibe.github.io/images/ubaya-surabaya.JPG}
 
-I am AI Engineer @ [https://www.vinai.io VinAI Research], supervised by [https://sites.google.com/site/anhttranusc/ Dr. Anh Tran] & [https://www3.cs.stonybrook.edu/~minhhoai/ Prof. Minh Hoai Nguyen]. \n
+I am an AI Engineer @ [https://www.vinai.io VinAI Research], supervised by [https://ducthanhnguyen.weebly.com Dr. Duc Thanh Nguyen]. \n
+Before that, I spent two wonderful years working with [https://sites.google.com/site/anhttranusc/ Dr. Anh Tran] & [https://www3.cs.stonybrook.edu/~minhhoai/ Prof. Minh Hoai Nguyen], as an AI Resident @ [https://www.vinai.io/ai-residency/ VinAI Residency Program].
 
-\n
-
-(This photo was *not* taken by [https://anhddo.github.io Anh Do] (¬‿¬) in [https://thaoshibe.github.io/images/ubaya-surabaya.JPG ➯ Surabaya - Indonesia])
-
+/(This photo was *not* taken by [https://anhddo.github.io Anh Do)]/
 ~~~
+
 
 == About Me
 
-AI Engineer -- [https://www.vinai.io/ VinAI Research], Hanoi -- Vietnam \n
+AI Engineer -- [https://www.vinai.io/ VinAI Research], Hanoi -- Vietnam. \n
 
-*Contact*: thao.ntp0414 at gmail dot com. Or check my [https://www.linkedin.com/in/kimtuthap97/ LinkedIN], [https://twitter.com/kimtuthap97/ Twitter].\n
+*Contact*: "thao.ntp0414 at gmail dot com". Or check my [https://www.linkedin.com/in/kimtuthap97/ LinkedIN], [https://twitter.com/kimtuthap97/ Twitter].\n
 
 *Research interests*: Image Editing/ Manipulation. \n
 
-You can find my long resume [https://drive.google.com/file/d/1eZYCRn4jXJ3bDBURUdAKQvoDcnELLopI/view?usp=sharing/ here]. 
+You can find my long resume [https://drive.google.com/file/d/1eZYCRn4jXJ3bDBURUdAKQvoDcnELLopI/view?usp=sharing/ here] /(Last updated on March 2021)/. 
 
 == Publications
 
 ~~~
-{}{img_left}{images/CPM/result.gif}{alt text}{200}{200}{}
+{}{img_left}{images/CPM/result.gif}{alt text}{200}{200}{https://thaoshibe.github.io/CPM}
 *Lipstick ain't enough: Beyond Color Matching for In-the-Wild Makeup Transfer* \n
 /*Thao Nguyen*, Anh Tran, Minh Hoai/ \n
 In Conference on Computer Vision and Pattern Recognition (*CVPR*) 2021 \n
-\[[https://thaoshibe.github.io/CPM ProjectPage], [https://github.com/VinAIResearch/CPM Code ⭐], [https://arxiv.org/abs/2104.01867 Paper]\]
+\[[https://thaoshibe.github.io/CPM ProjectPage], [https://github.com/VinAIResearch/CPM Code ⭐], [https://www.youtube.com/watch?v=8JbqCgdc8YU Video], [https://arxiv.org/abs/2104.01867 Paper]\]
 ~~~
 
 ~~~
-{}{img_left}{images/finenet.png}{alt text}{200}{200}{}
+{}{img_left}{images/finenet.png}{alt text}{200}{200}{https://arxiv.org/abs/2103.00871}
 *FineNet: Frame Interpolation and Enhancement for Face Video Deblurring* \n
 /Phong Tran, Anh Tran, *Thao Nguyen*, Minh Hoai/ \n
 In arXiv 2021 \n
@@ -54,6 +53,11 @@ In arXiv 2021 \n
 
 == Misc
 
-- I'm in love with Shiba Inu, so close friends call me "Shibe" ฅ^•ﻌ•^ฅ
-- V●ᴥ●V meet my dog: [https://www.instagram.com/avoshibe/ Such henlo! Say hi to AvoShibe!] V●ᴥ●V
-- I speak a little Japanese, but mainly 分かりません. I also speak a bit Doge, but mostly Such wow, very awwoooooooooo ◖⚆ᴥ⚆◗
+~~~
+{}{img_left}{images/avoshibe-nobackground.png}{alt text}{120}{120}{https://www.instagram.com/avoshibe/} 
+Meet my doge: [https://www.instagram.com/avoshibe/ Avocado (Bơ)], 2-ish. \n
+A cheese lover, salad hater, & professional balls retriever.\n
+An independent (food) researcher, but sometimes collab with [https://thaoshibe.github.io Thao Nguyen] and [https://anhddo.github.io Anh Do].\n
+◖⚆ᴥ⚆◗: "/Only work for yummy food!/".
+
+~~~
