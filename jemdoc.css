@@ -6,14 +6,23 @@ table#tlayout {
     background: white;
 }
 
-body {
+/*body {
 	background: white;
 	font-family: Georgia, serif;
 	padding-bottom: 8px;
 	margin: auto;
 	vertical-align: middle;
+}*/
+body {
+	background: white;
+	/* font-family: Verdana,Arial,Helevetica,sans-serif; */
+    font: 1em/1.5 Helevetica,sans-serif,Geneva,Tahoma;
+        /* font: 1em/1.5 Helevetica,Georgia,sans-serif,Geneva,Tahoma; */
+	padding-bottom: 8px;
+	padding-left: 15%;
+	padding-right: 15%;
+	margin: 0;
 }
-
 #layout-menu {
 	background: #f6f6f6;
 	border: 1px solid #dddddd;
