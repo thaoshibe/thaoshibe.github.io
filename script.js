@@ -8,26 +8,12 @@ function toggleblock(blockId)
     }
 }
 
+$( document ).ready(function() {
+    $( ".blockId" ).click(function() {
 
+        $('.blockId').toggle();
+        $(this).toggleClass('open'); 
+    });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});
 
