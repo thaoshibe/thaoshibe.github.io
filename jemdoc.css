@@ -16,13 +16,13 @@ table#tlayout {
 body {
 	background: white;
 	 /*font-family: Verdana,Arial,Helevetica,sans-serif; */
-    font: 1em/1.5 Helevetica,sans-serif,Geneva,Tahoma;
-    /*font: 1em/1.5 Helevetica,Georgia,sans-serif,Geneva,Tahoma; */
+    /*font: 1em/1.5 Helevetica,sans-serif,Geneva,Tahoma;*/
+    font: 1em/1.5 Georgia,sans-serif,Tahoma; 
     /*margin: 100;*/
-	padding-bottom: 8px;
+	padding-bottom: 1px;
 	margin: auto;
-	padding-left: 8em;
-	padding-right: 8em;
+	padding-left: 10em;
+	padding-right: 10em;
 	/*margin: auto;*/
 }
 /*#layout-menu {
