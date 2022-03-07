@@ -15,9 +15,10 @@ table#tlayout {
 }*/
 body {
 	background: white;
+	font-family: Georgia, serif;
 	 /*font-family: Verdana,Arial,Helevetica,sans-serif; */
     /*font: 1em/1.5 Helevetica,sans-serif,Geneva,Tahoma;*/
-    font: 1em/1.5 Georgia,sans-serif,Tahoma; 
+    /*font: 1em/1.5 Georgia,sans-serif,Tahoma; */
     /*margin: 100;*/
 	padding-bottom: 1px;
 	margin: auto;
