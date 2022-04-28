@@ -13,31 +13,29 @@ table#tlayout {
 	margin: auto;
 	vertical-align: middle;
 }*/
+
 body {
-	background: white;
+	background: #f6f6f6;
 	font-family: Georgia, serif;
+	max-width: 860px;
+	/*padding-bottom: 10px;*/
+	/*border: 1px solid #ddd;*/
+	/*outline: 1300px solid #fff;*/
+	margin: 0px auto;
+}
+
+/*body {*/
+	/*background: #f6f6f6;*/
+	/*font-family: Georgia, serif;*/
 	 /*font-family: Verdana,Arial,Helevetica,sans-serif; */
     /*font: 1em/1.5 Helevetica,sans-serif,Geneva,Tahoma;*/
     /*font: 1em/1.5 Georgia,sans-serif,Tahoma; */
-    /*margin: 100;*/
-	padding-bottom: 1px;
-	margin: auto;
-	padding-left: 23em;
-	padding-right: 23em;
+	/*padding-bottom: 0px;*/
 	/*margin: auto;*/
-}
-/*#layout-menu {
-	background: #f6f6f6;
-	border: 1px solid #dddddd;
-	padding-top: 0.5em;
-	padding-left: 8px;
-	padding-right: 8px;
-	font-size: 1.0em;
-	width: auto;
-	white-space: nowrap;
-    text-align: left;
-    vertical-align: top;
-}*/
+	/*padding-left: 50px;*/
+	/*padding-right: 50px;*/
+	/*margin: auto;*/
+/*}*/
 
 #layout-menu {
 	background: #ffffff;
@@ -66,7 +64,7 @@ body {
     text-align: left;
     vertical-align: top;
     margin: auto;
-    width:60%;
+    width:100%;
 }
 
 #layout-menu a {
