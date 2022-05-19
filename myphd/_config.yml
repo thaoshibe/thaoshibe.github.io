@@ -23,7 +23,7 @@ email: thao.ntp0414@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Nah gardening anymore? Visit [my homepage 🏠](https://thaoshibe.github.io) instead!
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://thaoshibe.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://thaoshibe.github.io/garden" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: thaoshibe
 github_username:  thaoshibe
 linkedin_username: thaoshibe
