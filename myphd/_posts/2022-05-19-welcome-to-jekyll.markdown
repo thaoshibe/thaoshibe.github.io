@@ -1,29 +1,40 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "myphd"
 date:   2022-05-19 15:10:11 +0700
 categories: jekyll update
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-Jekyll requires blog post files to be named according to the following format:
+<!-- ### ┍━━━━━━━ ⋆⋅☆⋅⋆ 𝐦𝐲𝐩𝐡𝐝 ⋆⋅☆⋅⋆ ━━━━━━━┑ -->
 
-`YEAR-MONTH-DAY-title.MARKUP`
 
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+Today, the 27th of April 2022, marks my very first day on my PhD journey. I am *scared, excited, and grateful*, all at the same time (.❛ ᴗ ❛.).
+I am scared of adversity ahead. Excited about incoming projects and discussions. Grateful for this short time on Earth.
+Nevertheless, it's still a casual day, I went to work at 8:45AM, had lunch around 12:30PM. My dog pee inside the house, and my cat was sick.
 
-Jekyll also offers powerful support for code snippets:
+At work, I decided to jot down my PhD bucket list here. Both academic and non-academic related. It's gonna be about my 5-beautiful-year as a Badger. Oh, Wisconsin!
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+##### ───── ❝ bucket list ❞ ─────
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+**Research**
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+- [ ] Submit to ICCV'23
+- [ ] Submit to SIGGRAPH
+
+**Study**
+
+- [x] Papers Summary Project
+- [ ] Technical Blog
+
+**Activities**
+
+- [ ] Southeast Asian Women in CS webpage
+
+
+### 📰 𝕟𝕖𝕨𝕤  📰
+
+#### 2022
+
+- 27 April: Kick start of myPhD project, 3-pass-papers!
+
+<!-- ┕━━━━━━━━ ⋆⋅☆⋅⋆ the end ⋆⋅☆⋅⋆ ━━━━━━━━┙ -->
