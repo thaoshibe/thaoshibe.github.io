@@ -1,689 +1,601 @@
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>Bơ, và hành trình đến xứ sở cờ hoa</title>
-	<link rel="icon" type="image/png" href="../images/usa-flag.png" />
-	<style>
-/* cspell:disable-file */
-/* webkit printing magic: print all background colors */
-html {
-	-webkit-print-color-adjust: exact;
-}
-* {
-	box-sizing: border-box;
-	-webkit-print-color-adjust: exact;
-}
-
-html,
-body {
-	margin: 0;
-	padding: 0;
-}
-@media only screen {
-	body {
-		margin: 2em auto;
-		max-width: 900px;
-		color: rgb(55, 53, 47);
-	}
-}
-
-body {
-	line-height: 1.5;
-	white-space: pre-wrap;
-}
-
-a,
-a.visited {
-	color: inherit;
-	text-decoration: underline;
-}
-
-.pdf-relative-link-path {
-	font-size: 80%;
-	color: #444;
-}
-
-h1,
-h2,
-h3 {
-	letter-spacing: -0.01em;
-	line-height: 1.2;
-	font-weight: 600;
-	margin-bottom: 0;
-}
-
-.page-title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-top: 0;
-	margin-bottom: 0.75em;
-}
-
-h1 {
-	font-size: 1.875rem;
-	margin-top: 1.875rem;
-}
-
-h2 {
-	font-size: 1.5rem;
-	margin-top: 1.5rem;
-}
-
-h3 {
-	font-size: 1.25rem;
-	margin-top: 1.25rem;
-}
-
-.source {
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	padding: 1.5em;
-	word-break: break-all;
-}
-
-.callout {
-	border-radius: 3px;
-	padding: 1rem;
-}
-
-figure {
-	margin: 1.25em 0;
-	page-break-inside: avoid;
-}
-
-figcaption {
-	opacity: 0.5;
-	font-size: 85%;
-	margin-top: 0.5em;
-}
-
-mark {
-	background-color: transparent;
-}
-
-.indented {
-	padding-left: 1.5em;
-}
-
-hr {
-	background: transparent;
-	display: block;
-	width: 100%;
-	height: 1px;
-	visibility: visible;
-	border: none;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
-}
-
-img {
-	max-width: 100%;
-}
-
-@media only print {
-	img {
-		max-height: 100vh;
-		object-fit: contain;
-	}
-}
-
-@page {
-	margin: 1in;
-}
-
-.collection-content {
-	font-size: 0.875rem;
-}
-
-.column-list {
-	display: flex;
-	justify-content: space-between;
-}
-
-.column {
-	padding: 0 1em;
-}
-
-.column:first-child {
-	padding-left: 0;
-}
-
-.column:last-child {
-	padding-right: 0;
-}
-
-.table_of_contents-item {
-	display: block;
-	font-size: 0.875rem;
-	line-height: 1.3;
-	padding: 0.125rem;
-}
-
-.table_of_contents-indent-1 {
-	margin-left: 1.5rem;
-}
-
-.table_of_contents-indent-2 {
-	margin-left: 3rem;
-}
-
-.table_of_contents-indent-3 {
-	margin-left: 4.5rem;
-}
-
-.table_of_contents-link {
-	text-decoration: none;
-	opacity: 0.7;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
-}
-
-table,
-th,
-td {
-	border: 1px solid rgba(55, 53, 47, 0.09);
-	border-collapse: collapse;
-}
-
-table {
-	border-left: none;
-	border-right: none;
-}
-
-th,
-td {
-	font-weight: normal;
-	padding: 0.25em 0.5em;
-	line-height: 1.5;
-	min-height: 1.5em;
-	text-align: left;
-}
-
-th {
-	color: rgba(55, 53, 47, 0.6);
-}
-
-ol,
-ul {
-	margin: 0;
-	margin-block-start: 0.6em;
-	margin-block-end: 0.6em;
-}
-
-li > ol:first-child,
-li > ul:first-child {
-	margin-block-start: 0.6em;
-}
-
-ul > li {
-	list-style: disc;
-}
-
-ul.to-do-list {
-	text-indent: -1.7em;
-}
-
-ul.to-do-list > li {
-	list-style: none;
-}
-
-.to-do-children-checked {
-	text-decoration: line-through;
-	opacity: 0.375;
-}
-
-ul.toggle > li {
-	list-style: none;
-}
-
-ul {
-	padding-inline-start: 1.7em;
-}
-
-ul > li {
-	padding-left: 0.1em;
-}
-
-ol {
-	padding-inline-start: 1.6em;
-}
-
-ol > li {
-	padding-left: 0.2em;
-}
-
-.mono ol {
-	padding-inline-start: 2em;
-}
-
-.mono ol > li {
-	text-indent: -0.4em;
-}
-
-.toggle {
-	padding-inline-start: 0em;
-	list-style-type: none;
-}
-
-/* Indent toggle children */
-.toggle > li > details {
-	padding-left: 1.7em;
-}
-
-.toggle > li > details > summary {
-	margin-left: -1.1em;
-}
-
-.selected-value {
-	display: inline-block;
-	padding: 0 0.5em;
-	background: rgba(206, 205, 202, 0.5);
-	border-radius: 3px;
-	margin-right: 0.5em;
-	margin-top: 0.3em;
-	margin-bottom: 0.3em;
-	white-space: nowrap;
-}
-
-.collection-title {
-	display: inline-block;
-	margin-right: 1em;
-}
-
-.simple-table {
-	margin-top: 1em;
-	font-size: 0.875rem;
-	empty-cells: show;
-}
-.simple-table td {
-	height: 29px;
-	min-width: 120px;
-}
-
-.simple-table th {
-	height: 29px;
-	min-width: 120px;
-}
-
-.simple-table-header-color {
-	background: rgb(247, 246, 243);
-	color: black;
-}
-.simple-table-header {
-	font-weight: 500;
-}
-
-time {
-	opacity: 0.5;
-}
-
-.icon {
-	display: inline-block;
-	max-width: 1.2em;
-	max-height: 1.2em;
-	text-decoration: none;
-	vertical-align: text-bottom;
-	margin-right: 0.5em;
-}
-
-img.icon {
-	border-radius: 3px;
-}
-
-.user-icon {
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 100%;
-	margin-right: 0.5rem;
-}
-
-.user-icon-inner {
-	font-size: 0.8em;
-}
-
-.text-icon {
-	border: 1px solid #000;
-	text-align: center;
-}
-
-.page-cover-image {
-	display: block;
-	object-fit: cover;
-	width: 100%;
-	max-height: 30vh;
-}
-
-.page-header-icon {
-	font-size: 3rem;
-	margin-bottom: 1rem;
-}
-
-.page-header-icon-with-cover {
-	margin-top: -0.72em;
-	margin-left: 0.07em;
-}
-
-.page-header-icon img {
-	border-radius: 3px;
-}
-
-.link-to-page {
-	margin: 1em 0;
-	padding: 0;
-	border: none;
-	font-weight: 500;
-}
-
-p > .user {
-	opacity: 0.5;
-}
-
-td > .user,
-td > time {
-	white-space: nowrap;
-}
-
-input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
-	vertical-align: middle;
-}
-
-p {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-}
-
-.image {
-	border: none;
-	margin: 1.5em 0;
-	padding: 0;
-	border-radius: 0;
-	text-align: center;
-}
-
-.code,
-code {
-	background: rgba(135, 131, 120, 0.15);
-	border-radius: 3px;
-	padding: 0.2em 0.4em;
-	border-radius: 3px;
-	font-size: 85%;
-	tab-size: 2;
-}
-
-code {
-	color: #eb5757;
-}
-
-.code {
-	padding: 1.5em 1em;
-}
-
-.code-wrap {
-	white-space: pre-wrap;
-	word-break: break-all;
-}
-
-.code > code {
-	background: none;
-	padding: 0;
-	font-size: 100%;
-	color: inherit;
-}
-
-blockquote {
-	font-size: 1.25em;
-	margin: 1em 0;
-	padding-left: 1em;
-	border-left: 3px solid rgb(55, 53, 47);
-}
-
-.bookmark {
-	text-decoration: none;
-	max-height: 8em;
-	padding: 0;
-	display: flex;
-	width: 100%;
-	align-items: stretch;
-}
-
-.bookmark-title {
-	font-size: 0.85em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	height: 1.75em;
-	white-space: nowrap;
-}
-
-.bookmark-text {
-	display: flex;
-	flex-direction: column;
-}
-
-.bookmark-info {
-	flex: 4 1 180px;
-	padding: 12px 14px 14px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-
-.bookmark-image {
-	width: 33%;
-	flex: 1 1 180px;
-	display: block;
-	position: relative;
-	object-fit: cover;
-	border-radius: 1px;
-}
-
-.bookmark-description {
-	color: rgba(55, 53, 47, 0.6);
-	font-size: 0.75em;
-	overflow: hidden;
-	max-height: 4.5em;
-	word-break: break-word;
-}
-
-.bookmark-href {
-	font-size: 0.75em;
-	margin-top: 0.25em;
-}
-
-.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
-.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
-.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
-.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
-.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
-.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
-.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
-.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
-.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
-.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
-.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
-.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
-.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.highlight-default {
-	color: rgba(55, 53, 47, 1);
-}
-.highlight-gray {
-	color: rgba(120, 119, 116, 1);
-	fill: rgba(120, 119, 116, 1);
-}
-.highlight-brown {
-	color: rgba(159, 107, 83, 1);
-	fill: rgba(159, 107, 83, 1);
-}
-.highlight-orange {
-	color: rgba(217, 115, 13, 1);
-	fill: rgba(217, 115, 13, 1);
-}
-.highlight-yellow {
-	color: rgba(203, 145, 47, 1);
-	fill: rgba(203, 145, 47, 1);
-}
-.highlight-teal {
-	color: rgba(68, 131, 97, 1);
-	fill: rgba(68, 131, 97, 1);
-}
-.highlight-blue {
-	color: rgba(51, 126, 169, 1);
-	fill: rgba(51, 126, 169, 1);
-}
-.highlight-purple {
-	color: rgba(144, 101, 176, 1);
-	fill: rgba(144, 101, 176, 1);
-}
-.highlight-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(193, 76, 138, 1);
-}
-.highlight-red {
-	color: rgba(212, 76, 71, 1);
-	fill: rgba(212, 76, 71, 1);
-}
-.highlight-gray_background {
-	background: rgba(241, 241, 239, 1);
-}
-.highlight-brown_background {
-	background: rgba(244, 238, 238, 1);
-}
-.highlight-orange_background {
-	background: rgba(251, 236, 221, 1);
-}
-.highlight-yellow_background {
-	background: rgba(251, 243, 219, 1);
-}
-.highlight-teal_background {
-	background: rgba(237, 243, 236, 1);
-}
-.highlight-blue_background {
-	background: rgba(231, 243, 248, 1);
-}
-.highlight-purple_background {
-	background: rgba(244, 240, 247, 0.8);
-}
-.highlight-pink_background {
-	background: rgba(249, 238, 243, 0.8);
-}
-.highlight-red_background {
-	background: rgba(253, 235, 236, 1);
-}
-.block-color-default {
-	color: inherit;
-	fill: inherit;
-}
-.block-color-gray {
-	color: rgba(120, 119, 116, 1);
-	fill: rgba(120, 119, 116, 1);
-}
-.block-color-brown {
-	color: rgba(159, 107, 83, 1);
-	fill: rgba(159, 107, 83, 1);
-}
-.block-color-orange {
-	color: rgba(217, 115, 13, 1);
-	fill: rgba(217, 115, 13, 1);
-}
-.block-color-yellow {
-	color: rgba(203, 145, 47, 1);
-	fill: rgba(203, 145, 47, 1);
-}
-.block-color-teal {
-	color: rgba(68, 131, 97, 1);
-	fill: rgba(68, 131, 97, 1);
-}
-.block-color-blue {
-	color: rgba(51, 126, 169, 1);
-	fill: rgba(51, 126, 169, 1);
-}
-.block-color-purple {
-	color: rgba(144, 101, 176, 1);
-	fill: rgba(144, 101, 176, 1);
-}
-.block-color-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(193, 76, 138, 1);
-}
-.block-color-red {
-	color: rgba(212, 76, 71, 1);
-	fill: rgba(212, 76, 71, 1);
-}
-.block-color-gray_background {
-	background: rgba(241, 241, 239, 1);
-}
-.block-color-brown_background {
-	background: rgba(244, 238, 238, 1);
-}
-.block-color-orange_background {
-	background: rgba(251, 236, 221, 1);
-}
-.block-color-yellow_background {
-	background: rgba(251, 243, 219, 1);
-}
-.block-color-teal_background {
-	background: rgba(237, 243, 236, 1);
-}
-.block-color-blue_background {
-	background: rgba(231, 243, 248, 1);
-}
-.block-color-purple_background {
-	background: rgba(244, 240, 247, 0.8);
-}
-.block-color-pink_background {
-	background: rgba(249, 238, 243, 0.8);
-}
-.block-color-red_background {
-	background: rgba(253, 235, 236, 1);
-}
-.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
-.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
-.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
-.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
-.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
-.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
-.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
-.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
-.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
-.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
-
-.checkbox {
-	display: inline-flex;
-	vertical-align: text-bottom;
-	width: 16;
-	height: 16;
-	background-size: 16px;
-	margin-left: 2px;
-	margin-right: 5px;
-}
-
-.checkbox-on {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
-}
-
-.checkbox-off {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
-}
-	
-</style></head><body><article id="12e8c68a-7511-4012-b277-45408153c8c0" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🥑</span></div><h1 class="page-title">Bơ, và hành trình đến xứ sở cờ hoa</h1></header><div class="page-body"><p id="e638a574-1d20-416a-887c-d562b4314143" class="">(Cùng <a href="https://thaoshibe.github.io/">chị Shibe</a>)</p><p id="a200fbf4-e66f-4878-b054-0d0b60dc4571" class="">(Và <a href='https://anhddo.github.io/'>anh Oong</a>)</p><hr id="bc0df4f2-7b5a-4152-af4a-21387332088d"/><div id="ab036648-0cfc-46b1-bfb6-1ac36f143d22" class="column-list"><div id="a7cefe41-8a0a-4d8e-8324-1c0eb0eb6547" style="width:31.25%" class="column"><figure id="38f7f64e-e326-48cb-a680-0e259f5556de" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/our_journey_to_us.png"><img style="width:200px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/our_journey_to_us.png"/></a></figure></div><div id="8b6dfc72-0fae-48d3-8ffa-6b4cdb47aabd" style="width:68.75%" class="column"><p id="71124b4f-b3f8-4968-aa09-d5ea91f0161b" class=""><strong>* Nội dung </strong><strong><em>*</em></strong></p><nav id="5db87662-6b9a-4c70-a7f8-f9fe42fb4793" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a079610b-e8e1-4880-a528-12e1838b70c0">I - Sơ lược về Vận chuyển chó/ mèo đi nước ngoài</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ef3dcafe-8eae-4c14-96b5-2b1875dcf67c">II - 🥑 Bơ-đi-Mỹ 🇺🇸</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b00bc9aa-9737-40fb-914b-3df0e4bbb00f">1 - Xin giấy phép nhập cảnh phía Mỹ (CDC Dog Import Permit)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#053824fa-5f29-49bb-87ef-bd2096e54335">2 - Xin giấy tờ xuất cảnh phía Việt Nam</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6784a8e0-8355-4a54-a98c-ce092444fb2f">3 - Chọn hãng bay </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a9f33140-93c8-46c5-b048-474a24c29a0b">4 - Hành trình bay </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#05888e32-9276-4b61-9e2c-788e4e31dba9">5 - Nhập cảnh vào Mỹ</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#134b6aa9-4044-4835-a7a0-5948398f888c">6 - Tham khảo: Chi phí </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#360693d3-31f1-42f6-ae79-2ee4266cce10">III - 🐈 Mắm-đi-Mỹ 🇺🇸</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a27457a9-8740-4cfd-9aee-1690bd1f2922">🔆 Lưu ý</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4dbcd5f8-176a-41ac-9896-1551c028a45a">💬 Tâm sự cuối bài</a></div></nav></div></div><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c6cdc219-4392-426d-92ce-bf58604fcca0"><div style="font-size:1.5em"><span class="icon">🐈</span></div><div style="width:100%">About<strong> Mắm </strong>(<a href="https://www.instagram.com/avoshibe/">https://www.instagram.com/avoshibe/</a>)
-Mắm<em> là một chú mèo anh lông ngắn (lai lung tung).
-Mắm được chị Thảo “đòi” nuôi một cách “cố tình” vào ngày 30 tháng 7, năm 2021. Tên “Mắm” được đặt ngẫu nhiên, vì gọi “Mắm&quot; là nghe, còn gọi “Sữa&quot; không chịu nghe. Lúc đầu, chị Thảo muốn đặt là “Bơ&quot; và “Sữa&quot;!</em></div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cb3c77d8-d86b-406a-9b29-fd577347d428"><div style="font-size:1.5em"><span class="icon">🐕</span></div><div style="width:100%">About<strong> Bơ</strong> (<a href="https://www.instagram.com/avoshibe/">https://www.instagram.com/avoshibe/</a>)
-<em>Bơ là một chú Shiba không rõ nguồn gốc, cũng không rõ cả tháng ngày sinh.
-Bơ được chị Thảo nhận nuôi một cách tình cờ vào ngày 5 tháng 6, năm 2021. Tên “Bơ&quot; được đặt thân mật theo tên của </em><a href="https://anhddo.github.io/"><em>Anh Đỗ </em></a><em>(anh Bơ lớn).</em></div></figure><hr id="2d8e0ed4-8364-42cc-8107-f01a92496401"/><p id="99af31cd-5669-41c7-862d-5592dfc935a8" class="">🙆🏻 Bài viết này dành cho Bơ - Chiếc chó ngu ngốc không biết chị chủ của mình đã <strong>vất vả </strong>thế nào để đưa mình qua Mỹ. (Và Mắm, một chiếc mèo đơn giản bước qua đất Mỹ, như thể mình là công dân Mỹ từ lâu…)</p><p id="de4204ad-748c-4176-921d-5ea602979965" class="">Bài viết sẽ gồm 03 phần chính:
-(I) Sơ lược các bước Vận chuyển chó/ mèo đi nước ngoài 
-(II) Chi tiết hành trình đi Mỹ của Bơ
-(III) Chi tiết hành trình đi Mỹ của Mắm</p><figure id="3c6d8330-e8ad-4c46-b478-81c97901375e" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled.png"><img style="width:720px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled.png"/></a><figcaption> Chân dung nhân vật: Bơ the Shiba &amp; Mắm the British Shorthairrrrr </figcaption></figure><hr id="e0f91973-02db-4c7a-93fc-0ab137b0f016"/><h3 id="a079610b-e8e1-4880-a528-12e1838b70c0" class="">I - Sơ lược về Vận chuyển chó/ mèo đi nước ngoài</h3><p id="96bac9c9-8455-42dc-ae9d-29bfe29d317d" class="">Phần này, mình tóm lược 6 bước cho quá trình vận chuyển thú cưng đi nước ngoài (Theo kinh nghiệm cá nhân của mình).
-Vận chuyển chó/ mèo đi nước ngoài <strong>bằng đường hàng không</strong> thường có 2 dạng chính:</p><ul id="dd7fc579-81fd-4d4c-ac1f-64592c05e1a0" class="bulleted-list"><li style="list-style-type:disc">(A) Bay cùng người: Bạn và thú cưng bay trên cùng một chuyến bay. Các bé sẽ đi dạng hành ký ký gửi hoặc xách tay.</li></ul><ul id="a08f0d51-88a2-4ac9-9a78-39329a54fd25" class="bulleted-list"><li style="list-style-type:disc">(B) Bay không kèm người: Bạn và thú cưng không bay trên cùng một chuyến bay. Các bé là một “gói hàng&quot;.</li></ul><p id="ea7ca81a-9d34-498c-9e5e-076b87df0020" class="">Trong cả bài viết này, mình <strong>chỉ đề cập đến trường hợp (A) Bay cùng người</strong>.
-Nếu các bạn muốn vận chuyển chó/ mèo kiểu (B), hãy liên hệ với các công ty/ đơn vị vận chuyển thú cưng xuyên quốc gia nhé!
-
-<mark class="highlight-yellow_background"><strong>Sáu (06) bước Vận chuyển chó/ mèo đi nước ngoài</strong></mark></p><p id="cd0d63be-b6d5-4eac-8f3d-8b49877a3800" class=""><strong>1- Bạn có thực sự muốn mang (những) người bạn bốn chân này đi?</strong>
-Tưởng chừng như một câu hỏi rất đơn giản (Có/ Không). Nhưng mình thực lòng khuyên bạn nên suy nghĩ thật kỹ. Có thể có nhiều phương án khác tốt hơn cho thú cưng (Nhờ người nuôi hộ; Tìm chủ mới cho bé; v.v).
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Bơ, và hành trình đến xứ sở cờ hoa</title>
+		<link rel="icon" type="image/png" href="../images/usa-flag.png" />
+		<style>
+		/* cspell:disable-file */
+		/* webkit printing magic: print all background colors */
+		html {
+		-webkit-print-color-adjust: exact;
+		}
+		* {
+		box-sizing: border-box;
+		-webkit-print-color-adjust: exact;
+		}
+		html,
+		body {
+		margin: 0;
+		padding: 0;
+		}
+		@media only screen {
+		body {
+			margin: 2em auto;
+			max-width: 900px;
+			color: rgb(55, 53, 47);
+		}
+		}
+		body {
+		line-height: 1.5;
+		white-space: pre-wrap;
+		}
+		a,
+		a.visited {
+		color: inherit;
+		text-decoration: underline;
+		}
+		.pdf-relative-link-path {
+		font-size: 80%;
+		color: #444;
+		}
+		h1,
+		h2,
+		h3,
+		h4 {
+		letter-spacing: -0.01em;
+		line-height: 1;
+		font-weight: 600;
+		margin-bottom: 0;
+		}
+		.page-title {
+		font-size: 2.5rem;
+		font-weight: 700;
+		margin-top: 0;
+		margin-bottom: 0.75em;
+		}
+		h1 {
+		font-size: 1.875rem;
+		margin-top: 1.875rem;
+		}
+		h2 {
+		font-size: 1.5rem;
+		margin-top: 1.5rem;
+		}
+		h3 {
+		font-size: 1.25rem;
+		margin-top: 1.25rem;
+		}
+		.source {
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding: 1.5em;
+		word-break: break-all;
+		}
+		.callout {
+		border-radius: 3px;
+		padding: 1rem;
+		}
+		figure {
+		margin: 1.25em 0;
+		page-break-inside: avoid;
+		}
+		figcaption {
+		opacity: 0.5;
+		font-size: 85%;
+		margin-top: 0.5em;
+		}
+		mark {
+		background-color: transparent;
+		}
+		.indented {
+		padding-left: 1.5em;
+		}
+		hr {
+		background: transparent;
+		display: block;
+		width: 100%;
+		height: 1px;
+		visibility: visible;
+		border: none;
+		border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+		}
+		img {
+		max-width: 100%;
+		}
+		@media only print {
+		img {
+			max-height: 100vh;
+			object-fit: contain;
+		}
+		}
+		@page {
+		margin: 1in;
+		}
+		.collection-content {
+		font-size: 0.875rem;
+		}
+		.column-list {
+		display: flex;
+		justify-content: space-between;
+		}
+		.column {
+		padding: 0 1em;
+		}
+		.column:first-child {
+		padding-left: 0;
+		}
+		.column:last-child {
+		padding-right: 0;
+		}
+		.table_of_contents-item {
+		display: block;
+		font-size: 0.875rem;
+		line-height: 1.3;
+		padding: 0.125rem;
+		}
+		.table_of_contents-indent-1 {
+		margin-left: 1.5rem;
+		}
+		.table_of_contents-indent-2 {
+		margin-left: 3rem;
+		}
+		.table_of_contents-indent-3 {
+		margin-left: 4.5rem;
+		}
+		.table_of_contents-link {
+		text-decoration: none;
+		opacity: 0.7;
+		border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+		}
+		table,
+		th,
+		td {
+		border: 1px solid rgba(55, 53, 47, 0.09);
+		border-collapse: collapse;
+		}
+		table {
+		border-left: none;
+		border-right: none;
+		}
+		th,
+		td {
+		font-weight: normal;
+		padding: 0.25em 0.5em;
+		line-height: 1.5;
+		min-height: 1.5em;
+		text-align: left;
+		}
+		th {
+		color: rgba(55, 53, 47, 0.6);
+		}
+		ol,
+		ul {
+		margin: 0;
+		margin-block-start: 0.6em;
+		margin-block-end: 0.6em;
+		}
+		li > ol:first-child,
+		li > ul:first-child {
+		margin-block-start: 0.6em;
+		}
+		ul > li {
+		list-style: disc;
+		}
+		ul.to-do-list {
+		text-indent: -1.7em;
+		}
+		ul.to-do-list > li {
+		list-style: none;
+		}
+		.to-do-children-checked {
+		text-decoration: line-through;
+		opacity: 0.375;
+		}
+		ul.toggle > li {
+		list-style: none;
+		}
+		ul {
+		padding-inline-start: 1.7em;
+		}
+		ul > li {
+		padding-left: 0.1em;
+		}
+		ol {
+		padding-inline-start: 1.6em;
+		}
+		ol > li {
+		padding-left: 0.2em;
+		}
+		.mono ol {
+		padding-inline-start: 2em;
+		}
+		.mono ol > li {
+		text-indent: -0.4em;
+		}
+		.toggle {
+		padding-inline-start: 0em;
+		list-style-type: none;
+		}
+		/* Indent toggle children */
+		.toggle > li > details {
+		padding-left: 1.7em;
+		}
+		.toggle > li > details > summary {
+		margin-left: -1.1em;
+		}
+		.selected-value {
+		display: inline-block;
+		padding: 0 0.5em;
+		background: rgba(206, 205, 202, 0.5);
+		border-radius: 3px;
+		margin-right: 0.5em;
+		margin-top: 0.3em;
+		margin-bottom: 0.3em;
+		white-space: nowrap;
+		}
+		.collection-title {
+		display: inline-block;
+		margin-right: 1em;
+		}
+		.simple-table {
+		margin-top: 1em;
+		font-size: 0.875rem;
+		empty-cells: show;
+		}
+		.simple-table td {
+		height: 29px;
+		min-width: 120px;
+		}
+		.simple-table th {
+		height: 29px;
+		min-width: 120px;
+		}
+		.simple-table-header-color {
+		background: rgb(247, 246, 243);
+		color: black;
+		}
+		.simple-table-header {
+		font-weight: 500;
+		}
+		time {
+		opacity: 0.5;
+		}
+		.icon {
+		display: inline-block;
+		max-width: 1.2em;
+		max-height: 1.2em;
+		text-decoration: none;
+		vertical-align: text-bottom;
+		margin-right: 0.5em;
+		}
+		img.icon {
+		border-radius: 3px;
+		}
+		.user-icon {
+		width: 1.5em;
+		height: 1.5em;
+		border-radius: 100%;
+		margin-right: 0.5rem;
+		}
+		.user-icon-inner {
+		font-size: 0.8em;
+		}
+		.text-icon {
+		border: 1px solid #000;
+		text-align: center;
+		}
+		.page-cover-image {
+		display: block;
+		object-fit: cover;
+		width: 100%;
+		max-height: 30vh;
+		}
+		.page-header-icon {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+		}
+		.page-header-icon-with-cover {
+		margin-top: -0.72em;
+		margin-left: 0.07em;
+		}
+		.page-header-icon img {
+		border-radius: 3px;
+		}
+		.link-to-page {
+		margin: 1em 0;
+		padding: 0;
+		border: none;
+		font-weight: 500;
+		}
+		p > .user {
+		opacity: 0.5;
+		}
+		td > .user,
+		td > time {
+		white-space: nowrap;
+		}
+		input[type="checkbox"] {
+		transform: scale(1.5);
+		margin-right: 0.6em;
+		vertical-align: middle;
+		}
+		p {
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+		}
+		.image {
+		border: none;
+		margin: 1.5em 0;
+		padding: 0;
+		border-radius: 0;
+		text-align: center;
+		}
+		.code,
+		code {
+		background: rgba(135, 131, 120, 0.15);
+		border-radius: 3px;
+		padding: 0.2em 0.4em;
+		border-radius: 3px;
+		font-size: 85%;
+		tab-size: 2;
+		}
+		code {
+		color: #eb5757;
+		}
+		.code {
+		padding: 1.5em 1em;
+		}
+		.code-wrap {
+		white-space: pre-wrap;
+		word-break: break-all;
+		}
+		.code > code {
+		background: none;
+		padding: 0;
+		font-size: 100%;
+		color: inherit;
+		}
+		blockquote {
+		background: #eee;
+		border-radius: 10px;
+		padding: 20px;
+		}
+		.bookmark {
+		text-decoration: none;
+		max-height: 8em;
+		padding: 0;
+		display: flex;
+		width: 100%;
+		align-items: stretch;
+		}
+		.bookmark-title {
+		font-size: 0.85em;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		height: 1.75em;
+		white-space: nowrap;
+		}
+		.bookmark-text {
+		display: flex;
+		flex-direction: column;
+		}
+		.bookmark-info {
+		flex: 4 1 180px;
+		padding: 12px 14px 14px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		}
+		.bookmark-image {
+		width: 33%;
+		flex: 1 1 180px;
+		display: block;
+		position: relative;
+		object-fit: cover;
+		border-radius: 1px;
+		}
+		.bookmark-description {
+		color: rgba(55, 53, 47, 0.6);
+		font-size: 0.75em;
+		overflow: hidden;
+		max-height: 4.5em;
+		word-break: break-word;
+		}
+		.bookmark-href {
+		font-size: 0.75em;
+		margin-top: 0.25em;
+		}
+		.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+		.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+		.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+		.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+		.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+		.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+		.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+		.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+		.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+		.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+		.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+		.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+		.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+		.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+		.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+		.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+		.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+		.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+		.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+		.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+		.highlight-default {
+		color: rgba(55, 53, 47, 1);
+		}
+		.highlight-gray {
+		color: rgba(120, 119, 116, 1);
+		fill: rgba(120, 119, 116, 1);
+		}
+		.highlight-brown {
+		color: rgba(159, 107, 83, 1);
+		fill: rgba(159, 107, 83, 1);
+		}
+		.highlight-orange {
+		color: rgba(217, 115, 13, 1);
+		fill: rgba(217, 115, 13, 1);
+		}
+		.highlight-yellow {
+		color: rgba(203, 145, 47, 1);
+		fill: rgba(203, 145, 47, 1);
+		}
+		.highlight-teal {
+		color: rgba(68, 131, 97, 1);
+		fill: rgba(68, 131, 97, 1);
+		}
+		.highlight-blue {
+		color: rgba(51, 126, 169, 1);
+		fill: rgba(51, 126, 169, 1);
+		}
+		.highlight-purple {
+		color: rgba(144, 101, 176, 1);
+		fill: rgba(144, 101, 176, 1);
+		}
+		.highlight-pink {
+		color: rgba(193, 76, 138, 1);
+		fill: rgba(193, 76, 138, 1);
+		}
+		.highlight-red {
+		color: rgba(212, 76, 71, 1);
+		fill: rgba(212, 76, 71, 1);
+		}
+		.highlight-gray_background {
+		background: rgba(241, 241, 239, 1);
+		}
+		.highlight-brown_background {
+		background: rgba(244, 238, 238, 1);
+		}
+		.highlight-orange_background {
+		background: rgba(251, 236, 221, 1);
+		}
+		.highlight-yellow_background {
+		background: rgba(251, 243, 219, 1);
+		}
+		.highlight-teal_background {
+		background: rgba(237, 243, 236, 1);
+		}
+		.highlight-blue_background {
+		background: rgba(231, 243, 248, 1);
+		}
+		.highlight-purple_background {
+		background: rgba(244, 240, 247, 0.8);
+		}
+		.highlight-pink_background {
+		background: rgba(249, 238, 243, 0.8);
+		}
+		.highlight-red_background {
+		background: rgba(253, 235, 236, 1);
+		}
+		.block-color-default {
+		color: inherit;
+		fill: inherit;
+		}
+		.block-color-gray {
+		color: rgba(120, 119, 116, 1);
+		fill: rgba(120, 119, 116, 1);
+		}
+		.block-color-brown {
+		color: rgba(159, 107, 83, 1);
+		fill: rgba(159, 107, 83, 1);
+		}
+		.block-color-orange {
+		color: rgba(217, 115, 13, 1);
+		fill: rgba(217, 115, 13, 1);
+		}
+		.block-color-yellow {
+		color: rgba(203, 145, 47, 1);
+		fill: rgba(203, 145, 47, 1);
+		}
+		.block-color-teal {
+		color: rgba(68, 131, 97, 1);
+		fill: rgba(68, 131, 97, 1);
+		}
+		.block-color-blue {
+		color: rgba(51, 126, 169, 1);
+		fill: rgba(51, 126, 169, 1);
+		}
+		.block-color-purple {
+		color: rgba(144, 101, 176, 1);
+		fill: rgba(144, 101, 176, 1);
+		}
+		.block-color-pink {
+		color: rgba(193, 76, 138, 1);
+		fill: rgba(193, 76, 138, 1);
+		}
+		.block-color-red {
+		color: rgba(212, 76, 71, 1);
+		fill: rgba(212, 76, 71, 1);
+		}
+		.block-color-gray_background {
+		background: rgba(241, 241, 239, 1);
+		}
+		.block-color-brown_background {
+		background: rgba(244, 238, 238, 1);
+		}
+		.block-color-orange_background {
+		background: rgba(251, 236, 221, 1);
+		}
+		.block-color-yellow_background {
+		background: rgba(251, 243, 219, 1);
+		}
+		.block-color-teal_background {
+		background: rgba(237, 243, 236, 1);
+		}
+		.block-color-blue_background {
+		background: rgba(231, 243, 248, 1);
+		}
+		.block-color-purple_background {
+		background: rgba(244, 240, 247, 0.8);
+		}
+		.block-color-pink_background {
+		background: rgba(249, 238, 243, 0.8);
+		}
+		.block-color-red_background {
+		background: rgba(253, 235, 236, 1);
+		}
+		.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+		.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+		.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+		.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+		.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+		.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+		.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+		.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+		.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+		.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+		.checkbox {
+		display: inline-flex;
+		vertical-align: text-bottom;
+		width: 16;
+		height: 16;
+		background-size: 16px;
+		margin-left: 2px;
+		margin-right: 5px;
+		}
+		.checkbox-on {
+		background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+		}
+		.checkbox-off {
+		background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+		}
+		
+		</style></head><body><article id="12e8c68a-7511-4012-b277-45408153c8c0" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🥑</span></div><h1 class="page-title">Bơ, và hành trình đến xứ sở cờ hoa</h1></header><div class="page-body"><p id="e638a574-1d20-416a-887c-d562b4314143" class="">(Cùng <a href="https://thaoshibe.github.io/">chị Shibe</a> và <a href='https://anhddo.github.io/'>anh Oong</a> 💑)</p><p><i>🔖 A short English version <a href='#english'>HERE</a></i></p><hr id="bc0df4f2-7b5a-4152-af4a-21387332088d"/><div id="ab036648-0cfc-46b1-bfb6-1ac36f143d22" class="column-list"><div id="a7cefe41-8a0a-4d8e-8324-1c0eb0eb6547" style="width:31.25%" class="column"><figure id="38f7f64e-e326-48cb-a680-0e259f5556de" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/our_journey_to_us.png"><img style="width:200px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/our_journey_to_us.png"/></a></figure></div><div id="8b6dfc72-0fae-48d3-8ffa-6b4cdb47aabd" style="width:68.75%" class="column"><p id="71124b4f-b3f8-4968-aa09-d5ea91f0161b" class=""><strong>* Nội dung </strong><strong><em>*</em></strong></p><nav id="5db87662-6b9a-4c70-a7f8-f9fe42fb4793" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a079610b-e8e1-4880-a528-12e1838b70c0">I - Sơ lược về Vận chuyển chó/ mèo đi nước ngoài</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ef3dcafe-8eae-4c14-96b5-2b1875dcf67c">II - 🥑 Bơ-đi-Mỹ 🇺🇸</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b00bc9aa-9737-40fb-914b-3df0e4bbb00f">1 - Xin giấy phép nhập cảnh phía Mỹ (CDC Dog Import Permit)</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#053824fa-5f29-49bb-87ef-bd2096e54335">2 - Xin giấy tờ xuất cảnh phía Việt Nam</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6784a8e0-8355-4a54-a98c-ce092444fb2f">3 - Chọn hãng bay </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a9f33140-93c8-46c5-b048-474a24c29a0b">4 - Hành trình bay </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#05888e32-9276-4b61-9e2c-788e4e31dba9">5 - Nhập cảnh vào Mỹ</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#134b6aa9-4044-4835-a7a0-5948398f888c">6 - Tham khảo: Chi phí </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#360693d3-31f1-42f6-ae79-2ee4266cce10">III - 🐈 Mắm-đi-Mỹ 🇺🇸</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a27457a9-8740-4cfd-9aee-1690bd1f2922">🔆 Lưu ý</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4dbcd5f8-176a-41ac-9896-1551c028a45a">💬 Tâm sự cuối bài</a></div></nav></div></div><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c6cdc219-4392-426d-92ce-bf58604fcca0"><div style="font-size:1.5em"><span class="icon">🐈</span></div><div style="width:100%">About<strong> Mắm </strong>(<a href="https://www.instagram.com/avoshibe/">https://www.instagram.com/avoshibe/</a>)
+		Mắm<em> là một chú mèo anh lông ngắn (lai lung tung).
+		Mắm được chị Thảo “đòi” nuôi một cách “cố tình” vào ngày 30 tháng 7, năm 2021. Tên “Mắm” được đặt ngẫu nhiên, vì gọi “Mắm&quot; là nghe, còn gọi “Sữa&quot; không chịu nghe. Lúc đầu, chị Thảo muốn đặt là “Bơ&quot; và “Sữa&quot;!</em></div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cb3c77d8-d86b-406a-9b29-fd577347d428"><div style="font-size:1.5em"><span class="icon">🐕</span></div><div style="width:100%">About<strong> Bơ</strong> (<a href="https://www.instagram.com/avoshibe/">https://www.instagram.com/avoshibe/</a>)
+		<em>Bơ là một chú Shiba không rõ nguồn gốc, cũng không rõ cả tháng ngày sinh.
+		Bơ được chị Thảo nhận nuôi một cách tình cờ vào ngày 5 tháng 6, năm 2021. Tên “Bơ&quot; được đặt thân mật theo tên của </em><a href="https://anhddo.github.io/"><em>Anh Đỗ </em></a><em>(anh Bơ lớn).</em></div></figure><hr id="2d8e0ed4-8364-42cc-8107-f01a92496401"/><p id="99af31cd-5669-41c7-862d-5592dfc935a8" class="">🙆🏻 Bài viết này dành cho Bơ - Chiếc chó ngu ngốc không biết chị chủ của mình đã <strong>vất vả </strong>thế nào để đưa mình qua Mỹ. (Và Mắm, một chiếc mèo đơn giản bước qua đất Mỹ, như thể mình là công dân Mỹ từ lâu…)</p><p id="de4204ad-748c-4176-921d-5ea602979965" class="">Bài viết sẽ gồm 03 phần chính:
+		(I) Sơ lược các bước Vận chuyển chó/ mèo đi nước ngoài
+		(II) Chi tiết hành trình đi Mỹ của Bơ
+		(III) Chi tiết hành trình đi Mỹ của Mắm</p><figure id="3c6d8330-e8ad-4c46-b478-81c97901375e" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled.png"><img style="width:720px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled.png"/></a><figcaption> Chân dung nhân vật: Bơ the Shiba &amp; Mắm the British Shorthairrrrr </figcaption></figure><hr id="e0f91973-02db-4c7a-93fc-0ab137b0f016"/><h3 id="a079610b-e8e1-4880-a528-12e1838b70c0" class="">I - Sơ lược về Vận chuyển chó/ mèo đi nước ngoài</h3><p id="96bac9c9-8455-42dc-ae9d-29bfe29d317d" class="">Phần này, mình tóm lược 6 bước cho quá trình vận chuyển thú cưng đi nước ngoài (Theo kinh nghiệm cá nhân của mình).
+		Vận chuyển chó/ mèo đi nước ngoài <strong>bằng đường hàng không</strong> thường có 2 dạng chính:</p><ul id="dd7fc579-81fd-4d4c-ac1f-64592c05e1a0" class="bulleted-list"><li style="list-style-type:disc">(A) Bay cùng người: Bạn và thú cưng bay trên cùng một chuyến bay. Các bé sẽ đi dạng hành ký ký gửi hoặc xách tay.</li></ul><ul id="a08f0d51-88a2-4ac9-9a78-39329a54fd25" class="bulleted-list"><li style="list-style-type:disc">(B) Bay không kèm người: Bạn và thú cưng không bay trên cùng một chuyến bay. Các bé là một “gói hàng&quot;.</li></ul><p id="ea7ca81a-9d34-498c-9e5e-076b87df0020" class="">Trong cả bài viết này, mình <strong>chỉ đề cập đến trường hợp (A) Bay cùng người</strong>.
+		Nếu các bạn muốn vận chuyển chó/ mèo kiểu (B), hãy liên hệ với các công ty/ đơn vị vận chuyển thú cưng xuyên quốc gia nhé!
+	<mark class="highlight-yellow_background"><strong>Sáu (06) bước Vận chuyển chó/ mèo đi nước ngoài</strong></mark></p><p id="cd0d63be-b6d5-4eac-8f3d-8b49877a3800" class=""><strong>1- Bạn có thực sự muốn mang (những) người bạn bốn chân này đi?</strong>
+	Tưởng chừng như một câu hỏi rất đơn giản (Có/ Không). Nhưng mình thực lòng khuyên bạn nên suy nghĩ thật kỹ. Có thể có nhiều phương án khác tốt hơn cho thú cưng (Nhờ người nuôi hộ; Tìm chủ mới cho bé; v.v).
 Còn nếu, bạn thực sự muốn mang (các) bé đi cùng, thì hãy chuẩn bị tâm lý thật tốt cho những khó khăn phía trước nhé! (haha!)</p><p id="81f67166-37b0-4192-bac9-723703a1b3f4" class=""><strong>2- Lên kế hoạch</strong>
 Lên kế hoạch thật sớm, ngay lúc bạn có ý định đi nước ngoài. Trong quá làm thủ tục giấy tờ, có thể có rất nhiều khó khăn, hoặc có những bước phải chờ đợi lâu đến 1-1.5 tháng. Vì vậy, hãy luôn lên kế hoạch thật sớm, để có nhiều thời gian chuẩn bị nhé.</p><div id="bba5b3bc-b5b1-49d0-8bab-4c224ecbe5f0" class="column-list"><div id="cac20614-ef5e-430b-87d4-609f0a6c03e4" style="width:50%" class="column"><p id="03709ded-55a4-4bd7-9e80-be4323af485f" class=""><strong>3- Tìm hiểu quy định nhập cảnh tại nước đến</strong>
 Mỗi nước sẽ có quy định nhập cảnh đối với chó/ mèo riêng. Các thông tin này, tốt nhất bạn nên tìm hiểu ở website của Đại sứ quán, Trung tâm kiểm soát dịch bệnh (CDC), Bộ Nông nghiệp, v.v… của nước bạn đi. Bạn có thể bắt đầu bằng cách tìm Google: “importing dog/ cat into the us”, rồi chọn các website “chính chủ”/ chính thức để đọc nhé. Đừng đọc trên các website đăng lại, vì thông tin có thể không đúng, hoặc ít được cập nhật.
@@ -713,9 +625,40 @@ Khoảng 30 phút sau, nhân viên quay lại trả giấy tờ cho mình, và t
 Trong tờ khai nhập cảnh, mình ghi có mang theo chó mèo.
 Sau khi mình nhập cảnh xong, mình đến băng chuyền nhận thú cưng. Thú cưng được ANA trả riêng ngay cạnh băng chuyền (chứ không phải trên băng chuyền đâu nha, haha).</p><p id="bd469f43-4dd4-4824-90b0-bcd6d25ac605" class="">Nhận thú cưng xong, mình đẩy tụi nó qua khu làm việc của CDC (ngay cạnh chỗ khai hải quan). Anh cán bộ ở đây chỉ xem Permit, nhìn chó mèo một chút, hỏi vài câu, rồi tick cho mình “<strong>passed</strong>”.</p><p id="83157ed3-f627-4812-98c9-9cb736bab1d2" class="">Cầm tờ passed đó đi qua lối kiểm soát bình thường là… vào Mỹ ạ.</p><p id="f0c810f5-936f-4c7e-a842-03d97a91cd6f" class="">Ra khỏi sân bay, thì mình và tụi nó đi “xe đặt trước&quot; chở về nhà. Điểm này cũng đáng lưu ý nhé, ở chỗ của mình, chó/ mèo không được lên bus, không được đi tàu… Nên mình phải đặt “chuyên cơ 7 chỗ&quot; riêng chở mình và tụi nó về đến nhà thôi đó (haha).</p><p id="a205d41d-cbb0-4a5f-8b22-d29938d22ad1" class="">(5+) Giấy phép nhập cảnh của mình có điều kiện là: Trong vòng 10 ngày kể từ ngày nhập cảnh vào Mỹ, phải cho chó đi tiêm dại lại. Mình đã cho Bơ đi tiêm dại lại tại Companion Animal Hospital Madison.</p><div id="80cf5189-f1c2-4cef-97e7-8d037c8820df" class="column-list"><div id="14e73b8e-88db-4b2c-9820-a4c20d5d8ac8" style="width:50%" class="column"><figure id="091a3e50-c8db-4141-a6bf-7925a272da42" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%209.png"><img style="width:971px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%209.png"/></a><figcaption>[Nhập cảnh vào Mỹ] Hai đứa đều có vẻ hoảng loạn sau… 24 giờ bay!</figcaption></figure></div><div id="6f34185c-24e2-4c0a-9f32-0f7d9a21f75c" style="width:50%" class="column"><figure id="f5faae29-fc39-4aaa-953c-35f60177658b" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2010.png"><img style="width:971px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2010.png"/></a><figcaption>[Nhập cảnh vào Mỹ] Bơ, Mắm, you made it! You guys arrived!</figcaption></figure></div></div><h3 id="134b6aa9-4044-4835-a7a0-5948398f888c" class="">6 - Tham khảo: Chi phí </h3><p id="cf9c0942-1943-425e-89f6-33c61240a7b7" class="">Chi phí tạm tính cho chuyến đi nửa vòng Trái đất của chú Bơ the Chó:</p><ul id="621337e2-3f18-4c5e-990e-8ba4ebe6165a" class="bulleted-list"><li style="list-style-type:disc">Vaccine dại: $20 (Gaia)</li></ul><ul id="9d4163b8-a232-4629-98c1-152f67566619" class="bulleted-list"><li style="list-style-type:disc">Titer test: $520 (Gaia)</li></ul><ul id="89ed0985-6322-4002-9610-206b0060ce38" class="bulleted-list"><li style="list-style-type:disc">Airlines Fee: $400 (Noibai (Vietnam) to O’Hare (US): $400, via ANA)</li></ul><ul id="d07e9d2b-5334-470a-8648-fa5726a53d71" class="bulleted-list"><li style="list-style-type:disc">Domestic Transportation: $400 (Book riêng xe ô tô chở)</li></ul><ul id="a81a3efd-81f4-4a8a-aba8-f08f7b480ef4" class="bulleted-list"><li style="list-style-type:disc">PetHeath Certificate and Giấy kiểm dịch động vật: $45</li></ul><ul id="2c443fd3-cf82-48f8-8fa7-bafc10e97849" class="bulleted-list"><li style="list-style-type:disc">Re-vaccination at Madison: $100</li></ul><ul id="6c5790af-53be-4e49-9742-548a732a4e9b" class="bulleted-list"><li style="list-style-type:disc">Lồng vận chuyển: 50$</li></ul><p id="cee67f3a-9f7c-43cc-a3bf-66d066a1e8bc" class="">Total: $1135 (~ 27tr VND)</p><p id="0da4a73b-665b-4fb4-b752-e506a3754a4d" class="">Giá trên chưa bao gồm chi phí di chuyển và các chi phí phát sinh giữa các điểm (nhà - phòng khám, nhà - sân bay, v.v).</p><p id="de98e5fc-c860-44af-8ec1-b5adc0eaff2d" class="">Chưa bao gồm chi phí mua bình nước, lót chuồng, đồ ăn, v.v cũng chưa bao gồm các chi phí phát sinh khác).</p><blockquote id="96ff5f74-eec6-45d0-a593-fad4454f0c1e" class=""><strong>Chú ý: </strong>Giá trên chỉ thể hiện chi phí vận chuyển một chú cún từ Việt Nam qua Mỹ, tại tháng 8, năm 2022.
 Giá trên không thể hiện giá trị của Bơ
-
 The price above is roughly estimated for transportation of a dog, from Vietnam to the US, in August 2022.
 Price does NOT reflect the worth of the Bơ.</blockquote><div id="744c535b-9a08-42aa-b8f4-c41df82595cb" class="column-list"><div id="799729c1-376b-45b2-a22a-98303b96b318" style="width:50%" class="column"><figure id="71894e1b-d406-4260-bba9-22368ab65301" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2011.png"><img style="width:962px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2011.png"/></a><figcaption>[Random] Việc đầu tiên Bơ làm sau khi về đến nhà là… Đi ị các bạn ạ 🤦🏻 Hình ảnh chiếc chó nhịn “ear?” 28 giờ, xuống đất Mỹ cái phải… giải quyết ngay.</figcaption></figure></div><div id="9850d071-fe7c-48d4-8bd6-efa4d0509b30" style="width:49.99999999999999%" class="column"><figure id="f19984eb-d7be-4197-b872-48e64adcfb40" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2012.png"><img style="width:960px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2012.png"/></a><figcaption>[Random] Bức ảnh đầu tiên tại Mỹ, ngay khi đi ô tô từ sân bay về nhà. Con Bơ nó vẫn láo như thường ạ, vẫn chổng đít vào máy ảnh, haha.</figcaption></figure></div></div><h2 id="360693d3-31f1-42f6-ae79-2ee4266cce10" class="">III - 🐈 Mắm-đi-Mỹ 🇺🇸</h2><p id="83ffdfe8-7a8a-409f-92ff-963bad4ee960" class="">Haha, Mỹ không có quy định nào về việc nhập cảnh mèo. Vì vậy, mình cứ mang mèo vào nhập cảnh như thường thôi ạ.</p><p id="11dee4e3-2500-4433-859e-9fdaa90a93f3" class="">Quá trình đi của Mắm cũng giống y như Bơ (gắn chip, tiêm dại, v.v). Nhưng đơn giản hơn nhiều, vì không phải xin CDC Import Permit. Thậm chí bus ở chỗ mình còn cho mang mèo lên (miễn là bạn để nó trong chuồng, haha).</p><p id="59e70723-0de2-4687-bd00-c44adeef79f7" class="">Chi phí (tham khảo) cho Mắm:</p><ul id="97ddc3d3-8bef-4b9d-af4f-95fbe4bbb1cf" class="bulleted-list"><li style="list-style-type:disc">Vaccine dại: $20 (Gaia)</li></ul><ul id="e8e74f10-5a31-45c4-8e18-a5df7a638227" class="bulleted-list"><li style="list-style-type:disc">Airlines Fee: $400 (Noibai (Vietnam) to O’Hare (US): $400, via ANA)</li></ul><ul id="cead6fde-a2e3-49d4-8551-53088ab50eb1" class="bulleted-list"><li style="list-style-type:disc">PetHeath Certificate and Giấy kiểm dịch động vật: $45</li></ul><ul id="8e324b70-5bfe-45b5-8354-fe55affe1652" class="bulleted-list"><li style="list-style-type:disc">Lồng vận chuyển: 20$</li></ul><p id="7aa959c2-3ae5-4394-92c0-9318ced68a5a" class="">Total: $485 (~ 12tr VND)</p><figure id="23e8a87a-6ed1-4b3f-ad09-8a3f83361cbb" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2013.png"><img style="width:2112px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2013.png"/></a><figcaption> [Mắm đi Mỹ] Câu chuyện đi Mỹ của Mắm siêu đơn giản. Book vé máy bay, bay… và well, đến Mỹ!</figcaption></figure><hr id="db1c1522-6e0c-4326-b604-1a9812f2ada6"/><h3 id="a27457a9-8740-4cfd-9aee-1690bd1f2922" class="">🔆 Lưu ý</h3><p id="dcb51d1c-5f24-4366-b82c-0a7f5150b14f" class="">Bài viết chỉ là kinh nghiệm cá nhân của mình.</p><p id="bfe353c3-6ae0-4b0b-a5de-b8e4ed36988a" class="">Bài viết chưa thể đầy đủ các thông tin, giấy tờ… Mình có thể bỏ sót đâu đó.</p><p id="ae8e757d-563f-4225-b11b-ec5c82bf4525" class="">Nếu bạn đang có dự định đưa thú cưng đi nước ngoài (đặc biệt là Mỹ), và bạn cảm thấy mình có thể giúp bạn… Đừng ngại inbox facebook của mình nhé! (<a href="https://www.facebook.com/kimtuthap97">https://www.facebook.com/kimtuthap97</a>)</p><p id="db82abb0-1dfc-447d-b094-1dca79c06c4c" class="">
 </p><p id="70291f34-1591-46f1-80f0-4e5f87d528ef" class="">Mình trả lời tin nhắn siêu chậm 🥺 Nhưng mình sẽ cố gắng trả lời bạn nếu có thể 🤣 Chúc bạn và thú cưng của bạn an lành 🥰</p><hr id="01c297fa-a5c6-4e97-81f9-9149e35d5ba9"/><h3 id="4dbcd5f8-176a-41ac-9896-1551c028a45a" class="">💬 Tâm sự cuối bài</h3><p id="60f5b0eb-83a5-4ada-a0b0-5c9537526d2d" class="">Hành trình 6 tháng, đi gần nửa vòng trái đất…</p><p id="be2454cc-881c-41f8-a7a4-6bfce2dc2ca5" class="">Có những ngày, mình tưởng chừng như không thể vượt qua nổi…</p><p id="651ac916-ad13-446c-849b-bde0ea5c65aa" class="">Có những đêm, mình đã tự nghĩ “Sao phải vất vả vậy, chỉ là con… chó/ mèo thôi mà…”</p><p id="d6147414-8f65-44b8-a709-d5fc051c3313" class="">Anyway, <mark class="highlight-yellow_background">love is a four-legged word</mark> 💞</p><p id="28e28517-b2fa-45a8-ad24-5ea2caaec11c" class="">Chúng mình đang ở Mỹ rồi! Yay! 🎉</p><p id="bbb8efd5-e61b-4cc0-bfea-9f204d848974" class="">
 </p><p id="1aa8e861-0d8b-4698-bbf2-97c85f59e3d7" class="">Trước hết, xin gửi lời cảm ơn sâu sắc và chân thành nhất đến Gaia Pet Clinic and Resort.
-Các bác sỹ ở phòng khám không những tốt bụng, đáng yêu, mà còn siêu nhiệt tình. Các bác sỹ đã hỗ trợ mình làm các Giấy chứng nhận cho Bơ.</p><p id="2ec3c6a6-4be2-4ee5-86a2-8ba7fff904f3" class="">Cảm ơn ANA, hãng bay 10/10 trong lòng mình, đã chăm sóc cho tụi nhỏ trong suốt quá trình. Lúc quá cảnh ở Nhật, cũng có bạn nhân viên ra báo “Your dog and cat are OK&quot;. Thank youu!!</p><p id="2a33ebed-b0c1-4e27-a90a-c0467f0e7b38" class="">Xin cảm ơn chị Nguyễn Minh Châu từ Flagon đã đồng hành với gia đình từ những ngày đầu bỡ ngỡ, đến tận gần ngay bay… Khi mình còn không biết phải mua cái chuồng-chó ở đâu!!</p><p id="cc3185b7-67eb-4b8e-b082-d660ae78430b" class="">Cảm ơn anh Thành, cán bộ ở Chi cục thú y vùng I đã giúp đỡ em trong quá trình làm Giấy kiểm dịch.</p><p id="c81046b7-5f99-425a-a050-1607b11322bb" class="">Cảm ơn mẹ Minh và anh Thành, đã nhiều lần xuống Hà Nội hỗ trợ đưa Bơ đi khám/ xét nghiệm máu. Trên cả vậy, cảm ơn mẹ và em đã luôn coi Bơ/ Mắm là một thành viên trong gia đình.</p><p id="5b040fac-ee76-4346-a93a-ea97dd8a1ac5" class="">Cuối cùng, cảm ơn anh Bơ lớn — người đã bay từ Mỹ về lại Việt Nam, để rồi lại bay từ Việt Nam, cùng đưa Bơ, Mắm, và chị Thảo qua lại Mỹ. We thank you and we love you (as always).</p><div id="78ea6c08-503b-44ab-966a-0c53ba74d8d4" class="column-list"><div id="8fee01c3-8195-4584-a801-a8b35f1b26bf" style="width:31.25%" class="column"><figure id="d858fd0a-3b57-4ff0-8838-712847dd0397" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2014.png"><img style="width:992px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2014.png"/></a><figcaption> Cảm ơn mẹ và em Thành vì đã luôn coi Bơ và Mắm là những thành viên trong gia đình.</figcaption></figure></div><div id="965cd335-f175-40ad-a8ee-91acb2afbb1c" style="width:68.75%" class="column"><figure id="117c9ac0-a9aa-4f54-b648-0a45e7103baf" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2015.png"><img style="width:720px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2015.png"/></a><figcaption> Không có mẹ và em, chắc chắn Bơ và Mắm không thể hoàn thành các giấy tờ trước ngày bay.</figcaption></figure></div></div><div id="9daf88d4-5021-4937-ba3c-86e8c59fc25f" class="column-list"><div id="06e4a247-b938-4e4f-a784-49f9d5ffa5db" style="width:50%" class="column"><figure id="b7ee679c-7e43-4e6d-9d50-070960e4486b" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2016.png"><img style="width:1006px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2016.png"/></a><figcaption>Without you, Bơ, Mắm, (and ME!) couldn’t be here.</figcaption></figure></div><div id="b04b5d81-76b3-43d7-b821-c4a7bbe69092" style="width:50%" class="column"><figure id="c1aa114f-3426-41b9-be44-db692249b342" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2017.png"><img style="width:1006px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2017.png"/></a><figcaption>  We thank you, &amp; we love you (as always) 💑 </figcaption></figure></div></div><hr id="49d42ee7-80ae-4775-9d35-e451c083ba6e"/><p id="5f3f82c8-da09-4472-a10c-b3ea21cad79e" class=""><strong>Bonus </strong>🐈🐕: Yeah, cảm ơn Bơ và Mắm đã luôn ở bên cạnh giúp chị hoàn thành bài viết này.</p><p id="4d1b614b-c484-4e30-b628-cccacd17e9bc" class="">Không có tụi em, chắc chắn chị sẽ hoàn thành bài viết này <em>nhanh hơn rất nhiều</em>!</p><figure id="20ba9c35-54e6-4438-b21f-2c719d94015b" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2018.png"><img style="width:720px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2018.png"/></a><figcaption> Hình ảnh Bơ và Mắm hỗ trợ chị Thảo hoàn thành bài viết.</figcaption></figure><hr id="311464ca-9b23-4f26-8892-729ac14817cc"/><p id="50bf96ab-c3c0-46d1-b7f6-5435c130f38b" class="">The End.</p><p id="f344308a-e610-490a-93f4-50a74a72c288" class="">Madison, 28/08/2022.</p></div></article></body></html>
+Các bác sỹ ở phòng khám không những tốt bụng, đáng yêu, mà còn siêu nhiệt tình. Các bác sỹ đã hỗ trợ mình làm các Giấy chứng nhận cho Bơ.</p><p id="2ec3c6a6-4be2-4ee5-86a2-8ba7fff904f3" class="">Cảm ơn ANA, hãng bay 10/10 trong lòng mình, đã chăm sóc cho tụi nhỏ trong suốt quá trình. Lúc quá cảnh ở Nhật, cũng có bạn nhân viên ra báo “Your dog and cat are OK&quot;. Thank youu!!</p><p id="2a33ebed-b0c1-4e27-a90a-c0467f0e7b38" class="">Xin cảm ơn chị Nguyễn Minh Châu từ Flagon đã đồng hành với gia đình từ những ngày đầu bỡ ngỡ, đến tận gần ngay bay… Khi mình còn không biết phải mua cái chuồng-chó ở đâu!!</p><p id="cc3185b7-67eb-4b8e-b082-d660ae78430b" class="">Cảm ơn anh Thành, cán bộ ở Chi cục thú y vùng I đã giúp đỡ em trong quá trình làm Giấy kiểm dịch.</p><p id="c81046b7-5f99-425a-a050-1607b11322bb" class="">Cảm ơn mẹ Minh và anh Thành, đã nhiều lần xuống Hà Nội hỗ trợ đưa Bơ đi khám/ xét nghiệm máu. Trên cả vậy, cảm ơn mẹ và em đã luôn coi Bơ/ Mắm là một thành viên trong gia đình.</p><p id="5b040fac-ee76-4346-a93a-ea97dd8a1ac5" class="">Cuối cùng, cảm ơn anh Bơ lớn — người đã bay từ Mỹ về lại Việt Nam, để rồi lại bay từ Việt Nam, cùng đưa Bơ, Mắm, và chị Thảo qua lại Mỹ. We thank you and we love you (as always).</p><div id="78ea6c08-503b-44ab-966a-0c53ba74d8d4" class="column-list"><div id="8fee01c3-8195-4584-a801-a8b35f1b26bf" style="width:31.25%" class="column"><figure id="d858fd0a-3b57-4ff0-8838-712847dd0397" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2014.png"><img style="width:992px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2014.png"/></a><figcaption> Cảm ơn mẹ và em Thành vì đã luôn coi Bơ và Mắm là những thành viên trong gia đình.</figcaption></figure></div><div id="965cd335-f175-40ad-a8ee-91acb2afbb1c" style="width:68.75%" class="column"><figure id="117c9ac0-a9aa-4f54-b648-0a45e7103baf" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2015.png"><img style="width:720px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2015.png"/></a><figcaption> Không có mẹ và em, chắc chắn Bơ và Mắm không thể hoàn thành các giấy tờ trước ngày bay.</figcaption></figure></div></div><div id="9daf88d4-5021-4937-ba3c-86e8c59fc25f" class="column-list"><div id="06e4a247-b938-4e4f-a784-49f9d5ffa5db" style="width:50%" class="column"><figure id="b7ee679c-7e43-4e6d-9d50-070960e4486b" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2016.png"><img style="width:1006px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2016.png"/></a><figcaption>Without you, Bơ, Mắm, (and ME!) couldn’t be here.</figcaption></figure></div><div id="b04b5d81-76b3-43d7-b821-c4a7bbe69092" style="width:50%" class="column"><figure id="c1aa114f-3426-41b9-be44-db692249b342" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2017.png"><img style="width:1006px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2017.png"/></a><figcaption>  We thank you, &amp; we love you (as always) 💑 </figcaption></figure></div></div><hr id="49d42ee7-80ae-4775-9d35-e451c083ba6e"/><p id="5f3f82c8-da09-4472-a10c-b3ea21cad79e" class=""><strong>Bonus </strong>🐈🐕: Yeah, cảm ơn Bơ và Mắm đã luôn ở bên cạnh giúp chị hoàn thành bài viết này.</p><p id="4d1b614b-c484-4e30-b628-cccacd17e9bc" class="">Không có tụi em, chắc chắn chị sẽ hoàn thành bài viết này <em>nhanh hơn rất nhiều</em>!</p><figure id="20ba9c35-54e6-4438-b21f-2c719d94015b" class="image"><a href="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2018.png"><img style="width:720px" src="Bo%CC%9B,%20va%CC%80%20ha%CC%80nh%20tri%CC%80nh%20%C4%91e%CC%82%CC%81n%20xu%CC%9B%CC%81%20so%CC%9B%CC%89%20co%CC%9B%CC%80%20hoa%2038f7f64ee32648cba6800e259f5556de/Untitled%2018.png"/></a><figcaption> Hình ảnh Bơ và Mắm hỗ trợ chị Thảo hoàn thành bài viết.</figcaption></figure><p id="50bf96ab-c3c0-46d1-b7f6-5435c130f38b" class="">The End.</p><p id="f344308a-e610-490a-93f4-50a74a72c288" class="">Madison, 28/08/2022.</p>
+<hr>
+<p id='english'><b>English</b>: Same as my post in <a href = 'https://www.facebook.com/groups/191336279727916/posts/433744535487088/'>CDC Dog Import Help Page (Facebook Group)</a></p><blockquote>Hi everyone, we made it to the US!
+May our information be helpful for you and your pet(s)!
+<h4>SUMMARY</h4>
+We traveled from Vietnam on 08/07/2022. Our final destination is Wisconsin (WI).
+We arrived at Chicago O'Hare International Airport, then took Uber to WI.
+We chose <a href='https://www.cdc.gov/importation/bringing-an-animal-into-the-united-states/dog-origin.html'><b>Option B: With Permit</b></a>. Btw, I'm on an F1 Visa (Student).
+We flew with All Nippon Airways, our pets travelled as checked baggage (same flight).
+<h4>OUR TIMELINE</h4>
+(DD/MM/YYYY)
+03/13/2022: Rabies Vaccination
+04/17/2022: Blood sample for titer test
+05/12/2022: Titer test result received
+06/03/2022: Permit application submitted
+07/08/2022: Permit granted 🎉
+08/07/2022: Travel day 🛫
+08/08/2022: Entered the US via O'Hare Airport 🇺🇸
+08/17/2022: Rabies Re-vaccination (As required by Permit)
+<h4>NOTES</h4>
+<b>Customs Clearance @ O'Hare</b>: We went through the immigration procedures first, then picked up our pets. There's a "CDC Quarantine Desk" right next to Immigration Area. The staff only asked for the permit, and slightly looked over my pets. It was just about 5 minutes, and he stamped "PASSED" on my US Customs Declaration Form (6059B). After that, we "normally" walked out of the airport.
+<b>Transit @ Narita Airport (Japan)</b>: Ground staff do ask for Rabies Certificate and Pet Health Certificate for pet transit here.
+<b>Permit documents</b>: You might want to see our paper/ documents which we submitted for CDC. Link to <a href='https://drive.google.com/drive/folders/1k4AKPZQpZW801G8DlOpfNMkpse6drKlJ?usp=sharing'>Google Drive here!</a>
+
+We hope our experience can help you (and your pet) relieve stress. It was a tiring process (I know!). Nearly 6 months, multiple papers work, etc. But in the end, it was worth it. 😌🥰🥳
+We sincerely thank Yeşim Erke-Magent, Wilma Stallknecht Herrera, and Michele Lindsey. Thank you for being so active and supportive. We couldn't be here without your advice!
+
+Finally, we wish everyone a safe journey with your beloved pets.
+Don't give up, don't leave them behind!
+You guys will make it, I know! 🫰🫰🫰
+
+P.s: We also travelled with a cat as well. There's no problems with cat at all. No one at the airport ever ask for any paper/ document! (Crazy, I know!) 🤡</blockquote></div><hr> <center>Copyright (.❛ ᴗ ❛.) <a href='https://thaoshibe.github.io/'>Thao Nguyen</a></center>
+</article></body></html>
