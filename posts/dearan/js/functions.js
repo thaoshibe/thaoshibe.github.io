@@ -95,8 +95,8 @@ function startHeartAnimation() {
 function timeElapse(date){
 	var current = Date();
 	var seconds = (Date.parse(current) - Date.parse(date)) / 1000;
-	var years = Math.floor(seconds / (3600*24*30*12));
-	seconds = seconds -years*(3600*24*30*12);
+	var years = Math.floor(seconds / (3600*24*365));
+	seconds = seconds - years*(3600*24*365);
 	var months = Math.floor(seconds / (3600*24*30));
 	seconds = seconds - months*(3600*24*30);
 	var days = Math.floor(seconds / (3600*24));
