@@ -3,11 +3,11 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="Yo'LLaVA: Your Personalized Language and Vision Assistant">
+  <meta name="description" content="🌋 Yo'LLaVA: Your Personalized Language & Vision Assistant 👵🏻">
   <meta name="keywords" content="multimodal chatbot">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:image" content="./static/images/yollava-hi.png" />
-  <meta property="og:title" content="Yo'LLaVA" />
+  <meta property="og:title" content="Yo'LLaVA: Your Personalized Language & Vision Assistant" />
   <meta property="og:description" content="Hi, I'm Your Personalized Language and Vision Assistant!" />
     <link rel="stylesheet" href="jemdoc.css" type="text/css" />
   <title>Yo'LLaVA</title>
@@ -203,12 +203,13 @@
   </section>
 
   <section class="hero teaser">
+    
     <div class="container is-max-desktop">
       <div class="hero-body">
-        <h4 class="subtitle has-text-centered">
-          Yo'LLaVA is LLaVA but can provide personalized conversation!
-          <img src='./static/images/yollava-hi.png' width="200">
-        </h4>
+        <!-- <h4 class="subtitle has-text-centered"> -->
+          <center><img src='./static/images/tesear-non-blur.png' width="1500"></center>
+          
+        <!-- </h4> -->
       </div>
     </div>
   </section>
@@ -272,7 +273,9 @@
           Problem Setting</a>.
         </p>
         <p>
-          For each subset, we visualize the root noun-verb pairs for the instruction and response. For each chart, please click the link for the interactive page to check out the noun-verb pairs whose frequency is higher the given number.        
+          For each subset, we visualize the root noun-verb pairs for the instruction and response. For each chart, please click the link for the interactive page to check out the noun-verb pairs whose frequency is higher the given number.
+          Yo'LLaVA is LLaVA but can provide personalized conversation!
+          <img src='./static/images/yollava-hi.png' width="150">
         </p>
       </div>
 
@@ -297,14 +300,14 @@
   <div class="columns is-centered">
     <div class="column is-full-width">
       <div class="content has-text-justified"> 
-    <table class="center" style="max-width:1000px;">
+    <table class="center" style="max-width:1100px;">
         <tr>
             <td width="30%">
                 <img id="teaser"src="./static/images/framework.png" alt="Training Pipeline">
             </td>
             <td>
-                <b>⚙️ Training Pipeline:</b><br>
-                <p>Given a set of images I<sub>1</sub>, ... ,I<sub>n</sub> of a subject (e.g., called <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b>), we define a personalized soft-prompt for the subject as:</p>
+                <b style="font-size:120%">⚙️ Training Pipeline:</b><br>
+                <p>We define a personalized soft-prompt for the subject as:</p>
                 <center>
                 <div class="quote">
                     <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is <b><text style="font-family: Courier; color:#0000FF">&lt;token<sub>1</sub>&gt</text><text style="font-family: Courier; color:#FF0000">&lt;token<sub>2</sub>&gt...</text><text style="font-family: Courier;color:#2E8B57">&lt;token<sub>k</sub>&gt</text></b>
@@ -316,18 +319,56 @@
         </tr>
         <tr>
           <td>
-            <b>🛠 Training Dataset Creation</b>:
-            <ul type="1">
-            <li><b>Stage 1: Pre-training for Feature Alignment</b>. <span style="font-size: 95%;">Only the projection matrix is updated, based on a subset of CC3M.</span></li>
-            <li><b>Stage 2: Fine-tuning End-to-End</b>. <span style="font-size: 95%;">Both the projection matrix and LLM are updated for two different use senarios: 
-              <ul type="1">
-                <li> <b>Visual Chat</b>: LLaVA is fine-tuned on our generated multimodal instruction-following data for daily user-oriented applications. 
-                <li> <b>Science QA</b>: LLaVA is fine-tuned on this multimodal reasonsing dataset for the science domain.</span></li>
-              </ul>  
-            </ul>  
+            <b style="font-size:120%">🛠 Training Dataset Creation</b>:
+            <br>
+            To help the model learn the new visual concept, we generate conversational training data triplets {Image, Question, Answer}:
+            <br>
+            <center><img src="./static/images/dataset.png" alt="Training Dataset Creation" style="width: 400px; height: auto;"></center>
+            <br>
+
+              <li>
+                <b style="color: gray">(1) Learning to Engage in Natural Conversations</b>.
+                <br>
+                <span style="font-size:95%;">We create more generic conversations for training (e.g., visual Q&A), which focus on the subject’s visual characteristics.
+                  <br>
+                <blockquote>
+                  <i>Note: No input image are given during training!</i>
+                  <br>
+                  <!-- <img src="./static/images/shiba-yellow.jpg" alt="Description of photo" style="float: right; width: 80px; height: auto;"> -->
+                  <b>Q</b>: What type of object is <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b>?
+                  <br>
+                  <b>A</b>: <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is a stuffed animal.
+                </blockquote>
+                </span>
+              </li>
           </td>
-          <td width="25%">
-            <img id="teaser"src="./static/images/dataset.png" alt="Teaser Image">
+          <td width="35%">
+            <!-- <img id="teaser"src="./static/images/dataset.png" alt="Teaser Image"> -->
+            <ul type="1">
+              <li><b style="color: gray">(2) Enhancing Recognition with Hard Negative Mining</b>. <span style="font-size: 95%;">
+              <br>We create a mixture of positive and negative examples helps the model understand the visual attributes of the subject.
+              <ul type="1">
+                <li> <b>Positive</b>: Provided by user.
+                 
+                <blockquote>
+                  <i><img src='./static/images/shiba-yellow.jpg' width="100"></i>
+                  <br>
+                  <!-- <img src="./static/images/shiba-yellow.jpg" alt="Description of photo" style="float: right; width: 80px; height: auto;"> -->
+                  <b>Question</b>: Can you see if <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is in this photo?
+                  <br>
+                  <b>Anaswer</b>: Yes, <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is in this photo.
+                </blockquote>
+
+                <li> <b>Negative</b>: A diverse range of items visually similar but not identical to <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b>. Either sample or retrieve them from LAION-5B.
+                <blockquote>
+                  <i><img src='./static/images/not-shiba-yellow.png' width="100"></i>
+                  <br>
+                  <b>Q</b>: Can you check if <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is in this photo?
+                  <br>
+                  <b>A</b>: I have analyzed the image, and I can confirm that <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is not present in the photo.
+                </blockquote>
+                </li>
+            </ul>
           </td>
         </tr>
     </table>
@@ -353,33 +394,33 @@
   
 
 <section class="section">
-
   <div class="columns is-centered has-text-centered">
     <div class="column is-six-fifths">
       <h2 class="title is-3">🖼️ Examples of Personalized Conversation</h2>
     </div>
   </div>
-
+  <p>
+  <center>
+    Concept Library:
+  </center>
+  </p>
   <div class="container mt-5">
-    <!-- <h2 class="text-center mb-5">Who's GPT-4's favorite? Battles between State-of-the-Art Chatbots</h2> -->
-    <!-- Selection -->
-    <div class="form-row" style="justify-content: flex-end;">
+    <div class="form-row" style="justify-content: center;">
       <div class="form-group col-md-1">
         <div class="col-md-2" style="width: 100%"><label>&nbsp;</label></div>
         <div class="btn-group" role="group" aria-label="Left and Right Controller"
-          style="width: 100%;align-items: flex-end;justify-content: center;flex-direction: row;display: flex;">
+          style="width: 100%;align-items: center;justify-content: center;flex-direction: row;display: flex;">
           <button type="button" class="form-control btn btn-primary" id="prev-question"><i
               class="material-icons">keyboard_arrow_left</i></button>
           <button type="button" class="form-control btn btn-primary" id="next-question"><i
               class="material-icons">keyboard_arrow_right</i></button>
-
         </div>
       </div>
     </div>
 
     <!-- Question Card -->
     <div style="display: flex; justify-content: center; align-items: center;">
-      <div class="card mb-4" style="width: 100%; display: flex; align-items: center;">
+      <div class="card mb-4" style="width: 60%; display: flex; align-items: center;">
         <div class="card-body" id="selected-question" style="display: flex; height: 80vh;">
           <div class="chat-history">
             <!-- Add your chat messages here -->
@@ -394,7 +435,7 @@
 
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
+      <h2 class="title">📥 BibTeX</h2>
       <pre><code>
   @misc{liu2023improvedllava,
           author={Liu, Haotian and Li, Chunyuan and Li, Yuheng and Lee, Yong Jae},
@@ -408,7 +449,7 @@
   
   <section class="section" id="Acknowledgement">
     <div class="container is-max-desktop content">
-      <h2 class="title">Acknowledgement</h2>
+      <h2 class="title">💌 Acknowledgement</h2>
       <p>
         This website is adapted from <a
         href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
@@ -416,9 +457,11 @@
       </p>
 
       <p>
-<b>Usage and License Notices</b>: The data, code and checkpoint is intended and licensed for research use only. They are also restricted to uses that follow the license agreement of CLIP,  LLaMA, Vicuna and GPT-4. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
-</p>
-
+  <b>Usage and License Notices</b>: The data, code and checkpoint is intended and licensed for research use only. They are also restricted to uses that follow the license agreement of CLIP,  LLaMA, Vicuna and GPT-4. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
+  </p>
+    <center>
+      <i>Thank you (.❛ ᴗ ❛.).</i>
+    </center>
       <p>
       </p>    
     </div>
@@ -437,7 +480,7 @@
       span.className = "icon is-large";
 
       var icon = document.createElement("i");
-      icon.className = "fas fas fa-2x" + (sender === "User" ? " fa-user " : sender === "LLaVA" ? " fa-robot" : "");
+      icon.className = "fas fas fa-2x" + (sender === "User" ? " fa-user " : sender === "YoLLaVA" ? " fa-robot" : "");
 
       var media = document.createElement("div");
       media.className = "media-content";
@@ -449,7 +492,7 @@
 
       // wrap text in pre tag to preserve whitespace and line breaks
       var pre_text = document.createElement("pre");
-      pre_text.style = "background-color: white; font-size: 18px; font-family: Arial; padding: 0; margin: 0; white-space: pre-wrap; word-wrap: break-word;";
+      pre_text.style = "background-color: white; font-size: 19px; font-family: Arial; padding: 0; margin: 0; white-space: pre-wrap; word-wrap: break-word;";
       var paraText = document.createTextNode(text);
       pre_text.appendChild(paraText);
 
@@ -495,15 +538,17 @@
     // 
     const conversations = [
       {
-        "description": "monalisa",
+        "description": "thao-and-bo",
         "turns": [
           // ["Description", "Please read the description and answer the question."],
           ["User", "", "/static/images/monalisa.jpg"],
-          ["User", "Do you know who drew this painting?​"],
-          ["LLaVA",
-            "The painting depicts a woman, commonly believed to be Mona Lisa, the famous artwork by Leonardo da Vinci. " +
-            "It is a portrait painting that showcases the woman's enigmatic smile and has become one of the most famous and iconic art pieces in the world. " +
-            "The original work is displayed in the Louvre Museum in Paris, and it is known for its intricate details, use of oil paint, and the artist's innovative techniques that contributed to its enduring appeal and mystery.​​"
+          ["User", "Hey, can you see <thao> and <bo> in this photo? Could you write a cute and detailed Facebook caption for it?"],
+          ["YoLLaVA",
+            "Yes, I can see <thao> and <bo> in the photo.\n"
+            + "They are sitting on the grass in a park, enjoying a beautiful day.\n"
+            + "<thao> is holding <bo>, and they both seem to be having a great time together.\n\n"
+            + "As for the Facebook caption, here’s a cute and detailed one:\n"
+            + "``Spending the day in the park with my furry best friend!\n<bo> is the cutest thing I’ve ever seen, and I’m so grateful for our adventures together.\n<bo>, you’re the best boy! #ParkDay #DogLove #FurryFriend''"
           ]
         ]
       },
@@ -512,7 +557,7 @@
         "turns": [
           ["User", "", "/static/images/monalisa-fun.jpg"],
           ["User", "Do you know who drew this painting?​"],
-          ["LLaVA", "The painting depicts a dog in a humorous situation, where it appears to be wearing a woman's dress and standing in front of a landscape. Although the artist of the painting is not explicitly identified, it could be a reference to the famous artist Da Vinci, known for his artistic works, including the Mona Lisa. The painting is likely a creative and comical take on the traditional portrait style, replacing a human figure with a dog dressed in a woman's clothing, making it an interesting and amusing visual piece.​"]
+          ["YoLLaVA", "The painting depicts a dog in a humorous situation, where it appears to be wearing a woman's dress and standing in front of a landscape. Although the artist of the painting is not explicitly identified, it could be a reference to the famous artist Da Vinci, known for his artistic works, including the Mona Lisa. The painting is likely a creative and comical take on the traditional portrait style, replacing a human figure with a dog dressed in a woman's clothing, making it an interesting and amusing visual piece.​"]
         ]
       },
       {
@@ -520,7 +565,7 @@
         "turns": [
           ["User", "", "/static/images/titanic.jpg"],
           ["User", "What's the ending of this movie?​​"],
-          ["LLaVA", "​In the image, a young woman is leaning on a man in front of a beautiful sunset, with both of them standing on a boat. They appear to be enjoying a romantic moment together. The scene suggests that they could be depicted as the characters Jack and Rose from the popular movie Titanic. In the movie, their romance blossoms aboard the fictional ocean liner Titanic, with the pair ultimately sharing a passionate kiss as the ship sinks into the ocean. The ending of the movie is known for its emotional and heartfelt scenes, where the characters are forced to say goodbye to each other as they are separated by the sinking ship. The image evokes a sense of romance and nostalgia, paying tribute to the iconic love story portrayed in the movie Titanic.​"]
+          ["YoLLaVA", "​In the image, a young woman is leaning on a man in front of a beautiful sunset, with both of them standing on a boat. They appear to be enjoying a romantic moment together. The scene suggests that they could be depicted as the characters Jack and Rose from the popular movie Titanic. In the movie, their romance blossoms aboard the fictional ocean liner Titanic, with the pair ultimately sharing a passionate kiss as the ship sinks into the ocean. The ending of the movie is known for its emotional and heartfelt scenes, where the characters are forced to say goodbye to each other as they are separated by the sinking ship. The image evokes a sense of romance and nostalgia, paying tribute to the iconic love story portrayed in the movie Titanic.​"]
         ]
       },
       {
@@ -528,9 +573,9 @@
         "turns": [
           ["User", "", "/static/images/fridge.jpg"],
           ["User", "What are the meals that I can cook with these?​​"],
-          ["LLaVA", "With the variety of food items stored in the refrigerator, you can prepare several meals. For example, you can create a fruit salad using the strawberries, blueberries, and carrots. Additionally, you can make a delicious smoothie using the fruits and vegetables, which would be a healthy and nutritious snack or breakfast option. The milk and eggs can be used to create various dishes, such as a milk-based smoothie, a baked casserole, or scrambled eggs. The juice can also be used to make a fresh fruit and juice mix or as a refreshing homemade popsicle. The possibilities are vast, and the meals you can create will depend on your preferences and dietary needs.​​"],
+          ["YoLLaVA", "With the variety of food items stored in the refrigerator, you can prepare several meals. For example, you can create a fruit salad using the strawberries, blueberries, and carrots. Additionally, you can make a delicious smoothie using the fruits and vegetables, which would be a healthy and nutritious snack or breakfast option. The milk and eggs can be used to create various dishes, such as a milk-based smoothie, a baked casserole, or scrambled eggs. The juice can also be used to make a fresh fruit and juice mix or as a refreshing homemade popsicle. The possibilities are vast, and the meals you can create will depend on your preferences and dietary needs.​​"],
           ["User", "I would like to do the fruit salad.  Show me the recipe.​"],
-          ["LLaVA",
+          ["YoLLaVA",
             `Certainly! Here's a simple fruit salad recipe using the items in your refrigerator:​
 
 Ingredients:​
@@ -557,9 +602,9 @@ This fruit salad recipe is perfect for a healthy snack or side dish, and with th
         "turns": [
           ["User", "", "/static/images/view.jpg"],
           ["User", "What are the things I should be cautious about when I visit here?​​"],
-          ["LLaVA", "When visiting this peaceful location with a pier extending over a serene lake, surrounded by mountains, there are several things to be cautious about. First, pay attention to the weather conditions, as sudden changes in weather, especially strong winds or storms, can cause the water to become rough and pose risks to the stability of the pier. Second, be mindful of the structural integrity of the pier; avoid overloading it with too many people or excessive weight, as this could potentially damage the pier or cause it to collapse. Additionally, be aware of the surrounding wildlife and respect their space; do not harm or disturb them in any way. Finally, if you decide to go fishing, ensure that you adhere to any local fishing regulations and use appropriate fishing techniques to keep the lake ecosystem healthy and maintain the balance of the food chain.​​"],
+          ["YoLLaVA", "When visiting this peaceful location with a pier extending over a serene lake, surrounded by mountains, there are several things to be cautious about. First, pay attention to the weather conditions, as sudden changes in weather, especially strong winds or storms, can cause the water to become rough and pose risks to the stability of the pier. Second, be mindful of the structural integrity of the pier; avoid overloading it with too many people or excessive weight, as this could potentially damage the pier or cause it to collapse. Additionally, be aware of the surrounding wildlife and respect their space; do not harm or disturb them in any way. Finally, if you decide to go fishing, ensure that you adhere to any local fishing regulations and use appropriate fishing techniques to keep the lake ecosystem healthy and maintain the balance of the food chain.​​"],
           ["User", "Compose an engaging travel blog post about my trip to this place, highlighting the beautiful sceneries, joyful experiences, and include possible anecdotes.​​"],
-          ["LLaVA",
+          ["YoLLaVA",
             `Traveling to this picturesque location with a serene lake and mountains in the background was a refreshing and rejuvenating experience. The pier extending over the calm water provided an excellent vantage point from which to appreciate the breathtaking scenery. As I stood on the pier, I couldn't help but feel a deep connection with nature, taking a moment to soak in the peaceful atmosphere.​
 
 One of the highlights of my trip was undoubtedly the fishing experience. The area is teeming with life, and I was thrilled to land a sizeable catch, despite the modest size of the lake. The joy of fishing in such a beautiful setting was truly rewarding, and it allowed me to take a break from my busy life and truly immerse myself in the tranquility of nature.​
