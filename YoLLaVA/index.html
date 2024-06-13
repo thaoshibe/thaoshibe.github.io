@@ -254,6 +254,51 @@
   </section>
 
 <section class="section">
+  <!-- Results. -->
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-six-fifths">
+      <h2 class="title is-3">👤 Personalizing Large Multimodal Models</h2>
+    </div>
+  </div>
+  <!-- </div> -->
+  <!--/ Results. -->    
+<div class="container is-max-desktop">
+
+  <div class="columns is-centered">
+    <div class="column is-full-width">
+      <div class="content has-text-justified">
+        <p>
+          Given a handful of images of a person or a subject I<sup>1</sup>, . . . , I<sup>n</sup> (e.g., 5 images of your friend <text style="font-family: Courier;">&lt;thao&gt;</text>).
+          <br>
+          <!-- without any textual labels or captions, -->
+          Our goal is to <b style="background-color: lightyellow;">embed this subject into a pre-trained LMM (in our case, LLaVA)</b>, so that both the user and model can <b style="color: navy;">communicate using an identifier</b> (e.g., <text style="font-family: Courier;">&lt;thao&gt;</text>) for that subject, while also <b style="color: navy;">retaining the broad pre-trained knowledge</b>.
+
+        </p>
+        <p>
+          After being personalized, our method (Yo’LLaVA) can:
+          <ul>
+          <li>(1) <b>recognize the subject</b> in new images during testing
+            <br><i>(e.g., Yo’LLaVA can determine whether <text style="font-family: Courier;">&lt;thao&gt;</text> is in a photo or not)</i></li>
+
+          <li>(2) support <b>visual question answering</b> about the subject
+            <br><i>(e.g., given a new photo, one can ask about <text style="font-family: Courier;">&lt;thao&gt;</text>’s location)</i></li>
+
+          <li>(3) support <b>text-only conversations</b> without any test-time reference images about the subject
+            <br><i>(e.g., ask questions about intrinsic attributes of <text style="font-family: Courier;">&lt;thao&gt;</text> like its color, etc.)</i></li>
+          <br>
+        </ul>
+          <center>
+            <img src='./static/images/setting.png' width="700">
+          </center>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+<hr>
+
+<section class="section">
   <div class="columns is-centered has-text-centered">
     <div class="column is-six-fifths">
       <h2 class="title is-3">🖼️ Examples of Personalized Conversation</h2>
@@ -308,7 +353,7 @@
 
     <!-- Question Card -->
     <div style="display: flex; justify-content: center; align-items: center;">
-      <div class="card mb-4" style="width: 90%; display: flex; align-items: center;">
+      <div class="card mb-4" style="width: 80%; display: flex; align-items: center;">
         <div class="card-body" id="selected-question" style="display: flex; height: 80vh;">
           <div class="chat-history">
             <!-- Add your chat messages here -->
@@ -321,50 +366,7 @@
   </div>
 </section>
 <hr>
-<section class="section">
-  <!-- Results. -->
-  <div class="columns is-centered has-text-centered">
-    <div class="column is-six-fifths">
-      <h2 class="title is-3">👤 Personalizing Large Multimodal Models</h2>
-    </div>
-  </div>
-  <!-- </div> -->
-  <!--/ Results. -->    
-<div class="container is-max-desktop">
 
-  <div class="columns is-centered">
-    <div class="column is-full-width">
-      <div class="content has-text-justified">
-        <p>
-          Given a handful of images of a person or a subject I<sup>1</sup>, . . . , I<sup>n</sup> (e.g., 5 images of your friend <text style="font-family: Courier;">&lt;thao&gt;</text>).
-          <br>
-          <!-- without any textual labels or captions, -->
-          Our goal is to <b style="background-color: lightyellow;">embed this subject into a pre-trained LMM (in our case, LLaVA)</b>, so that both the user and model can <b style="color: navy;">communicate using an identifier</b> (e.g., <text style="font-family: Courier;">&lt;thao&gt;</text>) for that subject, while also <b style="color: navy;">retaining the broad pre-trained knowledge</b>.
-
-        </p>
-        <p>
-          After being personalized, our method (Yo’LLaVA) can:
-          <ul>
-          <li>(1) <b>recognize the subject</b> in new images during testing
-            <br><i>(e.g., Yo’LLaVA can determine whether <text style="font-family: Courier;">&lt;thao&gt;</text> is in a photo or not)</i></li>
-
-          <li>(2) support <b>visual question answering</b> about the subject
-            <br><i>(e.g., given a new photo, one can ask about <text style="font-family: Courier;">&lt;thao&gt;</text>’s location)</i></li>
-
-          <li>(3) support <b>text-only conversations</b> without any test-time reference images about the subject
-            <br><i>(e.g., ask questions about intrinsic attributes of <text style="font-family: Courier;">&lt;thao&gt;</text> like its color, etc.)</i></li>
-          <br>
-        </ul>
-          <center>
-            <img src='./static/images/setting.png' width="700">
-          </center>
-        </p>
-      </div>
-
-    </div>
-  </div>
-
-<hr>
 </section>
 
 <section class="section">
@@ -532,7 +534,7 @@
 
       // wrap text in pre tag to preserve whitespace and line breaks
       var pre_text = document.createElement("pre");
-      pre_text.style = "background-color: white; font-size: 19px; font-family: Arial; padding: 0; margin: 0; white-space: pre-wrap; word-wrap: break-word;";
+      pre_text.style = "background-color: white; font-size: 18px; font-family: Arial; padding: 0; margin: 0; white-space: pre-wrap; word-wrap: break-word;";
       var paraText = document.createTextNode(text);
       pre_text.appendChild(paraText);
 
