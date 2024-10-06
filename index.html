@@ -59,12 +59,20 @@
                   <br /> Before that, I spent three wonderful years @ <a href="https://www.vinai.io">VinAI Research</a>, where I had the privilege of working closely with <a href="https://scholar.google.com/citations?hl=en&user=FYZ5ODQAAAAJ&view_op=list_works&sortby=pubdate">Dr. Anh Tran</a>, <a href="https://gshoai.github.io/">Prof. Minh Hoai Nguyen</a>, <a href="https://ducthanhnguyen.weebly.com">Dr. Duc Thanh Nguyen</a>, and <a href='https://www.vinai.io/our-team/'>so many amazing folks</a>.<br>
                   These people have motivated me to pursuit higher education.<br>
                   Thank you! 🙇‍♀️🎓</p>
+
           <p style="font-size:80%;color:#A9A9A9">
             <!-- <i> -->
              ｡𖦹°‧ If you are a 🇻🇳🙋‍♀️, you might find <a href="https://viet-wics.github.io/"><image src="https://viet-wics.github.io/assets/img/favicon.ico" height="20"></image> viet-wisc</a> inspiring (૭ ｡•̀ ᵕ •́｡ )૭ 🌱
             <br>
              ｡𖦹°‧ Photo taken at Googleplex @ Summer 2024 -- while I was interning with Adobe ╮ (. ❛ ᴗ ❛.) ╭
              <br>
+             <br>
+             <p style="background-color: #FFE4E1; padding: 12px 18px; border-radius: 10px; display: inline-block; max-width: 600px; font-size: 15px;">
+              — 📣 <b>2025 Summer Internship Wanted!</b> (my resume <a href="https://drive.google.com/file/d/17STKdJuOWiOpHgdx2WvtKp-w-rIaxK-Y/view?usp=sharing">here 📝</a>).
+              <br>
+              💬 Please feel free to contact me if you believe there's a potential fit. Thank youu~</p>
+
+
              <!-- Hover to see an older photo of me and <a href="https://en.wikipedia.org/wiki/Bucky_Badger">Bucky</a>, </a> taken by <a href="https://anhddo.github.io">Anh Do</a>, at Henry Vilas Zoo @ Fall 2022. -->
           <!-- </i> -->
           </p>
@@ -97,7 +105,7 @@
                   <br />
                   <i>
                     <b>Thao Nguyen</b>, Haotian Liu, Yuheng Li, Mu Cai, Utkarsh Ojha, Yong Jae Lee</i>
-                  <br />arXiv, 2024 <br /> [<a href="https://thaoshibe.github.io/YoLLaVA/">ProjectPage</a>, <a href="https://github.com/WisconsinAIVision/YoLLaVA">Code</a>, <a href="https://arxiv.org/abs/2406.09400">Paper</a>] <br/>
+                  <br />Neural Information Processing Systems (<b>NeurIPS</b>), 2024  <br /> [<a href="https://thaoshibe.github.io/YoLLaVA/">ProjectPage</a>, <a href="https://github.com/WisconsinAIVision/YoLLaVA">Code</a>, <a href="https://arxiv.org/abs/2406.09400">Paper</a>] <br/>
                   <br />
                   <!-- Place this tag where you want the button to render. -->
                   <!-- <a class="github-button" href="https://github.com/WisconsinAIVision/YoLLaVA" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star WisconsinAIVision/YoLLaVA on GitHub">Star</a>&nbsp&nbsp&nbsp&nbsp -->
@@ -270,7 +278,32 @@
           </div>
         </center>
           <div id="footer">
-            <div id="footer-text"> This website is generated from <a href="https://github.com/wsshin/jemdoc_mathjax" target="blank">jemdoc+MathJax</a>.(<a href="index.jemdoc">source</a>). Last Updated: 17th Jul, 2024.
+<div id="footer-text"> 
+  This website is generated from 
+  <a href="https://github.com/wsshin/jemdoc_mathjax" target="_blank">jemdoc+MathJax</a> 
+  (<a href="index.jemdoc">source</a>).
+  Last Updated: <span id="last-updated"></span>.
+</div>
+
+<script>
+  // Get the current date
+  const currentDate = new Date();
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+
+  // Format the date as "17th Jul, 2024"
+  const formattedDate = currentDate.toLocaleDateString('en-GB', options)
+    .replace(/(\d+)(st|nd|rd|th)?/, (match, day) => {
+      let suffix = 'th';
+      if (day === '1' || day === '21' || day === '31') suffix = 'st';
+      else if (day === '2' || day === '22') suffix = 'nd';
+      else if (day === '3' || day === '23') suffix = 'rd';
+      return day + suffix;
+    });
+
+  // Insert the formatted date into the "last-updated" span
+  document.getElementById('last-updated').textContent = formattedDate;
+</script>
+
               <!-- </div> -->
         </td>
       </tr>
