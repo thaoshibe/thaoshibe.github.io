@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="🦎 Yo'Chameleon: Personalized Vision and Language Generation">
+  <meta name="keywords" content="multimodal chatbot">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="./static/images/yochameleon-without-bg.png" />
+  <meta property="og:title" content="🦎 Yo'Chameleon: Personalized Vision and Language Generation" />
+  <meta property="og:description" content="Yo'Chameleon: Personalized Vision and Language Generation!" />
+    <link rel="stylesheet" href="jemdoc.css" type="text/css" />
+  <title>Yo'Chameleon</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/yochameleon.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+  <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/4.16.0/gradio.js"></script>
+</head>
+
+<style>
+  .expandable-card .card-text-container {
+    max-height: 200px;
+    overflow-y: hidden;
+    position: relative;
+  }
+
+  .expandable-card.expanded .card-text-container {
+    max-height: none;
+  }
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .expand-btn {
+    position: relative;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* margin-top: -20px; */
+    /* justify-content: center; */
+    color: #510c75;
+    border-color: transparent;
+  }
+
+  .expand-btn:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+    text-decoration: none;
+    border-color: transparent;
+    color: #510c75;
+  }
+
+  .expand-btn:focus {
+    outline: none;
+    text-decoration: none;
+  }
+
+  .expandable-card:not(.expanded) .card-text-container:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 1));
+  }
+
+  .expandable-card:not(.expanded) .expand-btn {
+    margin-top: -40px;
+  }
+
+  .card-body {
+    padding-bottom: 5px;
+  }
+
+  .vertical-flex-layout {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .figure-img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .adjustable-font-size {
+    font-size: calc(0.5rem + 2vw);
+  }
+
+  .chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    /* overflow-x: hidden; */
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  #gradio pre {
+    background-color: transparent;
+  }
+</style>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title" style="color:#06402b;">🦎 Yo'Chameleon 🦎</h1>
+            <h3 class="title is-2 publication-title"><text style="color:#06402b;">Personalized</text> <text style="color:#cd1c18;">Vision</text> <text style="color:#06402b;">and <text><text style="color:#000080;">Language</text> <text style="color:#06402b;">Generation<text></h3>
+            <h5 class="subtitle is-4 publication-awards">——— arXiv 2025 ———</h5>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <!-- <br> -->
+                <a href="https://thaoshibe.github.io/" style="color:#f68946;font-weight:normal;">Thao Nguyen<sup>1✨</sup></a>
+                &nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://krsingh.cs.ucdavis.edu/" style="color:#f68946;font-weight:normal;">Krishna Kumar Singh<sup>2</sup></a>
+                &nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://jshi31.github.io/jingshi/" style="color:#008AD7;font-weight:normal;">Jing Shi<sup>2</sup></a>
+                &nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://sites.google.com/site/trungbuistanford/" style="color:#F2A900;font-weight:normal;">Trung Bui<sup>2</sup></a>
+                &nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://pages.cs.wisc.edu/~yongjaelee/" style="color:#f68946;font-weight:normal;">Yong Jae
+                  Lee<sup>1, 🚩</sup></a>
+                  &nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://yuheng-li.github.io/" style="color:#F2A900;font-weight:normal;">Yuheng Li<sup>2, 🚩</sup></a>
+                <!-- &nbsp;&nbsp;&nbsp; -->
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <div>
+                <a href="https://www.cs.wisc.edu/">
+                  <img src="./static/images/uwmadison-logo.png" style="height: 60px;">
+                </a>
+                &nbsp;&nbsp;&nbsp;
+                <a href="https://research.adobe.com/">
+                  <img src="./static/images/adobe-logo.png" style="height: 40px;">
+                </a>
+<!--                 &nbsp;&nbsp;&nbsp;
+                <a href="https://www.cs.wisc.edu/">
+                  <img src="./static/images/uwmadison-logo.png" style="height: 60px;">
+                </a> -->
+              </div>
+              <span class="author-block">1. University of Wisconsin-Madison</span>
+              &nbsp;&nbsp;&nbsp;
+              <span class='author-block'>2. Adobe Research</span>
+              <br>
+              <small><i>🚩: equal advising</i></small>
+
+            </div>
+            <div><a href="./static/images/yochameleon-without-bg.png"><img src='./static/images/yochameleon-without-bg.png' width="200"></a></div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="ARXIV LINK" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/thaoshibe/YoChameleon" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+<!--                 <span class="link-block">
+                  <a href="https://github.com/thaoshibe/YoChameleon" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-database"></i>
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span> -->
+<!--                 <span class="link-block">
+                  <a href="https://github.com/haotian-liu/LLaVA/blob/main/docs/MODEL_ZOO.md" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-share-square"></i>
+                    </span>
+                    <span>Model</span>
+                  </a>
+                </span> -->
+                <span class="link-block">
+                  <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202024/93737.png?t=1729115312.34047" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-share-square"></i>
+                    </span>
+                    <span>Poster</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <!-- <h4 class="subtitle has-text-centered"> -->
+          <center><img src='./static/images/yochameleon-bo.png' width="2000"></center>
+          <br>
+          <!-- <text style="font-size:110%">Given just a few images of a novel subject (e.g., a dog named <text style="font-family: Courier;color:#ff8c00;">&lt;bo&gt;</text>), Yo’LLaVA learns to facilitate textual/visual conversations centered around that subject.</text> -->
+          <text style="font-size:110%">Using only 3-5 images of a novel concept/subject, we personalize Large Multimodal Models (e.g., Chameleon) so that they retain their original capabilities while enabling tailored language and vision generation for the novel concept.
+          </text>
+        <!-- </h4> -->
+      </div>
+    </div>
+  </section>
+
+  <section class="section"  style="background-color:#f3f3f3">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-six-fifths">
+          <h2 class="title is-3">📜 Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+                  <!-- Large Multimodal Models (LMMs) have shown remarkable capabilities across a variety of tasks (e.g., image captioning, visual question answering). -->
+<!--                   While broad, <b style="color:navy">their knowledge remains generic</b> (e.g., recognizing <text style="color:#FF0000;'">a dog</text>), and <b style="color:navy">they are unable to handle personalized subjects </b>(e.g., recognizing a <text style="color:green;'">user's pet dog</text>).
+                  <br>
+                  Human reasoning, in contrast, typically operates within the context of specific subjects in our surroundings. For example, one might ask, 
+
+                  <br>
+                  <center>
+                  <q>What should I buy for <text style="color:green;'">my dog</text>'s birthday?</q>;
+                  </center>
+                  <br>as opposed to a generic inquiry about
+                  <br>
+                  <center>
+                  <q>What should I buy for <text style="color:#FF0000;'">a dog</text>'s birthday?</q>.
+                  </center>
+
+                  <br>Similarly, when looking at a friend's image, the interest lies in seeing their activities, rather than merely observing generic human actions 
+                  <center>
+                    <q><text style="color:green;'">my friend</text> is holding a cat</q> vs.
+                    <q><text style="color:#FF0000;'">a man</text> is holding a cat</q>.
+                  </center>
+                  <br> -->
+
+                  <b>Large Multimodal Models</b> (e.g., GPT-4, Gemini, Chameleon) have evolved into powerful tools with millions of users. However, they remain generic models and <b>lack personalized knowledge</b> of specific user concepts. Previous work has explored personalization for text generation, yet it remains unclear how these methods can be adapted to new modalities, such as image generation.
+                  <br>
+                  In this paper, <b style="background-color: lightyellow;color:navy">we introduce Yo'Chameleon, the first attempt to study personalization for large multimodal models</b>.
+                  <br><br>
+                  Given 3-5 images of a particular concept, Yo'Chameleon leverages <b><text style="color:green;'">soft-prompt tuning</text></b> to embed subject-specific information to:
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (i) answer questions about the subject (<i>personalized language generation</i>)
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and (ii) recreate pixel-level details to produce images of the subject in new contexts (<i>personalized vision generation</i>)
+                  <br>
+                  <br>
+                  Yo'Chameleon is trained with: (i) <text style="color:#FF0000;'">a self-prompting optimization mechanism</text> to balance performance across multiple modalities, and (ii) <text style="color:#FF0000;'">a ``soft-positive" image generation approach</text> to enhance image quality in a few-shot setting.
+           </p>
+          </div>
+        </div>
+      </div>
+        
+    </div>
+  </section>
+
+<section class="section">
+  <!-- Results. -->
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-six-fifths">
+      <h2 class="title is-3">👤 Personalizing Large Multimodal Models</h2>
+    </div>
+  </div>
+  <!-- </div> -->
+  <!--/ Results. -->    
+<div class="container is-max-desktop">
+
+  <div class="columns is-centered">
+    <div class="column is-full-width">
+      <div class="content has-text-justified">
+        <p>
+          Given a handful of images of a person or a subject I<sup>1</sup>, . . . , I<sup>n</sup> (e.g., 5 images of your friend <text style="font-family: Courier;">&lt;thao&gt;</text>).
+          <br>
+          <!-- without any textual labels or captions, -->
+          Our goal is to <b style="background-color: lightyellow;">embed this subject into a pre-trained LMM (in our case, LLaVA)</b>, so that both the user and model can <b style="color: navy;">communicate using an identifier</b> (e.g., <text style="font-family: Courier;">&lt;thao&gt;</text>) for that subject, while also <b style="color: navy;">retaining the broad pre-trained knowledge</b>.
+
+        </p>
+        <p>
+          After being personalized, our method (Yo’LLaVA) can:
+          <ul>
+          <li>(1) <b>recognize the subject</b> in new images during testing
+            <br><i>(e.g., Yo’LLaVA can determine whether <text style="font-family: Courier;">&lt;thao&gt;</text> is in a photo or not)</i></li>
+
+          <li>(2) support <b>visual question answering</b> about the subject
+            <br><i>(e.g., given a new photo, one can ask about <text style="font-family: Courier;">&lt;thao&gt;</text>’s location)</i></li>
+
+          <li>(3) support <b>text-only conversations</b> without any test-time reference images about the subject
+            <br><i>(e.g., ask questions about intrinsic attributes of <text style="font-family: Courier;">&lt;thao&gt;</text> like its color, etc.)</i></li>
+          <br>
+        </ul>
+          <center>
+            <img src='./static/images/setting.png' width="700">
+          </center>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+<hr>
+
+<!-- <section class="section">
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-six-fifths">
+      <h2 class="title is-3">🖼️ Examples of Personalized Conversation</h2>
+    </div>
+  </div>
+  <p>
+  <center>
+    <h5>Concept Library:</h5>
+    <table>
+      <tr>
+      <td width="120" style="text-align: center;"><b>
+        <text style="font-family: Courier;">&lt;T&gt;</text></b><br>
+        <img src="./static/images/concept/thao.png" style="height:100px">
+      </td>
+      <td width="120" style="text-align: center;"><b>
+        <text style="font-family: Courier;">&lt;bo&gt;</text></b><br>
+        <img src="./static/images/concept/bo.png" style="height:100px">
+      </td>
+      <td width="120" style="text-align: center;"><b>
+        <text style="font-family: Courier;">&lt;mam&gt;</text></b><br>
+        <img src="./static/images/concept/mam.png" style="height:100px">
+      </td>
+      <td width="120" style="text-align: center;"><b>
+        <text style="font-family: Courier;">&lt;Y&gt;</text></b><br>
+        <img src="./static/images/concept/yuheng.png" style="height:100px">
+      </td>
+      <td width="120" style="text-align: center;"><b>
+        <text style="font-family: Courier;">&lt;characterC&gt;</text></b><br>
+        <img src="./static/images/concept/marie-cat.png" style="height:100px">
+      </td>
+      <td width="120" style="text-align: center;"><b>
+        <text style="font-family: Courier;">&lt;characterE&gt;</text></b><br>
+        <img src="./static/images/concept/dug.png" style="height:100px">
+      </td>
+      </tr>
+    </table>
+  </center>
+  </p>
+  <div class="container mt-5">
+    <div class="form-row" style="justify-content: center;">
+      <div class="form-group col-md-1">
+        <div class="col-md-2" style="width: 100%"><label>&nbsp;</label></div>
+        <div class="btn-group" role="group" aria-label="Left and Right Controller"
+          style="width: 100%;align-items: center;justify-content: center;flex-direction: row;display: flex;">
+          <button type="button" class="form-control btn btn-primary" id="prev-question"><i
+              class="material-icons">keyboard_arrow_left</i></button>
+          <button type="button" class="form-control btn btn-primary" id="next-question"><i
+              class="material-icons">keyboard_arrow_right</i></button>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <div class="card mb-4" style="width: 80%; display: flex; align-items: center;">
+        <div class="card-body" id="selected-question" style="display: flex; height: 80vh;">
+          <div class="chat-history">
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<hr> -->
+
+</section>
+
+<section class="section">
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-six-fifths">
+      <h2 class="title is-3"> 🌋 Yo'LLaVA: Your Personalized Language & Vision Assistant 👵🏻</h2>
+    </div>
+  </div>
+<div class="container is-max-desktop">
+  <div class="columns is-centered">
+    <div class="column is-full-width">
+      <div class="content has-text-justified"> 
+    <table class="center" style="max-width:1100px;">
+        <tr>
+            <td width="30%">
+                <img id="teaser"src="./static/images/framework.png" alt="Training Pipeline">
+            </td>
+            <td>
+                <b style="font-size:120%;background-color: lightyellow;">⚙️ Training Pipeline:</b><br>
+                <p>We define a personalized soft-prompt for the subject as:</p>
+                <center>
+                <div class="quote">
+                    <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is <b><text style="font-family: Courier; color:#0000FF">&lt;token<sub>1</sub>&gt</text><text style="font-family: Courier; color:#FF0000">&lt;token<sub>2</sub>&gt...</text><text style="font-family: Courier;color:#2E8B57">&lt;token<sub>k</sub>&gt</text></b>
+                </div>
+                </center>
+                <br>
+                <p>Here, <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is a newly added vocabulary token that serves as an identifier for the subject, allowing both the user and the model to reference this subject when asking or answering questions. The tokens <b><text style="font-family: Courier; color:#0000FF">&lt;token<sub>1</sub>&gt</text><text style="font-family: Courier; color:#FF0000">&lt;token<sub>2</sub>&gt...</text><text style="font-family: Courier;color:#2E8B57">&lt;token<sub>k</sub>&gt</text></b> are soft tokens that are learned to embed visual details about the subject.</p>
+            </td>
+        </tr>
+        <tr>
+          <td>
+            <b style="font-size:120%;background-color: lightyellow;">🛠 Training Dataset Creation</b>:
+            <br>
+            To help the model learn the new visual concept, we generate conversational training data triplets {Image, Question, Answer}:
+            <br>
+            <center><img src="./static/images/dataset.png" alt="Training Dataset Creation" style="width: 400px; height: auto;"></center>
+            <br>
+
+              <li>
+                <b style="color: gray">(1) Learning to Engage in Natural Conversations</b>.
+                <br>
+                <span style="font-size:95%;">We create more generic conversations for training (e.g., visual Q&A), which focus on the subject’s visual characteristics.
+                  <br>
+                <blockquote>
+                  <i>Note: No input image are given during training!</i>
+                  <br>
+                  <b>Q</b>: What type of object is <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b>?
+                  <br>
+                  <b>A</b>: <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is a stuffed animal.
+                </blockquote>
+                </span>
+              </li>
+          </td>
+          <td width="35%">
+            <ul type="1">
+              <li><b style="color: gray">(2) Enhancing Recognition with Hard Negative Mining</b>. <span style="font-size: 95%;">
+              <br>We create a mixture of positive and negative examples helps the model understand the visual attributes of the subject.
+              <ul type="1">
+                <li> <b>Positive</b>: Provided by user.
+                 
+                <blockquote>
+                  <i><img src='./static/images/shiba-yellow.jpg' width="100"></i>
+                  <br>
+                  <b>Question</b>: Can you see if <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is in this photo?
+                  <br>
+                  <b>Anaswer</b>: Yes, <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is in this photo.
+                </blockquote>
+
+                <li> <b>Negative</b>: A diverse range of items visually similar but not identical to <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b>. Either sample or retrieve them from LAION-5B.
+                <blockquote>
+                  <i><img src='./static/images/not-shiba-yellow.png' width="100"></i>
+                  <br>
+                  <b>Q</b>: Can you check if <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is in this photo?
+                  <br>
+                  <b>A</b>: I have analyzed the image, and I can confirm that <b><text style="font-family: Courier; color:#EC5800">&lt;sks&gt;</text></b> is not present in the photo.
+                </blockquote>
+                </li>
+            </ul>
+          </td>
+        </tr>
+    </table>
+
+      <centering>
+      </centering>           
+    </div>
+  </div>
+</section>
+<hr>
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">📥 BibTeX</h2>
+      <pre><code>
+@misc{nguyen2024yollavapersonalizedlanguagevision,
+      title={Yo'LLaVA: Your Personalized Language and Vision Assistant}, 
+      author={Thao Nguyen and Haotian Liu and Yuheng Li and Mu Cai and Utkarsh Ojha and Yong Jae Lee},
+      year={2024},
+      eprint={2406.09400},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2406.09400}, 
+}
+  </code></pre>
+    </div>
+  </section>
+  
+  <section class="section" id="Acknowledgement">
+    <div class="container is-max-desktop content">
+      <h2 class="title">💌 Acknowledgement</h2>
+  <p>
+    🤗 This work was supported in part by NSF CAREER IIS2150012, Adobe Data Science award, Microsoft Accelerate Foundation Models Research Program, and Institute of Information & communications Technology Planning & Evaluation (IITP) grants funded by the Korea government (MSIT) (No. 2022-0-00871, Development of AI Autonomy and Knowledge Enhancement for AI Agent Collaboration) and (No. RS-2022-00187238, Development of Large Korean Language Model Technology for Efficient Pre-training).
+  </p>
+
+  <p>
+  <b>Usage and License Notices</b>: The data, code and checkpoint is intended and licensed for research use only. They are also restricted to uses that follow the license agreement of CLIP,  LLaMA, Vicuna and GPT-4. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
+  </p>
+      <p>
+        This website is adapted from <a
+        href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+        Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+    <center>
+      <i>Thank you (.❛ ᴗ ❛.).</i>
+      
+    <center>
+    <a href="javascript:toggleblock('notice')" style="text-align:center;font-size:70%;color:#808080">▶ thaoshibe.github.io's clustrmaps 🌎</a>.
+    <div id="notice" style="display:none; color:#dedede; font-size:.5em;">
+      <p>
+        <a href="https://clustrmaps.com/site/1c3j9"  title="ClustrMaps"><img src="//www.clustrmaps.com/map_v2.png?d=M0hZnymEZ1MpTZi6F8Wfm3ZJX6qPdo3fHOaZ2wQAZbE&cl=ffffff" /></a>
+      </p>
+    </div>
+  </center>
+    </center>
+      <p>
+      </p>    
+    </div>
+  </section>
+
+  <script>
+    // Handle message showing
+    function createChatRow(sender, text, imageSrc) {
+      var article = document.createElement("article");
+      article.className = "media"
+
+      var figure = document.createElement("figure");
+      figure.className = "media-left";
+
+      var span = document.createElement("span");
+      span.className = "icon is-large";
+
+      var icon = document.createElement("i");
+      icon.className = "fas fas fa-2x" + (sender === "User" ? " fa-user " : sender === "YoLLaVA" ? " fa-robot" : "");
+
+      var media = document.createElement("div");
+      media.className = "media-content";
+
+      var content = document.createElement("div");
+      content.className = "content";
+
+      var para = document.createElement("p");
+
+      // wrap text in pre tag to preserve whitespace and line breaks
+      var pre_text = document.createElement("pre");
+      pre_text.style = "background-color: white; font-size: 18px; font-family: Arial; padding: 0; margin: 0; white-space: pre-wrap; word-wrap: break-word;";
+      var paraText = document.createTextNode(text);
+      pre_text.appendChild(paraText);
+
+      var strong = document.createElement("strong");
+      strong.innerHTML = sender;
+      var br = document.createElement("br");
+
+      para.appendChild(strong);
+      para.appendChild(br);
+      para.appendChild(pre_text);
+
+      // Add image if imageSrc is provided
+      if (imageSrc) {
+        var img = document.createElement("img");
+        img.src = imageSrc;
+        img.style = "max-width: 100%; max-height: 300px;"; // Adjust the style as needed
+        para.appendChild(img);
+      }
+
+      content.appendChild(para);
+      media.appendChild(content);
+      span.appendChild(icon);
+      figure.appendChild(span);
+      if (sender !== "Description") {
+        article.appendChild(figure);
+      };
+      article.appendChild(media);
+      return article;
+    }
+
+    function addMessageToChatHistory(sender, message, imageSrc) {
+      const chatHistory = document.querySelector('.chat-history');
+      const chatRow = createChatRow(sender, message, imageSrc);
+      chatHistory.appendChild(chatRow);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    function clearChatHistory() {
+      const chatHistory = document.querySelector('.chat-history');
+      chatHistory.innerHTML = "";
+    }
+
+    // 
+    const conversations = [
+      {
+        "description": "thao-and-bo",
+        "turns": [
+          // ["Description", "Please read the description and answer the question."],
+          ["User", "", "./static/images/demo/thao-bo.jpeg"],
+          ["User", "Hey, can you see <thao> and <bo> in this photo? Could you write a cute and detailed Facebook caption for it?"],
+          ["YoLLaVA",
+            "Yes, I can see <thao> and <bo> in the photo.\n"
+            + "They are sitting on the grass in a park, enjoying a beautiful day.\n"
+            + "<thao> is holding <bo>, and they both seem to be having a great time together.\n\n"
+            + "As for the Facebook caption, here’s a cute and detailed one:\n"
+            + "``Spending the day in the park with my furry best friend!\n<bo> is the cutest thing I’ve ever seen, and I’m so grateful for our adventures together.\n<bo>, you’re the best boy! 🌿🐶 #ParkDay #DogLove #FurryFriend''"
+          ]
+        ]
+      },
+      {
+        "description": "bo-and-mam",
+        "turns": [
+          // ["Description", "Please read the description and answer the question."],
+          ["User", "", "./static/images/demo/bo-and-mam.png"],
+          ["User", "Can you describe what is next to <bo>?"],
+          ["YoLLaVA",
+            "In the image, <bo> is lying on a wooden floor next to a cat. The cat is a tabby with a mix of gray and white fur. It appears to be resting or relaxing on the floor. The two animals are positioned close to each other, suggesting a peaceful coexistence."
+          ]
+        ]
+      },
+      {
+        "description": "thao-an",
+        "turns": [
+          ["User", "", "./static/images/demo/thao-an.jpg"],
+          ["User", "Can you see if <T> is in this photo?​"],
+          ["YoLLaVA", "<T> is in the photo, and she is standing next to another person. They both appear to be having a good time, possibly at a party or event. <T> is smiling and making a peace sign with her hand, which suggests a positive and fun atmosphere​"]
+        ]
+      },
+      {
+        "description": "thao-selfie",
+        "turns": [
+          ["User", "", "./static/images/demo/selfie.jpeg"],
+          ["User", "Is <T> in this photo? If yes, describe her outfit and location"],
+          ["YoLLaVA", "Yes, <T>is in this photo. She is wearing a white top and is standing in the back row, second from the left."]
+        ]
+      },
+      {
+        "description": "thao-neurips",
+        "turns": [
+          ["User", "", "./static/images/demo/thao-neurips.jpg"],
+          ["User", "What is <T> doing in this photo?"],
+          ["YoLLaVA", "<T> is standing in front of a poster board, likely at a conference or exhibition. She appears to be posing for a photo or perhaps presenting her work."]]
+      },
+      {
+        "description": "thao-oong",
+        "turns": [
+          ["User", "", "./static/images/demo/thao-oong-2.png"],
+          ["User", "Suggest an Instagram caption for this photo of <T>.​​"],
+          ["YoLLaVA", "For this photo of <T>, an Instagram caption could be: “Exploring the beauty of nature with my favorite person. The tranquility of the woods and the company of good friends make for the perfect day. 🌱❤️ #FriendshipGoals #NatureLovers #PeacefulPlaces”."]
+        ]
+      },
+      {
+        "description": "thao-illu",
+        "turns": [
+          ["User", "", "./static/images/demo/thao-illu.jpg"],
+          ["User", "This is an AI generated artwork of <T>. Do you think that this is a good illustration of <T>. Why or why not?"],
+          ["YoLLaVA", "Yes, I believe the illustration captures <T>’s appearance quite well. The character in the image has long dark hair, glasses, and is wearing a cozy sweater, which are all features that match the description of <T>. The character is also lying on a bed with a dog and a cat, which adds to the warm and comfortable atmosphere that I imagine <T> would enjoy. Overall, I think the illustration does a good job of representing <T>."]
+        ]
+      },
+      {
+        "description": "thao-text",
+        "turns": [
+          ["User", "How would you describe <T> to a blind person?"],
+          ["YoLLaVA", "<T> is a person with a warm and friendly smile. She has long dark hair and is wearing glasses. She is also wearing a white top with and a patterned scarf around her neck. Her overall appearance is cheerful and approachable."],
+          ['User', "If <T> was a Marvel character, based on <T>’s appearance, who would it <T> be?"],
+          ["YoLLaVA", "Based on the photo you’ve provided, if <T> was a Marvel character, she might be similar to Wanda Maximoff, also known as Scarlet Witch. Both characters have a similar style with their hair and attire, and they also have a similar intensity in their expressions. However, it’s important to note that this is just an observation based on the photo and not a definitive answer."]
+        ]
+      },
+      {
+        "description": "yuheng",
+        "turns": [
+          ["User", "", "./static/images/demo/yuheng-holding.jpg"],
+          ["User", "Can you see if <Y> in this photo? If yes, what is <Y> doing?"],
+          ["YoLLaVA", "Yes, I can confirm that <Y> is indeed in the photo. He is standing next to another person, holding a bottle of champagne in one hand and a potted plant in the other. They both appear to be in a room with a whiteboard in the background."],
+        ]
+      },
+      {
+        "description": "yuheng-madison",
+        "turns": [
+          ["User", "", "./static/images/demo/madison.png"],
+          ["User", "If <Y> was here, what do you think that he would do?"],
+          ["YoLLaVA", "If <Y> was here, I think he would enjoy the serene view of the lake and the city in the distance. He might take a moment to relax under the trees or perhaps go for a walk along the shore to take in the peaceful surroundings."],
+        ]
+      },
+      {
+        "description": "yuheng-2",
+        "turns": [
+          ["User", "", "./static/images/demo/yuheng-2.png"],
+          ["User", "Is <Y> in this photo? If yes, describe his location and the scene."],
+          ["YoLLaVA", "I can confirm that <Y> is indeed in the photo. He is standing in the center, wearing a navy blue sweater with a white and red stripe pattern. He is smiling and appears to be enjoying the moment. The table in front of him is filled with various dishes, including a whole roasted turkey, bowls, and plates of food. There are also vases with flowers on the table, adding a festive touch to the scene."],
+        ]
+      },
+
+      {
+        "description": "yuheng-text",
+        "turns": [
+          ["User", "Can you tell me some attributes of <Y>?"],
+          ["YoLLaVA", "<Y> is a person with several attributes.\nFrom the image, I can observe that he has a strong and confident posture, as he stands with his shoulders back and head held high.\n He has a friendly smile on his face, which suggests that he is approachable and enjoys engaging with others. His attire, which includes a gray hoodie and blue jeans, is casual and comfortable, indicating a laid-back personality. Additionally, his glasses give him an intellectual appearance. \n Overall, <Y> seems to be a person with a positive and outgoing demeanor."],
+          ["User", "How old is <Y>?"],
+          ["YoLLaVA", "<Y> appears to be a young adult. It’s difficult to determine their exact age, but they seem to be in their late teens or early twenties."]
+        ]
+      },
+      {
+        "description": "mam-table",
+        "turns": [
+          ["User", "", "./static/images/demo/mam-keyboard.jpg"],
+          ["User", "Can you see if <mam> is in this photo? If yes, please explain what is <mam> doing."],
+          ["YoLLaVA", "Yes, I can see <mam> in the photo. The cat is lying on a desk next to a computer monitor, and it appears to be looking directly at the camera. The cat’s position and gaze give the impression that it is attentively observing the camera or the person taking the photo."],
+        ]
+      },
+      {
+        "description": "mam-bath",
+        "turns": [
+          ["User", "", "./static/images/demo/mam-bath.jpg"],
+          ["User", "Is <mam> in this photo? Can you explain his expression?"],
+          ["YoLLaVA", "<mam> is indeed in this photo. His expression appears to be one of mild annoyance or discomfort, possibly due to the water or the sensation of being bathed. Cats often have a somewhat displeased look on their faces when they are being bathed, as they are not natural swimmers and may not enjoy the experience."],
+        ]
+      },
+      {
+        "description": "mam-text",
+        "turns": [
+          ["User", "What does <mam> typically wear?"],
+          ["YoLLaVA", "<mam> is a cat, and typically cats wear collars with tags or bells, and sometimes they may wear sweaters or other clothing, especially during colder weather. However, in the image you provided, <mam> is not wearing any clothing."],
+          ["User", "Describe <mam>’s appearance in great details?"],
+          ["YoLLaVA", "<mam> is a gray and white cat with a distinctive striped pattern on its fur. The stripes are vertical and run the length of its body, creating a striking contrast against its gray fur. <mam> has a round head and large, expressive eyes that are a mix of gray and white. Its ears are pointed and perked up, indicating that it is alert and attentive to its surroundings. <mam>’s tail is long and bushy, adding to its fluffy appearance. Overall, <mam> has a very cute and charming look that is sure to melt anyone’s heart."]
+        ]
+      },
+      {
+        "description": "marie",
+        "turns": [
+          ["User", "", "./static/images/demo/marie-fight.png"],
+          ["User", "What is <characterC> doing in this photo?"],
+          ["YoLLaVA", "In the photo, <characterC> is sitting on the floor next to a black cat. They both appear to be in a room with a patterned carpet. <characterC> is wearing a pink bow on its collar, while the cat has a red collar. They seem to be interacting with each other, possibly playing or just resting together."],
+        ]
+      },
+      {
+        "description": "marie-2",
+        "turns": [
+          ["User", "", "./static/images/demo/marie-cat-mascot.jpeg"],
+          ["User", "Among these mascots, which one do you think is the most similar to <characterC>?"],
+          ["YoLLaVA", "Among these mascots, the one that most closely resembles <characterC> is the white cat mascot. It has a similar color scheme and a cute, friendly appearance that is characteristic of <characterC>."],
+        ]
+      },
+      {
+        "description": "dug",
+        "turns": [
+          ["User", "", "./static/images/demo/dug_funny.png"],
+          ["User", "Is <characterE> in this photo? Please explain his actions."],
+          ["YoLLaVA", "Yes, <characterE> is in this photo. He is sitting on the ground next to the older gentleman, who appears to be in a contemplative or sad mood. <characterE> seems to be looking up at the older gentleman with a concerned or curious expression, possibly trying to cheer him up or understand what’s wrong."],
+        ]
+      },
+      {
+        "description": "dug-2",
+        "turns": [
+          ["User", "", "./static/images/demo/dug_hat.png"],
+          ["User", "Can you describe the person that <characterE> is looking at?"],
+          ["YoLLaVA", "<characterE> is looking at a person wearing a yellow hat and a backpack."],
+        ]
+      },
+    ];
+
+    // The current image index
+    let currentIndex = 0;
+
+    // The function to update the displayed chat history
+    function update_dialog_demo() {
+      // Clear the chat history
+      clearChatHistory();
+
+      for (let i = 0; i < conversations[currentIndex].turns.length; i++) {
+        if (conversations[currentIndex].turns[i].length == 2) {
+          addMessageToChatHistory(conversations[currentIndex].turns[i][0], conversations[currentIndex].turns[i][1]);
+        }
+        else {
+          addMessageToChatHistory(conversations[currentIndex].turns[i][0], conversations[currentIndex].turns[i][1], conversations[currentIndex].turns[i][2]);
+        }
+      }
+
+      // scroll to the top of the chat history
+      document.querySelector('.chat-history').scrollTop = 0;
+    }
+
+    // Initialize the displayed image
+    update_dialog_demo();
+
+    // Event listeners for the buttons
+    document.getElementById('prev-question').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + conversations.length) % conversations.length;
+      update_dialog_demo();
+    });
+
+    document.getElementById('next-question').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % conversations.length;
+      update_dialog_demo();
+    });
+
+
+  </script>
+
+</body>
+
+</html>
