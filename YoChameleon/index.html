@@ -6,7 +6,7 @@
   <meta name="description" content="🦎 Yo'Chameleon: Personalized Vision and Language Generation">
   <meta name="keywords" content="multimodal chatbot">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:image" content="./static/images/yochameleon-without-bg.png" />
+  <meta property="og:image" content="./your-chameleon-teaser.gif" />
   <meta property="og:title" content="🦎 Yo'Chameleon: Personalized Vision and Language Generation" />
   <meta property="og:description" content="Yo'Chameleon: Personalized Vision and Language Generation!" />
     <link rel="stylesheet" href="jemdoc.css" type="text/css" />
@@ -121,8 +121,9 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title" style="color:#06402b;">🦎 Yo'Chameleon 🦎</h1>
-            <h3 class="title is-2 publication-title"><text style="color:#06402b;">Personalized</text> <text style="color:#cd1c18;">Vision</text> <text style="color:#06402b;">and <text><text style="color:#000080;">Language</text> <text style="color:#06402b;">Generation<text></h3>
+            <h1 class="title is-1 publication-title">
+              <img src='./static/images/yochameleon-without-bg.png' style="height: 45px; vertical-align: middle;"></img> Yo'Chameleon </h1>
+            <h3 class="title is-2 publication-title"><text>Personalized</text> <text style="color:#cd1c18;">Vision</text> <text>and <text><text style="color:green;">Language</text> <text>Generation<text></h3>
             <h5 class="subtitle is-4 publication-awards">——— CVPR 2025 ———</h5>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
@@ -174,8 +175,7 @@
               <small><i>🚩: equal advising</i></small>
 
             </div>
-            <div><a href="./static/images/yochameleon-without-bg.png"><img src='./static/images/yochameleon-without-bg.png' width="200"></a></div>
-
+            <!-- <div><a href="./static/images/yochameleon-without-bg.png"><img src='./static/images/yochameleon-without-bg.png' width="200"></a></div> -->
             <div class="column has-text-centered">
               <div class="publication-links">
                 <span class="link-block">
@@ -193,11 +193,11 @@
                     <span class="icon">
                       <i class="fab fa-github"></i>
                     </span>
-                    <span>Code (Soon)</span>
+                    <span>Code</span>
                   </a>
                 </span>
                 <span class="link-block">
-                  <a href="https://huggingface.co/datasets/thaoshibe/YoChameleon" target="_blank"
+                  <a href="https://huggingface.co/datasets/thaoshibe/Mini-YoChameleon-Data" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fas fa-database"></i>
@@ -205,15 +205,6 @@
                     <span>Dataset</span>
                   </a>
                 </span>
-<!--                 <span class="link-block">
-                  <a href="https://github.com/haotian-liu/LLaVA/blob/main/docs/MODEL_ZOO.md" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fas fa-share-square"></i>
-                    </span>
-                    <span>Model</span>
-                  </a>
-                </span> -->
                 <span class="link-block">
                   <a href="POSTER" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
@@ -224,23 +215,13 @@
                   </a>
                 </span>
               </div>
+                <br>
+              <video width="400" autoplay loop muted controls>
+                <source src="./static/images/your-chameleon-teaser.mp4" type="video/mp4"></video>
+                  <p>Using only 3-5 images of a novel concept/subject, we personalize Large Multimodal Models (e.g., Chameleon)<br> so that they retain their original capabilities while enabling tailored language and vision generation for the novel concept.</p>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="hero teaser">
-    <div class="container is-max-desktop">
-      <div class="hero-body">
-        <!-- <h4 class="subtitle has-text-centered"> -->
-          <center><img src='./static/images/yochameleon-bo.png' width="2000"></center>
-          <br>
-          <!-- <text style="font-size:110%">Given just a few images of a novel subject (e.g., a dog named <text style="font-family: Courier;color:#ff8c00;">&lt;bo&gt;</text>), Yo’LLaVA learns to facilitate textual/visual conversations centered around that subject.</text> -->
-          <text style="font-size:110%">Using only 3-5 images of a novel concept/subject, we personalize Large Multimodal Models (e.g., Chameleon) so that they retain their original capabilities while enabling tailored language and vision generation for the novel concept.
-          </text>
-        <!-- </h4> -->
       </div>
     </div>
   </section>
@@ -252,12 +233,14 @@
         <div class="column is-six-fifths">
           <h2 class="title is-3">📜 Abstract</h2>
           <div class="content has-text-justified">
-            <p>
-                  <i>[Motivation]</i><br>
+            Large Multimodal Models (e.g., GPT-4, Gemini, Chameleon) have evolved into powerful tools with millions of users. However, they remain generic models and lack personalized knowledge of specific user concepts. Previous work has explored personalization for text generation, yet it remains unclear how these methods can be adapted to new modalities, such as image generation. In this paper, we introduce Yo'Chameleon, the first attempt to study personalization for large multimodal models. Given 3-5 images of a particular concept, Yo'Chameleon leverages soft-prompt tuning to embed subject-specific information to (i) answer questions about the subject and (ii) recreate pixel-level details to produce images of the subject in new contexts. Yo'Chameleon is trained with (i) a self-prompting optimization mechanism to balance performance across multiple modalities, and (ii) a ``soft-positive" image generation approach to enhance image quality in a few-shot setting.
+            <br>
+            <br>
+            <center><img src='./static/images/yochameleon-bo.png' width="2000"></center>
+<!--                   <i>[Motivation]</i><br>
                   Large Multimodal Models (e.g., GPT-4, Gemini, Chameleon) have evolved into powerful tools with millions of users. However, they remain generic models and lack personalized knowledge of specific user concepts. Previous work has explored personalization for text generation, yet it remains unclear how these methods can be adapted to new modalities, such as image generation.
                   <br>
                   In this paper, <b>we introduce Yo'Chameleon, the first attempt to study personalization for Large Multimodal Models</b>.
-                  <br>
                   <br>
                   <i>[Problem Statement]</i><br>
                   Given 3-5 images of a particular concept, Yo'Chameleon leverages <b><text style="color:green;'">soft-prompt tuning</text></b> to embed subject-specific information to:
@@ -265,20 +248,31 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (i) answer questions about the subject (<i>personalized language generation</i>)
                   <br>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and (ii) recreate pixel-level details to produce images of the subject in new contexts (<i>personalized vision generation</i>)
-                  <br><br>
+                  <br>
                   <i>[Approach/ Results]</i><br>
                   Yo'Chameleon is trained with:
                   <br>(i) <b><text style="color:green">a self-prompting optimization mechanism</text></b> to balance performance across multiple modalities,
                   <br>and (ii) <b><text style="color:green;'">a ``soft-positive" image generation approach</text></b> to enhance image quality in a few-shot setting.
                   <br>
-                  Our qualitative and quantitative analyses reveal that Yo’Chameleon can learn concepts more efficiently using fewer tokens and effectively encode visual attributes, outperforming prompting baselines.
-           </p>
+                  Our qualitative and quantitative analyses reveal that Yo’Chameleon can learn concepts more efficiently using fewer tokens and effectively encode visual attributes, outperforming prompting baselines. -->
           </div>
         </div>
       </div>
     </div>
   </section>
-
+<!--   <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body"> -->
+        <!-- <h4 class="subtitle has-text-centered"> -->
+          <!-- <center><img src='./static/images/yochameleon-bo.png' width="2000"></center> -->
+          <!-- <br> -->
+          <!-- <text style="font-size:110%">Given just a few images of a novel subject (e.g., a dog named <text style="font-family: Courier;color:#ff8c00;">&lt;bo&gt;</text>), Yo’LLaVA learns to facilitate textual/visual conversations centered around that subject.</text> -->
+          <!-- <text style="font-size:110%">Using only 3-5 images of a novel concept/subject, we personalize Large Multimodal Models (e.g., Chameleon) so that they retain their original capabilities while enabling tailored language and vision generation for the novel concept. -->
+          <!-- </text> -->
+        <!-- </h4> -->
+<!--       </div>
+    </div>
+  </section> -->
 
 <section class="section">
   <div class="columns is-centered has-text-centered">
@@ -310,7 +304,7 @@
                   <br>
                   • <b><text style="font-family: Courier; color:red">&lt;g-tokens&gt</text></b> denotes <i>k</i> latent tokens used for personalized image generation task (<text style="font-family: Courier; color:red">&lt;token<sub>1</sub>&gt...</text><text style="font-family: Courier;color:red">&lt;token<sub>k</sub>&gt</text></b>)
                   <br>
-                  • <b><text style="font-family: Courier; color:green">&lt;u-tokens&gt</text></b> denotes <i>h</i> latent tokens used for personalized image generation task (<text style="font-family: Courier; color:green">&lt;token<sub>1</sub>&gt...</text><text style="font-family: Courier;color:green">&lt;token<sub>h</sub>&gt</text></b>)
+                  • <b><text style="font-family: Courier; color:green">&lt;u-tokens&gt</text></b> denotes <i>h</i> latent tokens used for personalized language generation task (<text style="font-family: Courier; color:green">&lt;token<sub>1</sub>&gt...</text><text style="font-family: Courier;color:green">&lt;token<sub>h</sub>&gt</text></b>)
                   <br>
             </td>
         </tr>
