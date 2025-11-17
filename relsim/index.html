@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>relsim: Relational Visual Similarity</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://em-content.zobj.net/source/animated-noto-color-emoji/356/eyes_1f440.gif">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://em-content.zobj.net/source/animated-noto-color-emoji/356/eyes_1f440.gif">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://em-content.zobj.net/source/animated-noto-color-emoji/356/eyes_1f440.gif">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <meta property="og:site_name" content="Relational Visual Similarity" />
+    <meta property="og:title" content="Relational Visual Similarity" />
+    <meta property="og:description" content="A framework for inverting visual prompts* into *editing instructions for text-to-image diffusion models." />
+    <meta property="og:url" content="https://thaoshibe.github.io/relsim" />
+    <meta property="og:image" content="./assets/images/preview.png" />
+
+    <meta name="twitter:title" content="Relational Visual Similarity" />
+    <meta name="twitter:description" content="A framework for inverting visual prompts into editing instructions for text-to-image diffusion models." />
+    <meta name="twitter:url" content="https://thaoshibe.github.io/relsim" />
+    <meta name="twitter:image" content="./assets/images/preview.png" />
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RK8Z1K8X2K');
+    </script>
+    <!-- <meta name="twitter:site" content="" /> -->
+    <style type="text/css">
+    .btn {
+    color:black;
+    text-decoration:none;
+}
+.btn:hover {
+    color: black;
+    text-decoration:none;
+}
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 768px;
+  position: relative;
+  margin: auto;
+}
+.citation {
+  background-color: #f1f1f1; /* Replace with your desired color */
+  border: 1px solid #DCDCDC;
+  padding-left: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 8px;
+}
+/* Hide the images by default */
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: 0px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+/*  transition: 0.6s ease;*/
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0);
+}
+
+/* Caption text */
+/*.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}*/
+
+/* Number text (1/3 etc) */
+/*.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}*/
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 9px;
+  width: 9px;
+  margin: 0 2px;
+  background-color: #bbb;
+  color:gray;
+  display: inline-block;
+/*  transition: background-color 0.6s ease;*/
+}
+
+.active, .dot:hover {
+  background-color: #FFFFCC;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+table.demo1 {
+    width:900;
+    text-align:center;
+    margin-left:auto;
+    margin-right: auto;
+}
+td.prompt {
+    width:100%;
+    text-align:center;
+    font-family: times, serif;
+    font-size:110%;
+}
+td.prompt a {
+    color: #B0B0B0;
+    text-decoration:none;
+}
+td.prompt a:hover, td.prompt a.active {
+    color:black;
+    text-decoration:none;
+}
+.img-stack {
+    position:relative;
+    display: block;
+    width:256px;
+    height:256px;
+}
+.img-stack img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+}
+.img-stack img.active {
+    z-index: 0;
+}
+.img-stack .overlay {
+    width: 256px;
+    height: 256px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: white;
+}
+
+.carousel > table {
+    position:absolute;
+    top: 0px;
+    transition: left 0.2s;
+    width:1000px;
+}
+.carousel_table td {
+    text-align:center;
+}
+.carousel_table td:nth-child(4) {
+    font-size:200%;
+}
+pre {
+    background-color:#eee;
+    border: 1px solid #999;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: break-spaces;
+    width:80%;
+    text-align:left;
+}
+.dl_link {
+    display: inline-block;
+    padding-right: 6px;
+    padding-left: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.dl_link, .dl_link td {
+    color: black;
+    text-decoration: none;
+    font-size: 120%;
+}
+.dl_link, .dl_link table {
+    border-radius: 5px;
+    background-color: none;
+}
+.dl_link:hover, .dl_link:hover * {
+    color: #404040 !important;
+    background-color: #d9d9d9 !important;
+}
+@media only screen and (max-width: 768px) {
+    .content { width:100% !important; }
+}
+<style type="text/css">
+.btn {
+    color:black;
+    text-decoration:none;
+}
+.btn:hover {
+    color:gray;
+    text-decoration:none;
+}
+table.demo1 {
+    width:90%;
+    text-align:center;
+}
+/*.demo1 img {
+    width:256px;
+}*/
+td.prompt {
+    width:100%;
+    text-align:center;
+    font-family: fantasy;
+    font-size:100%;
+};
+td.prompt a {
+    color:#ddd;
+    text-decoration:none;
+}
+td.prompt a:hover, td.prompt a.active {
+    color:black;
+    text-decoration:none;
+}
+.img-stack {
+    position:relative;
+    display: block;
+/*    width:256px;
+    height:256px;*/
+}
+.img-stack img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+}
+.img-stack img.active {
+    z-index: 1;
+}
+.img-stack .overlay {
+    width: 256px;
+    height: 256px;
+    opacity: 0;
+    transition: opacity .2s;
+    z-index: 2;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: white;
+}
+/*.carousel {
+    position:relative;
+    width:650px;
+    height:385px;
+    overflow:hidden;
+}*/
+/*.carousel > table {
+    position:absolute;
+    top: 0px;
+    transition: left 0.2s;
+    width:256px;
+}*/
+/*.carousel_table td {
+    text-align:center;
+}*/
+/*.carousel_table td:nth-child(5) {
+    font-size:150%;
+}*/
+.citation-container {
+  position: relative;
+}
+
+.copy-button {
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+/*  font-size: 12px;*/
+/*  color: black; /* Adjust the color as needed */*/
+}
+
+/*.copy-icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #333;
+  border-top: none;
+  border-right: none;
+  transform: rotate(-45deg);
+}*/
+
+pre {
+    background-color:#eee;
+    border: 1px solid #999;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: break-spaces;
+    width:80%;
+    text-align:left;
+}
+td.gif {
+    width: 33%;
+    font-family: monospace;
+    font-size: 120%;
+}
+.dl_link {
+    display: inline-block;
+    padding-right: 6px;
+    padding-left: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.dl_link, .dl_link td {
+    color: black;
+    text-decoration: none;
+    font-size: 120%;
+}
+.dl_link, .dl_link table {
+    border-radius: 5px;
+    background-color: none;
+}
+.dl_link:hover, .dl_link:hover * {
+    color: #404040 !important;
+    background-color: #d9d9d9 !important;
+}
+
+@media only screen and (max-width: 930px) {
+    .content { width:100% !important; }
+}
+</style>
+<script type="text/javascript">
+  var curr_idx = 0;
+  var num_tables = 5;
+  function move(direction) {
+      if (curr_idx == 0 && direction < 0) {
+      move(num_tables - 1);
+      return;
+      }
+      if (curr_idx == num_tables - 1 && direction > 0) {
+      move(-1 * (num_tables - 1));
+      return;
+      }
+      tables = document.getElementsByClassName("carousel_table");
+      for(var i = 0; i < tables.length; i++) {
+      tables[i].style.left = (parseInt(tables[i].style.left.substring(0, tables[i].style.left.length - 2)) - direction * 650).toString() + "px";
+      }
+      curr_idx += direction;
+  }
+  function hideOverlay(classname) {
+      document.getElementById(classname + "_overlay").style.opacity = "0";
+  }
+  function activate_img(classname, idx, max) {
+      document.getElementById(classname + "_overlay").style.opacity = "1";
+      setTimeout(function() {
+      for(var i = 1; i <= max; i++) {
+          document.getElementById(classname + "_" + i.toString()).className = "";
+          document.getElementById(classname + "_text_" + i.toString()).className = "";
+      }
+      document.getElementById(classname + "_" + idx.toString()).className = "active";
+      document.getElementById(classname + "_text_" + idx.toString()).className = "active";
+      setTimeout(hideOverlay, 200, classname);
+      }, 200);
+  }
+
+  let img_id = 1;
+  let interval_id;
+  function activate(classname,idx,max){
+    activate_img(classname, idx, max);
+    clearInterval(interval_id);
+  }
+
+  if (!interval_id){
+    interval_id = setInterval(()=>{
+        img_id = img_id + 1;
+        if (img_id > 9){
+            img_id = 1;
+        }
+        activate_img('bo', img_id, 9);
+    }, 2500);
+  }
+    function copyToClipboard() {
+      const citationText = document.getElementById("citation").innerText;
+
+      // Create a temporary textarea element
+      const textarea = document.createElement("textarea");
+      textarea.value = citationText;
+      document.body.appendChild(textarea);
+
+      // Copy the text from the textarea to the clipboard
+      textarea.select();
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(textarea);
+
+      // Display a success message or perform any other desired action
+      // alert("Citation copied to clipboard!");
+    }
+    function toggleblock(blockId)
+    {
+        var block = document.getElementById(blockId);
+        if (block.style.display == 'none') {
+        block.style.display = 'block' ;
+        } else {
+        block.style.display = 'none' ;
+        }
+    }
+
+    $( document ).ready(function() {
+        $( ".blockId" ).click(function() {
+
+            $('.blockId').toggle();
+            $(this).toggleClass('open'); 
+        });
+
+    });
+</script>
+
+</head>
+
+<!-- <body> -->
+<body>
+    <div class="highlight-clean" style="padding-top: 30px;padding-bottom:10px;">
+        <div class="container" style="max-width: 768px;">
+            <h1 class="text-center"><b>Relational Visual Similarity</b><br>
+        </h1>
+        </div>
+        <div><center><h5>&mdash;&mdash;&mdash; arXiv 2025 &mdash;&mdash;&mdash;</h5></center></div>
+        <div class="container" style="max-width: 850px;font-size: 18px;text-align: center;">
+            
+                <a href="https://thaoshibe.github.io/">Thao Nguyen<sup>1</sup></a>
+                &nbsp&nbsp&nbsp
+                <a href="https://sichengmo.github.io/">Sicheng Mo<sup>3</sup></a>
+                &nbsp&nbsp&nbsp
+                <a href="https://krsingh.cs.ucdavis.edu/">Krishna Kumar Singh<sup>1</sup></a>
+                &nbsp&nbsp&nbsp
+                <a href="https://yilinwang.org/">Yilin Wang<sup>1</sup></a>
+                &nbsp&nbsp&nbsp
+                <a href="https://jshi31.github.io/jingshi/">Jing Shi<sup>1</sup></a>
+                &nbsp&nbsp&nbsp
+                <a href="https://scholar.google.com/citations?user=MqWYTj0AAAAJ&hl=en">Nicholas Kolkin<sup>1</sup></a>
+
+        </div>
+        <div class="container" style="max-width: 786px;font-size: 18px;text-align: center;">
+            <a href="https://scholar.google.com/citations?user=B_FTboQAAAAJ&hl=en">Eli Shechtman<sup>1</sup></a>
+            &nbsp&nbsp&nbsp
+            <a href="https://pages.cs.wisc.edu/~yongjaelee/">Yong Jae Lee<sup>2</sup></a>
+            &nbsp&nbsp&nbsp
+            <a href="https://yuheng-li.github.io/">Yuheng Li<sup>1</sup></a>
+        </div>
+        <div class="container" style="max-width: 768px;text-align: center;">
+            1. <img src="https://sichengmo.github.io/XFusion/static/images/uwmadison-logo.png" alt="University of Wisconsin-Madison" style="max-height: 60px; max-width: 100%;">    
+            &nbsp&nbsp&nbsp
+            2. <img src="https://sichengmo.github.io/XFusion/static/images/adobe-logo.png" alt="Adobe Research" style="max-height: 45px; max-width: 100%;">
+            &nbsp&nbsp&nbsp
+            3. <img src="https://sichengmo.github.io/XFusion/static/images/ucla-logo.png" alt="UCLA" style="max-height: 40px; max-width: 100%;">
+        </div>
+
+        </div>
+        <div class="buttons" style="margin-bottom: 8px;">
+            <center>
+            <a class="btn btn-light" role="button" href="https://arxiv.org/abs/2307.14331">
+                <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
+                </svg>Paper
+            </a>
+            <a class="btn btn-light" role="button" href="https://neurips.cc/media/PosterPDFs/NeurIPS%202023/70612.png?t=1702527232.3909361">
+                <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
+                </svg>Poster
+            </a>
+            <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/visii">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                Code
+            </a>
+        </a>
+        <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/visii">
+            <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/huggingface-color.png" alt="HuggingFace" style="width:26px;">
+            HuggingFace Dataset
+        </a>
+        <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/visii">
+            <img src="https://cdn0.iconfinder.com/data/icons/pinpoint-action/48/search-512.png" alt="HuggingFace" style="width:26px;">
+            Data Viewer
+        </a>
+        <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/visii">
+            <img src="https://static.thenounproject.com/png/17840-200.png" alt="HuggingFace" style="width:26px;">
+            Qualitative Results
+        </a>
+        </center>
+        </div>
+    </div>
+    <hr class="divider" />
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- <h5></h5> -->
+                <p><b>TL;DR:</b>
+                    A framework for <font style='color:red'>inverting</font> <font style='color:blue'>visual prompts</font> into <font style="color:green">editing instructions</font> for text-to-image diffusion models.
+                </p>
+                <!-- <h5>ELI5:</h5> -->
+                <!-- p><b>ELI5:</b>
+                    You show the machine how to perform a task (by images), and then it replicates your actions. For example, it can learn your drawing style 🖍️ and use it to create a new drawing 🎨.
+                </p> -->
+            </div>
+        </div>
+    </div>
+
+
+    <hr class="divider" />
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Abstract</h2>
+                <p>
+                    Humans do not just see attribute similarity---we also see relational similarity.
+                    <br>
+                    An apple is like a peach because both are reddish fruit, but the Earth is also like a peach: its crust, mantle, and core correspond to the peach’s skin, flesh, and pit.
+                    <br>
+                    This ability to perceive and recognize relational similarity, is arguable by cognitive scientist to be what distinguishes humans from other species.
+                    <br>
+                    Yet, all widely used visual similarity metrics today (e.g., LPIPS, CLIP, DINO) focus solely on perceptual attribute similarity and fail to capture the rich, often surprising relational similarities that humans perceive.
+                    <br>
+                    How can we go beyond the visible content of an image to capture its relational properties? How can we bring images with the same relational logic closer together in representation space?
+                    <br>To answer these questions, we first formulate relational image similarity as a measurable problem: two images are relationally similar when their internal relations or functions among visual elements correspond, even if their visual attributes differ.
+                    <br>
+                    We then curate 114k image–caption dataset in which the captions are anonymized---describing the underlying relational logic of the scene rather than its surface content. Using this dataset, we finetune a Vision Language Model to measure the relational similarity between images. This model serves as the first step toward connecting images by their underlying relational structure rather than their visible appearance. Our study shows that while relational similarity has a lot of real-world applications, existing image similarity models fail to capture it---revealing a critical gap in visual computing.
+            </div>
+        </div>
+    </div>
+    <hr class="divider" />
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Citation</h2>
+                <div id='citation' class="citation" style="font-family:monospace;font-size: 14px;">
+                @inproceedings{nguyen2023visual,<br>
+                      &nbsp;&nbsp;&nbsp; title={Visual Instruction Inversion: Image Editing via Visual Prompting},<br>
+                      &nbsp;&nbsp;&nbsp; author={Nguyen, Thao and Li, Yuheng and Ojha, Utkarsh and Lee, Yong Jae},<br>
+                      &nbsp;&nbsp;&nbsp; booktitle={Thirty-seventh Conference on Neural Information Processing Systems},<br>
+                      &nbsp;&nbsp;&nbsp; year={2023},<br>
+                      &nbsp;&nbsp;&nbsp; url={https://openreview.net/forum?id=l9BsCh8ikK}<br>
+                    }
+            </div>
+              <button class="copy-button" onclick="copyToClipboard()">
+                <i style="font-size:24px;color: gray;" class="fa">&#xf0c5;</i>
+              </button>
+            </div>
+        </div>
+    </div>
+    <!-- Import the component -->
+    <hr class="divider" />
+    <div class="container" style="max-width: 768px; padding-bottom:30px;">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- <h2>Citation</h2> -->
+                This website template is adopted from <a href="https://dreamfusion3d.github.io/">DreamFusion</a> and <a href='https://imagic-editing.github.io/#'>Imagic</a>, source code can be found <a href="https://github.com/dreamfusion3d/dreamfusion3d.github.io">here</a> and <a href='https://github.com/imagic-editing/imagic-editing.github.io'>here</a>. Photo credit: <a href="https://www.instagram.com/avoshibe/">Bo the Shiba</a>. Thank you!
+                <a href="javascript:toggleblock('notice')" style="text-align:left;font-size:100%;color:#D3D3D3"> (.❛ ᴗ ❛.).</a>
+                  <div id="notice" style="display:none; color:#dedede; font-size:.5em;">
+                    <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=inQKsqJgykYERZ0RHQ27JiTpqjIh6ldrQVGK307Gu78&cl=ffffff&w=a"></script>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
