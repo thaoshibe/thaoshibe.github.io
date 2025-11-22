@@ -12,21 +12,21 @@
     <link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="https://em-content.zobj.net/source/animated-noto-color-emoji/356/eyes_1f440.gif">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://em-content.zobj.net/source/animated-noto-color-emoji/356/eyes_1f440.gif">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://em-content.zobj.net/source/animated-noto-color-emoji/356/eyes_1f440.gif">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link rel="manifest" href="/site.webmanifest">
 
     <meta property="og:site_name" content="Relational Visual Similarity" />
     <meta property="og:title" content="Relational Visual Similarity" />
     <meta property="og:description" content="A framework for inverting visual prompts* into *editing instructions for text-to-image diffusion models." />
     <meta property="og:url" content="https://thaoshibe.github.io/relsim" />
-    <meta property="og:image" content="./assets/images/preview.png" />
+    <meta property="og:image" content="./images/favicon.png" />
 
     <meta name="twitter:title" content="Relational Visual Similarity" />
     <meta name="twitter:description" content="A framework for inverting visual prompts into editing instructions for text-to-image diffusion models." />
     <meta name="twitter:url" content="https://thaoshibe.github.io/relsim" />
-    <meta name="twitter:image" content="./assets/images/preview.png" />
+    <meta name="twitter:image" content="./images/favicon.png" />
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -225,6 +225,7 @@ pre {
 @media only screen and (max-width: 768px) {
     .content { width:100% !important; }
 }
+</style>
 <style type="text/css">
 .btn {
     color:black;
@@ -311,7 +312,7 @@ td.prompt a:hover, td.prompt a.active {
   border: none;
   cursor: pointer;
 /*  font-size: 12px;*/
-/*  color: black; /* Adjust the color as needed */*/
+/*  color: black; Adjust the color as needed */
 }
 
 /*.copy-icon {
@@ -457,8 +458,10 @@ td.gif {
 <body>
     <div class="highlight-clean" style="padding-top: 30px;padding-bottom:10px;">
         <div class="container" style="max-width: 768px;">
+            <!-- <h1 class="text-center"><img src="./images/favicon.png" alt="Relational Visual Similarity" style="width: 50px; height: 50px; margin-right: 10px; align-items: center;"><b>Relational Visual Similarity</b><br> -->
             <h1 class="text-center"><b>Relational Visual Similarity</b><br>
-        </h1>
+
+            </h1>
         </div>
         <div><center><h5>&mdash;&mdash;&mdash; arXiv 2025 &mdash;&mdash;&mdash;</h5></center></div>
         <div class="container" style="max-width: 850px;font-size: 18px;text-align: center;">
@@ -467,28 +470,31 @@ td.gif {
                 &nbsp&nbsp&nbsp
                 <a href="https://sichengmo.github.io/">Sicheng Mo<sup>3</sup></a>
                 &nbsp&nbsp&nbsp
-                <a href="https://krsingh.cs.ucdavis.edu/">Krishna Kumar Singh<sup>1</sup></a>
+                <a href="https://krsingh.cs.ucdavis.edu/">Krishna Kumar Singh<sup>2</sup></a>
                 &nbsp&nbsp&nbsp
-                <a href="https://yilinwang.org/">Yilin Wang<sup>1</sup></a>
+                <a href="https://yilinwang.org/">Yilin Wang<sup>2</sup></a>
                 &nbsp&nbsp&nbsp
-                <a href="https://jshi31.github.io/jingshi/">Jing Shi<sup>1</sup></a>
+                <a href="https://jshi31.github.io/jingshi/">Jing Shi<sup>2</sup></a>
                 &nbsp&nbsp&nbsp
-                <a href="https://scholar.google.com/citations?user=MqWYTj0AAAAJ&hl=en">Nicholas Kolkin<sup>1</sup></a>
+                <a href="https://scholar.google.com/citations?user=MqWYTj0AAAAJ&hl=en">Nicholas Kolkin<sup>2</sup></a>
 
         </div>
         <div class="container" style="max-width: 786px;font-size: 18px;text-align: center;">
-            <a href="https://scholar.google.com/citations?user=B_FTboQAAAAJ&hl=en">Eli Shechtman<sup>1</sup></a>
+            <a href="https://scholar.google.com/citations?user=B_FTboQAAAAJ&hl=en">Eli Shechtman<sup>2</sup></a>
             &nbsp&nbsp&nbsp
-            <a href="https://pages.cs.wisc.edu/~yongjaelee/">Yong Jae Lee<sup>2</sup></a>
+            <a href="https://pages.cs.wisc.edu/~yongjaelee/">Yong Jae Lee<sup>1,2, ★</sup></a>
             &nbsp&nbsp&nbsp
-            <a href="https://yuheng-li.github.io/">Yuheng Li<sup>1</sup></a>
+            <a href="https://yuheng-li.github.io/">Yuheng Li<sup>1, ★</sup></a>
+        </div>
+        <div class="container" style="max-width: 768px;text-align: center;color: rgb(141, 141, 141);">
+            <small><i>★: Equal advising</i></small>
         </div>
         <div class="container" style="max-width: 768px;text-align: center;">
-            1. <img src="https://sichengmo.github.io/XFusion/static/images/uwmadison-logo.png" alt="University of Wisconsin-Madison" style="max-height: 60px; max-width: 100%;">    
+            1. <img src="./images/uwmadison-logo.png" alt="University of Wisconsin-Madison" style="max-height: 65px; max-width: 100%;">    
             &nbsp&nbsp&nbsp
-            2. <img src="https://sichengmo.github.io/XFusion/static/images/adobe-logo.png" alt="Adobe Research" style="max-height: 45px; max-width: 100%;">
+            2. <img src="./images/adobe-logo.png" alt="Adobe Research" style="max-height: 40px; max-width: 100%;">
             &nbsp&nbsp&nbsp
-            3. <img src="https://sichengmo.github.io/XFusion/static/images/ucla-logo.png" alt="UCLA" style="max-height: 40px; max-width: 100%;">
+            3. <img src="./images/ucla_logo.png" alt="UCLA" style="max-height: 34px; max-width: 100%;">
         </div>
 
         </div>
@@ -508,12 +514,11 @@ td.gif {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 Code
             </a>
-        </a>
-        <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/visii">
+        <a class="btn btn-light" role="button" href="https://huggingface.co/datasets/thaoshibe/relsim">
             <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/huggingface-color.png" alt="HuggingFace" style="width:26px;">
             HuggingFace Dataset
         </a>
-        <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/visii">
+        <a class="btn btn-light" role="button" href="https://thaoshibe.github.io/relsim/data_viewer.html">
             <img src="https://cdn0.iconfinder.com/data/icons/pinpoint-action/48/search-512.png" alt="HuggingFace" style="width:26px;">
             Data Viewer
         </a>
@@ -528,18 +533,19 @@ td.gif {
     <div class="container" style="max-width: 768px;">
         <div class="row">
             <div class="col-md-12">
-                <!-- <h5></h5> -->
-                <p><b>TL;DR:</b>
-                    A framework for <font style='color:red'>inverting</font> <font style='color:blue'>visual prompts</font> into <font style="color:green">editing instructions</font> for text-to-image diffusion models.
-                </p>
-                <!-- <h5>ELI5:</h5> -->
-                <!-- p><b>ELI5:</b>
-                    You show the machine how to perform a task (by images), and then it replicates your actions. For example, it can learn your drawing style 🖍️ and use it to create a new drawing 🎨.
-                </p> -->
-            </div>
+                <video width="100%" controls autoplay loop muted>
+                  <source src="./images/animated_example.mp4" type="video/mp4" >
+                </video>
         </div>
     </div>
-
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <p><b>TL;DR:</b>
+                    We introduce and model a new visual similarity notion: <b><font style='color:green'>relational visual similarity</font></b>, which complements traditional <b><font style='color:red'>attribute similarity</font></b>.
+                </p>
+        </div>
+    </div>
 
     <hr class="divider" />
     <div class="container" style="max-width: 768px;">
@@ -550,6 +556,11 @@ td.gif {
                     Humans do not just see attribute similarity---we also see relational similarity.
                     <br>
                     An apple is like a peach because both are reddish fruit, but the Earth is also like a peach: its crust, mantle, and core correspond to the peach’s skin, flesh, and pit.
+                    <br>
+                    <center>
+                    <img src="https://dreamtigers.wordpress.com/wp-content/uploads/2011/05/earth_layers_final_21.jpg?w=490&h=225" alt="Earth Layers" style="width: 40%; height: auto;">
+                    <br></rb><text style="font-size: 12px;color: gray;">(Image from <a href="https://dreamtigers.wordpress.com/2011/05/11/plate-tectonic-metaphor-illustrations-cmu/">Plate Tectonic Metaphor Illustrations (CMU)</a>)</text>
+                    </center>
                     <br>
                     This ability to perceive and recognize relational similarity, is arguable by cognitive scientist to be what distinguishes humans from other species.
                     <br>
