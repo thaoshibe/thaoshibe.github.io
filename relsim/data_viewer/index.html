@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Data Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .item a {
+            display: block;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+        }
+
+        .item-image.error {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .item-caption {
+            padding: 15px;
+            color: #333;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+        .item-number {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Data Viewer</h1>
+        <div class="info" id="info">Loading data...</div>
+        <div id="grid" class="grid"></div>
+    </div>
+
+    <script>
+        // Data loaded from external JSONL file
+        let items = [];
+
+        // Function to load and parse JSONL file
+        async function loadData() {
+            try {
+                const response = await fetch('test_data.jsonl');
+                if (!response.ok) {
+                    throw new Error('Failed to load data file');
+                }
+                
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                
+                // Parse each line as JSON
+                items = lines.map(line => JSON.parse(line));
+                
+                // Update info display
+                document.getElementById('info').innerHTML = `Showing first <strong>${Math.min(1000, items.length)}</strong> items`;
+                
+                // Display the items
+                displayItems();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('info').innerHTML = `<span style="color: red;">Error loading data: ${error.message}</span>`;
+            }
+        }
+        
+        // Data embedded directly in HTML (to be removed)
+        function displayItems() {
+            const grid = document.getElementById('grid');
+            
+            items.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                
+                // Create clickable link for image
+                const imgLink = document.createElement('a');
+                imgLink.href = item.url_link;
+                imgLink.target = '_blank';
+                imgLink.rel = 'noopener noreferrer';
+                
+                const img = document.createElement('img');
+                img.className = 'item-image';
+                img.src = item.url_link;
+                img.alt = item.caption;
+                img.loading = 'lazy';
+                
+                // Handle image load errors
+                img.onerror = function() {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'item-image error';
+                    errorDiv.textContent = 'Temporarily unavailable to fetch image';
+                    imgLink.replaceWith(errorDiv);
+                };
+                
+                imgLink.appendChild(img);
+                
+                const captionDiv = document.createElement('div');
+                captionDiv.className = 'item-caption';
+                
+                const numberDiv = document.createElement('div');
+                numberDiv.className = 'item-number';
+                numberDiv.textContent = `#${index + 1}`;
+                
+                const captionText = document.createElement('div');
+                captionText.textContent = item.caption;
+                
+                captionDiv.appendChild(numberDiv);
+                captionDiv.appendChild(captionText);
+                
+                itemDiv.appendChild(imgLink);
+                itemDiv.appendChild(captionDiv);
+                
+                grid.appendChild(itemDiv);
+            });
+        }
+
+        // Load data and display items when page loads
+        loadData();
+    </script>
+</body>
+</html>
