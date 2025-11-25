@@ -19,12 +19,12 @@
 
     <meta property="og:site_name" content="Relational Visual Similarity" />
     <meta property="og:title" content="Relational Visual Similarity" />
-    <meta property="og:description" content="A framework for inverting visual prompts* into *editing instructions for text-to-image diffusion models." />
+    <meta property="og:description" content="We introduce a new visual similarity notion: relational visual similarity, which complements traditional attribute similarity." />
     <meta property="og:url" content="https://thaoshibe.github.io/relsim" />
     <meta property="og:image" content="./images/favicon.png" />
 
     <meta name="twitter:title" content="Relational Visual Similarity" />
-    <meta name="twitter:description" content="A framework for inverting visual prompts into editing instructions for text-to-image diffusion models." />
+    <meta name="twitter:description" content="We introduce a new visual similarity notion: relational visual similarity, which complements traditional attribute similarity." />
     <meta name="twitter:url" content="https://thaoshibe.github.io/relsim" />
     <meta name="twitter:image" content="./images/favicon.png" />
     <script>
@@ -34,7 +34,6 @@
 
       gtag('config', 'G-RK8Z1K8X2K');
     </script>
-    <!-- <meta name="twitter:site" content="" /> -->
     <style type="text/css">
     .btn {
     color:black;
@@ -53,16 +52,14 @@
   margin: auto;
 }
 .citation {
-  background-color: #f1f1f1; /* Replace with your desired color */
+  background-color: #f1f1f1;
   border: 1px solid #DCDCDC;
   padding-left: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 8px;
 }
-/* Hide the images by default */
 
-/* Next & previous buttons */
 .prev, .next {
   cursor: pointer;
   position: absolute;
@@ -73,42 +70,18 @@
   color: white;
   font-weight: bold;
   font-size: 18px;
-/*  transition: 0.6s ease;*/
   border-radius: 0 3px 3px 0;
 }
 
-/* Position the "next button" to the right */
 .next {
   right: 0;
   border-radius: 3px 0 0 3px;
 }
 
-/* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
   background-color: rgba(0,0,0,0);
 }
 
-/* Caption text */
-/*.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}*/
-
-/* Number text (1/3 etc) */
-/*.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}*/
-
-/* The dots/bullets/indicators */
 .dot {
   cursor: pointer;
   height: 9px;
@@ -117,14 +90,12 @@
   background-color: #bbb;
   color:gray;
   display: inline-block;
-/*  transition: background-color 0.6s ease;*/
 }
 
 .active, .dot:hover {
   background-color: #FFFFCC;
 }
 
-/* Fading animation */
 .fade {
   animation-name: fade;
   animation-duration: 1s;
@@ -239,9 +210,6 @@ table.demo1 {
     width:90%;
     text-align:center;
 }
-/*.demo1 img {
-    width:256px;
-}*/
 td.prompt {
     width:100%;
     text-align:center;
@@ -259,8 +227,6 @@ td.prompt a:hover, td.prompt a.active {
 .img-stack {
     position:relative;
     display: block;
-/*    width:256px;
-    height:256px;*/
 }
 .img-stack img {
     position: absolute;
@@ -282,24 +248,6 @@ td.prompt a:hover, td.prompt a.active {
     left: 0px;
     background: white;
 }
-/*.carousel {
-    position:relative;
-    width:650px;
-    height:385px;
-    overflow:hidden;
-}*/
-/*.carousel > table {
-    position:absolute;
-    top: 0px;
-    transition: left 0.2s;
-    width:256px;
-}*/
-/*.carousel_table td {
-    text-align:center;
-}*/
-/*.carousel_table td:nth-child(5) {
-    font-size:150%;
-}*/
 .citation-container {
   position: relative;
 }
@@ -311,19 +259,7 @@ td.prompt a:hover, td.prompt a.active {
   background: none;
   border: none;
   cursor: pointer;
-/*  font-size: 12px;*/
-/*  color: black; Adjust the color as needed */
 }
-
-/*.copy-icon {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border: 2px solid #333;
-  border-top: none;
-  border-right: none;
-  transform: rotate(-45deg);
-}*/
 
 pre {
     background-color:#eee;
@@ -454,11 +390,9 @@ td.gif {
 
 </head>
 
-<!-- <body> -->
 <body>
     <div class="highlight-clean" style="padding-top: 30px;padding-bottom:10px;">
         <div class="container" style="max-width: 768px;">
-            <!-- <h1 class="text-center"><img src="./images/favicon.png" alt="Relational Visual Similarity" style="width: 50px; height: 50px; margin-right: 10px; align-items: center;"><b>Relational Visual Similarity</b><br> -->
             <h1 class="text-center"><b>Relati<img src="./images/favicon.png" style="width: 30px; height: 30px;align-items: center;">nal Visual Similarity</b><br>
 
             </h1>
@@ -490,30 +424,27 @@ td.gif {
             <small><i>★: Equal advising</i></small>
         </div>
         <div class="container" style="max-width: 768px;text-align: center;">
-            1. <img src="./images/uwmadison-logo.png" alt="University of Wisconsin-Madison" style="max-height: 65px; max-width: 100%;">    
+            1. <img src="./images/icon/uwmadison-logo.png" alt="University of Wisconsin-Madison" style="max-height: 65px; max-width: 100%;">    
             &nbsp&nbsp&nbsp
-            2. <img src="./images/adobe-logo.png" alt="Adobe Research" style="max-height: 40px; max-width: 100%;">
+            2. <img src="./images/icon/adobe-logo.png" alt="Adobe Research" style="max-height: 40px; max-width: 100%;">
             &nbsp&nbsp&nbsp
-            3. <img src="./images/ucla_logo.png" alt="UCLA" style="max-height: 34px; max-width: 100%;">
+            3. <img src="./images/icon/ucla_logo.png" alt="UCLA" style="max-height: 34px; max-width: 100%;">
         </div>
 
         </div>
         <div class="buttons" style="margin-bottom: 8px;">
             <center>
             <a class="btn btn-light" role="button" href="PUT_ARXIV_LINK_HERE">
-                <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
-                </svg>Paper (TBD)
-            </a>
-            <a class="btn btn-light" role="button" href="PUT_POSTER_LINK_HERE">
-                <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
-                </svg>Poster (TBD)
+                <img src="./images/icon/arXiv.png" alt="arxiv" style="height:23px;">
+                Paper
             </a>
             <a class="btn btn-light" role="button" href="PUT_SLIDES_LINK_HERE">
                 <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
                 </svg>Slides (TBD)
+            </a>
+            <a class="btn btn-light" role="button" href="PUT_SLIDES_LINK_HERE">
+                <img src="./images/icon/youtube.png" alt="youtube" style="width:26px;"> Video
             </a>
             </center>
         </div>
@@ -524,15 +455,15 @@ td.gif {
                 Code
             </a>
         <a class="btn btn-light" role="button" href="https://huggingface.co/datasets/thaoshibe/relsim">
-            <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/huggingface-color.png" alt="HuggingFace" style="width:26px;">
+            <img src="./images/icon/huggingface-color.png" alt="HuggingFace" style="width:26px;">
             HuggingFace Dataset
         </a>
         <a class="btn btn-light" role="button" href="https://thaoshibe.github.io/relsim/data_viewer.html">
-            <img src="https://cdn0.iconfinder.com/data/icons/pinpoint-action/48/search-512.png" alt="HuggingFace" style="width:26px;">
+            <img src="./images/icon/lookup.png" alt="data viewer" style="width:24px;">
             Data Viewer
         </a>
         <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/visii">
-            <img src="https://static.thenounproject.com/png/17840-200.png" alt="HuggingFace" style="width:26px;">
+            <img src="./images/icon/image-collection.png" alt="image collection" style="width:26px;">
             Qualitative Results
         </a>
         </center>
@@ -551,7 +482,7 @@ td.gif {
         <div class="row">
             <div class="col-md-12">
                 <p><b>TL;DR:</b>
-                    We introduce <span style="background-color: rgb(249, 249, 108);">a new visual similarity notion</span>: <b><font style='color:green'>relational visual similarity</font></b>, which complements traditional <b><font style='color:red'>attribute similarity</font></b>.
+                    We introduce <span style="background-color: rgb(255, 255, 175);">a new visual similarity notion</span>: <b><font style='color:green'>relational visual similarity</font></b>, which complements traditional <b><font style='color:red'>attribute similarity</font></b>.
                 </p>
         </div>
     </div>
@@ -559,34 +490,40 @@ td.gif {
     <div class="container" style="max-width: 768px;">
         <div class="row">
             <div class="col-md-12">
-                <h2>👣 Paper Walk-through Video ▶️</h2>
-                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;align-items: center;">
+                <h2>👣 Paper Walk-through Video</h2>
+                    <center>
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/v5RGH0SmKJY?si=ZC1XgqywrX3fTDAs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                </div>
-            </div>
+                    </center>
+        </div>
     </div>
     <hr class="divider" />
     <div class="container" style="max-width: 768px;">
         <div class="row">
             <div class="col-md-12">
-                <h2>Abstract</h2>
-                <p>
+                <h2>📜 Abstract</h2>
+                <p style="text-align: justify;">
                     Humans do not just see attribute similarity---we also see relational similarity.
-                    <br>
-                    An apple is like a peach because both are reddish fruit, but the Earth is also like a peach: its crust, mantle, and core correspond to the peach’s skin, flesh, and pit.
-                    <br>
-                    <center>
-                    <img src="https://dreamtigers.wordpress.com/wp-content/uploads/2011/05/earth_layers_final_21.jpg?w=490&h=225" alt="Earth Layers" style="width: 40%; height: auto;">
-                    <br></rb><text style="font-size: 12px;color: gray;">(Image from <a href="https://dreamtigers.wordpress.com/2011/05/11/plate-tectonic-metaphor-illustrations-cmu/">Plate Tectonic Metaphor Illustrations (CMU)</a>)</text>
-                    </center>
-                    <br>
                     This ability to perceive and recognize relational similarity, is arguable by cognitive scientist to be what distinguishes humans from other species.
+                    Yet, <text style="background-color: rgb(255, 255, 175);">all widely used visual similarity metrics today</text> (e.g., LPIPS, CLIP, DINO) <text style="background-color: rgb(255, 255, 175);">focus solely on perceptual attribute similarity</text> and fail to capture the rich, often surprising relational similarities that humans perceive.
                     <br>
-                    Yet, all widely used visual similarity metrics today (e.g., LPIPS, CLIP, DINO) focus solely on perceptual attribute similarity and fail to capture the rich, often surprising relational similarities that humans perceive.
+                    <center><img src="./images/peach-earth.png" alt="peach-earth" style="width: 80%; height: auto;">
+                    <p style="text-align: justify; width: 80%; font-size: 90%;"">
+                        <i>An apple is like a peach because both are reddish fruit, but the Earth is also like a peach: its crust, mantle, and core correspond to the peach’s skin, flesh, and pit.
+                        <br>
+                        <text style="font-size: 80%; color: gray;">(Image modified from original version at <a href="https://dreamtigers.wordpress.com/2011/05/11/plate-tectonic-metaphor-illustrations-cmu/">Plate Tectonic Metaphor Illustrations (CMU)</a>)</text>    
+                        </i>
+                    </p>
+                    </center>
+                    <p style="text-align: justify;">
+                    <i>How can we go beyond the visible content of an image to capture its relational properties?
+                        <!-- Or, how can we bring images with the same relational logic closer together in representation space? -->
+                    </i>
+                    To answer this question,  <text style="background-color: rgb(255, 255, 175);">we first formulate relational image similarity as a measurable problem</text>:
+                    <text style="background-color: rgb(234,235,254);">two images are relationally similar when their internal relations or functions among visual elements correspond, even if their visual attributes differ.</text>
                     <br>
-                    How can we go beyond the visible content of an image to capture its relational properties? How can we bring images with the same relational logic closer together in representation space?
-                    <br>To answer these questions, we first formulate relational image similarity as a measurable problem: two images are relationally similar when their internal relations or functions among visual elements correspond, even if their visual attributes differ.
-                    <br>
-                    We then curate 114k image–caption dataset in which the captions are anonymized---describing the underlying relational logic of the scene rather than its surface content. Using this dataset, we finetune a Vision Language Model to measure the relational similarity between images. This model serves as the first step toward connecting images by their underlying relational structure rather than their visible appearance. Our study shows that while relational similarity has a lot of real-world applications, existing image similarity models fail to capture it---revealing a critical gap in visual computing.
+                    We then curate 114k image-caption dataset in which the captions are anonymized---describing the underlying relational logic of the scene rather than its surface content. Using this dataset, we finetune a Vision Language Model to measure the relational similarity between images. This model serves as the first step toward connecting images by their underlying relational structure rather than their visible appearance. Our study shows that while relational similarity has a lot of real-world applications, existing image similarity models fail to capture it---revealing a critical gap in visual computing.
+            
+                </p>
             </div>
         </div>
     </div>
@@ -610,12 +547,10 @@ td.gif {
             </div>
         </div>
     </div>
-    <!-- Import the component -->
     <hr class="divider" />
     <div class="container" style="max-width: 768px; padding-bottom:30px;">
         <div class="row">
             <div class="col-md-12">
-                <!-- <h2>Citation</h2> -->
                 This website template is adopted from <a href="https://dreamfusion3d.github.io/">DreamFusion</a> and <a href='https://imagic-editing.github.io/#'>Imagic</a>, source code can be found <a href="https://github.com/dreamfusion3d/dreamfusion3d.github.io">here</a> and <a href='https://github.com/imagic-editing/imagic-editing.github.io'>here</a>. Photo credit: <a href="https://www.instagram.com/avoshibe/">Bo the Shiba</a>. Thank you!
                 <a href="javascript:toggleblock('notice')" style="text-align:left;font-size:100%;color:#D3D3D3"> (.❛ ᴗ ❛.).</a>
                   <div id="notice" style="display:none; color:#dedede; font-size:.5em;">
