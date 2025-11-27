@@ -22,6 +22,38 @@
         #profile_photo:hover {
               content: url('images/thao-badger.jpeg');
         }
+        .pub-toggle {
+            cursor: pointer;
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9em;
+            padding: 0 5px;
+            transition: color 0.2s;
+        }
+        .pub-toggle:hover {
+            color: #555;
+        }
+        .pub-toggle.active {
+            color: #0000CD;
+            font-weight: 600;
+        }
+        .publication-table {
+            transition: opacity 0.3s ease;
+        }
+        .random-flex {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .random-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        .random-item img {
+            display: block;
+            margin: 0 auto 2px auto;
+        }
     </style>
     <table summary="Table for page layout." id="tlayout">
       <tr valign="top">
@@ -75,12 +107,17 @@
             <!-- Or check my <a href="https://scholar.google.com/citations?hl=en&user=P_6-46UAAAAJ">Google Scholar</a>, <a href="https://github.com/thaoshibe">GitHub</a>. <br /> -->
           </p>
           <p>
-            <b>Research interests</b>: Mutimodal Models; Image Understanding/ Generation. <br />
+            <b>Research interests</b>: Personalized AI; Multimodal Models; <text style="color:rgb(179, 178, 178); font-size:90%">(+ AI for Education)</text><br />
           </p>
           <!-- <p>You can find my resume <a href="https://drive.google.com/file/d/17STKdJuOWiOpHgdx2WvtKp-w-rIaxK-Y/view?usp=sharing">here</a>. </p> -->
-          <h2>Publications</h2>
+          <h2>Publications 
+            <span style="font-size: 0.7em; font-weight: normal;">
+              [<a href="javascript:void(0)" class="pub-toggle active" id="toggle-selected">Selected <span id="count-selected"></span></a> | 
+              <a href="javascript:void(0)" class="pub-toggle" id="toggle-all">All <span id="count-all"></span></a>]
+            </span>
+          </h2>
           <br>
-          <table class="imgtable">
+          <table class="imgtable publication-table" data-selected="false">
             <tr>
               <td>
                 <a href="https://sichengmo.github.io/XFusion/">
@@ -103,7 +140,7 @@
               </td>
             </tr>
           </table>
-          <table class="imgtable">
+          <table class="imgtable publication-table" data-selected="true">
             <tr>
               <td>
                 <a href="https://thaoshibe.github.io/YoChameleon/">
@@ -126,7 +163,7 @@
               </td>
             </tr>
           </table>
-          <table class="imgtable">
+          <table class="imgtable publication-table" data-selected="true">
             <tr>
               <td>
                 <a href="https://thaoshibe.github.io/YoLLaVA/">
@@ -145,7 +182,7 @@
               </td>
             </tr>
           </table>
-          <table class="imgtable">
+          <table class="imgtable publication-table" data-selected="false">
             <tr>
               <td>
                 <a href="https://thaoshibe.github.io/edit-one-for-all/">
@@ -168,7 +205,7 @@
               </td>
             </tr>
           </table>
-          <table class="imgtable">
+          <table class="imgtable publication-table" data-selected="true">
             <tr>
               <td>
                 <a href="https://thaoshibe.github.io/visii">
@@ -191,7 +228,7 @@
               </td>
             </tr>
           </table>
-          <table class="imgtable">
+          <table class="imgtable publication-table" data-selected="false">
             <tr>
               <td>
                 <a href="https://thaoshibe.github.io/CPM">
@@ -214,8 +251,8 @@
               </td>
             </tr>
           </table>
-          <h2>Not CS publication :D</h2>
-          <table class="imgtable">
+          <h2 class="publication-section" data-selected="false">Not CS publication :D</h2>
+          <table class="imgtable publication-table" data-selected="false">
             <tr>
               <td>
                 <a href="https://drive.google.com/file/d/1fUYeSewtMufd2GLLLKKvK7EXcU6jSk78/view?usp=sharing">
@@ -238,39 +275,44 @@
               </td>
             </tr>
           </table>
-
-<!--           <h2>Academic Experience</h2>
-          <ul>
-            <li>
-              <p>B.E., Mathematics - Informatics @ <a href="https://en.hust.edu.vn/web/en/home/">Hanoi University of Science and Technology</a> | 2020
-              </p>
-            </li>
-            <li>
-              <p>Summer Program @ <a href="http://www.ubaya.ac.id/en">University of Surabaya</a> | 2019 </p>
-            </li>
-            <li>
-              <p>Summer Program @ <a href="http://www.nara-wu.ac.jp/nwu/en/index.html">Nara Women’s University</a> | 2017 </p>
-            </li>
-          </ul> -->
-          <!-- <h2>Work Experience</h2> -->
-<!--           <ul>
-            <li>
-              <p>AI Research Resident, Computer Vision Group @ <a href="https://www.vinai.io/">VinAI Research</a>
-                <br />
-              </p>
-            </li>
-            <li>
-              <p>Data Scientist, Business Intelligence Department @ <a href="https://ahamove.com">Ahamove</a>
-                <br />
-              </p>
-            </li>
-          </ul> -->
+          <h2>Random</h2>
+          <center>When I make no progress on my research 🐢, I create and maintain these repositories 😅...</center>
+          <br>
+          
+          <div class="random-flex">
+            <div class="random-item">
+              <a href="https://viet-wics.github.io/">
+                <img src="https://avatars.githubusercontent.com/u/166851392?v=4" alt="viet-wics" height="130px" />
+                vietnamese women in computer science (viet-wics)
+              </a>
+            </div>
+            <div class="random-item">
+              <a href="https://github.com/thaoshibe/cs-conference-posters">
+                <img src="https://raw.githubusercontent.com/thaoshibe/cs-conference-posters/refs/heads/main/imgs/jerry-explain.png" alt="cs-conference-posters" height="130px" />
+                cs-conference-posters (pptx)
+              </a>
+            </div>
+            <div class="random-item">
+              <a href="https://github.com/thaoshibe/awesome-personalized-lmms">
+                <img src="https://yuheng-li.github.io/images/yochameleon.png" alt="awesome-personalized-lmms" height="130px" />
+                awesome-personalized-lmms
+              </a>
+            </div>
+            <div class="random-item">
+              <a href="https://github.com/thaoshibe/awesome-makeup-transfer">
+                <img src="https://thaoshibe.github.io/images/CPM/datasets.png" alt="awesome-makeup-transfer" height="130px" />
+                awesome-makeup-transfer
+              </a>
+            </div>
+          </div>
+          <br>
+          <!-- <text>Please don't tell my advisor/ mentors</text> -->
+          <!-- <text style="font-size:90%; color:#999"> For my Vietnamese visitors 🇻🇳: Mình có nói về việc tại sao mình đi học PhD </text> -->
           <h2>Misc</h2>
-
+          <center>
           <table class="imgtable">
             <tr>
-              </td>
-                <td>
+              <td>
                 <a href="https://www.instagram.com/avoshibe/">
                   <!-- <img src="images/bo.jpg" onmouseover="this.src='images/bo.jpg';" onmouseout="this.src='images/avoshibe-nobackground.png'" alt="alt text" height="140px" /> -->
                   <img src="images/bo.png" alt="alt text" height="170px" />
@@ -279,8 +321,8 @@
 
               <td align="center">
               <div style="text-align:center;font-size:90%">
-                <a href="javascript:toggleblock('notice')"><center>— I'm proud to be a <b>hooman-assistant</b> of Bo the Shiba and Mam the Cat (.❛ ᴗ ❛.)</center></a><br>
-                <font style="text-align:center;font-size:90%">"🎉 We are featuring on multiple Thao's papers. Can you spot us? </font>😝"</font>
+                <a href="javascript:toggleblock('notice')"><center>--- I'm proud to be a <b>hooman-assistant</b> of Bo the Shiba and Mam the Cat (.❛ ᴗ ❛.)</center></a><br>
+                <font style="text-align:center;font-size:90%">"🎉 Bo and Mam are appearing on multiple figures of my papers. Can you spot them? </font>😉"</font>
               </div>
                 <div id="notice" style="display:none; font-size:.7em;">
                   <p></p>
@@ -293,8 +335,6 @@
                   <center> 
                     "🥑 Read our journey from Vietnam 🇻🇳 to the US 🇺🇸 <a style="color:#0000CD" href='./posts/Bo-and-journey-to-the-US.html'>here ✈️."</a>
                   </center>
-<!--                   <center>"💎 We are featuring on Thao's NeurIPS 2023 paper! Can you spot us?"
-                  </center> -->
                 </p>
                 </div>
               <td>
@@ -303,6 +343,7 @@
               </td>
             </tr>
           </table>
+          </center>
           <!-- <br /> -->
           <center>
           <div id="notice" style="display:none; color:#dedede; font-size:.5em;">
@@ -312,6 +353,7 @@
           </div>
         </center>
           <div id="footer">
+
 <div id="footer-text"> 
   This website is generated from 
   <a href="https://github.com/wsshin/jemdoc_mathjax" target="_blank">jemdoc+MathJax</a> 
@@ -336,6 +378,69 @@
 
   // Insert the formatted date into the "last-updated" span
   document.getElementById('last-updated').textContent = formattedDate;
+</script>
+
+<script>
+  // Publication toggle functionality
+  const toggleSelected = document.getElementById('toggle-selected');
+  const toggleAll = document.getElementById('toggle-all');
+  const publications = document.querySelectorAll('.publication-table');
+  const sections = document.querySelectorAll('.publication-section');
+  const countSelectedSpan = document.getElementById('count-selected');
+  const countAllSpan = document.getElementById('count-all');
+  
+  let currentView = 'selected'; // default view
+  
+  // Calculate publication counts
+  const selectedCount = Array.from(publications).filter(pub => 
+    pub.getAttribute('data-selected') === 'true'
+  ).length;
+  const totalCount = publications.length;
+  
+  // Display counts
+  countSelectedSpan.textContent = `(${selectedCount})`;
+  countAllSpan.textContent = `(${totalCount})`;
+  
+  // Function to show selected publications only
+  function showSelected() {
+    publications.forEach(pub => {
+      if (pub.getAttribute('data-selected') === 'true') {
+        pub.style.display = 'table';
+      } else {
+        pub.style.display = 'none';
+      }
+    });
+    sections.forEach(section => {
+      if (section.getAttribute('data-selected') === 'true') {
+        section.style.display = 'block';
+      } else {
+        section.style.display = 'none';
+      }
+    });
+    toggleSelected.classList.add('active');
+    toggleAll.classList.remove('active');
+    currentView = 'selected';
+  }
+  
+  // Function to show all publications
+  function showAll() {
+    publications.forEach(pub => {
+      pub.style.display = 'table';
+    });
+    sections.forEach(section => {
+      section.style.display = 'block';
+    });
+    toggleAll.classList.add('active');
+    toggleSelected.classList.remove('active');
+    currentView = 'all';
+  }
+  
+  // Add event listeners
+  toggleSelected.addEventListener('click', showSelected);
+  toggleAll.addEventListener('click', showAll);
+  
+  // Initialize with selected publications view
+  showSelected();
 </script>
 
               <!-- </div> -->
