@@ -1,453 +1,520 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-  <head>
-    <meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <meta property="og:image" content="./images/thao-flower.png" />
-    <meta property="og:title" content="Thao Nguyen (.❛ ᴗ ❛.)" />
-    <meta property="og:description" content="Hi Internet! I'm Thao and this is my personal webpage." />
-    <link rel="stylesheet" href="jemdoc.css" type="text/css" />
-    <!-- <link rel="icon" type="image/png" href="./images/favicon.png" /> -->
-    <link rel="icon" type="image/png" href="./images/wish-tree.png" />
-    <title>Thao Nguyen (Shibe)</title>
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-  </head>
-  <body>
-    <script type="text/javascript" src="script.js"></script>
-    <style>
-        #profile_photo {
-            max-width: 300px;
-            transition: all 0.3s ease;
-        }
-        #profile_photo:hover {
-              content: url('images/thao-badger.jpeg');
-        }
-        .pub-toggle {
-            cursor: pointer;
-            color: #999;
-            text-decoration: none;
-            font-size: 0.9em;
-            padding: 0 5px;
-            transition: color 0.2s;
-        }
-        .pub-toggle:hover {
-            color: #555;
-        }
-        .pub-toggle.active {
-            color: #0000CD;
-            font-weight: 600;
-        }
-        .publication-table {
-            transition: opacity 0.3s ease;
-        }
-        .random-flex {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .random-item {
-            text-align: center;
-            flex: 1;
-            min-width: 150px;
-        }
-        .random-item img {
-            display: block;
-            margin: 0 auto 2px auto;
-        }
-    </style>
-    <table summary="Table for page layout." id="tlayout">
-      <tr valign="top">
-        <td id="layout-content">
-          <div id="toptitle">
-            <h1>Thao Nguyen (Shibe)</h1>
+<head>
+  <meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta property="og:image" content="./images/thao-flower.png" />
+  <meta property="og:title" content="Thao Nguyen (.❛ ᴗ ❛.)" />
+  <meta property="og:description" content="Hi Internet! I'm Thao and this is my personal webpage." />
+  <link rel="stylesheet" href="jemdoc.css" type="text/css" />
+  <link rel="icon" type="image/png" href="./images/wish-tree.png" />
+  <title>Thao Nguyen (Shibe)</title>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <style>
+    /* Profile Photo Hover Effect */
+    #profile_photo {
+      max-width: 300px;
+      transition: all 0.3s ease;
+    }
+    #profile_photo:hover {
+      content: url('images/thao-badger.jpeg');
+    }
+
+    /* Publication Toggle Buttons */
+    .pub-toggle {
+      cursor: pointer;
+      color: #999;
+      text-decoration: none;
+      font-size: 0.9em;
+      padding: 0 5px;
+      transition: color 0.2s;
+    }
+    .pub-toggle:hover {
+      color: #555;
+    }
+    .pub-toggle.active {
+      color: #0000CD;
+      font-weight: 600;
+    }
+
+    /* Publication Tables */
+    .publication-table {
+      transition: opacity 0.3s ease;
+    }
+
+    /* Random Section Flex Layout */
+    .random-flex {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .random-item {
+      text-align: center;
+      flex: 1;
+      min-width: 150px;
+    }
+    .random-item img {
+      display: block;
+      margin: 0 auto 2px auto;
+    }
+
+    /* Conference Images Hover Effect */
+    .conference-img {
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .conference-img:hover {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+    }
+    .lightbox-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      animation: zoom 0.3s;
+    }
+    @keyframes zoom {
+      from {transform: scale(0.7)}
+      to {transform: scale(1)}
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .lightbox-close:hover,
+    .lightbox-close:focus {
+      color: #bbb;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="text/javascript" src="script.js"></script>
+
+  <table summary="Table for page layout." id="tlayout">
+    <tr valign="top">
+      <td id="layout-content">
+
+        <!-- Header -->
+        <div id="toptitle">
+          <h1>Thao Nguyen (Shibe)</h1>
+        </div>
+
+        <!-- Profile Section -->
+        <table class="imgtable">
+          <tr>
+            <td>
+              <a href="./images/thao-android.jpg">
+                <img src="./images/thao-android.jpg" alt="Thao at Googleplex" width="300px" /><br>
+                <text style="font-size:60%;color:#A9A9A9">Photo taken at Googleplex @ Summer 2024 ╮ (. ❛ ᴗ ❛.) ╭</text><br>
+              </a>&nbsp;
+            </td>
+            <td align="left">
+              <p>
+                Hi, I'm Thao! 👋<br> 
+                I'm a CS PhD student @ <a href="https://www.cs.wisc.edu/">UW—Madison 🦡</a>, working with <a href="https://pages.cs.wisc.edu/~yongjaelee/">Prof. Yong Jae Lee</a>.<br>
+                I'm fortunate to also have support from senior students: <a href="https://utkarshojha.github.io/">Dr. Utkarsh Ojha</a>, <a href="https://yuheng-li.github.io/">Dr. Yuheng Li</a>, <a href="https://hliu.cc/">Dr. Haotian Liu 🌋</a>, and <a href="https://pages.cs.wisc.edu/~mucai/">Dr. Mu Cai</a>~<br>
+                <br>
+                Before that, I was an <a href="https://www.qualcomm.com/research/artificial-intelligence/ai-residency-program">AI Research Resident</a> @ VinAI Research (acquired by Qualcomm), where I had the privilege of working closely with <a href="https://scholar.google.com/citations?hl=en&user=FYZ5ODQAAAAJ&view_op=list_works&sortby=pubdate">Dr. Anh Tran</a>, <a href="https://gshoai.github.io/">Prof. Minh Hoai Nguyen</a>, <a href="https://ducthanhnguyen.weebly.com">Dr. Duc Thanh Nguyen</a>, and many amazing folks there.<br>
+                These people have motivated me to pursuit higher education.<br>
+                Thank you! 🙇‍♀️🎓
+              </p>
+              <p style="font-size:80%;color:#A9A9A9">
+                ｡𖦹°‧ I'm taking a PhD Minor in Educational Psychology and was lucky enough to learn a lot about stereotypes and STEM from <a href="https://edpsych.education.wisc.edu/fac-staff/starr-christy/">Prof. Christy Starr</a> (thank you!!).<br>
+                This inspired me to create <a href="https://viet-wics.github.io/"><img src="https://viet-wics.github.io/assets/img/favicon.ico" height="20"> viet-wisc: a collection of Vietnamese women working in Computer Science (PhD)</a>. If you're 🇻🇳🙋‍♀️, you might find it inspiring~ 🌱<br>
+              </p>
+              <p>
+                <center>
+                  <a href="mailto:thao.nguyen@wisc.edu">Email</a> / 
+                  <a href="https://github.com/thaoshibe">GitHub</a> /
+                  <a href="https://scholar.google.com/citations?hl=en&user=P_6-46UAAAAJ&view_op=list_works&sortby=pubdate">Google Scholar</a> /
+                  <a href="https://drive.google.com/file/d/17STKdJuOWiOpHgdx2WvtKp-w-rIaxK-Y/view?usp=sharing">Resume | CV</a>
+                </center>
+              </p>
+              <center>
+                <p style="font-size:90%; color:#EE4B2B; background-color:#F2F0EF; padding:8px 12px; border-radius:6px;">
+                  I'm looking for research opportunities/interns around <b>Personalized AI</b> ~~ Please email me if you think I'd be a good fit~ <b>thao.nguyen@wisc.edu 🤗</b>
+                </p>
+              </center>
+            </td>
+          </tr>
+        </table>
+
+        <!-- About Me Section -->
+        <h2>About Me</h2>
+        <p>4th year PhD Student &ndash; <a href="https://www.wisc.edu/">Univeristy of Wisconsin - Madison</a>.</p>
+        <p>
+          <b>Contact</b>: &ldquo;thao.nguyen at wisc dot edu&ldquo; | &ldquo;thao.ntp0414 at gmail dot com&rdquo;.
+        </p>
+        <p>
+          <b>Research interests</b>: Personalized AI; Multimodal Models; <text style="color:rgb(179, 178, 178); font-size:90%">(+ AI for Education)</text>
+        </p>
+
+        <!-- Publications Section -->
+        <h2>
+          Publications 
+          <span style="font-size: 0.7em; font-weight: normal;">
+            [<a href="javascript:void(0)" class="pub-toggle active" id="toggle-selected">Selected <span id="count-selected"></span></a> | 
+            <a href="javascript:void(0)" class="pub-toggle" id="toggle-all">All <span id="count-all"></span></a>]
+          </span>
+        </h2>
+
+        <!-- X-Fusion -->
+        <table class="imgtable publication-table" data-selected="false">
+          <tr>
+            <td>
+              <a href="https://sichengmo.github.io/XFusion/">
+                <img src="./images/xfusion-teaser.gif" alt="X-Fusion teaser" width="180px" />
+              </a>&nbsp;
+            </td>
+            <td align="left;vertical-align: middle;">
+              <p>
+                <a href="https://sichengmo.github.io/XFusion/"><b>X-Fusion: Introducing New Modality to Frozen Large Language Models</b></a><br>
+                <i>Sicheng Mo, <b>Thao Nguyen</b>, Xun Huang, Siddharth Srinivasan Iyer, Yijun Li, Yuchen Liu, Abhishek Tandon, Eli Shechtman, Krishna Kumar Singh, Yong Jae Lee, Bolei Zhou, Yuheng Li</i><br>
+                International Conference on Computer Vision (<b>ICCV</b>), 2025<br>
+                <i style="color:#ee2400"><small>Best paper at 🏆 CVPR 2025 Workshop: "Transformers for Vision (T4V)"</small></i><br>
+                [<a href="https://sichengmo.github.io/XFusion/">ProjectPage</a>, <a href="https://sichengmo.github.io/XFusion/">Code</a>, <a href="https://arxiv.org/abs/2504.20996">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Yo'Chameleon -->
+        <table class="imgtable publication-table" data-selected="true">
+          <tr>
+            <td>
+              <a href="https://thaoshibe.github.io/YoChameleon/">
+                <img src="./YoChameleon/your-chameleon-teaser.gif" alt="Yo'Chameleon teaser" width="180px" />
+              </a>&nbsp;
+            </td>
+            <td align="left;vertical-align: middle;">
+              <p>
+                <a href="https://thaoshibe.github.io/YoChameleon/"><b>Yo'Chameleon: Personalized Vision and Language Generation</b></a><br>
+                <i><b>Thao Nguyen</b>, Krishna Kumar Singh, Jing Shi, Trung Bui, Yong Jae Lee, Yuheng Li</i><br>
+                Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025<br>
+                <i><small>(also accepted at 🧷 CVPR 2025 Workshop: "What is Next in Multimodal Foundation Models?")</small></i><br>
+                [<a href="https://thaoshibe.github.io/YoChameleon/">ProjectPage</a>, <a href="https://drive.google.com/file/d/1eMhP6YUqlQw9SaU90x3p8M4aQW6wSdH0/view?usp=sharing">Poster</a>, <a href="https://thaoshibe.github.io/YoChameleon/">Code</a>, <a href="https://arxiv.org/abs/2504.20998">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Yo'LLaVA -->
+        <table class="imgtable publication-table" data-selected="true">
+          <tr>
+            <td>
+              <a href="https://thaoshibe.github.io/YoLLaVA/">
+                <img src="./YoLLaVA/yollava-2.gif" alt="Yo'LLaVA teaser" width="180px" />
+              </a>&nbsp;
+            </td>
+            <td align="left;vertical-align: middle;">
+              <p>
+                <a href="https://thaoshibe.github.io/YoLLaVA/"><b>Yo'LLaVA: Your Personalized Language and Vision Assistant</b></a><br>
+                <i><b>Thao Nguyen</b>, Haotian Liu, Yuheng Li, Mu Cai, Utkarsh Ojha, Yong Jae Lee</i><br>
+                Neural Information Processing Systems (<b>NeurIPS</b>), 2024<br>
+                [<a href="https://thaoshibe.github.io/YoLLaVA/">ProjectPage</a>, <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202024/93737.png?t=1729115312.34047">Poster</a>, <a href="https://github.com/WisconsinAIVision/YoLLaVA">Code</a>, <a href="https://arxiv.org/abs/2406.09400">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Edit One for All -->
+        <table class="imgtable publication-table" data-selected="false">
+          <tr>
+            <td>
+              <a href="https://thaoshibe.github.io/edit-one-for-all/">
+                <img src="./images/edit-one-for-all.gif" alt="Edit One for All teaser" width="180px"/>
+              </a>&nbsp;
+            </td>
+            <td align="left;vertical-align: middle;">
+              <p>
+                <a href="https://thaoshibe.github.io/edit-one-for-all"><b>Edit One for All: Interactive Batch Image Editing</b></a><br>
+                <i><b>Thao Nguyen</b>, Utkarsh Ojha, Yuheng Li, Haotian Liu, Yong Jae Lee</i><br>
+                Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2024<br>
+                [<a href="https://thaoshibe.github.io/edit-one-for-all">ProjectPage</a>, <a href="https://drive.google.com/file/d/13Yg0-5fv_u1y11Q1ZjbblmqQAHIi4ve9/view">Poster</a>, <a href="https://github.com/thaoshibe/edit-one-for-all">Code</a>, <a href="https://arxiv.org/abs/2401.10219">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- VISII -->
+        <table class="imgtable publication-table" data-selected="true">
+          <tr>
+            <td>
+              <a href="https://thaoshibe.github.io/visii">
+                <img src="images/visii.gif" alt="VISII teaser" width="180px"/>
+              </a>&nbsp;
+            </td>
+            <td align="left;vertical-align: middle;">
+              <p>
+                <a href="https://thaoshibe.github.io/visii"><b>Visual Instruction Inversion: Image Editing via Visual Prompting</b></a><br>
+                <i><b>Thao Nguyen</b>, Yuheng Li, Utkarsh Ojha, Yong Jae Lee</i><br>
+                Neural Information Processing Systems (<b>NeurIPS</b>), 2023<br>
+                [<a href="https://thaoshibe.github.io/visii">ProjectPage</a>, <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202023/70612.png?t=1702527232.3909361">Poster</a>, <a href="https://github.com/thaoshibe/visii">Code</a>, <a href="https://arxiv.org/abs/2307.14331">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- CPM -->
+        <table class="imgtable publication-table" data-selected="false">
+          <tr>
+            <td>
+              <a href="https://thaoshibe.github.io/CPM">
+                <img src="images/CPM/result.gif" alt="CPM teaser" width="180px"/>
+              </a>&nbsp;
+            </td>
+            <td align="left; vertical-align: middle;">
+              <p>
+                <a href="https://thaoshibe.github.io/CPM"><b>Lipstick ain't enough: Beyond Color Matching for In-the-Wild Makeup Transfer</b></a><br>
+                <i><b>Thao Nguyen</b>, Anh Tran, Minh Hoai</i><br>
+                Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021<br>
+                [<a href="https://thaoshibe.github.io/CPM">ProjectPage</a>, <a href="https://github.com/VinAIResearch/CPM">Code</a>, <a href="https://www.youtube.com/watch?v=8JbqCgdc8YU">Video</a>, <a href="https://arxiv.org/abs/2104.01867">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Non-CS Publication -->
+        <h2 class="publication-section" data-selected="false">Not CS publication :D</h2>
+        <table class="imgtable publication-table" data-selected="false">
+          <tr>
+            <td>
+              <a href="https://drive.google.com/file/d/1fUYeSewtMufd2GLLLKKvK7EXcU6jSk78/view?usp=sharing">
+                <img src="./images/icqe2025.png" alt="ICQE poster" width="180px" />
+              </a>&nbsp;
+            </td>
+            <td align="left;vertical-align: middle;">
+              <p>
+                <a href="https://drive.google.com/file/d/1fUYeSewtMufd2GLLLKKvK7EXcU6jSk78/view?usp=sharing"><b>Are Dining Expectations Culturally Conditioned? An analysis of Asian vs. American Restaurants</b></a> <font style="font-size: 0.8em; color: #dddddd;">(yes, it's not a CS conference :D)</font><br>
+                <i><b>Thao Nguyen</b> (+Yuheng Li)</i><br>
+                International Conference on Quantitative Ethnography (<b>ICQE</b>), 2025<br>
+                <i style="color:#ee2400"><small>Best poster nomination 🏆</small></i> <small>| work done during my PhD minor course with <a href="https://edpsych.education.wisc.edu/fac-staff/williamson-shaffer-david/">Prof. David Williamson Shaffer</a> 😊</small><br>
+                [<a href="https://drive.google.com/file/d/1fUYeSewtMufd2GLLLKKvK7EXcU6jSk78/view?usp=sharing">Poster</a>, <a href="https://www.qesoc.org/images/qesoc/ICQE25/ICQE25_Supplement_Proceedings.pdf">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Random Section -->
+        <h2>Random</h2>
+        <div style="text-align:left;">When I make no progress on my research 🐢, I create and maintain these GitHub repositories 😅...</div>
+        <br>
+        <div class="random-flex">
+          <div class="random-item">
+            <a href="https://viet-wics.github.io/">
+              <img src="https://avatars.githubusercontent.com/u/166851392?v=4" alt="viet-wics" height="130px" />
+              vietnamese women in computer science (viet-wics)
+            </a>
           </div>
-          <table class="imgtable">
-            <tr>
-              <td>
-                <a href="./images/thao-android.jpg">
-                  <img src="./images/thao-android.jpg" alt="alt text" width="300px" /><br>
-                  <text style="font-size:60%;color:#A9A9A9">Photo taken at Googleplex @ Summer 2024 ╮ (. ❛ ᴗ ❛.) ╭</text>
-             <br>
-                </a>&nbsp;
-              </td>
-              <td align="left">
-                  <p>Hi, I'm Thao! 👋<br> I'm a CS PhD student @ <a href = "https://www.cs.wisc.edu/"> UW—Madison 🦡</a>, working with <a href="https://pages.cs.wisc.edu/~yongjaelee/">Prof. Yong Jae Lee</a>.<br>
-                  I'm fortunate to also have support from senior students: <a href="https://utkarshojha.github.io/">Dr. Utkarsh Ojha</a>, <a href="https://yuheng-li.github.io/">Dr. Yuheng Li</a>, <a href="https://hliu.cc/">Dr. Haotian Liu 🌋</a>, and <a href="https://pages.cs.wisc.edu/~mucai/">Dr. Mu Cai</a>~
-                    <br>
-                  <br /> Before that, I was an <a href="https://www.qualcomm.com/research/artificial-intelligence/ai-residency-program">AI Research Resident</a> @ VinAI Research (acquired by Qualcomm), where I had the privilege of working closely with <a href="https://scholar.google.com/citations?hl=en&user=FYZ5ODQAAAAJ&view_op=list_works&sortby=pubdate">Dr. Anh Tran</a>, <a href="https://gshoai.github.io/">Prof. Minh Hoai Nguyen</a>, <a href="https://ducthanhnguyen.weebly.com">Dr. Duc Thanh Nguyen</a>, and many amazing folks there.<br>
-                  These people have motivated me to pursuit higher education.<br>
-                  Thank you! 🙇‍♀️🎓</p>
-          <p style="font-size:80%;color:#A9A9A9">
-             ｡𖦹°‧ I'm taking a PhD Minor in Educational Psychology and was lucky enough to learn a lot about stereotypes and STEM from <a href="https://edpsych.education.wisc.edu/fac-staff/starr-christy/">Prof. Christy Starr</a> (thank you!!).
-             <br>This inspired me to create <a href="https://viet-wics.github.io/"><img src="https://viet-wics.github.io/assets/img/favicon.ico" height="20"> viet-wisc: a collection of Vietnamese women working in Computer Science (PhD)</a>. If you're 🇻🇳🙋‍♀️, you might find it inspiring~ 🌱<br>
-            <br>
-          </p>
-          <p>
-            <center>
-              <a href="mailto:thao.nguyen@wisc.edu">Email</a> / 
-              <a href="https://github.com/thaoshibe">GitHub</a> /
-              <a href="https://scholar.google.com/citations?hl=en&user=P_6-46UAAAAJ&view_op=list_works&sortby=pubdate">Google Scholar</a> /
-              <a href="https://drive.google.com/file/d/17STKdJuOWiOpHgdx2WvtKp-w-rIaxK-Y/view?usp=sharing">Resume | CV</a>
-            </center>
-          </p>
-          <center>
-            <p style="font-size:90%; color:#EE4B2B; background-color:#F2F0EF; padding:8px 12px; border-radius:6px;">
-              
-              I'm looking for research opportunities/interns around <b>Personalized AI</b> ~~ Please email me if you think I'd be a good fit~ <b>thao.nguyen@wisc.edu 🤗</b>
-            </p>
-            </center>
-              </td>
-            </tr>
-          </table>
-          <h2>About Me</h2>
-          <p>4th year PhD Student &ndash; <a href="https://www.wisc.edu/">Univeristy of Wisconsin - Madison</a>.<br />
-          </p>
-          <p>
-            <b>Contact</b>: &ldquo;thao.nguyen at wisc dot edu&ldquo; | &ldquo;thao.ntp0414 at gmail dot com&rdquo;. </p>
-            <!-- Or check my <a href="https://scholar.google.com/citations?hl=en&user=P_6-46UAAAAJ">Google Scholar</a>, <a href="https://github.com/thaoshibe">GitHub</a>. <br /> -->
-          </p>
-          <p>
-            <b>Research interests</b>: Personalized AI; Multimodal Models; <text style="color:rgb(179, 178, 178); font-size:90%">(+ AI for Education)</text><br />
-          </p>
-          <!-- <p>You can find my resume <a href="https://drive.google.com/file/d/17STKdJuOWiOpHgdx2WvtKp-w-rIaxK-Y/view?usp=sharing">here</a>. </p> -->
-          <h2>Publications 
-            <span style="font-size: 0.7em; font-weight: normal;">
-              [<a href="javascript:void(0)" class="pub-toggle active" id="toggle-selected">Selected <span id="count-selected"></span></a> | 
-              <a href="javascript:void(0)" class="pub-toggle" id="toggle-all">All <span id="count-all"></span></a>]
-            </span>
-          </h2>
-          <br>
-          <table class="imgtable publication-table" data-selected="false">
-            <tr>
-              <td>
-                <a href="https://sichengmo.github.io/XFusion/">
-                  <img src="./images/xfusion-teaser.gif" alt="alt text" width="180px" />
-                </a>&nbsp;
-              </td>
-              <td align="left;vertical-align: middle;">
-                <p>
-                  <a href="https://sichengmo.github.io/XFusion/"><b>X-Fusion: Introducing New Modality to Frozen Large Language Models</b></a>
-                  <br/>
-                  <i>
-                    Sicheng Mo, <b>Thao Nguyen</b>, Xun Huang, Siddharth Srinivasan Iyer, Yijun Li, Yuchen Liu, Abhishek Tandon, Eli Shechtman, Krishna Kumar Singh, Yong Jae Lee, Bolei Zhou, Yuheng Li
-                  </i>
-                  <br/>International Conference on Computer Vision (<b>ICCV</b>), 2025
-                  <br/>
-                  <i style="color:#ee2400"><small>Best paper at 🏆 CVPR 2025 Workshop: "Transformers for Vision (T4V)"</small></i>
-                  <br/> [<a href="https://sichengmo.github.io/XFusion/">ProjectPage</a>, <a href="https://sichengmo.github.io/XFusion/">Code</a>, <a href="https://arxiv.org/abs/2504.20996">Paper</a>] <br/>
-                  <br />
-                </p>
-              </td>
-            </tr>
-          </table>
-          <table class="imgtable publication-table" data-selected="true">
-            <tr>
-              <td>
-                <a href="https://thaoshibe.github.io/YoChameleon/">
-                  <img src="./YoChameleon/your-chameleon-teaser.gif" alt="alt text" width="180px" />
-                </a>&nbsp;
-              </td>
-              <td align="left;vertical-align: middle;">
-                <p>
-                  <a href="https://thaoshibe.github.io/YoChameleon/"><b>Yo'Chameleon: Personalized Vision and Language Generation</b></a>
-                  <br/>
-                  <i>
-                    <b>Thao Nguyen</b>, Krishna Kumar Singh, Jing Shi, Trung Bui, Yong Jae Lee, Yuheng Li</i>
-                  <br/>Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025
-                  <br/>
-                  <i><small>(also accepted at 🧷 CVPR 2025 Workshop: "What is Next in Multimodal Foundation Models?")</small></i>
-                  <br/>
-                  [<a href="https://thaoshibe.github.io/YoChameleon/">ProjectPage</a>, <a href="https://drive.google.com/file/d/1eMhP6YUqlQw9SaU90x3p8M4aQW6wSdH0/view?usp=sharing">Poster</a>, <a href="https://thaoshibe.github.io/YoChameleon/">Code</a>, <a href="https://arxiv.org/abs/2504.20998">Paper</a>] <br/>
-                  <br />
-                </p>
-              </td>
-            </tr>
-          </table>
-          <table class="imgtable publication-table" data-selected="true">
-            <tr>
-              <td>
-                <a href="https://thaoshibe.github.io/YoLLaVA/">
-                  <img src="./YoLLaVA/yollava-2.gif" alt="alt text" width="180px" />
-                </a>&nbsp;
-              </td>
-              <td align="left;vertical-align: middle;">
-                <p>
-                  <a href="https://thaoshibe.github.io/YoLLaVA/"><b>Yo'LLaVA: Your Personalized Language and Vision Assistant </b></a>
-                  <br />
-                  <i>
-                    <b>Thao Nguyen</b>, Haotian Liu, Yuheng Li, Mu Cai, Utkarsh Ojha, Yong Jae Lee</i>
-                  <br />Neural Information Processing Systems (<b>NeurIPS</b>), 2024  <br /> [<a href="https://thaoshibe.github.io/YoLLaVA/">ProjectPage</a>, <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202024/93737.png?t=1729115312.34047">Poster</a>, <a href="https://github.com/WisconsinAIVision/YoLLaVA">Code</a>, <a href="https://arxiv.org/abs/2406.09400">Paper</a>] <br/>
-                  <br />
-                </p>
-              </td>
-            </tr>
-          </table>
-          <table class="imgtable publication-table" data-selected="false">
-            <tr>
-              <td>
-                <a href="https://thaoshibe.github.io/edit-one-for-all/">
-                  <img src="./images/edit-one-for-all.gif" alt="alt text" width="180px"/>
-                </a>&nbsp;
-              </td>
-              <td align="left;vertical-align: middle;">
-                <p>
-                  <a href="https://thaoshibe.github.io/edit-one-for-all"><b>Edit One for All: Interactive Batch Image Editing</b></a>
-                  <br />
-                  <i>
-                    <b>Thao Nguyen</b>, Utkarsh Ojha, Yuheng Li, Haotian Liu, Yong Jae Lee </i>
-                  <br />Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2024 <br /> [<a href="https://thaoshibe.github.io/edit-one-for-all">ProjectPage</a>, <a href="https://drive.google.com/file/d/13Yg0-5fv_u1y11Q1ZjbblmqQAHIi4ve9/view">Poster</a>, <a href="https://github.com/thaoshibe/edit-one-for-all">Code</a>, <a href="https://arxiv.org/abs/2401.10219">Paper</a>] <br/>
-                  <br />
-                  <!-- Place this tag where you want the button to render. -->
-                  <!-- <a class="github-button" href="https://github.com/thaoshibe/edit-one-for-all" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star thaoshibe/edit-one-for-all on GitHub">Star</a>&nbsp&nbsp&nbsp&nbsp -->
-                  <!-- Place this tag where you want the button to render. -->
-                  <!-- <a class="github-button" href="https://github.com/thaoshibe/edit-one-for-all/fork" data-icon="octicon-repo-forked" data-size="large" data-show-count="true" aria-label="Fork thaoshibe/edit-one-for-all on GitHub">Fork</a> -->
-                </p>
-              </td>
-            </tr>
-          </table>
-          <table class="imgtable publication-table" data-selected="true">
-            <tr>
-              <td>
-                <a href="https://thaoshibe.github.io/visii">
-                  <img src="images/visii.gif" alt="alt text" width="180px"/>
-                </a>&nbsp;
-              </td>
-              <td align="left;vertical-align: middle;">
-                <p>
-                  <a href="https://thaoshibe.github.io/visii"><b>Visual Instruction Inversion: Image Editing via Visual Prompting</b></a>
-                  <br />
-                  <i>
-                    <b>Thao Nguyen</b>, Yuheng Li, Utkarsh Ojha, Yong Jae Lee </i>
-                  <br />Neural Information Processing Systems (<b>NeurIPS</b>), 2023 <br /> [<a href="https://thaoshibe.github.io/visii">ProjectPage</a>, <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202023/70612.png?t=1702527232.3909361">Poster</a>, <a href="https://github.com/thaoshibe/visii">Code</a>, <a href="https://arxiv.org/abs/2307.14331">Paper</a>] <br/>
-                  <br />
-                  <!-- Place this tag where you want the button to render. -->
-                  <!-- <a class="github-button" href="https://github.com/thaoshibe/visii" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star thaoshibe/visii on GitHub">Star</a>&nbsp&nbsp&nbsp&nbsp -->
-                  <!-- Place this tag where you want the button to render. -->
-                  <!-- <a class="github-button" href="https://github.com/thaoshibe/visii/fork" data-icon="octicon-repo-forked" data-size="large" data-show-count="true" aria-label="Fork thaoshibe/visii on GitHub">Fork</a> -->
-                </p>
-              </td>
-            </tr>
-          </table>
-          <table class="imgtable publication-table" data-selected="false">
-            <tr>
-              <td>
-                <a href="https://thaoshibe.github.io/CPM">
-                  <img src="images/CPM/result.gif" alt="alt text" width="180px"/>
-                </a>&nbsp;
-              </td>
-              <td align="left; vertical-align: middle;">
-                <p>
-                  <a href="https://thaoshibe.github.io/CPM"><b>Lipstick ain't enough: Beyond Color Matching for In-the-Wild Makeup Transfer</b></a>
-                  <br />
-                  <i>
-                    <b>Thao Nguyen</b>, Anh Tran, Minh Hoai </i>
-                  <br /> Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021 <br /> [<a href="https://thaoshibe.github.io/CPM">ProjectPage</a>, <a href="https://github.com/VinAIResearch/CPM">Code</a>, <a href="https://www.youtube.com/watch?v=8JbqCgdc8YU">Video</a>, <a href="https://arxiv.org/abs/2104.01867">Paper</a>] <br />
-                  <br />
-                  <!-- Place this tag where you want the button to render. -->
-                  <!-- <a class="github-button" href="https://github.com/VinAIResearch/CPM" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star VinAIResearch/CPM on GitHub">Star</a>&nbsp&nbsp&nbsp&nbsp -->
-                  <!-- Place this tag where you want the button to render. -->
-                  <!-- <a class="github-button" href="https://github.com/VinAIResearch/CPM/fork" data-icon="octicon-repo-forked" data-size="large" data-show-count="true" aria-label="Fork VinAIResearch/CPM on GitHub">Fork</a> -->
-                </p>
-              </td>
-            </tr>
-          </table>
-          <h2 class="publication-section" data-selected="false">Not CS publication :D</h2>
-          <table class="imgtable publication-table" data-selected="false">
-            <tr>
-              <td>
-                <a href="https://drive.google.com/file/d/1fUYeSewtMufd2GLLLKKvK7EXcU6jSk78/view?usp=sharing">
-                  <img src="./images/icqe2025.png" alt="alt text" width="180px" />
-                </a>&nbsp;
-              </td>
-              <td align="left;vertical-align: middle;">
-                <p>
-                  <a href="https://drive.google.com/file/d/1fUYeSewtMufd2GLLLKKvK7EXcU6jSk78/view?usp=sharing"><b>Are Dining Expectations Culturally Conditioned? An analysis of Asian vs. American Restaurants</b></a> <font style="font-size: 0.8em; color: #dddddd;"> (yes, it's not a CS conference :D)</font>
-                  <br/>
-                  <i>
-                    <b>Thao Nguyen</b> (+Yuheng Li)
-                  </i>
-                  <br/>International Conference on Quantitative Ethnography (<b>ICQE</b>), 2025
-                  <br/>
-                  <i style="color:#ee2400"><small>Best poster nomination 🏆</small></i> <small>| work done during my PhD minor course with <a href="https://edpsych.education.wisc.edu/fac-staff/williamson-shaffer-david/">Prof. David Williamson Shaffer</a> 😊</small>
-                  <br/> [<a href="https://drive.google.com/file/d/1fUYeSewtMufd2GLLLKKvK7EXcU6jSk78/view?usp=sharing">Poster</a>, <a href="https://www.qesoc.org/images/qesoc/ICQE25/ICQE25_Supplement_Proceedings.pdf">Paper</a>] <br/>
-                  <br />
-                </p>
-              </td>
-            </tr>
-          </table>
-          <h2>Random</h2>
-          <center>When I make no progress on my research 🐢, I create and maintain these repositories 😅...</center>
-          <br>
-          
-          <div class="random-flex">
-            <div class="random-item">
-              <a href="https://viet-wics.github.io/">
-                <img src="https://avatars.githubusercontent.com/u/166851392?v=4" alt="viet-wics" height="130px" />
-                vietnamese women in computer science (viet-wics)
-              </a>
-            </div>
-            <div class="random-item">
-              <a href="https://github.com/thaoshibe/cs-conference-posters">
-                <img src="https://raw.githubusercontent.com/thaoshibe/cs-conference-posters/refs/heads/main/imgs/jerry-explain.png" alt="cs-conference-posters" height="130px" />
-                cs-conference-posters (pptx)
-              </a>
-            </div>
-            <div class="random-item">
-              <a href="https://github.com/thaoshibe/awesome-personalized-lmms">
-                <img src="https://yuheng-li.github.io/images/yochameleon.png" alt="awesome-personalized-lmms" height="130px" />
-                awesome-personalized-lmms
-              </a>
-            </div>
-            <div class="random-item">
-              <a href="https://github.com/thaoshibe/awesome-makeup-transfer">
-                <img src="https://thaoshibe.github.io/images/CPM/datasets.png" alt="awesome-makeup-transfer" height="130px" />
-                awesome-makeup-transfer
-              </a>
-            </div>
+          <div class="random-item">
+            <a href="https://github.com/thaoshibe/cs-conference-posters">
+              <img src="https://raw.githubusercontent.com/thaoshibe/cs-conference-posters/refs/heads/main/imgs/jerry-explain.png" alt="cs-conference-posters" height="130px" />
+              cs-conference-posters (pptx)
+            </a>
           </div>
-          <br>
-          <!-- <text>Please don't tell my advisor/ mentors</text> -->
-          <!-- <text style="font-size:90%; color:#999"> For my Vietnamese visitors 🇻🇳: Mình có nói về việc tại sao mình đi học PhD </text> -->
-          <h2>Misc</h2>
-          <center>
+          <div class="random-item">
+            <a href="https://github.com/thaoshibe/awesome-personalized-lmms">
+              <img src="https://yuheng-li.github.io/images/yochameleon.png" alt="awesome-personalized-lmms" height="130px" />
+              awesome-personalized-lmms
+            </a>
+          </div>
+          <div class="random-item">
+            <a href="https://github.com/thaoshibe/awesome-makeup-transfer">
+              <img src="https://thaoshibe.github.io/images/CPM/datasets.png" alt="awesome-makeup-transfer" height="130px" />
+              awesome-makeup-transfer
+            </a>
+          </div>
+        </div>
+        <!-- <br> -->
+        <div style="text-align:right;">One time, I also talked about my PhD experience (in Vietnamese) <a href="https://youtu.be/796-tohYROA?si=V6NYIMXHQ0BFHFUZ">on this Youtube video</a> 🎥😂.</div>
+
+
+        <!-- Misc Section -->
+        <h2>Misc</h2>
+        <center>
           <table class="imgtable">
             <tr>
               <td>
                 <a href="https://www.instagram.com/avoshibe/">
-                  <!-- <img src="images/bo.jpg" onmouseover="this.src='images/bo.jpg';" onmouseout="this.src='images/avoshibe-nobackground.png'" alt="alt text" height="140px" /> -->
-                  <img src="images/bo.png" alt="alt text" height="170px" />
+                  <img src="images/bo.png" alt="Bo the Shiba" height="170px" />
                 </a>&nbsp;
               </td>
-
               <td align="center">
-              <div style="text-align:center;font-size:90%">
-                <a href="javascript:toggleblock('notice')"><center>--- I'm proud to be a <b>hooman-assistant</b> of Bo the Shiba and Mam the Cat (.❛ ᴗ ❛.)</center></a><br>
-                <font style="text-align:center;font-size:90%">"🎉 Bo and Mam are appearing on multiple figures of my papers. Can you spot them? </font>😉"</font>
-              </div>
+                <div style="text-align:center;font-size:90%"><a href="javascript:toggleblock('notice')"><center>--- I'm proud to be a <b>hooman-assistant</b> of Bo the Shiba and Mam the Cat (.❛ ᴗ ❛.)</center></a>
+                  <br>
+                  <font style="text-align:center;font-size:90%">"🎉 Bo and Mam are appearing on multiple figures of my papers. Can you spot them? 😉"</font>
+                </div>
+                <br>
                 <div id="notice" style="display:none; font-size:.7em;">
                   <p></p>
                   <p style="color:#B2560D">
-                    ⬅ <b>Bơ the Shiba</b> is a cheese lover, salad hater, &amp; professional balls retriever 🧀. <br />
-                    &nbsp&nbsp&nbsp&nbsp&nbspHis research interests lie broadly in the sleeping area 💤, focusing on squeaky toys 🐶.</p>
-                <p style="text-align:right;color:#555555"><b>Mam the Cat</b> is a snooze expert 😴 ➞ <br/>
-                  He's also passionate about texture analysis, as he spends a lot of time scratching everything 😾.&nbsp&nbsp&nbsp&nbsp&nbsp</p>
-                <p style="font-size:120%">
-                  <center> 
-                    "🥑 Read our journey from Vietnam 🇻🇳 to the US 🇺🇸 <a style="color:#0000CD" href='./posts/Bo-and-journey-to-the-US.html'>here ✈️."</a>
-                  </center>
-                </p>
+                    ⬅ <b>Bơ the Shiba</b> is a cheese lover, salad hater, &amp; professional balls retriever 🧀.<br>
+                    &nbsp&nbsp&nbsp&nbsp&nbspHis research interests lie broadly in the sleeping area 💤, focusing on squeaky toys 🐶.
+                  </p>
+                  <p style="text-align:right;color:#555555">
+                    <b>Mam the Cat</b> is a snooze expert 😴 ➞<br>
+                    He's also passionate about texture analysis, as he spends a lot of time scratching everything 😾.&nbsp&nbsp&nbsp&nbsp&nbsp
+                  </p>
+                  <p style="font-size:120%">
+                    <center>"🥑 Read our journey from Vietnam 🇻🇳 to the US 🇺🇸 <a style="color:#0000CD" href='./posts/Bo-and-journey-to-the-US.html'>here ✈️."</a></center>
+                  </p>
                 </div>
+                <img src="./images/neurips2023.jpg" alt="neurips2023" height="110px" class="conference-img" onclick="openLightbox(this.src)" />
+                <img src="./images/cvpr2024.jpg" alt="cvpr2024" height="110px" class="conference-img" onclick="openLightbox(this.src)" />
+                <img src="./images/neurips2024.jpg" alt="neurips2024" height="110px" class="conference-img" onclick="openLightbox(this.src)" />
+                <img src="./images/cvpr2025.jpg" alt="cvpr2025" height="110px" class="conference-img" onclick="openLightbox(this.src)" />
+                <img src="./images/iccv2025.jpg" alt="iccv2025" height="110px" class="conference-img" onclick="openLightbox(this.src)" />
+              </td>
               <td>
-                  <a href="https://www.instagram.com/avoshibe/">
-                  <img src="images/mam.png" height ="170px"></a>&nbsp;
+                <a href="https://www.instagram.com/avoshibe/">
+                  <img src="images/mam.png" alt="Mam the Cat" height="170px">
+                </a>&nbsp;
               </td>
             </tr>
           </table>
-          </center>
-          <!-- <br /> -->
-          <center>
+        </center>
+
+        <!-- Hidden Cluster Map -->
+        <center>
           <div id="notice" style="display:none; color:#dedede; font-size:.5em;">
             <p>
-              <a href='https://clustrmaps.com/site/1bkaa'  title='Visit tracker'><img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=500&t=tt&d=nTGCqf1kad8VJEPv0HzXZ2jA4ndyaXkd0D-iVtm_yoM'/></a>
+              <a href='https://clustrmaps.com/site/1bkaa' title='Visit tracker'><img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=500&t=tt&d=nTGCqf1kad8VJEPv0HzXZ2jA4ndyaXkd0D-iVtm_yoM'/></a>
             </p>
           </div>
         </center>
-          <div id="footer">
 
-<div id="footer-text"> 
-  This website is generated from 
-  <a href="https://github.com/wsshin/jemdoc_mathjax" target="_blank">jemdoc+MathJax</a> 
-  (<a href="index.jemdoc">source</a>).
-  Last Updated: <span id="last-updated"></span>.
-</div>
+        <!-- Footer -->
+        <div id="footer">
+          <div id="footer-text"> 
+            This website is generated from <a href="https://github.com/wsshin/jemdoc_mathjax" target="_blank">jemdoc+MathJax</a> (<a href="index.jemdoc">source</a>).
+            Last Updated: <span id="last-updated"></span>.
+          </div>
+        </div>
 
-<script>
-  // Get the current date
-  const currentDate = new Date();
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      </td>
+    </tr>
+  </table>
 
-  // Format the date as "17th Jul, 2024"
-  const formattedDate = currentDate.toLocaleDateString('en-GB', options)
-    .replace(/(\d+)(st|nd|rd|th)?/, (match, day) => {
-      let suffix = 'th';
-      if (day === '1' || day === '21' || day === '31') suffix = 'st';
-      else if (day === '2' || day === '22') suffix = 'nd';
-      else if (day === '3' || day === '23') suffix = 'rd';
-      return day + suffix;
-    });
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+  </div>
 
-  // Insert the formatted date into the "last-updated" span
-  document.getElementById('last-updated').textContent = formattedDate;
-</script>
+  <!-- Scripts -->
+  <script>
+    // Format and display last updated date
+    const currentDate = new Date();
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const formattedDate = currentDate.toLocaleDateString('en-GB', options)
+      .replace(/(\d+)(st|nd|rd|th)?/, (match, day) => {
+        let suffix = 'th';
+        if (day === '1' || day === '21' || day === '31') suffix = 'st';
+        else if (day === '2' || day === '22') suffix = 'nd';
+        else if (day === '3' || day === '23') suffix = 'rd';
+        return day + suffix;
+      });
+    document.getElementById('last-updated').textContent = formattedDate;
+  </script>
 
-<script>
-  // Publication toggle functionality
-  const toggleSelected = document.getElementById('toggle-selected');
-  const toggleAll = document.getElementById('toggle-all');
-  const publications = document.querySelectorAll('.publication-table');
-  const sections = document.querySelectorAll('.publication-section');
-  const countSelectedSpan = document.getElementById('count-selected');
-  const countAllSpan = document.getElementById('count-all');
-  
-  let currentView = 'selected'; // default view
-  
-  // Calculate publication counts
-  const selectedCount = Array.from(publications).filter(pub => 
-    pub.getAttribute('data-selected') === 'true'
-  ).length;
-  const totalCount = publications.length;
-  
-  // Display counts
-  countSelectedSpan.textContent = `(${selectedCount})`;
-  countAllSpan.textContent = `(${totalCount})`;
-  
-  // Function to show selected publications only
-  function showSelected() {
-    publications.forEach(pub => {
-      if (pub.getAttribute('data-selected') === 'true') {
+  <script>
+    // Publication toggle functionality
+    const toggleSelected = document.getElementById('toggle-selected');
+    const toggleAll = document.getElementById('toggle-all');
+    const publications = document.querySelectorAll('.publication-table');
+    const sections = document.querySelectorAll('.publication-section');
+    const countSelectedSpan = document.getElementById('count-selected');
+    const countAllSpan = document.getElementById('count-all');
+    
+    let currentView = 'selected';
+    
+    // Calculate publication counts
+    const selectedCount = Array.from(publications).filter(pub => 
+      pub.getAttribute('data-selected') === 'true'
+    ).length;
+    const totalCount = publications.length;
+    
+    // Display counts
+    countSelectedSpan.textContent = `(${selectedCount})`;
+    countAllSpan.textContent = `(${totalCount})`;
+    
+    // Function to show selected publications only
+    function showSelected() {
+      publications.forEach(pub => {
+        pub.style.display = pub.getAttribute('data-selected') === 'true' ? 'table' : 'none';
+      });
+      sections.forEach(section => {
+        section.style.display = section.getAttribute('data-selected') === 'true' ? 'block' : 'none';
+      });
+      toggleSelected.classList.add('active');
+      toggleAll.classList.remove('active');
+      currentView = 'selected';
+    }
+    
+    // Function to show all publications
+    function showAll() {
+      publications.forEach(pub => {
         pub.style.display = 'table';
-      } else {
-        pub.style.display = 'none';
-      }
-    });
-    sections.forEach(section => {
-      if (section.getAttribute('data-selected') === 'true') {
+      });
+      sections.forEach(section => {
         section.style.display = 'block';
-      } else {
-        section.style.display = 'none';
+      });
+      toggleAll.classList.add('active');
+      toggleSelected.classList.remove('active');
+      currentView = 'all';
+    }
+    
+    // Add event listeners
+    toggleSelected.addEventListener('click', showSelected);
+    toggleAll.addEventListener('click', showAll);
+    
+    // Initialize with selected publications view
+    showSelected();
+  </script>
+
+  <script>
+    // Lightbox functionality for conference images
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightbox.style.display = 'block';
+      lightboxImg.src = src;
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+
+    // Close lightbox with Escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeLightbox();
       }
     });
-    toggleSelected.classList.add('active');
-    toggleAll.classList.remove('active');
-    currentView = 'selected';
-  }
-  
-  // Function to show all publications
-  function showAll() {
-    publications.forEach(pub => {
-      pub.style.display = 'table';
-    });
-    sections.forEach(section => {
-      section.style.display = 'block';
-    });
-    toggleAll.classList.add('active');
-    toggleSelected.classList.remove('active');
-    currentView = 'all';
-  }
-  
-  // Add event listeners
-  toggleSelected.addEventListener('click', showSelected);
-  toggleAll.addEventListener('click', showAll);
-  
-  // Initialize with selected publications view
-  showSelected();
-</script>
+  </script>
 
-              <!-- </div> -->
-        </td>
-      </tr>
-    </table>
-    <!-- <hr> -->
-    <!-- <h2></h2> -->
-  </body>
+</body>
 </html>
