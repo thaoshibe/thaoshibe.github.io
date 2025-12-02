@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     
+    <!-- Prism.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    
     <link rel="apple-touch-icon" sizes="180x180" href="./images/favicon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
@@ -49,12 +55,6 @@
 }
 * {box-sizing:border-box}
 
-/* Slideshow container */
-.slideshow-container {
-  max-width: 768px;
-  position: relative;
-  margin: auto;
-}
 .citation {
   background-color: #f1f1f1;
   border: 1px solid #DCDCDC;
@@ -62,52 +62,6 @@
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 8px;
-}
-
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  margin-top: 0px;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  border-radius: 0 3px 3px 0;
-}
-
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0);
-}
-
-.dot {
-  cursor: pointer;
-  height: 9px;
-  width: 9px;
-  margin: 0 2px;
-  background-color: #bbb;
-  color:gray;
-  display: inline-block;
-}
-
-.active, .dot:hover {
-  background-color: #FFFFCC;
-}
-
-.fade {
-  animation-name: fade;
-  animation-duration: 1s;
-}
-
-@keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
 }
 table.demo1 {
     width:900;
@@ -273,6 +227,10 @@ pre {
     white-space: break-spaces;
     width:80%;
     text-align:left;
+    font-size: 1em;
+}
+code {
+    font-size: 0.7em;
 }
 td.gif {
     width: 33%;
@@ -302,6 +260,199 @@ td.gif {
 
 @media only screen and (max-width: 930px) {
     .content { width:100% !important; }
+}
+
+/* Gallery Carousel Styles */
+.gallery-carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto 20px auto;
+    padding: 0;
+    background-color: white;
+}
+
+.gallery-carousel-wrapper {
+    overflow: visible;
+    width: 100%;
+    position: relative;
+    height: 450px;
+}
+
+.gallery-carousel-track {
+    display: block;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    filter: blur(10px);
+    pointer-events: none;
+    position: absolute;
+    height: 450px;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.gallery-slide.active {
+    opacity: 1;
+    filter: blur(0);
+    z-index: 3;
+    pointer-events: auto;
+}
+
+.gallery-slide.adjacent {
+    opacity: 0.5;
+    filter: blur(5px);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.gallery-slide img {
+    height: 450px;
+    width: auto;
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(0.5);
+    object-fit: contain;
+}
+
+.gallery-slide.active img {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(1);
+}
+
+.gallery-slide.adjacent img {
+    transform: scale(0.5);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Navigation Buttons */
+.gallery-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    color: #333;
+}
+
+.gallery-carousel-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.gallery-carousel-btn-prev {
+    left: -40px;
+}
+
+.gallery-carousel-btn-next {
+    right: -40px;
+}
+
+/* Indicator Dots */
+.gallery-carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.gallery-carousel-indicator {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e9ecef;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.gallery-carousel-indicator.active {
+    background: #495057;
+    color: white;
+}
+
+.gallery-carousel-indicator:hover {
+    background: #6c757d;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 768px) {
+    .gallery-carousel-container {
+        padding: 0;
+    }
+    
+    .gallery-carousel-wrapper {
+        height: 300px;
+    }
+    
+    .gallery-slide {
+        height: 300px;
+    }
+    
+    .gallery-slide img {
+        height: 300px;
+        object-fit: contain;
+    }
+    
+    .gallery-carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .gallery-carousel-btn-prev {
+        left: -40px;
+    }
+    
+    .gallery-carousel-btn-next {
+        right: -40px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .gallery-carousel-container {
+        padding: 0;
+    }
+    
+    .gallery-carousel-wrapper {
+        height: 250px;
+    }
+    
+    .gallery-slide {
+        height: 250px;
+    }
+    
+    .gallery-slide img {
+        height: 250px;
+        object-fit: contain;
+    }
 }
 </style>
 <script type="text/javascript">
@@ -382,14 +533,79 @@ td.gif {
         }
     }
 
-    $( document ).ready(function() {
-        $( ".blockId" ).click(function() {
-
-            $('.blockId').toggle();
-            $(this).toggleClass('open'); 
+    document.addEventListener('DOMContentLoaded', function() {
+        var blockIds = document.querySelectorAll(".blockId");
+        blockIds.forEach(function(blockId) {
+            blockId.addEventListener('click', function() {
+                var blocks = document.querySelectorAll('.blockId');
+                blocks.forEach(function(block) {
+                    block.style.display = block.style.display === 'none' ? 'block' : 'none';
+                });
+                this.classList.toggle('open');
+            });
         });
-
     });
+
+    // Gallery Carousel - Circular Version
+    var currentSlide = 0;
+    var totalSlides = 13;
+
+    function moveGalleryCarousel(direction) {
+        currentSlide += direction;
+        if (currentSlide < 0) currentSlide = totalSlides - 1;
+        if (currentSlide >= totalSlides) currentSlide = 0;
+        
+        var slides = document.querySelectorAll('.gallery-slide');
+        var prevIndex = currentSlide === 0 ? totalSlides - 1 : currentSlide - 1;
+        var nextIndex = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1;
+        
+        slides.forEach(function(slide, i) {
+            slide.classList.remove('active', 'adjacent', 'adjacent-prev', 'adjacent-next');
+            slide.style.transform = '';
+            slide.style.zIndex = '0';
+            
+            if (i === currentSlide) {
+                slide.classList.add('active');
+                slide.style.transform = 'translateX(0)';
+                slide.style.zIndex = '3';
+            } else if (i === prevIndex) {
+                slide.classList.add('adjacent', 'adjacent-prev');
+                slide.style.transform = 'translateX(-55%)';
+                slide.style.zIndex = '2';
+            } else if (i === nextIndex) {
+                slide.classList.add('adjacent', 'adjacent-next');
+                slide.style.transform = 'translateX(55%)';
+                slide.style.zIndex = '2';
+            }
+        });
+        
+        var dots = document.querySelectorAll('.gallery-carousel-indicator');
+        dots.forEach(function(dot, i) {
+            if (i === currentSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    window.onload = function() {
+        var container = document.getElementById('galleryCarouselIndicators');
+        for (var i = 0; i < totalSlides; i++) {
+            var dot = document.createElement('div');
+            dot.className = 'gallery-carousel-indicator';
+            dot.textContent = i + 1; // Add number text
+            if (i === 0) dot.classList.add('active');
+            dot.onclick = (function(index) {
+                return function() {
+                    currentSlide = index;
+                    moveGalleryCarousel(0);
+                };
+            })(i);
+            container.appendChild(dot);
+        }
+        moveGalleryCarousel(0);
+    };
 </script>
 
 </head>
@@ -438,18 +654,18 @@ td.gif {
         </div>
         <div class="buttons" style="margin-bottom: 8px;">
             <center>
-            <a class="btn btn-light" role="button" href="PUT_ARXIV_LINK_HERE">
+            <a class="btn btn-light" role="button" href="./404.html">
                 <img src="./images/icon/arXiv.png" alt="arxiv" style="height:23px;">
                 Paper
             </a>
-            <a class="btn btn-light" role="button" href="PUT_SLIDES_LINK_HERE">
+            <a class="btn btn-light" role="button" href="./404.html">
                 <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
                 </svg>Slides (TBD)
             </a>
-            <a class="btn btn-light" role="button" href="PUT_SLIDES_LINK_HERE">
+            <!-- <a class="btn btn-light" role="button" href="PUT_SLIDES_LINK_HERE">
                 <img src="./images/icon/youtube.png" alt="youtube" style="width:26px;"> Video
-            </a>
+            </a> -->
             <a class="btn btn-light" role="button" href="#citation">
                 <img src="./images/icon/BibTeX_logo.svg" alt="BibTeX" style="height:15px;"> Citation
             </a>
@@ -469,9 +685,9 @@ td.gif {
             <img src="./images/icon/lookup.png" alt="data viewer" style="width:24px;">
             Data Viewer
         </a>
-        <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/visii">
-            <img src="./images/icon/image-collection.png" alt="image collection" style="width:26px;">
-            Qualitative Results
+        <a class="btn btn-light" role="button" href="#qualitative-gallery">
+            <img src="./images/icon/image-collection.png" alt="image collection" style="width:24px;">
+            Qualitative Gallery
         </a>
         </center>
         </div>
@@ -493,20 +709,20 @@ td.gif {
                 </p>
         </div>
     </div>
-    <hr class="divider" />
+    <!-- <hr class="divider" />
     <div class="container" style="max-width: 768px;">
         <div class="row">
             <div class="col-md-12">
                 <h2>👣 Paper Walk-through Video</h2>
-                    <center>
+                    <center> -->
                     <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/v5RGH0SmKJY?si=ZC1XgqywrX3fTDAs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                </div> -->
-                    TBD (Video coming soon!)    
+                    <!-- TBD (Video coming soon!)    
                 </center>
         </div>
-    </div>
+    </div> -->
     <hr class="divider" />
-    <div class="container" style="max-width: 850px;">
-        <div class="row">
+    <div class="container" style="max-width: 2000px;">
+        <div class="row" style="max-width: 3200px;">
             <div class="col-md-12">
                 <h2>📜 Abstract</h2>
                 <p style="text-align: justify;">
@@ -530,35 +746,170 @@ td.gif {
                     <text style="background-color: rgb(234,235,254);">two images are relationally similar when their internal relations or functions among visual elements correspond, even if their visual attributes differ.</text>
                     <br>
                     We then curate 114k image-caption dataset in which the captions are anonymized---describing the underlying relational logic of the scene rather than its surface content. Using this dataset, we finetune a Vision Language Model to measure the relational similarity between images. This model serves as the first step toward connecting images by their underlying relational structure rather than their visible appearance. Our study shows that while relational similarity has a lot of real-world applications, existing image similarity models fail to capture it---revealing a critical gap in visual computing.
-            
+        
                 </p>
             </div>
         </div>
     </div>
     <hr class="divider" />
-    <div class="container" style="max-width: 768px;">
+    <div style="max-width: 768px; margin: 0 auto;">
+        <h2 style="text-align: left;">⚒️ Usage Example</h2>
+        This is the example usage of the relsim. For more details, please check: <a class="btn btn-light" role="button" href="https://github.com/thaoshibe/relsim">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            github/relsim
+        </a>
+        <div style="margin-bottom: 20px;">
+            <b>Install</b>
+            <center>
+            <pre style="background-color: #f5f5f5; width: 95%; border-radius: 5px; text-align: left; margin-top: 10px;"><code class="language-bash">pip install relsim</code></pre>
+        </div>
+        </center>
+        <div>
+            <b>Quick Run</b>
+            <center>
+            <pre style="background-color: #f5f5f5; width: 95%; border-radius: 5px; text-align: left; margin-top: 10px;"><code class="language-python">from relsim.relsim_score import relsim
+from PIL import Image
+
+model, preprocess = relsim(
+    pretrained=True,
+    checkpoint_dir="thaoshibe/relsim-qwenvl25-lora"
+)
+
+img1 = preprocess(Image.open("image_path_1"))
+img2 = preprocess(Image.open("image_path_2"))
+similarity = model(img1, img2)
+print(f"relsim score: {similarity:.3f}")
+</code></pre>
+            </center>
+        </div>
+    </div>
+    <hr class="divider" style="max-width: 768px;"/>
+    <div class="container" style="max-width: 100%;">
         <div class="row">
             <div class="col-md-12">
-                <h2> Usage Examples</h2>
-                <p style="text-align: justify;">
-                    # This will be a block of code that shows how to use the dataset and the model.
-                    ```python
-                    import torch
-                    import torch.nn as nn
-                    import torch.optim as optim
-                    import torchvision.transforms as transforms
-                    import torchvision.datasets as datasets
-                    import torchvision.models as models
-                    ```
-                </p>
+                <h2 id="qualitative-gallery" style="text-align: left;">🔍 Qualitative Gallery</h2>
+            </div>
+            We present a qualitative gallery of image retrieval results using (i) attribute-based metrics (e.g., LPIPS, CLIP, DINO) and (ii) relational-based metrics (ours: relsim).            <br><br>
+            <div class="col-md-12">
+                <div class="gallery-carousel-container">
+                    <div class="gallery-carousel-wrapper">
+                        <div class="gallery-carousel-track" id="galleryCarouselTrack">
+                            <!-- Slide 1 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture4.png" alt="Qualitative result 1">
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture3.png" alt="Qualitative result 2">
+                            </div>
+                            <!-- Slide 3 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture1.png" alt="Qualitative result 3">
+                            </div>
+                            <!-- Slide 4 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture2.png" alt="Qualitative result 4">
+                            </div>
+                            <!-- Slide 5 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture7.png" alt="Qualitative result 5">
+                            </div>
+                            <!-- Slide 6 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture8.png" alt="Qualitative result 6">
+                            </div>
+                            <!-- Slide 7 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture5.png" alt="Qualitative result 7">
+                            </div>
+                            <!-- Slide 8 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture6.png" alt="Qualitative result 8">
+                            </div>
+                            <!-- Slide 9 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture9.png" alt="Qualitative result 9">
+                            </div>
+                            <!-- Slide 10 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture10.png" alt="Qualitative result 10">
+                            </div>
+                            <!-- Slide 11 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture11.png" alt="Qualitative result 11">
+                            </div>
+                            <!-- Slide 12 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture12.png" alt="Qualitative result 12">
+                            </div>
+                            <!-- Slide 13 -->
+                            <div class="gallery-slide" style="background-color: white;">
+                                <img src="./images/qualitative/Picture13.png" alt="Qualitative result 13">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Navigation Buttons -->
+                    <button class="gallery-carousel-btn gallery-carousel-btn-prev" onclick="moveGalleryCarousel(-1)">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="gallery-carousel-btn gallery-carousel-btn-next" onclick="moveGalleryCarousel(1)">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                    <!-- Indicator Dots -->
+                    <div class="gallery-carousel-indicators" id="galleryCarouselIndicators"></div>
+                </div>
             </div>
         </div>
     </div>
-    <hr class="divider" />
+    <hr class="divider" style="max-width: 768px;"/>
+    <div class="container" style="max-width: 100%; text-align: left;">
+        <h2>🔍 Dataset Viewer</h2>
+        <p>This is a data viewer for the datasets used in the paper. Please click on the image to view the corresponding dataset.
+            You can also see the dataset on HuggingFace.
+        </p>
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+            <table style="text-align:center;">
+                <tr>
+                    <td>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <img src="./data_viewer/A.png" style="height: 300px;">
+                    </td>
+                    <td><p><b><a style="font-size: 120%;" href="seed_groups.html">Seed Groups</a></b>
+                        <br> <i>500+ {Image Group, Anonymous Caption}</i>
+                        <br> <a class="btn btn-light" role="button" href="https://huggingface.co/datasets/thaoshibe/seed-groups">
+                            <img src="./images/icon/huggingface-color.png" alt="HuggingFace" style="width:26px;">
+                            datasets/seed-groups
+                        </a>
+                    </p>
+                        <a href="./data_viewer/seed_groups.html"><img src="./data_viewer/B.png" style="height: 300px;"></a>
+                        
+                    </td>
+                    <td><p><b><a style="font-size: 120%;" href="anonymous_captions.html">Anonymous Captions</a></b>
+                        <br> <i>114k+ {Image, Anonymous Caption}</i>
+                        <br> <a class="btn btn-light" role="button" href="https://huggingface.co/datasets/thaoshibe/anonymous-captions-114k">
+                            <img src="./images/icon/huggingface-color.png" alt="HuggingFace" style="width:26px;">
+                            datasets/anonymous-captions-114k
+                        </a>
+                    </p>
+                        <a href="./data_viewer/anonymous_captions.html"><img src="./data_viewer/C.png" style="height: 300px;"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <hr class="divider" style="max-width: 768px;"/>
     <div class="container" style="max-width: 768px;">
         <div class="row">
             <div class="col-md-12">
-                <h2>Citation</h2>
+                <h2>📚 Citation</h2>
                 <div id='citation' class="citation" style="font-family:monospace;font-size: 12px;">
                 @inproceedings{relsim,<br>
                       title={Relational Visual Similarity},<br>
@@ -573,16 +924,21 @@ td.gif {
             </div>
         </div>
     </div>
-    <hr class="divider" />
-    <div class="container" style="max-width: 768px; padding-bottom:30px; text-align: center;">
+    <hr class="divider" style="max-width: none !important; width: 100vw !important; margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%);"/>
+    <div class="container" style="max-width: 768px; padding-bottom:30px; text-align: left;">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" style="text-align: left;">
+                <p style="color: gray; font-size: 90%;">
+                You've reached the end.
+                <br>
                 This website template is adopted from <a href="https://thaoshibe.github.io/visii/#">visii (NeurIPS 2023)</a> and <a href="https://dreamfusion3d.github.io/">DreamFusion (ICLR 2023)</a>, source code can be found <a href="https://github.com/thaoshibe/thaoshibe.github.io/tree/main/visii">here</a> and <a href='https://dreamfusion3d.github.io/'>here</a>.
                 Thank you!
+                
                 <a href="javascript:toggleblock('notice')" style="text-align:left;font-size:100%;color: black"> (.❛ ᴗ ❛.).</a>
                   <div id="notice" style="display:none; color:#dedede; font-size:.5em;">
                     <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=inQKsqJgykYERZ0RHQ27JiTpqjIh6ldrQVGK307Gu78&cl=ffffff&w=a"></script>
                   </div>
+                </p>
             </div>
         </div>
     </div>
