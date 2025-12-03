@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <title>relsim: Image Retrieval Results Viewer</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
+    
+    <meta property="og:site_name" content="Relational Visual Similarity">
+    <meta property="og:title" content="Relational Visual Similarity: Retrieval Results">
+    <meta property="og:description" content="Image Retrieval Results Viewer">
+    <meta property="og:url" content="https://thaoshibe.github.io/relsim">
+    <meta property="og:image" content="../images/favicon.png">
+    
+    <meta name="twitter:title" content="Relational Visual Similarity: Retrieval Results">
+    <meta name="twitter:description" content="Image Retrieval Results Viewer">
+    <meta name="twitter:url" content="https://thaoshibe.github.io/relsim">
+    <meta name="twitter:image" content="../images/favicon.png">
+    
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+        .info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .query-container {
+            margin-bottom: 5px;
+            padding: 0;
+            background: transparent;
+        }
+
+        .query-header {
+            display: none;
+        }
+
+        .query-main {
+            display: grid;
+            grid-template-columns: 1fr 150px 1fr;
+            gap: 0;
+            align-items: center;
+            min-height: 150px;
+            max-width: 100%;
+        }
+
+        .query-image-container {
+            grid-column: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 150px;
+        }
+
+        .query-image-label {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #000000;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .query-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            background-color: white;
+            border: 3px solid #808080;
+            box-shadow: 0 0 10px rgba(128, 128, 128, 0.3);
+            padding: 2px;
+        }
+
+        .query-image.error {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            color: #999;
+            border: 3px solid #808080;
+        }
+
+        .results-container {
+            flex: 1;
+        }
+
+        .comparison-container {
+            display: flex;
+            gap: 0;
+            width: 100%;
+        }
+
+        .method-section {
+            padding: 0;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .method-section.ours {
+            background: transparent;
+            border: none;
+            grid-column: 1;
+            align-items: flex-end;
+        }
+
+        .method-section.comparison {
+            background: transparent;
+            border: none;
+            grid-column: 3;
+            align-items: flex-start;
+        }
+
+        .method-name {
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .method-name.ours {
+            color: #008000;
+            text-align: right;
+        }
+
+        .method-name.comparison {
+            color: #ff0000;
+            text-align: left;
+        }
+
+        .retrieved-images {
+            display: flex;
+            gap: 0;
+            flex-wrap: nowrap;
+            align-items: center;
+            min-height: 150px;
+        }
+
+        .retrieved-images.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .retrieved-item {
+            flex: 0 0 auto;
+            min-width: 150px;
+            max-width: 150px;
+            height: 150px;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .retrieved-item:hover {
+            transform: scale(1.05);
+        }
+
+        .retrieved-item .score-overlay {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .retrieved-item:hover .score-overlay {
+            opacity: 1;
+        }
+
+        .retrieved-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            background-color: white;
+        }
+
+        .retrieved-image.error {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.75em;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination button.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination button.active:hover {
+            background: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .pagination .ellipsis {
+            padding: 8px 4px;
+            color: #999;
+        }
+
+        .attention-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffa726;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .attention-box::before {
+            content: "⚠️ ";
+            font-weight: bold;
+        }
+
+        @media only screen and (max-width: 1200px) {
+            .query-main {
+                flex-direction: column;
+            }
+            
+            .query-image-container {
+                flex: 1;
+                align-self: center;
+                order: -1;
+            }
+
+            .comparison-container {
+                flex-direction: column;
+            }
+
+            .retrieved-item {
+                flex: 0 0 calc(25% - 10px);
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .retrieved-item {
+                flex: 0 0 calc(33.333% - 10px);
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .retrieved-item {
+                flex: 0 0 calc(50% - 10px);
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .content { width:100% !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="highlight-clean" style="padding-top: 30px;padding-bottom:10px;">
+        <div class="container" style="max-width: 768px;">
+            <h1 class="text-center">relsim: Image Retrieval Results</h1>
+            <center><i>Data viewer for paper: <a href="../index.html">"Relational Visual Similarity"</a></i></center>
+            <center><a href="../index.html">📂 Project Page</a> | <a href="../data_viewer/index.html">Data Viewer Map</a></center>
+        </div>
+    </div>
+    <hr class="divider" style="max-width: 850px;"/>
+    <div class="container" style="max-width: 850px;text-align:justify;">
+        <b>Image Retrieval Results</b> displays retrieved images ranked #2-#6 for each query using different methods (skipping the first result). The query image is shown in the center, with RELSIM (Ours) results on the left (most similar closest to query) and comparison method results on the right (most similar closest to query).
+        
+        <div style="margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 8px; border-left: 4px solid #007bff;">
+            <label style="font-weight: 500; color: #333; margin-right: 10px;">Compare:</label>
+            <select id="comparison-method" style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 0.95em; cursor: pointer;">
+                <option value="dino">RELSIM (Ours) vs. DINO</option>
+                <option value="clip">RELSIM (Ours) vs. CLIP</option>
+            </select>
+        </div>
+        
+        <div class="attention-box">
+            All images are displayed from their original URLs. Images with inactive URLs will be automatically hidden. Click on any image to view it in full size in a new tab.
+        </div>
+    </div>
+    <hr class="divider" style="max-width: 768px;"/>
+    <div class="container" style="max-width: 100%; padding: 0 20px;">
+        <div class="info" id="info">Loading data...</div>
+        <div id="pagination-top" class="pagination"></div>
+        <div id="results-container"></div>
+        <div id="pagination-bottom" class="pagination"></div>
+    </div>
+    <hr class="divider" />
+    <center><i>Hey, you've reached the end. This website is created by <a href="https://thaoshibe.github.io/">Thao Nguyen</a>; Thank you (.❛ ᴗ ❛.).</i></center>
+    <br>
+    <script>
+        // Data loaded from external JSON file
+        let data = [];
+        let currentPage = 1;
+        const itemsPerPage = 25;
+        let comparisonMethod = 'dino'; // default comparison method
+
+        // Function to load and parse JSON file
+        async function loadData() {
+            try {
+                const response = await fetch('1000_images_retrieved_images.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load data file');
+                }
+                
+                data = await response.json();
+                
+                // Display the items
+                displayResults();
+                renderPagination();
+                
+                // Add event listener for comparison method selector
+                document.getElementById('comparison-method').addEventListener('change', function(e) {
+                    comparisonMethod = e.target.value;
+                    displayResults();
+                });
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('info').innerHTML = `<span style="color: red;">Error loading data: ${error.message}</span>`;
+            }
+        }
+        
+        function displayResults() {
+            const container = document.getElementById('results-container');
+            container.innerHTML = ''; // Clear existing items
+            
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+            
+            // Update info display
+            document.getElementById('info').innerHTML = `
+                Showing queries <strong>${startIndex + 1}-${endIndex}</strong> of <strong>${data.length}</strong> 
+                (Page <strong>${currentPage}</strong> of <strong>${totalPages}</strong>)
+            `;
+            
+            // Get items for current page
+            const itemsToDisplay = data.slice(startIndex, endIndex);
+            
+            itemsToDisplay.forEach((item, index) => {
+                const queryDiv = document.createElement('div');
+                queryDiv.className = 'query-container';
+                
+                // Header with query ID
+                const header = document.createElement('div');
+                header.className = 'query-header';
+                header.textContent = `Query #${startIndex + index + 1} (ID: ${item.query_image})`;
+                queryDiv.appendChild(header);
+                
+                // Main content area with three columns: RELSIM | Query | Comparison
+                const mainDiv = document.createElement('div');
+                mainDiv.className = 'query-main';
+                
+                // LEFT: RELSIM results
+                const relsimSection = createMethodSection(item, 'relsim_top_10', 'relsim_top_10_scores', 'RELSIM (Ours)', 'ours');
+                mainDiv.appendChild(relsimSection);
+                
+                // CENTER: Query image
+                const queryImageContainer = document.createElement('div');
+                queryImageContainer.className = 'query-image-container';
+                
+                const queryLabel = document.createElement('div');
+                queryLabel.className = 'query-image-label';
+                queryLabel.textContent = 'Query Image';
+                queryImageContainer.appendChild(queryLabel);
+                
+                const queryImgLink = document.createElement('a');
+                queryImgLink.href = item.query_url;
+                queryImgLink.target = '_blank';
+                queryImgLink.rel = 'noopener noreferrer';
+                
+                const queryImg = document.createElement('img');
+                queryImg.className = 'query-image';
+                queryImg.src = item.query_url;
+                queryImg.alt = `Query ${item.query_image}`;
+                queryImg.loading = 'lazy';
+                
+                queryImg.onerror = function() {
+                    // Skip the entire query row if the query image fails to load
+                    queryDiv.style.display = 'none';
+                };
+                
+                queryImgLink.appendChild(queryImg);
+                queryImageContainer.appendChild(queryImgLink);
+                mainDiv.appendChild(queryImageContainer);
+                
+                // RIGHT: Comparison method (DINO or CLIP)
+                const comparisonKey = `${comparisonMethod}_top_10`;
+                const comparisonScoreKey = `${comparisonMethod}_top_10_scores`;
+                const comparisonLabel = comparisonMethod.toUpperCase();
+                const comparisonSection = createMethodSection(item, comparisonKey, comparisonScoreKey, comparisonLabel, 'comparison');
+                mainDiv.appendChild(comparisonSection);
+                
+                queryDiv.appendChild(mainDiv);
+                container.appendChild(queryDiv);
+            });
+        }
+        
+        function createMethodSection(item, methodKey, scoresKey, methodLabel, styleClass) {
+            const methodSection = document.createElement('div');
+            methodSection.className = `method-section ${styleClass}`;
+            
+            // Add method name label
+            const methodNameDiv = document.createElement('div');
+            methodNameDiv.className = `method-name ${styleClass}`;
+            if (styleClass === 'ours') {
+                methodNameDiv.textContent = 'Relational-based Retrieval (relsim)';
+            } else {
+                methodNameDiv.textContent = 'Attribute-based Retrieval (DINO/CLIP)';
+            }
+            methodSection.appendChild(methodNameDiv);
+            
+            const retrievedImagesDiv = document.createElement('div');
+            retrievedImagesDiv.className = 'retrieved-images';
+            
+            // Add reverse class for relsim (ours) to display right-to-left
+            if (styleClass === 'ours') {
+                retrievedImagesDiv.classList.add('reverse');
+            }
+            
+            const images = item[methodKey] || [];
+            
+            // Parse scores from JSON string
+            let scores = [];
+            try {
+                scores = JSON.parse(item[scoresKey] || '[]');
+            } catch (e) {
+                console.error('Error parsing scores:', e);
+                scores = [];
+            }
+            
+            // Show only images 1-5 (skip the first image at index 0)
+            images.slice(1, 6).forEach((imageUrl, idx) => {
+                const retrievedItem = document.createElement('div');
+                retrievedItem.className = 'retrieved-item';
+                
+                const imgLink = document.createElement('a');
+                imgLink.href = imageUrl;
+                imgLink.target = '_blank';
+                imgLink.rel = 'noopener noreferrer';
+                
+                const img = document.createElement('img');
+                img.className = 'retrieved-image';
+                img.src = imageUrl;
+                img.alt = `Rank ${idx + 2}`;
+                img.loading = 'lazy';
+                
+                img.onerror = function() {
+                    // Simply hide the retrieved item if the image fails to load
+                    retrievedItem.style.display = 'none';
+                };
+                
+                imgLink.appendChild(img);
+                retrievedItem.appendChild(imgLink);
+                
+                // Add score overlay with actual similarity score
+                const scoreOverlay = document.createElement('div');
+                scoreOverlay.className = 'score-overlay';
+                const score = scores[idx + 1]; // idx+1 because we're showing images from index 1-5
+                if (score !== undefined) {
+                    scoreOverlay.textContent = `#${idx + 2}: ${score.toFixed(3)}`;
+                } else {
+                    scoreOverlay.textContent = `Rank #${idx + 2}`;
+                }
+                retrievedItem.appendChild(scoreOverlay);
+                
+                retrievedImagesDiv.appendChild(retrievedItem);
+            });
+            
+            methodSection.appendChild(retrievedImagesDiv);
+            return methodSection;
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+            const paginationTop = document.getElementById('pagination-top');
+            const paginationBottom = document.getElementById('pagination-bottom');
+            
+            // Clear existing pagination
+            paginationTop.innerHTML = '';
+            paginationBottom.innerHTML = '';
+            
+            // Create pagination buttons
+            const paginationHTML = createPaginationButtons(totalPages);
+            paginationTop.innerHTML = paginationHTML;
+            paginationBottom.innerHTML = paginationHTML;
+            
+            // Add event listeners to both pagination sections
+            [paginationTop, paginationBottom].forEach(section => {
+                section.querySelectorAll('button[data-page]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const page = parseInt(button.dataset.page);
+                        goToPage(page);
+                    });
+                });
+            });
+        }
+
+        function createPaginationButtons(totalPages) {
+            let buttons = '';
+            
+            // Previous button
+            buttons += `<button data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>← Previous</button>`;
+            
+            // Page numbers
+            const maxVisiblePages = 7;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start if we're near the end
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page button
+            if (startPage > 1) {
+                buttons += `<button data-page="1">1</button>`;
+                if (startPage > 2) {
+                    buttons += `<span class="ellipsis">...</span>`;
+                }
+            }
+            
+            // Page number buttons
+            for (let i = startPage; i <= endPage; i++) {
+                buttons += `<button data-page="${i}" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            // Last page button
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    buttons += `<span class="ellipsis">...</span>`;
+                }
+                buttons += `<button data-page="${totalPages}">${totalPages}</button>`;
+            }
+            
+            // Next button
+            buttons += `<button data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>`;
+            
+            return buttons;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            displayResults();
+            renderPagination();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Load data and display results when page loads
+        loadData();
+    </script>
+</body>
+</html>
+
