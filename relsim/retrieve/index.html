@@ -72,13 +72,13 @@
            ======================================== */
         .controls-container {
             background: white;
-            padding: 5px 20px;
+            /* padding: 5px 20px; */
             margin: 0 20px 8px 20px;
             text-align: center;
         }
 
         .controls-container select {
-            padding: 6px 12px;
+            /* padding: 6px 12px; */
             border-radius: 5px;
             border: 1px solid #999;
             font-size: 0.95em;
@@ -86,7 +86,7 @@
             font-weight: 400;
             background: white;
             transition: all 0.2s ease;
-            min-width: 180px;
+            min-width: 130px;
         }
 
         .controls-container select:hover {
@@ -395,7 +395,8 @@
             padding: 12px 16px;
             margin: 15px 0;
             font-size: 0.9em;
-            color: #555;
+            color: black;
+            background-color: #fff8e1;
         }
 
         .attention-box::before {
@@ -478,15 +479,16 @@
 <body>
     <div class="page-header">
         <h1>🔍 Image Retrieval Results</h1>
-        <!-- <p>Visual Similarity Comparison: relsim vs. Baselines</p> -->
     </div>
+    <center style="margin-top: -15px;"><a href="../index.html">🔙  Back to Project Page</a></center>
+    <br>
     <center>
-        <p style="text-align: justify; font-size: 1em; max-width: 900px;">
+        <p style="text-align: justify; font-size: 1em; max-width: 850px;">
             We present <b><font style="background-color: #fdff72;">uncurated retrieval results</font></b> for 1,000 randomly selected <a href="https://thaoshibe.github.io/relsim/data_viewer/anonymous_captions.html">test images</a>.
             For each query, we retrieve the top 10 most similar images using:
             <font style="background-color: #D4EDDA; font-weight: bold;">(i) Relational-based: <font style="color: green; font-weight: bold;">relsim (ours)</font></font>
             <font style="background-color: #F8D7DA; font-weight: bold;">(ii) Attribute-based: <font style="color: red; font-weight: bold;">DINO</font> and <font style="color: red; font-weight: bold;">CLIP</font></font>
-            Some images may be missing if their original URLs are no longer active.
+            <!-- <br>Some images may be missing if their original URLs are no longer active. -->
         </p>
                 </center>
     <div class="controls-container">
@@ -498,7 +500,7 @@
     </div>
     <center>
     <div class="attention-box" style="max-width: 768px; text-align: justify; font-size: 1em;">
-        All images are sourced from the publicly available <a href="https://laion.ai/blog/laion-5b/">LAION</a> dataset and displayed via their <b>original URLs, which may no longer be active</b>. We do not claim ownership and credit the original creators.
+        All images are sourced from the publicly available <a href="https://laion.ai/blog/laion-5b/">LAION</a> dataset and displayed via their <b>original URLs, which may no longer be active</b>. We do <b>not</b> claim ownership and credit the original creators.
     </div>
     </center>
     
