@@ -632,11 +632,15 @@ td.gif {
 <body>
     <div class="highlight-clean" style="padding-top: 30px;padding-bottom:10px;">
         <div class="container" style="max-width: 768px;">
-            <h1 class="text-center"><b>Relati<img src="./images/favicon.png" style="width: 30px; height: 30px;align-items: center;">nal Visual Similarity</b><br>
-
+            
+            <h1 class="text-center">
+                <b>Relati<img src="./images/favicon.png" style="width: 30px; height: 30px;align-items: center;">nal Visual Similarity</b><br>
             </h1>
+                
         </div>
-        <div><center><h5>&mdash;&mdash;&mdash; arXiv 2025 &mdash;&mdash;&mdash;</h5></center></div>
+        <div><center><h5>&mdash;&mdash;&mdash; arXiv 2025 &mdash;&mdash;&mdash;
+        </h5></center></div>
+        
         <div class="container" style="max-width: 850px;font-size: 18px;text-align: center;">
             
                 <a href="https://thaoshibe.github.io/">Thao Nguyen<sup>1</sup></a>
@@ -725,36 +729,56 @@ td.gif {
         </div>
     </div>
     <hr class="divider" />
-    <div class="container" style="max-width: 768px;">
+    <div class="container" style="max-width: 768px; text-align:center;">
         <div class="row">
             <div class="col-md-12">
-                <video width="100%" controls autoplay loop muted>
-                  <source src="./images/animated-teaser-website.mp4" type="video/mp4" >
-                </video>
-        </div>
-    </div>
-    <div class="container" style="max-width: 768px; text-align:justify;">
-        <div class="row">
-            <div class="col-md-12">
-                <p><b>TL;DR:</b>
-                    We introduce <span style="background-color: rgb(255, 255, 175);">a new visual similarity notion</span>: <b><font style='color:green'>relational visual similarity</font></b> (relsim), which complements traditional <b><font style='color:red'>attribute similarity</font></b> (e.g., LPIPS, CLIP, DINO).
+                <div id="video-container-1" style="display: block; text-align: center;">
+                    <video height="390px" style="max-width: 100%;" controls autoplay loop muted><source src="./images/relsim.mp4" type="video/mp4" ></video>
+                </div>
+                <div id="video-container-2" style="display: none; text-align: center;">
+                    <video height="390px" style="max-width: 100%;" controls autoplay loop muted><source src="./images/animated-teaser-website.mp4" type="video/mp4" ></video>
+                </div>
+                <div style="text-align: center; font-size: 80%;">
+                    [<a href="javascript:void(0);" id="video-tab-1" onclick="showVideo(1)" style="cursor: pointer; font-weight: bold;">video-version-1</a>] [<a href="javascript:void(0);" id="video-tab-2" onclick="showVideo(2)" style="cursor: pointer;">video-version-2</a>]
+                </div>
+                <script>
+                function showVideo(version) {
+                    if (version === 1) {
+                        document.getElementById('video-container-1').style.display = 'block';
+                        document.getElementById('video-container-2').style.display = 'none';
+                        document.getElementById('video-tab-1').style.fontWeight = 'bold';
+                        document.getElementById('video-tab-2').style.fontWeight = 'normal';
+                    } else {
+                        document.getElementById('video-container-1').style.display = 'none';
+                        document.getElementById('video-container-2').style.display = 'block';
+                        document.getElementById('video-tab-1').style.fontWeight = 'normal';
+                        document.getElementById('video-tab-2').style.fontWeight = 'bold';
+                    }
+                }
+                </script>
+                <br><b>TL;DR:</b>
+                    We introduce <span style="background-color: rgb(255, 255, 175);">a new visual similarity notion</span>: <b><font style='color:green'>relational visual similarity</font></b> (relsim), <br>which complements traditional <b><font style='color:red'>attribute similarity</font></b> (e.g., LPIPS, CLIP, DINO).
                 </p>
         </div>
     </div>
-    <!-- <hr class="divider" />
-    <div class="container" style="max-width: 768px;">
+    <!-- <hr class="divider" /> -->
+    <!-- <div class="container" style="max-width: 768px;">
         <div class="row">
-            <div class="col-md-12">
-                <h2>👣 Paper Walk-through Video</h2>
-                    <center> -->
-                    <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/v5RGH0SmKJY?si=ZC1XgqywrX3fTDAs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                </div> -->
-                    <!-- TBD (Video coming soon!)    
-                </center>
+            <div class="col-md-12"> -->
+                <!-- <video width="100%" controls autoplay loop muted>
+                  <source src="./images/animated-teaser-website.mp4" type="video/mp4" >
+                </video> -->
+                <!-- <img src="./images/teaser3.png" alt="relsim" style="width: 110%; height: auto; display: block; margin-left: -5%;">
         </div>
+        <center>
+            <p style="text-align: justify; width: 100%; font-size: 90%;">
+                <i><span style="background-color: rgb(234,235,254);">Would you say images in <b><font style='color:green'>Group A</font></b> are similar to the <b>Reference Image</b>?</span> Current state-of-the-art image similarity models (e.g.,LPIPS, CLIP) would answer no. These models would say only <b><font style='color:red'>Group B</font></b> are similar to the reference image, as they equate similarity with a high degree of shared perceptual attribute features (i.e., color, shape, semantic class). However, as humans, we would confidently say yes—images in both groups are similar to the reference. While <b><font style='color:red'>Group B</font></b> is similar in perceptual attributes, <b><font style='color:green'>Group A</font></b> is similar in a more abstract, relational sense (e.g., "transformation of {subject} through time", first row). In this paper, we propose to model this missing dimension of visual similarity, or called relational visual similarity, capturing human-like reasoning over relational structures.</i>
+            </p>
+        </center>
     </div> -->
     <hr class="divider" />
-    <div class="container" style="max-width: 2000px;">
-        <div class="row" style="max-width: 3200px;">
+    <div class="container" style="max-width: 768px;">
+        <div class="row" style="max-width: 768px;">
             <div class="col-md-12">
                 <h2>📜 Abstract</h2>
                 <p style="text-align: justify;">
@@ -1048,7 +1072,7 @@ print(f"relsim score: {similarity:.3f}")
         <div class="row">
             <div class="col-md-12">
                 <h2>📚 Citation</h2>
-                <div id='citation' class="citation" style="font-family:monospace;font-size: 12px;">
+                <div id='citation' class="citation" style="font-family:monospace;font-size: 12px; text-align: left;">
                 @inproceedings{relsim,<br>
                       title={Relational Visual Similarity},<br>
                       author={Nguyen, Thao and Mo, Sicheng and Singh, Krishna Kumar and Wang, Yilin and Shi, Jing and Kolkin, Nicholas and Shechtman, Eli and Lee, Yong Jae},<br>
