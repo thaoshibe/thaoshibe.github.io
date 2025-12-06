@@ -454,6 +454,25 @@ td.gif {
         object-fit: contain;
     }
 }
+
+/* Neon hover effect */
+.neon-hover {
+    cursor: pointer;
+    color: #0066cc;
+    text-decoration: underline;
+    transition: all 0.3s ease;
+}
+
+.neon-hover:hover {
+    color: #00ffff;
+    text-shadow: 
+        0 0 5px #00ffff,
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #0099ff,
+        0 0 80px #0099ff;
+    text-decoration: underline;
+}
 </style>
 <script type="text/javascript">
   var curr_idx = 0;
@@ -674,10 +693,6 @@ td.gif {
             <img src="./images/icon/huggingface-color.png" alt="HuggingFace" style="width:26px;">
             HuggingFace Dataset
         </a>
-        <a class="btn btn-light" role="button" href="https://thaoshibe.github.io/relsim/data_viewer/index.html">
-            <img src="./images/icon/lookup.png" alt="data viewer" style="width:24px;">
-            Data Viewer
-        </a>
             <a class="btn btn-light" role="button" href="#citation">
                 <img src="./images/icon/BibTeX_logo.svg" alt="BibTeX" style="height:17px;"> Citation
             </a>
@@ -688,12 +703,11 @@ td.gif {
             <a class="btn btn-light" role="button" href="./404.html">
                 <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
-                </svg>Slides (TBD)
+                </svg>Poster
             </a>
-            <a class="btn btn-light" role="button" href="./404.html">
-                <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
-                </svg>Poster (TBD)
+            <a class="btn btn-light" role="button" href="https://thaoshibe.github.io/relsim/data_viewer/index.html">
+                <img src="./images/icon/lookup.png" alt="data viewer" style="width:24px;">
+                Data Viewer
             </a>
         <a class="btn btn-light" role="button" href="#qualitative-gallery">
             <img src="./images/icon/image-collection.png" alt="image collection" style="width:28px;">
@@ -702,6 +716,10 @@ td.gif {
         <a class="btn btn-light" role="button" href="./retrieve/index.html">
             <img src="./images/icon/retrieval.png" alt="image collection" style="width:25px;">
             Image Retrieval
+        </a>
+        <a class="btn btn-light" role="button" href="#didyouknow">
+            <img src="./images/didyouknow.png" alt="did you know" style="width:25px;">
+            Did You Know??
         </a>
         </center>
         </div>
@@ -921,6 +939,43 @@ print(f"relsim score: {similarity:.3f}")
         </div>
     </div>
     <hr class="divider" style="max-width: 768px;"/>
+    <div class="container" style="max-width: 100%; text-align: left;">
+        <h2 id="didyouknow">❓ Did You Know?</h2> 
+    
+        Relational similarity isn't new!
+        <br>
+        In 1997, in the highly influential paper: <a href="https://www.qrg.northwestern.edu/papers/Files/Gentner_Markman_AmPsy_Jan97.pdf">Structure Mapping in Analogy and Similarity</a>,
+        <a href="https://scholar.google.com/citations?user=JQ2VugwAAAAJ&hl=en">Dedre Gentner</a> and <a href="https://scholar.google.com/citations?user=X3ai91IAAAAJ&hl=en">Arthur B. Markman</a> proposed the <text style="background-color: rgb(255, 255, 175);">hand-drawn version of Similarity Space</text>, with two axes: <i><text style="background-color: rgb(234,235,254);">x-axis: attributes shared, and y-axis: relations shared.</text></i>.
+
+        <div style="text-align: center;">
+            <div style="position: relative; display: inline-block;">
+                <img id="blurred-theory-img" src="./images/similarity_space_theory.png" style="width: 200px; height: auto; filter: blur(8px); cursor: pointer; transition: all 0.3s ease;" onclick="this.style.filter='blur(0px)'; this.style.width='450px'; this.style.cursor='default'; document.getElementById('reveal-text').style.display='none';">
+                <div id="reveal-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; pointer-events: none; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">
+                    Click to reveal
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 90%; color: gray;">
+                <i>Figure cropped from the original paper.</i>
+            </p>
+        </div>
+    
+        Believe it or not, we spent months <i>struggling</i> to recreate this theoretical figure <i>(yes we did!)</i>,
+        ... and ... after ... a lot of effort ... to ..... pull ..... things .....together .......... We finally made it!
+        <br>
+    <div id="xyplot-container" style="width: 100vw; margin-left: calc(-50vw + 50%); text-align: center;">
+        <div style="position: relative; display: inline-block;">
+            <img id="blurred-xyplot-img" src="./images/xyplot.png" style="width: 400px; height: auto; filter: blur(8px); cursor: pointer; transition: all 0.3s ease;" onclick="this.style.filter='blur(0px)'; this.style.width='1200px'; this.style.cursor='default'; document.getElementById('reveal-text-xyplot').style.display='none';">
+            <div id="reveal-text-xyplot" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; pointer-events: none; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">
+                Click to reveal
+            </div>
+        </div>
+    </div>
+        After almost 30 years, thanks to relsim, <text style="background-color: rgb(234,235,254);">the theory can now be brought to life!</text>
+        <br>  
+        Cool, isn’t it?? (˵ •̀ ᴗ - ˵ ) ✧
+    </div>
+    
+    <hr class="divider" style="max-width: 768px;"/>
     <div class="container" style="max-width: 768px;">
         <div class="row">
             <div class="col-md-12">
@@ -947,6 +1002,7 @@ print(f"relsim score: {similarity:.3f}")
                 You've reached the end.
                 <br>
                 This website template is adopted from <a href="https://thaoshibe.github.io/visii/#">visii (NeurIPS 2023)</a> and <a href="https://dreamfusion3d.github.io/">DreamFusion (ICLR 2023)</a>, source code can be found <a href="https://github.com/thaoshibe/thaoshibe.github.io/tree/main/visii">here</a> and <a href='https://dreamfusion3d.github.io/'>here</a>.
+                You are more than welcome to use <a href="https://github.com/thaoshibe/thaoshibe.github.io/tree/main/relsim">this website's source code</a> for your own project, just add credit back to here.
                 Thank you!
                 
                 <a href="javascript:toggleblock('notice')" style="text-align:left;font-size:100%;color: black"> (.❛ ᴗ ❛.).</a>
