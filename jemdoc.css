@@ -16,7 +16,8 @@ table#tlayout {
 
 body {
 	background: #f6f6f6;
-	font-family: Georgia, serif;
+	/* font-family: Georgia, serif; */
+	font-family: Helvetica, Arial, Helvetica Neue;
 	max-width: 950px;
 	/*padding-bottom: 10px;*/
 	/*border: 1px solid #ddd;*/
@@ -144,11 +145,11 @@ strong {
 
 h1, h2, h3 {
 	color: #527bbd;
-	margin-top: 0.7em;
+	margin-top: 0.5em;
 	margin-bottom: 0.3em;
 	padding-bottom: 0.2em;
 	line-height: 1.0;
-	padding-top: 0.5em;
+	padding-top: 0.3em;
 	border-bottom: 1px solid #aaaaaa;
 }
 
@@ -157,7 +158,7 @@ h1 {
 }
 
 h2 {
-	padding-top: 0.8em;
+	padding-top: 0.1em;
 	font-size: 125%;
 }
 
