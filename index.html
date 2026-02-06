@@ -115,6 +115,40 @@
       vertical-align: middle;
       margin-right: 3px;
     }
+
+    /* Research Vision Toggle */
+    .research-vision-container {
+      max-width: 80%;
+      margin: 0 auto;
+      text-align: center;
+      transition: text-align 0.3s ease;
+    }
+    .research-vision-container.expanded {
+      text-align: left;
+    }
+    .research-vision-toggle {
+      cursor: pointer;
+      color: #555;
+      transition: color 0.2s;
+      user-select: none;
+    }
+    .research-vision-toggle:hover {
+      color: #0000CD;
+    }
+    .research-vision-toggle::after {
+      content: " [click to expand]";
+      font-size: 0.85em;
+      color: #999;
+    }
+    .research-vision-toggle.active::after {
+      content: " [click to collapse]";
+    }
+    .research-vision-details {
+      display: none;
+    }
+    .research-vision-details.active {
+      display: inline;
+    }
   </style>
 </head>
 
@@ -160,7 +194,7 @@
                   <a href="mailto:thao.nguyen@wisc.edu">Email</a> / 
                   <a href="https://github.com/thaoshibe">GitHub</a> /
                   <a href="https://scholar.google.com/citations?hl=en&user=P_6-46UAAAAJ&view_op=list_works&sortby=pubdate">Google Scholar</a> /
-                  <a href="https://drive.google.com/file/d/17STKdJuOWiOpHgdx2WvtKp-w-rIaxK-Y/view?usp=sharing">Resume | CV</a>
+                  <a href="https://drive.google.com/file/d/17STKdJuOWiOpHgdx2WvtKp-w-rIaxK-Y/view?usp=sharing">Resume/CV</a>
                 </center>
               </p>
               <center>
@@ -173,20 +207,21 @@
         </table>
         <!-- About Me Section -->
         <h2>About Me</h2>
-        <p>4th year PhD Student &ndash; <a href="https://www.wisc.edu/">Univeristy of Wisconsin - Madison</a>.</p>
-        <p>
-          <b>Contact</b>: &ldquo;thao.nguyen at wisc dot edu&ldquo; | &ldquo;thao.ntp0414 at gmail dot com&rdquo;.
+        <p>4th year PhD Student &ndash; <a href="https://www.wisc.edu/">Univeristy of Wisconsin - Madison</a>.
+          <br> <b>Contact</b>: thao.nguyen at wisc dot edu | thao.ntp0414 at gmail dot com.
+          <br> <b>Research interests</b>: Personalized AI; Multimodal Models; <text style="color:rgb(179, 178, 178); font-size:90%">(+ AI for Education)</text>.
         </p>
         <a href="./images/Picture1.jpg"><img src="./images/Picture1.jpg" alt="research interests" width="100%" /></a>
-        <p>
-          <b>Research interests</b>: Personalized AI; Multimodal Models; <text style="color:rgb(179, 178, 178); font-size:90%">(+ AI for Education)</text>.
-          <!-- <br> LLMs/MLLMs possess great capabilities; Yet, they are still far from being a great personal assistant.
-          <br>
-          My research aims to take a step toward transforming general assistant models into <i>personal assistants for everyone</i>.
-          <br>
-          To be a great assistant, a model needs to see what humans see [1,2] and understand personal humans' knowledge/ environments [3,4].
-          Most recently, I am exploring how to extract such useful information from users' data, maintain long-term memory, and leverage this memory to better serve specific users.
-        </p> -->
+        <p style="font-size:90%" class="research-vision-container">
+          <span class="research-vision-toggle" onclick="toggleResearchVision()">"I hope everyone can have their <i>very own personal assistant</i>, very soon.</span><span class="research-vision-details" id="research-vision-details">
+            <br>To be helpful and relevant, such assistants must:
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;. understand users' knowledge/ environments [<a href="https://thaoshibe.github.io/YoLLaVA/">NeurIPS'24</a>, <a href="https://thaoshibe.github.io/YoChameleon/">CVPR'25</a>];
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;. perceive the world in the same "unusual" way as humans do [<a href="https://thaoshibe.github.io/relsim/">arXiv'25</a>];
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;. adapt seamlessly to user's inputs/ intentions [<a href="https://thaoshibe.github.io/visii/">NeurIPS'23</a>, <a href="https://thaoshibe.github.io/edit-one-for-all/">CVPR'24</a>];
+            <br>It must also maintain a (long-term) memory to provide more personalized and context-aware responses [<text style="color:red">tbd</text>].
+            <br>We have many powerful general-purpose models today (figure, left), and my research steps toward adapting them into more personalized ones (figure, right) (.❛ ᴗ ❛.)."
+          </span>
+        </p>
 
         <!-- Publications Section -->
         <h2>
@@ -569,6 +604,19 @@
         closeLightbox();
       }
     });
+  </script>
+
+  <script>
+    // Research vision toggle functionality
+    function toggleResearchVision() {
+      const details = document.getElementById('research-vision-details');
+      const toggle = document.querySelector('.research-vision-toggle');
+      const container = document.querySelector('.research-vision-container');
+      
+      details.classList.toggle('active');
+      toggle.classList.toggle('active');
+      container.classList.toggle('expanded');
+    }
   </script>
 
 </body>
