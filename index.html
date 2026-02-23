@@ -118,7 +118,7 @@
 
     /* Research Vision Toggle */
     .research-vision-container {
-      max-width: 80%;
+      max-width: 95%;
       margin: 0 auto;
       text-align: center;
       transition: text-align 0.3s ease;
@@ -168,7 +168,7 @@
           <tr>
             <td>
               <a href="./images/thao-android.jpg">
-                <img src="./images/thao-android.jpg" alt="Thao at Googleplex" width="300px" />
+                <img src="./images/thao-android.jpg" alt="Thao at Googleplex" width="270px" />
                 <!-- <br> -->
                 <!-- <text style="font-size:60%;color:#A9A9A9">Photo taken at Googleplex @ Summer 2024 ╮ (. ❛ ᴗ ❛.) ╭</text><br> -->
               </a>&nbsp;
@@ -177,7 +177,7 @@
               <p>
                 Hi, I'm Thao! 👋<br> 
                 I'm a CS PhD student @ <a href="https://www.cs.wisc.edu/">UW-Madison</a>, working with <a href="https://pages.cs.wisc.edu/~yongjaelee/">Prof. Yong Jae Lee</a>.<br>
-                I'm fortunate to also have support from senior students: <a href="https://utkarshojha.github.io/">Dr. Utkarsh Ojha</a>, <a href="https://yuheng-li.github.io/">Dr. Yuheng Li</a>, <a href="https://hliu.cc/">Dr. Haotian Liu</a>, and <a href="https://pages.cs.wisc.edu/~mucai/">Dr. Mu Cai</a>.
+                I'm fortunate to also have support from senior students: <a href="https://utkarshojha.github.io/"><strike>Dr.</strike> Prof. Utkarsh Ojha</a>, <a href="https://yuheng-li.github.io/">Dr. Yuheng Li</a>, <a href="https://hliu.cc/">Dr. Haotian Liu</a>, and <a href="https://pages.cs.wisc.edu/~mucai/">Dr. Mu Cai</a>.
                 <br>
                 <br>
                 Before that, I was an <a href="https://www.qualcomm.com/research/artificial-intelligence/ai-residency-program">AI Research Resident</a> @ VinAI Research (now Qualcomm AI Residency), where I had the privilege of working closely with <a href="https://scholar.google.com/citations?hl=en&user=FYZ5ODQAAAAJ&view_op=list_works&sortby=pubdate">Dr. Anh Tran</a>, <a href="https://gshoai.github.io/">Prof. Minh Hoai Nguyen</a>, <a href="https://ducthanhnguyen.weebly.com">Dr. Duc Thanh Nguyen</a>.
@@ -185,9 +185,19 @@
                 <!-- These people have motivated me to pursuit higher education.<br>
                 Thank you! 🙇‍♀️🎓 -->
               </p>
-              <p style="font-size:80%;color:#A9A9A9">
+              <!-- <p style="font-size:80%;color:#A9A9A9">
                 ｡𖦹°‧ I'm taking a PhD Minor in Educational Psychology and was lucky enough to learn a lot about stereotypes and STEM from <a href="https://edpsych.education.wisc.edu/fac-staff/starr-christy/">Prof. Christy Starr</a> (thank you!!).<br>
                 This inspired me to create <a href="https://viet-wics.github.io/"><img src="https://viet-wics.github.io/assets/img/favicon.ico" height="20"> viet-wisc: a collection of Vietnamese women working in Computer Science (PhD)</a>. If you're 🇻🇳🙋‍♀️, you might find it inspiring~ 🌱<br>
+              </p> -->
+              <p style="font-size:90%" class="research-vision-container">
+                <span class="research-vision-toggle" onclick="toggleResearchVision()">"I hope everyone can have their <i>very own personal assistant</i>, very soon."</span><span class="research-vision-details" id="research-vision-details">
+                  <br>"To be helpful and relevant, such assistants must:
+                  <br>&nbsp;&nbsp;&nbsp;&nbsp;. understand users' knowledge/ environments [<a href="https://thaoshibe.github.io/YoLLaVA/">NeurIPS'24</a>, <a href="https://thaoshibe.github.io/YoChameleon/">CVPR'25</a>];
+                  <br>&nbsp;&nbsp;&nbsp;&nbsp;. perceive the world in the same "unusual" way as humans do [<a href="https://thaoshibe.github.io/relsim/">CVPR'26</a>];
+                  <br>&nbsp;&nbsp;&nbsp;&nbsp;. adapt seamlessly to user's inputs/ intentions [<a href="https://thaoshibe.github.io/visii/">NeurIPS'23</a>, <a href="https://thaoshibe.github.io/edit-one-for-all/">CVPR'24</a>];
+                  <br>It must also maintain a (long-term) memory to provide more personalized and context-aware responses [<text style="color:red">tbd</text>].
+                  <br>We have many powerful general-purpose models today (figure, left), and my research steps toward adapting them into more personalized ones (figure, right) (.❛ ᴗ ❛.)."
+                </span>
               </p>
               <p>
                 <center>
@@ -211,17 +221,18 @@
           <br> <b>Contact</b>: thao.nguyen at wisc dot edu | thao.ntp0414 at gmail dot com.
           <br> <b>Research interests</b>: Personalized AI; Multimodal Models; <text style="color:rgb(179, 178, 178); font-size:90%">(+ AI for Education)</text>.
         </p>
-        <a href="./images/Picture1.jpg"><img src="./images/Picture1.jpg" alt="research interests" width="100%" /></a>
-        <p style="font-size:90%" class="research-vision-container">
+        <img src="./images/Picture1.jpg" alt="research interests" width="100%" />
+        <!-- Illustration of my research vision (.❛ ᴗ ❛.). -->
+        <!-- <p style="font-size:90%" class="research-vision-container">
           <span class="research-vision-toggle" onclick="toggleResearchVision()">"I hope everyone can have their <i>very own personal assistant</i>, very soon.</span><span class="research-vision-details" id="research-vision-details">
             <br>To be helpful and relevant, such assistants must:
             <br>&nbsp;&nbsp;&nbsp;&nbsp;. understand users' knowledge/ environments [<a href="https://thaoshibe.github.io/YoLLaVA/">NeurIPS'24</a>, <a href="https://thaoshibe.github.io/YoChameleon/">CVPR'25</a>];
-            <br>&nbsp;&nbsp;&nbsp;&nbsp;. perceive the world in the same "unusual" way as humans do [<a href="https://thaoshibe.github.io/relsim/">arXiv'25</a>];
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;. perceive the world in the same "unusual" way as humans do [<a href="https://thaoshibe.github.io/relsim/">CVPR'26</a>];
             <br>&nbsp;&nbsp;&nbsp;&nbsp;. adapt seamlessly to user's inputs/ intentions [<a href="https://thaoshibe.github.io/visii/">NeurIPS'23</a>, <a href="https://thaoshibe.github.io/edit-one-for-all/">CVPR'24</a>];
             <br>It must also maintain a (long-term) memory to provide more personalized and context-aware responses [<text style="color:red">tbd</text>].
             <br>We have many powerful general-purpose models today (figure, left), and my research steps toward adapting them into more personalized ones (figure, right) (.❛ ᴗ ❛.)."
           </span>
-        </p>
+        </p> -->
 
         <!-- Publications Section -->
         <h2>
@@ -243,7 +254,7 @@
               <p>
                 <a href="https://sichengmo.github.io/GroupDiff/"><b>Group Diffusion: Enhancing Image Generation by Unlocking Cross-Sample Collaboration</b></a><br>
                 <i>Sicheng Mo,<b>Thao Nguyen</b>, Richard Zhang, Nicholas Kolkin, Siddharth Srinivasan Iyer, Eli Shechtman, Krishna Kumar Singh, Yong Jae Lee, Bolei Zhou, Yuheng Li</i><br>
-                arXiv preprint (<b>arXiv</b>), 2025<br>
+                Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2026<br>
                 [<a href="https://sichengmo.github.io/GroupDiff/">ProjectPage</a>, <a href="https://github.com/adobe-research/GroupDiff">Code</a>, <a href="./relsim/404.html">Paper</a>]
               </p>
             </td>
@@ -261,7 +272,7 @@
               <p>
                 <a href="https://thaoshibe.github.io/relsim/"><b>Relational Visual Similarity</b></a><br>
                 <i><b>Thao Nguyen</b>, Sicheng Mo, Krishna Kumar Singh, Yilin Wang, Jing Shi, Nicholas Kolkin, Eli Shechtman, Yong Jae Lee, Yuheng Li</i><br>
-                arXiv preprint (<b>arXiv</b>), 2025<br>
+                Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2026<br>
                 [<a href="https://thaoshibe.github.io/relsim/">ProjectPage</a>, <a href="https://github.com/thaoshibe/relsim">Code</a>, <a href="https://arxiv.org/abs/2512.07833">Paper</a>]
               </p>
             </td>
@@ -406,13 +417,17 @@
 
         <!-- Random Section -->
         <h2>Random</h2>
+              <!-- <p style="font-size:80%;color:#A9A9A9">
+                ｡𖦹°‧ I'm taking a PhD Minor in Educational Psychology and was lucky enough to learn a lot about stereotypes and STEM from <a href="https://edpsych.education.wisc.edu/fac-staff/starr-christy/">Prof. Christy Starr</a> (thank you!!).<br>
+                This inspired me to create <a href="https://viet-wics.github.io/"><img src="https://viet-wics.github.io/assets/img/favicon.ico" height="20"> viet-wisc: a collection of Vietnamese women working in Computer Science (PhD)</a>. If you're 🇻🇳🙋‍♀️, you might find it inspiring~ 🌱<br>
+              </p> -->
         <div style="text-align:left;">When I make no progress on my research 🐢, I create and maintain these websites:</div>
         <br>
         <div class="random-flex">
           <div class="random-item" style="flex: 0.7; max-width: 350px;">
             <a href="https://viet-wics.github.io/">
               <img src="https://avatars.githubusercontent.com/u/166851392?v=4" alt="viet-wics" height="110px" />
-              vietnamese women <br> in computer science (viet-wics)
+              vietnamese women 🇻🇳<br> in computer science (viet-wics)
             </a>
           </div>
           <div class="random-item" style="flex: 0.7; max-width: 350px;">
@@ -438,7 +453,7 @@
         </div>
         <br>
         <div style="text-align:left;">One time, I also talked about my PhD experience (in Vietnamese) in <a href="https://youtu.be/796-tohYROA?si=V6NYIMXHQ0BFHFUZ"><img src="./relsim/images/icon/youtube.png" height="18" style="vertical-align:middle;"> this Youtube video</a> 🎥.</div>
-
+        
 
         <!-- Misc Section -->
         <h2>Misc</h2>
