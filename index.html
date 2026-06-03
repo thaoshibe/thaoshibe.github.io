@@ -191,13 +191,13 @@
                 This inspired me to create <a href="https://viet-wics.github.io/"><img src="https://viet-wics.github.io/assets/img/favicon.ico" height="20"> viet-wisc: a collection of Vietnamese women working in Computer Science (PhD)</a>. If you're 🇻🇳🙋‍♀️, you might find it inspiring~ 🌱<br>
               </p> -->
               <p style="font-size:90%" class="research-vision-container expanded">
-                <span class="research-vision-toggle active" onclick="toggleResearchVision()">"I hope everyone can have their <i>very own personal assistant</i>, very soon."</span><span class="research-vision-details active" id="research-vision-details">
+                <span class="research-vision-toggle active" onclick="toggleResearchVision()">"I hope everyone can have their <i><b>visual</b> personal assistant</i>, very soon."</span><span class="research-vision-details active" id="research-vision-details">
                   <br>To be helpful and relevant, such assistants must:
                   <br>&nbsp;&nbsp;&nbsp;&nbsp;. adapt seamlessly to user's inputs/ intentions [<a href="https://thaoshibe.github.io/visii/">NeurIPS'23</a>, <a href="https://thaoshibe.github.io/edit-one-for-all/">CVPR'24</a>];
                   <br>&nbsp;&nbsp;&nbsp;&nbsp;. understand users' knowledge/ environments [<a href="https://thaoshibe.github.io/YoLLaVA/">NeurIPS'24</a>, <a href="https://thaoshibe.github.io/YoChameleon/">CVPR'25</a>];
                   <!-- <br>&nbsp;&nbsp;&nbsp;&nbsp;. perceive the world in the same "unusual" way as humans do [<a href="https://thaoshibe.github.io/relsim/">CVPR'26</a>]; -->
                   <!-- <br>It must also maintain a (long-term) memory to provide more personalized and context-aware responses [<text style="color:red">tbd</text>]. -->
-                  <br>&nbsp;&nbsp;&nbsp;&nbsp;. it must also maintain a (long-term) memory to provide more personalized and context-aware responses [<text style="color:red">tbd</text>].
+                  <br>&nbsp;&nbsp;&nbsp;&nbsp;. it must also maintain a (long-term) memory to provide more personalized and context-aware responses [<a href="https://thaoshibe.github.io/camroll/">arXiv'26</a>, <a href="https://viettmab.github.io/visualmem-page/">arXiv'26</a>].
 
                   <br>We have many powerful general-purpose models today (figure, left), and my research steps toward adapting them into more personalized ones (figure, right) (.❛ ᴗ ❛.).
                 </span>
@@ -245,6 +245,45 @@
             <a href="javascript:void(0)" class="pub-toggle" id="toggle-all">still my favorites, but all <span id="count-all"></span></a>]
           </span>
         </h2>
+        <!-- CamRoll -->
+        <table class="imgtable publication-table" data-selected="true">
+          <tr>
+            <td>
+              <a href="https://thaoshibe.github.io/camroll/">
+                <img src="./images/camroll.png" alt="CamRoll teaser" width="170px" />
+              </a>&nbsp;
+            </td>
+            <td align="left;vertical-align: middle;">
+              <p>
+                <a href="https://thaoshibe.github.io/camroll/"><b>Personal AI Agent for Camera Roll VQA</b></a><br>
+                <i style="color:#888">if an AI could see your whole camera roll, what would you ask?</i><br>
+                <i><b>Thao Nguyen</b>, Krishna Kumar Singh, Donghyun Kim, Yong Jae Lee<sup>&dagger;</sup>, Yuheng Li<sup>&dagger;</sup></i><br>
+                arXiv preprint, 2026<br>
+                <i><small>(<sup>&dagger;</sup>: equal advising)</small></i><br>
+                [<a href="https://thaoshibe.github.io/camroll/">ProjectPage</a>, <a href="https://thaoshibe.github.io/camroll/page/demo.html">Demo</a>, <a href="https://github.com/thaoshibe/camroll">Code</a>, <a href="./relsim/404.html">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
+        <!-- VisualMem -->
+        <table class="imgtable publication-table" data-selected="false">
+          <tr>
+            <td>
+              <a href="https://viettmab.github.io/visualmem-page/">
+                <img src="./images/visualmem.png" alt="VisualMem teaser" width="170px" />
+              </a>&nbsp;
+            </td>
+            <td align="left;vertical-align: middle;">
+              <p>
+                <a href="https://viettmab.github.io/visualmem-page/"><b>VisualMem: Personal Visual Memory from Explicit and Implicit Evidence</b></a><br>
+                <i>Viet Nguyen, <b>Thao Nguyen</b>, Vishal M. Patel<sup>&dagger;</sup>, Yuheng Li<sup>&dagger;</sup></i><br>
+                arXiv preprint, 2026<br>
+                <i><small>(<sup>&dagger;</sup>: equal advising)</small></i><br>
+                [<a href="https://viettmab.github.io/visualmem-page/">ProjectPage</a>, <a href="https://github.com/viettmab/visualmem">Code</a>, <a href="https://arxiv.org/abs/2605.28806">Paper</a>]
+              </p>
+            </td>
+          </tr>
+        </table>
         <!-- groupdiffusion -->
         <table class="imgtable publication-table" data-selected="false">
           <tr>
@@ -274,8 +313,9 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://thaoshibe.github.io/relsim/"><b>Relational Visual Similarity</b></a><br>
-                <i><b>Thao Nguyen</b>, Sicheng Mo, Krishna Kumar Singh, Yilin Wang, Jing Shi, Nicholas Kolkin, Eli Shechtman, Yong Jae Lee, Yuheng Li</i><br>
+                <i><b>Thao Nguyen</b>, Sicheng Mo, Krishna Kumar Singh, Yilin Wang, Jing Shi, Nicholas Kolkin, Eli Shechtman, Yong Jae Lee<sup>&dagger;</sup>, Yuheng Li<sup>&dagger;</sup></i><br>
                 Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2026<br>
+                <i><small>(<sup>&dagger;</sup>: equal advising)</small></i><br>
                 [<a href="https://thaoshibe.github.io/relsim/">ProjectPage</a>, <a href="https://github.com/thaoshibe/relsim">Code</a>, <a href="https://arxiv.org/abs/2512.07833">Paper</a>]
               </p>
             </td>
@@ -312,9 +352,9 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://thaoshibe.github.io/YoChameleon/"><b>Yo'Chameleon: Personalized Vision and Language Generation</b></a><br>
-                <i><b>Thao Nguyen</b>, Krishna Kumar Singh, Jing Shi, Trung Bui, Yong Jae Lee, Yuheng Li</i><br>
+                <i><b>Thao Nguyen</b>, Krishna Kumar Singh, Jing Shi, Trung Bui, Yong Jae Lee<sup>&dagger;</sup>, Yuheng Li<sup>&dagger;</sup></i><br>
                 Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025<br>
-                <i><small>(also accepted at 🧷 CVPR 2025 Workshop: "What is Next in Multimodal Foundation Models?")</small></i><br>
+                <i><small>(<sup>&dagger;</sup>: equal advising; also accepted at 🧷 CVPR 2025 Workshop: "What is Next in Multimodal Foundation Models?")</small></i><br>
                 [<a href="https://thaoshibe.github.io/YoChameleon/">ProjectPage</a>, <a href="https://drive.google.com/file/d/1eMhP6YUqlQw9SaU90x3p8M4aQW6wSdH0/view?usp=sharing">Poster</a>, <a href="https://thaoshibe.github.io/YoChameleon/">Code</a>, <a href="https://arxiv.org/abs/2504.20998">Paper</a>]
               </p>
             </td>
