@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Long Video Understanding vs. Camera Roll VQA</title>
+<meta name="description" content="A blog post comparing long-form video understanding benchmarks with personal camera roll VQA: survey, question/task analysis, and core challenges." />
+<style>
+:root {
+  --bg: #f6f6f6;
+  --card: #ffffff;
+  --ink: #2b2b2b;
+  --muted: #6d6d6d;
+  --line: #e6e6e6;
+  /* domain accents */
+  --video: #1367a7;        /* long video = blue */
+  --video-soft: #eaf3fb;
+  --roll: #c2611f;         /* camera roll = warm */
+  --roll-soft: #fdf1e7;
+  --ok: #2e7d4f;
+  --ok-soft: #e9f5ee;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0 16px;
+}
+.wrap { max-width: 980px; margin: 0 auto; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 40px 44px;
+  margin: 28px 0 40px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+a { color: var(--video); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header.post-header { text-align: center; margin-bottom: 8px; }
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+h1.title {
+  font-size: 34px;
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+h1.title .vs { color: var(--muted); font-weight: 400; font-style: italic; }
+.sub { color: var(--muted); font-size: 16px; margin-top: 2px; }
+.byline { color: var(--muted); font-size: 14px; margin-top: 14px; }
+
+.wip {
+  display: inline-block;
+  background: #fff8e1;
+  border: 1px solid #f3e2a9;
+  color: #8a6d1a;
+  font-size: 13px;
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-top: 14px;
+}
+
+hr.rule {
+  border: 0; height: 1px; margin: 26px 0;
+  background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.18), rgba(0,0,0,0));
+}
+
+h2.section {
+  font-size: 24px;
+  margin: 40px 0 6px;
+  padding-top: 6px;
+}
+h3.sub-section { font-size: 19px; margin: 30px 0 6px; }
+
+/* collapsible survey sections */
+details.section-collapse { margin: 0; }
+details.section-collapse > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 30px 0 6px;
+}
+details.section-collapse > summary::-webkit-details-marker { display: none; }
+details.section-collapse > summary::after {
+  content: "\25BE";
+  color: var(--muted);
+  font-size: 13px;
+  transition: transform 0.15s ease;
+}
+details.section-collapse:not([open]) > summary::after { transform: rotate(-90deg); }
+details.section-collapse > summary:hover { color: var(--ink); }
+.count-badge { font-size: 12px; color: var(--muted); font-weight: 400; }
+p { margin: 12px 0; }
+.lead { font-size: 17px; }
+
+/* roadmap */
+.roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0 6px; }
+.step {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #fbfbfb;
+}
+.step .n { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.step .t { font-weight: 600; margin: 4px 0; }
+.step .s { font-size: 13px; }
+.step.done { border-color: #bfe2cd; background: var(--ok-soft); }
+.step.done .badge { color: var(--ok); font-weight: 600; }
+.step.todo .badge { color: var(--muted); }
+
+/* domain header chips */
+.domain {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600;
+  border-radius: 8px; padding: 4px 10px; margin-bottom: 2px;
+}
+.domain.video { background: var(--video-soft); color: var(--video); }
+.domain.roll { background: var(--roll-soft); color: var(--roll); }
+
+/* tables */
+.table-scroll { overflow-x: auto; margin: 14px 0 6px; }
+table.survey {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  min-width: 720px;
+}
+table.survey th, table.survey td {
+  text-align: left;
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+table.survey thead th {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--muted); border-bottom: 2px solid var(--line);
+}
+table.survey tbody tr:hover, table.survey tr:hover { background: #fafafa; }
+.name { font-weight: 600; }
+table.survey td.name { min-width: 92px; }
+.links a { white-space: nowrap; }
+table.survey td.ex { font-style: italic; color: #555; font-size: 12.5px; max-width: 320px; }
+table.survey td.ex .lbl { font-style: normal; color: var(--muted); font-size: 11px; }
+.sep { color: var(--line); padding: 0 3px; }
+
+table.survey.video thead th { border-bottom-color: var(--video); }
+table.survey.roll thead th { border-bottom-color: var(--roll); }
+
+/* sortable headers */
+table.survey thead th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+table.survey thead th.sortable:hover { color: var(--ink); }
+table.survey thead th.sortable::after { content: "\2195"; opacity: 0.3; font-size: 10px; margin-left: 5px; }
+table.survey thead th.sorted-asc::after { content: "\2191"; opacity: 0.85; }
+table.survey thead th.sorted-desc::after { content: "\2193"; opacity: 0.85; }
+
+/* venue badge */
+.venue {
+  font-size: 11px; font-weight: 600;
+  border-radius: 5px; padding: 2px 7px;
+  background: #f0f0f0; color: #555; white-space: nowrap;
+}
+
+/* at-a-glance */
+table.glance { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 640px; }
+table.glance th, table.glance td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.glance thead th { font-size: 13px; }
+table.glance thead th.v { color: var(--video); }
+table.glance thead th.r { color: var(--roll); }
+table.glance td.dim { font-weight: 600; color: var(--muted); width: 22%; }
+
+.note {
+  background: #fbfbfb; border: 1px solid var(--line); border-left: 3px solid var(--video);
+  border-radius: 8px; padding: 12px 16px; font-size: 14px; color: #444; margin: 16px 0;
+}
+.placeholder {
+  border: 1px dashed #cfcfcf; border-radius: 12px; padding: 18px 20px;
+  background: repeating-linear-gradient(45deg, #fbfbfb, #fbfbfb 12px, #f6f6f6 12px, #f6f6f6 24px);
+  color: var(--muted); font-size: 14px;
+}
+.placeholder b { color: var(--ink); }
+ul.tight { margin: 8px 0; padding-left: 20px; }
+ul.tight li { margin: 4px 0; }
+footer.post-footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 10px; }
+
+/* ---------- Step 2 analysis visuals ---------- */
+.statstrip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0; }
+.stat-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: #fbfbfb; }
+.stat-card.video { border-color: #bcd9ef; background: var(--video-soft); }
+.stat-card.roll  { border-color: #f0cba6; background: var(--roll-soft); }
+.stat-num { font-size: 26px; font-weight: 700; line-height: 1.1; }
+.stat-card.video .stat-num { color: var(--video); }
+.stat-card.roll  .stat-num { color: var(--roll); }
+.stat-lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.chart-title { font-weight: 600; font-size: 15px; margin: 22px 0 4px; }
+.chart-cap { font-size: 12.5px; color: var(--muted); margin: 2px 0 12px; }
+
+.barlist { display: grid; grid-template-columns: 130px 1fr 46px; gap: 6px 10px; align-items: center; }
+.barlist .blabel { font-size: 13px; text-align: right; color: #444; }
+.barlist .blabel.me { font-weight: 700; color: var(--roll); }
+.btrack { background: #f0f0f0; border-radius: 6px; height: 16px; overflow: hidden; }
+.bfill { height: 100%; border-radius: 6px; background: var(--video); }
+.bfill.roll { background: var(--roll); }
+.bval { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* 100%-stacked question-word bars */
+.qrow { display: grid; grid-template-columns: 130px 1fr; gap: 10px; align-items: center; margin: 5px 0; }
+.qrow .blabel { font-size: 13px; text-align: right; color: #444; }
+.qrow .blabel.me { font-weight: 700; color: var(--roll); }
+.sbar { display: flex; height: 16px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); }
+.sseg { height: 100%; }
+.qlegend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 10px 0 0; font-size: 12px; color: #555; }
+.qkey { display: inline-flex; align-items: center; gap: 5px; }
+.qkey i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+/* analysis summary table */
+table.analysis { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 720px; }
+table.analysis th, table.analysis td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+table.analysis thead th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); border-bottom: 2px solid var(--line); white-space: nowrap; }
+table.analysis td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.analysis tr.me { background: var(--roll-soft); }
+table.analysis tr.me td:first-child { font-weight: 700; color: var(--roll); }
+
+/* two-column sample questions */
+.qcompare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0; }
+.qcol { border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 14px; }
+.qcol.video { border-top: 3px solid var(--video); }
+.qcol.roll  { border-top: 3px solid var(--roll); }
+.qcol h4 { font-size: 13px; margin: 12px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.qex { margin: 10px 0; font-size: 13.5px; }
+.qex .src { display: block; font-size: 11px; color: var(--muted); margin-bottom: 1px; }
+.qex .q { font-style: italic; color: #444; }
+
+/* mini taxonomy cards */
+.taxgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0; }
+.taxcard { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.taxcard h4 { font-size: 14px; margin: 0 0 2px; }
+.taxcard .sub { font-size: 11.5px; color: var(--muted); margin-bottom: 10px; }
+.taxrow { display: grid; grid-template-columns: 1fr 34px; gap: 8px; align-items: center; font-size: 12.5px; margin: 4px 0; }
+.taxrow .tname { color: #444; }
+.taxrow .ttrack { grid-column: 1 / -1; background: #f0f0f0; border-radius: 5px; height: 7px; margin-top: -2px; margin-bottom: 4px; overflow: hidden; }
+.taxrow .tfill { height: 100%; background: var(--video); border-radius: 5px; }
+.taxcard.roll .tfill { background: var(--roll); }
+.taxcard.ok .tfill { background: var(--ok); }
+
+@media (max-width: 720px) {
+  .statstrip { grid-template-columns: 1fr 1fr; }
+  .qcompare { grid-template-columns: 1fr; }
+  .taxgrid { grid-template-columns: 1fr; }
+  .barlist { grid-template-columns: 96px 1fr 42px; }
+  .qrow { grid-template-columns: 96px 1fr; }
+}
+
+@media (max-width: 720px) {
+  .card { padding: 26px 20px; }
+  h1.title { font-size: 27px; }
+  .roadmap { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<article class="card">
+
+  <header class="post-header">
+    <div class="kicker">Notes on benchmarks &amp; data construction</div>
+    <h1 class="title">Long Video Understanding <span class="vs">vs.</span> Camera Roll VQA</h1>
+    <div class="sub">Two ways of asking a machine to remember what it saw &mdash; one continuous stream, one scattered archive.</div>
+    <div class="byline">By Thao Nguyen &middot; draft, June 2026</div>
+    <div class="wip">Work in progress &middot; this post grows in 3 steps</div>
+  </header>
+
+  <hr class="rule" />
+
+  <p class="lead">
+    Both <em>long video understanding</em> and <em>camera roll VQA</em> ask a model to
+    answer questions over a large stream of visual content that no longer fits in a single
+    context window. But the two settings differ in almost everything that matters for how we
+    <em>build the data</em>: where the visuals come from, how they are ordered in time, how
+    personal they are, and what kind of question a human would actually want to ask. This post
+    maps out those differences.
+  </p>
+
+  <p>We are writing it in three steps:</p>
+
+  <div class="roadmap">
+    <div class="step done">
+      <div class="n">Step 1 &middot; <span class="badge">in this draft</span></div>
+      <div class="t">Survey</div>
+      <div class="s">A curated list of datasets / benchmarks for each domain, with links to project pages, code, and papers.</div>
+    </div>
+    <div class="step done">
+      <div class="n">Step 2 &middot; <span class="badge">in this draft</span></div>
+      <div class="t">Question / task analysis</div>
+      <div class="s">Pulled questions from 7 long-video sets and compared their task types against <code>camroll</code>.</div>
+    </div>
+    <div class="step todo">
+      <div class="n">Step 3 &middot; <span class="badge">later</span></div>
+      <div class="t">Core challenges</div>
+      <div class="s">What fundamentally differs in how people <em>construct</em> these benchmarks &mdash; and why.</div>
+    </div>
+  </div>
+
+  <!-- ============================ AT A GLANCE ============================ -->
+  <h2 class="section">The two paradigms at a glance</h2>
+  <p>
+    Before the long lists, here is the contrast in one table. (We will revisit and sharpen
+    these claims with data in Steps 2 and 3.)
+  </p>
+
+  <div class="table-scroll">
+    <table class="glance">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th class="v">Long Video Understanding</th>
+          <th class="r">Camera Roll VQA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dim">Input unit</td>
+          <td>One temporally <em>continuous</em> video (a stream of frames).</td>
+          <td>A <em>set</em> of discrete personal photos, sparsely sampled across life.</td>
+        </tr>
+        <tr>
+          <td class="dim">Temporal structure</td>
+          <td>Dense &amp; ordered: seconds&rarr;minutes&rarr;hours within one event/story.</td>
+          <td>Fragmented: thousands of photos over 2&ndash;6 years, many disjoint events.</td>
+        </tr>
+        <tr>
+          <td class="dim">Scale</td>
+          <td>Minutes to ~2 hours of footage per item.</td>
+          <td>Hundreds&ndash;thousands of images per user (often 1&ndash;10M tokens if naively fed).</td>
+        </tr>
+        <tr>
+          <td class="dim">Source</td>
+          <td>YouTube, movies/TV, egocentric recordings, surveillance.</td>
+          <td>Real users' phone camera rolls (+ curated public photo streams).</td>
+        </tr>
+        <tr>
+          <td class="dim">Personalization</td>
+          <td>Low &mdash; content &amp; answers are largely shared across examples.</td>
+          <td>High &mdash; ~90% of gold answers are unique to a single user.</td>
+        </tr>
+        <tr>
+          <td class="dim">Typical query</td>
+          <td>MCQ on plot, action, temporal order, fine-grained perception.</td>
+          <td>First-person semantic &amp; episodic questions ("What did <em>I</em> eat after&hellip;?").</td>
+        </tr>
+        <tr>
+          <td class="dim">Core difficulty</td>
+          <td>Long-context reasoning over a continuous stream.</td>
+          <td>Navigate / retrieve over huge personal memory + personalized grounding.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================ STEP 1: SURVEY ============================ -->
+  <h2 class="section">Step 1 &middot; Survey</h2>
+  <p>
+    Awesome-list&ndash;style tables. The left column is the dataset/benchmark; the rest gives
+    venue, source type, duration, scale, the kind of task it tests, and links. Long-video entries are accented
+    <span style="color:var(--video);font-weight:600;">blue</span>; personal / camera-roll entries
+    are accented <span style="color:var(--roll);font-weight:600;">orange</span>.
+  </p>
+
+  <!-- ----- Domain A: long video understanding ----- -->
+  <details class="section-collapse">
+  <summary class="sub-section"><span class="domain video">🎬 Long Video Understanding</span> <span class="count-badge">51 entries &middot; click to expand</span></summary>
+  <p>
+    Benchmarks where the input is a single long, untrimmed video and the model must reason
+    across it. Foundational / pre-LLM datasets (the action-recognition, grounding, and
+    captioning era) are folded into the same table and marked
+    <span style="color:var(--muted);">(classic)</span>. Much of this list is reproduced from
+    <a href="https://github.com/ttengwang/Awesome_Long_Form_Video_Understanding#awesome-long-term-video-understanding" target="_blank" rel="noopener">Awesome Long-Form Video Understanding</a>
+    and <a href="https://github.com/yunlong10/awesome-llms-for-video-understanding" target="_blank" rel="noopener">Awesome-LLMs-for-Video-Understanding</a>.
+    <span style="color:var(--muted);font-size:13px;">Tip: click any column header to sort &mdash; e.g. <b>Venue</b> sorts by year.</span>
+  </p>
+
+  <div class="table-scroll">
+    <table class="survey video">
+      <thead>
+        <tr>
+          <th>Benchmark</th>
+          <th>Venue</th>
+          <th>Source type</th>
+          <th>Duration</th>
+          <th>Scale</th>
+          <th>QA Format</th>
+          <th>Task</th>
+          <th>Links</th>
+          <th class="no-sort">Example question (real)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">Video-MME</td>
+          <td><span class="venue">CVPR 2025</span></td>
+          <td>Web / YouTube (6 domains)</td>
+          <td>11 s &ndash; 1 h</td>
+          <td>900 videos, 2.7k QA</td>
+          <td>MC (+subs/audio)</td>
+          <td>General video QA (6 domains)</td>
+          <td class="links">
+            <a href="https://video-mme.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/MME-Benchmarks/Video-MME" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2405.21075" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What is the color of the clothing worn by the persons in the video?&rdquo; &mdash; (A) Black (B) Gray (C) Green (D) Brown</td>
+        </tr>
+        <tr>
+          <td class="name">MLVU</td>
+          <td><span class="venue">CVPR 2025</span></td>
+          <td>Mixed (movie, surveillance, ego, cartoon, game)</td>
+          <td>3 min &ndash; 2 h</td>
+          <td>~3.1k Q, 9 tasks</td>
+          <td>MC + open</td>
+          <td>9 tasks (holistic / detail)</td>
+          <td class="links">
+            <a href="https://github.com/JUNJIE99/MLVU" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2406.04264" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What does the hand coming out of the computer do?&rdquo; &mdash; (A) Delivers a product (B) Shakes the woman&rsquo;s hand (C) Takes the credit card (D) Points at the screen <span class="lbl">(needle QA)</span></td>
+        </tr>
+        <tr>
+          <td class="name">LongVideoBench</td>
+          <td><span class="venue">NeurIPS 2024 D&amp;B</span></td>
+          <td>Web (subtitled), diverse themes</td>
+          <td>up to 1 h</td>
+          <td>3,763 videos, 6,678 Q</td>
+          <td>MC</td>
+          <td>Referring reasoning (17 cat.)</td>
+          <td class="links">
+            <a href="https://longvideobench.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/longvideobench/LongVideoBench" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2407.15754" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;A person is drawing with a pen. After the subtitle &lsquo;&hellip;the snow fairy was hurt&hellip;&rsquo;, what does this person do?&rdquo; &mdash; (A) Picks up the drawing (B) Picks up the rubber &hellip; <span class="lbl">[referring query + MC]</span></td>
+        </tr>
+        <tr>
+          <td class="name">HourVideo</td>
+          <td><span class="venue">NeurIPS 2024 D&amp;B</span></td>
+          <td>Egocentric (Ego4D)</td>
+          <td>20 &ndash; 120 min</td>
+          <td>500 videos, 12,976 Q</td>
+          <td>MC</td>
+          <td>Summarization / perception / reasoning / navigation</td>
+          <td class="links">
+            <a href="https://hourvideo.stanford.edu/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/keshik6/HourVideo" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2411.04998" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What dairy products did the camera wearer pick up in the supermarket?&rdquo; <span class="lbl">(recall)</span> &middot; &ldquo;How can the camera wearer retrieve the TV remote if they are in the kitchen?&rdquo; <span class="lbl">(navigation; 5-way MC)</span></td>
+        </tr>
+        <tr>
+          <td class="name">EgoSchema</td>
+          <td><span class="venue">NeurIPS 2023 D&amp;B</span></td>
+          <td>Egocentric (Ego4D)</td>
+          <td>3-min clips (250 h)</td>
+          <td>5k+ Q</td>
+          <td>MC</td>
+          <td>Long-form temporal certificate</td>
+          <td class="links">
+            <a href="https://egoschema.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/egoschema/EgoSchema" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2308.09126" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What would be a concise explanation for the main objective and key decisions behind C&rsquo;s actions during the video?&rdquo; <span class="lbl">(C = camera-wearer; 5-way MC over a ~3-min clip)</span></td>
+        </tr>
+        <tr>
+          <td class="name">LVBench</td>
+          <td><span class="venue">ICCV 2025</span></td>
+          <td>Public (TV, sports, surveillance)</td>
+          <td>up to 2 h</td>
+          <td>&mdash;</td>
+          <td>MC</td>
+          <td>Long-term memory &amp; extraction</td>
+          <td class="links">
+            <a href="https://lvbench.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/zai-org/LVBench" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2406.08035" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What happened at 29:30?&rdquo; <span class="lbl">(temporal grounding)</span> &middot; &ldquo;What revenue growth did the firm report at the conference?&rdquo; <span class="lbl">(key-info retrieval; MC A&ndash;D)</span></td>
+        </tr>
+        <tr>
+          <td class="name">VideoOdyssey</td>
+          <td><span class="venue">arXiv 2026</span></td>
+          <td>Web (11 domains: TV, movie, ego, surveillance&hellip;)</td>
+          <td>~109 min avg (ultra-long)</td>
+          <td>100 videos; V (14 tasks) + AV (18 tasks)</td>
+          <td>MC (omni-modal)</td>
+          <td>Ultra-long-context (cont. certificate &le;16 min)</td>
+          <td class="links">
+            <a href="https://github.com/maifoundations/VideoOdyssey" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2605.22907" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">Paper Fig. 2 examples:</span> (V) OCR-based counting of a recurring detail across the full video; (AV) infer character relationships from combined audio + visual cues</td>
+        </tr>
+        <tr>
+          <td class="name">MovieChat-1K</td>
+          <td><span class="venue">CVPR 2024</span></td>
+          <td>Movies &amp; TV series</td>
+          <td>long (10k+ frames)</td>
+          <td>1k videos, ~13k QA</td>
+          <td>Open + MC</td>
+          <td>Global + breakpoint (memory-based)</td>
+          <td class="links">
+            <a href="https://rese1f.github.io/MovieChat/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/rese1f/MovieChat" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2307.16449" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">Breakpoint:</span> &ldquo;What is the vehicle?&rdquo; &rarr; a boat (asked at t=240s) &middot; <span class="lbl">Global:</span> &ldquo;Can you describe this video?&rdquo;</td>
+        </tr>
+        <tr>
+          <td class="name">CinePile</td>
+          <td><span class="venue">arXiv 2024</span></td>
+          <td>Movie clips (YouTube + audio desc.)</td>
+          <td>~minutes</td>
+          <td>~305k train / ~5k test</td>
+          <td>MC</td>
+          <td>Temporal / human&ndash;object / multimodal</td>
+          <td class="links">
+            <a href="https://ruchitrawal.github.io/cinepile/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://huggingface.co/datasets/tomg-group-umd/cinepile" target="_blank" rel="noopener">Data</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2405.08813" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What changes occur in the relationship between person A and person B following their shared experience?&rdquo; <span class="lbl">(character-relationship template; 5-way MC)</span></td>
+        </tr>
+        <tr>
+          <td class="name">EgoLife / EgoLifeQA</td>
+          <td><span class="venue">CVPR 2025</span></td>
+          <td>Egocentric AI-glasses, shared living</td>
+          <td>~300 h (1 week)</td>
+          <td>6 participants</td>
+          <td>MC</td>
+          <td>Life recall / habits / recommendation</td>
+          <td class="links">
+            <a href="https://egolife-ai.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/EvolvingLMMs-Lab/EgoLife" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2503.03803" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Where are the scissors, and who used them last?&rdquo; &middot; &ldquo;How much water did I consume today?&rdquo; <span class="lbl">(MC; evidence &ge;5 min earlier)</span></td>
+        </tr>
+        <tr>
+          <td class="name">SuperMemory-VQA</td>
+          <td><span class="venue">arXiv 2026</span></td>
+          <td>Egocentric (Meta Aria glasses, 10 ppl)</td>
+          <td>52.9 h total (up to 2 wks)</td>
+          <td>4,853 QA, 6 memory tasks</td>
+          <td>MC (ordered, +unanswerable)</td>
+          <td>6 memory tasks</td>
+          <td class="links">
+            <a href="https://supermemory-vqa.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2606.00825" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Where was the [object] last seen?&rdquo; / &ldquo;What goal did I state earlier?&rdquo; <span class="lbl">(ordered choices: accurate / vague / incorrect / unanswerable)</span></td>
+        </tr>
+        <tr>
+          <td class="name">Video ReCap <span style="color:var(--muted);font-weight:400;">(Ego4D-HCap)</span></td>
+          <td><span class="venue">CVPR 2024</span></td>
+          <td>Egocentric (Ego4D)</td>
+          <td>1 s &ndash; 2 h</td>
+          <td>8,267 long-range summaries</td>
+          <td>Caption (+MC)</td>
+          <td>Hierarchical captioning</td>
+          <td class="links">
+            <a href="https://sites.google.com/view/vidrecap" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/md-mohaiminul/VideoRecap" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2402.13250" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">Hierarchical captions (not QA):</span> clip &ldquo;C chops a tomato&rdquo; &rarr; summary &ldquo;C fixed breakfast, ate it, then got dressed and left the house.&rdquo;</td>
+        </tr>
+        <tr>
+          <td class="name">MoVQA</td>
+          <td><span class="venue">arXiv 2023</span></td>
+          <td>Movies (100 IMDb titles)</td>
+          <td>7.5 min &ndash; 2 h (multi-level)</td>
+          <td>100 movies, 21,953 QA</td>
+          <td>MC + open</td>
+          <td>Multi-level movie QA (6 cognitive)</td>
+          <td class="links">
+            <a href="https://github.com/OpenGVLab/MoVQA" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2312.04817" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">Causal-reasoning QA over <i>The Godfather</i> needing clues tens of minutes apart; 6 types incl. temporal-perception answers like &ldquo;From 00:36:49 to 00:37:30.&rdquo; <span class="lbl">(paper Fig. 1)</span></td>
+        </tr>
+        <tr>
+          <td class="name">MAD-QA</td>
+          <td><span class="venue">EMNLP 2024</span></td>
+          <td>Movies + audio descriptions (MAD)</td>
+          <td>~1.9 h avg</td>
+          <td>650 videos, ~15.7k QA</td>
+          <td>Open</td>
+          <td>Long-form movie QA</td>
+          <td class="links">
+            <a href="https://nguyentthong.github.io/Long_form_VideoQA" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://huggingface.co/datasets/thongnguyen5999/madqa" target="_blank" rel="noopener">Data</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2405.19723" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What if the person did not have the palladium ingot to replace the smoking one in the RT unit?&rdquo; &rarr; the RT unit would degrade, harming the person <span class="lbl">(open; movie-length)</span></td>
+        </tr>
+        <tr>
+          <td class="name">Ego-QA</td>
+          <td><span class="venue">EMNLP 2024</span></td>
+          <td>Egocentric (Ego4D)</td>
+          <td>~17.5 min avg</td>
+          <td>992 videos, ~20 Q/video</td>
+          <td>Open</td>
+          <td>Long-form egocentric QA</td>
+          <td class="links">
+            <a href="https://nguyentthong.github.io/Long_form_VideoQA" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2405.19723" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What central theme best describes activities throughout the video?&rdquo; &rarr; routine household management and maintenance <span class="lbl">(long-horizon; open)</span></td>
+        </tr>
+        <tr>
+          <td class="name">Event-Bench</td>
+          <td><span class="venue">arXiv 2024</span></td>
+          <td>Built on existing sets + human annotation</td>
+          <td>long (event-rich)</td>
+          <td>2,190 instances, 6 tasks</td>
+          <td>MC</td>
+          <td>Event understanding (3 levels)</td>
+          <td class="links">
+            <a href="https://github.com/RUCAIBox/Event-Bench" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://huggingface.co/datasets/RUCAIBox/Event-Bench" target="_blank" rel="noopener">Data</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2406.14129" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What led to Bean deciding to quickly leave the restaurant?&rdquo; &mdash; (A) wrong order (B) forgot his wallet (C) saw someone he wanted to avoid (D) restaurant closing <span class="lbl">(ans. C)</span></td>
+        </tr>
+        <tr>
+          <td class="name">CrossVid</td>
+          <td><span class="venue">AAAI 2026</span></td>
+          <td>Multi-video (6 public datasets, 32 genres)</td>
+          <td>215 s/video; ~770 s/query</td>
+          <td>5,331 videos, 9,015 QA (&ge;2 vids/query)</td>
+          <td>SC + MC + open</td>
+          <td>Cross-video reasoning (10 tasks)</td>
+          <td class="links">
+            <a href="https://github.com/chuntianli666/CrossVid" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://huggingface.co/datasets/Chuntianli/CrossVid" target="_blank" rel="noopener">Data</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2511.12263" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Which behavior in the following videos is most likely to help the animal avoid predators?&rdquo; &mdash; (A) Video 1 (B) Video 2 (C) Video 3 (D) Video 4 <span class="lbl">(&ge;2 videos/query)</span></td>
+        </tr>
+        <tr>
+          <td class="name">MVU-Eval</td>
+          <td><span class="venue">NeurIPS 2025 D&amp;B</span></td>
+          <td>Multi-video (life, movie, gaming, driving)</td>
+          <td>varied</td>
+          <td>4,959 videos, 1,824 QA</td>
+          <td>MC</td>
+          <td>Multi-video perception + reasoning (8)</td>
+          <td class="links">
+            <a href="https://github.com/NJU-LINK/MVU-Eval" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://huggingface.co/datasets/MVU-Eval-Team/MVU-Eval-Data" target="_blank" rel="noopener">Data</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2511.07250" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Which of the three videos has the most number of sofas?&rdquo; &mdash; (A) Video 1 (B) Video 2 (C) Video 3 <span class="lbl">(counting across videos)</span></td>
+        </tr>
+        <tr>
+          <td class="name">OmniVideoBench</td>
+          <td><span class="venue">arXiv 2025</span></td>
+          <td>Web (news, sports, docu, vlog, ego)</td>
+          <td>secs &ndash; 30 min (~6.4 min avg)</td>
+          <td>628 videos, 1,000 QA</td>
+          <td>MC (+reasoning traces)</td>
+          <td>Audio-visual reasoning (13 types)</td>
+          <td class="links">
+            <a href="https://omnivideobench.github.io/omnivideobench_home/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/NJU-LINK/OmniVideoBench" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2510.10689" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;When the man and woman were discussing ice cubes, why did they notice Superman behind them?&rdquo; &rarr; because he made a sound stepping on the wooden floor <span class="lbl">(needs audio + visual)</span></td>
+        </tr>
+        <tr>
+          <td class="name">MovieLLM <span style="color:var(--muted);font-weight:400;">(data)</span></td>
+          <td><span class="venue">arXiv 2024</span></td>
+          <td>AI-generated movie-style long videos (GPT-4 + diffusion)</td>
+          <td>long (movie-level)</td>
+          <td>synthetic generation pipeline</td>
+          <td>&mdash;</td>
+          <td>Long-video instruction / QA synthesis</td>
+          <td class="links">
+            <a href="https://deaddawn.github.io/MovieLLM/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/Deaddawn/MovieLLM-code" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2403.01422" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">(data &mdash; no fixed benchmark question):</span> GPT-4 + diffusion pipeline that synthesizes movie-style videos together with their instruction / QA pairs.</td>
+        </tr>
+        <tr>
+          <td class="name">VISTA-400K <span style="color:var(--muted);font-weight:400;">(data)</span></td>
+          <td><span class="venue">arXiv 2024</span></td>
+          <td>Synthesized from public video-caption sets (spatio-temporal aug.)</td>
+          <td>long (synthetic)</td>
+          <td>400K instruction pairs</td>
+          <td>&mdash;</td>
+          <td>Instruction-tuning data (long + hi-res)</td>
+          <td class="links">
+            <a href="https://tiger-ai-lab.github.io/VISTA/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/TIGER-AI-Lab/VISTA" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2412.00927" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">(data &mdash; no fixed benchmark question):</span> 400K spatiotemporally-augmented long / hi-res instruction pairs for tuning.</td>
+        </tr>
+        <tr>
+          <td class="name">HRVideoBench <span style="color:var(--muted);font-weight:400;">(high-res)</span></td>
+          <td><span class="venue">arXiv 2024</span></td>
+          <td>Real-world &ge;1080p (POV driving, CCTV, 10 types)</td>
+          <td>short segments (hi-res)</td>
+          <td>200 MCQ</td>
+          <td>MC</td>
+          <td>High-res perception (small region / subtle action)</td>
+          <td class="links">
+            <a href="https://tiger-ai-lab.github.io/VISTA/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2412.00927" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">High-res MCQ on tiny regions / subtle actions &mdash; e.g. reading small on-screen text or spotting a brief hand action in 1080p footage. <span class="lbl">(paper-described)</span></td>
+        </tr>
+        <tr>
+          <td class="name">Perception Test</td>
+          <td><span class="venue">NeurIPS 2023 D&amp;B</span></td>
+          <td>Scripted real-world clips (~100 filmers)</td>
+          <td>~23 s avg</td>
+          <td>11.6k videos (multi-task)</td>
+          <td>MC + grounded</td>
+          <td>Diagnostic skills (memory / physics / abstraction / semantics)</td>
+          <td class="links">
+            <a href="https://github.com/google-deepmind/perception_test" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2305.13786" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Is the camera moving or static?&rdquo; &middot; &ldquo;What is the person preparing?&rdquo; <span class="lbl">(3 options; skills: memory / physics / abstraction / semantics)</span></td>
+        </tr>
+        <tr>
+          <td class="name">Black Swan <span style="color:var(--muted);font-weight:400;">(BlackSwanSuite)</span></td>
+          <td><span class="venue">CVPR 2025</span></td>
+          <td>Unexpected-event videos (Oops!)</td>
+          <td>short (pre/event/post split)</td>
+          <td>1,655 videos, ~15k Q</td>
+          <td>MC + gen + Y/N</td>
+          <td>Abductive + defeasible reasoning</td>
+          <td class="links">
+            <a href="https://blackswan.cs.ubc.ca" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://huggingface.co/datasets/UBC-ViL/BlackSwanSuite-MCQ" target="_blank" rel="noopener">Data</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2412.05725" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">Detective-MCQ:</span> given only pre- and post-event clips (e.g. walking toward a pool &rarr; now soaking wet), pick what happened in the hidden middle event.</td>
+        </tr>
+        <tr>
+          <td class="name">MVBench</td>
+          <td><span class="venue">CVPR 2024</span></td>
+          <td>Converted from public annotations</td>
+          <td>short clips</td>
+          <td>20 temporal tasks</td>
+          <td>MC</td>
+          <td>20 temporal tasks (perception &rarr; cognition)</td>
+          <td class="links">
+            <a href="https://github.com/OpenGVLab/Ask-Anything" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2311.17005" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What happened after the person took the food?&rdquo; &mdash; (A) Ate the medicine (B) Tidied up the blanket (C) Put down the cup (D) Took the box <span class="lbl">(action sequence; ans. C)</span></td>
+        </tr>
+        <tr>
+          <td class="name">TemporalBench</td>
+          <td><span class="venue">arXiv 2024</span></td>
+          <td>Procedural + human-activity clips</td>
+          <td>short &amp; long</td>
+          <td>~10k QA / 2k captions</td>
+          <td>MC (multi-binary) + caption</td>
+          <td>Fine-grained temporal</td>
+          <td class="links">
+            <a href="https://temporalbench.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/mu-cai/TemporalBench" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2410.10818" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Which caption best describes this video?&rdquo; A) &hellip;picks up the fruit with his <b>left</b> hand&hellip; B) &hellip;with his <b>right</b> hand&hellip; <span class="lbl">(fine-grained temporal; multiple-binary)</span></td>
+        </tr>
+        <tr>
+          <td class="name">TempCompass</td>
+          <td><span class="venue">ACL 2024 Findings</span></td>
+          <td>Web (conflicting-pair videos)</td>
+          <td>short</td>
+          <td>&mdash;</td>
+          <td>MC + Y/N + caption</td>
+          <td>Temporal perception (conflicting pairs)</td>
+          <td class="links">
+            <a href="https://llyx97.github.io/tempcompass/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/llyx97/TempCompass" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2403.00476" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What is happening in the video?&rdquo; &mdash; (A) drops down (B) pushes forward (C) rotates (D) picks up the pineapple <span class="lbl">(same clip reversed flips the answer)</span></td>
+        </tr>
+        <tr>
+          <td class="name">VideoHallucer</td>
+          <td><span class="venue">arXiv 2024</span></td>
+          <td>Extended multi-event videos</td>
+          <td>varied</td>
+          <td>948 videos, 1.8k Q-pairs</td>
+          <td>Binary (adversarial)</td>
+          <td>Hallucination detection</td>
+          <td class="links">
+            <a href="https://videohallucer.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/patrick-tssn/VideoHallucer" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2406.16338" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">Adversarial Y/N pair:</span> &ldquo;Is there a baby in the video?&rdquo; &rarr; yes; &ldquo;Is there a doll in the video?&rdquo; &rarr; no <span class="lbl">(both must be right)</span></td>
+        </tr>
+        <tr>
+          <td class="name">HAVEN</td>
+          <td><span class="venue">arXiv 2026</span></td>
+          <td>Multimodal video + text (frame/shot/video aligned)</td>
+          <td>varied</td>
+          <td>&mdash;</td>
+          <td>Open + ranking</td>
+          <td>Summarization / temporal / grounding / saliency</td>
+          <td class="links">
+            <a href="https://arxiv.org/abs/2605.19223" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">Beyond QA:</span> frame/shot/video summarization + saliency ranking &mdash; e.g. &ldquo;rank the shots by importance&rdquo; / &ldquo;summarize the video with aligned keyframes.&rdquo;</td>
+        </tr>
+        <tr>
+          <td class="name">NExT-QA</td>
+          <td><span class="venue">CVPR 2021</span></td>
+          <td>Daily-activity videos</td>
+          <td>~44 s avg</td>
+          <td>5,440 videos, 52k QA</td>
+          <td>MC + open</td>
+          <td>Causal / temporal reasoning</td>
+          <td class="links">
+            <a href="https://doc-doc.github.io/docs/nextqa.html" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/doc-doc/NExT-QA" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2105.08276" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Why did the boy pick up one present and move to the sofa?&rdquo; &mdash; (A) share with the girl (B) approach the lady (C) unwrap it (D) play with the train (E) gesture <span class="lbl">(causal; ans. unwrap it)</span></td>
+        </tr>
+        <tr>
+          <td class="name">TVQA</td>
+          <td><span class="venue">EMNLP 2018</span></td>
+          <td>TV shows (6 series)</td>
+          <td>clips (460 h total)</td>
+          <td>21.8k clips, 152.5k QA</td>
+          <td>MC (+subs)</td>
+          <td>Compositional, localized QA</td>
+          <td class="links">
+            <a href="https://tvqa.cs.unc.edu/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/jayleicn/TVQA" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/1809.01696" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What is Robin holding in her hand when she is talking to Ted about Zoey?&rdquo; &mdash; martini glass / nachos / purse / book / a beer bottle <span class="lbl">(localized 1.2&ndash;8.5 s; ans. beer bottle)</span></td>
+        </tr>
+        <tr>
+          <td class="name">ActivityNet-QA</td>
+          <td><span class="venue">AAAI 2019</span></td>
+          <td>YouTube (ActivityNet, untrimmed)</td>
+          <td>~3 min</td>
+          <td>5,800 videos, 58k QA</td>
+          <td>Open</td>
+          <td>General activity QA</td>
+          <td class="links">
+            <a href="https://github.com/MILVLG/activitynet-qa" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/1906.02467" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What is the person wearing a red t-shirt doing?&rdquo; <span class="lbl">(motion)</span> &middot; &ldquo;What happened to the woman before drying her hair?&rdquo; <span class="lbl">(temporal; open)</span></td>
+        </tr>
+        <tr>
+          <td class="name">STAR</td>
+          <td><span class="venue">NeurIPS 2021</span></td>
+          <td>Real-world human actions (Charades)</td>
+          <td>~12 s</td>
+          <td>23k clips, 60k QA</td>
+          <td>MC</td>
+          <td>Situated reasoning (interaction / sequence / prediction / feasibility)</td>
+          <td class="links">
+            <a href="https://bobbywu.com/STAR" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/csbobby/STAR_Benchmark" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2405.09711" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What did the person do with the [object]?&rdquo; <span class="lbl">(interaction)</span> &middot; &ldquo;What did the person do before / after [action]?&rdquo; <span class="lbl">(sequence; also prediction & feasibility)</span></td>
+        </tr>
+        <tr>
+          <td class="name">How2QA</td>
+          <td><span class="venue">EMNLP 2020</span></td>
+          <td>Instructional (HowTo100M)</td>
+          <td>~60 s clips</td>
+          <td>9,035 videos, 44k QA</td>
+          <td>MC</td>
+          <td>Instructional QA</td>
+          <td class="links">
+            <a href="https://github.com/ych133/How2R-and-How2QA" target="_blank" rel="noopener">Data</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2005.00200" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex"><span class="lbl">(format)</span> MC question on a 60-s how-to clip &mdash; 1 correct + 3 distractors, with narrations hidden so subtitles can&rsquo;t give it away.</td>
+        </tr>
+        <tr>
+          <td class="name">Video-Bench</td>
+          <td><span class="venue">arXiv 2023</span></td>
+          <td>Mixed (YouTube + existing sets, 10 tasks)</td>
+          <td>varied</td>
+          <td>5,917 videos, 17k QA</td>
+          <td>MC</td>
+          <td>10 tasks, 3 ability levels</td>
+          <td class="links">
+            <a href="https://github.com/PKU-YuanGroup/Video-Bench" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2311.16103" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Who was standing behind Leonard when Penny closed the door?&rdquo; <span class="lbl">(TV-drama prior-knowledge QA)</span> &middot; &ldquo;How many pedestrians can be spotted in the video?&rdquo; <span class="lbl">(crowd-counting MC)</span></td>
+        </tr>
+        <tr>
+          <td class="name">AutoEval-Video</td>
+          <td><span class="venue">ECCV 2024</span></td>
+          <td>YouTube (40+ themes)</td>
+          <td>~15 s</td>
+          <td>327 videos, 327 Q</td>
+          <td>Open (LLM-eval)</td>
+          <td>9 skill dimensions</td>
+          <td class="links">
+            <a href="https://github.com/Xiuyuan-Chen/AutoEval-Video" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2311.14906" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What is the change in the colour of the liquid after blowing?&rdquo; <span class="lbl">(state transition)</span> &middot; &ldquo;List the three relaxation techniques in order.&rdquo; <span class="lbl">(open; LLM-graded)</span></td>
+        </tr>
+        <tr>
+          <td class="name">TGIF-QA</td>
+          <td><span class="venue">CVPR 2017</span></td>
+          <td>Animated GIFs (TGIF)</td>
+          <td>~3 s</td>
+          <td>72k GIFs, 165k QA</td>
+          <td>MC + open</td>
+          <td>Count / action / transition / frame QA</td>
+          <td class="links">
+            <a href="http://vision.snu.ac.kr/projects/tgif-qa" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/YunseokJANG/tgif-qa" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/1704.04497" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;How many times does the cat lick?&rdquo; &rarr; 7 <span class="lbl">(repetition count)</span> &middot; &ldquo;What does the [subject] do before [next state]?&rdquo; <span class="lbl">(transition; MC)</span></td>
+        </tr>
+        <tr>
+          <td class="name">MSRVTT-QA</td>
+          <td><span class="venue">ACM MM 2017</span></td>
+          <td>Web video clips (MSR-VTT)</td>
+          <td>~15 s</td>
+          <td>10k videos, ~243k QA</td>
+          <td>Open</td>
+          <td>General video QA</td>
+          <td class="links">
+            <a href="https://github.com/xudejing/video-question-answering" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://dl.acm.org/doi/10.1145/3123266.3123427" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;What are three people sitting on?&rdquo; &rarr; couch <span class="lbl">(auto-generated; open)</span></td>
+        </tr>
+        <tr>
+          <td class="name">MSVD-QA</td>
+          <td><span class="venue">ACM MM 2017</span></td>
+          <td>Web clips (MSVD descriptions)</td>
+          <td>~10 s</td>
+          <td>1,970 videos, ~50.5k QA</td>
+          <td>Open</td>
+          <td>General video QA</td>
+          <td class="links">
+            <a href="https://github.com/xudejing/video-question-answering" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://dl.acm.org/doi/10.1145/3123266.3123427" target="_blank" rel="noopener">Paper</a>
+          </td>
+          <td class="ex">&ldquo;Who pours liquid from a plastic container into a ziploc bag of meat pieces?&rdquo; &rarr; someone <span class="lbl">(auto-generated; open)</span></td>
+        </tr>
+        <tr>
+          <td class="name">Ego4D <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">CVPR 2022</span></td>
+          <td>Egocentric, daily life</td>
+          <td>3,670 h corpus</td>
+          <td>massive multi-task</td>
+          <td>&mdash;</td>
+          <td>Egocentric multi-task suite</td>
+          <td class="links"><a href="https://ego4d-data.org/" target="_blank" rel="noopener">Site</a></td>
+          <td class="ex"><span class="lbl">NLQ query (localize the answer window):</span> &ldquo;Where did I put the phone?&rdquo; / &ldquo;What did I put in the drawer?&rdquo; <span class="lbl">(13 templates)</span></td>
+        </tr>
+        <tr>
+          <td class="name">MovieNet <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">ECCV 2020</span></td>
+          <td>Movies</td>
+          <td>&gt;2 h each</td>
+          <td>1.1k movies</td>
+          <td>&mdash;</td>
+          <td>Movie understanding (captions + tags)</td>
+          <td class="links"><a href="https://movienet.site/" target="_blank" rel="noopener">Site</a></td>
+          <td class="ex"><span class="lbl">Not QA &mdash; annotations:</span> cast identities, scene / place tags, character bounding boxes, and synopsis-to-shot alignment.</td>
+        </tr>
+        <tr>
+          <td class="name">ActivityNet Captions <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">ICCV 2017</span></td>
+          <td>YouTube</td>
+          <td>~180 s avg</td>
+          <td>20k videos, 100k captions</td>
+          <td>Caption</td>
+          <td>Dense captioning / grounding</td>
+          <td class="links"><a href="https://cs.stanford.edu/people/ranjaykrishna/densevid/" target="_blank" rel="noopener">Site</a></td>
+          <td class="ex"><span class="lbl">Dense captions (not QA):</span> &ldquo;A man and woman are in a living room demonstrating exercises.&rdquo; + start / end timestamps.</td>
+        </tr>
+        <tr>
+          <td class="name">Charades-STA <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">ICCV 2017</span></td>
+          <td>Daily activities</td>
+          <td>~30 s</td>
+          <td>9.8k videos</td>
+          <td>Grounding</td>
+          <td>Temporal grounding</td>
+          <td class="links"><a href="https://github.com/jiyanggao/TALL" target="_blank" rel="noopener">Code</a></td>
+          <td class="ex"><span class="lbl">Grounding query:</span> &ldquo;person turn a light on&rdquo; &rarr; localize 24.3&ndash;30.4 s.</td>
+        </tr>
+        <tr>
+          <td class="name">EPIC-KITCHENS <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">ECCV 2018</span></td>
+          <td>Egocentric, kitchen</td>
+          <td>100 h (EK-100)</td>
+          <td>large egocentric corpus</td>
+          <td>Labels</td>
+          <td>Action recognition / anticipation</td>
+          <td class="links"><a href="https://epic-kitchens.github.io/2023" target="_blank" rel="noopener">Site</a></td>
+          <td class="ex"><span class="lbl">Action narrations (not QA):</span> &ldquo;open fridge&rdquo;, &ldquo;close drawer&rdquo;, &ldquo;take cutlery&rdquo; &mdash; verb + noun labels</td>
+        </tr>
+        <tr>
+          <td class="name">TACoS Multi-Level <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">GCPR 2014</span></td>
+          <td>Cooking</td>
+          <td>~5 min</td>
+          <td>timestamps + multi-level captions</td>
+          <td>Caption</td>
+          <td>Dense captioning</td>
+          <td class="links"><a href="https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/research/vision-and-language/tacos-multi-level-corpus" target="_blank" rel="noopener">Site</a></td>
+          <td class="ex"><span class="lbl">Caption (not QA):</span> &ldquo;Cook the chicken on both sides for 3&ndash;4 minutes&rdquo; &middot; &ldquo;Add the broccoli, carrots, and onions.&rdquo;</td>
+        </tr>
+        <tr>
+          <td class="name">MAD <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">CVPR 2022</span></td>
+          <td>Movies + audio descriptions</td>
+          <td>long (movies)</td>
+          <td>1.2k h, 650 movies</td>
+          <td>Grounding</td>
+          <td>Language grounding (movies)</td>
+          <td class="links"><a href="https://github.com/Soldelli/MAD" target="_blank" rel="noopener">Code</a></td>
+          <td class="ex"><span class="lbl">Grounding query (audio-description sentence):</span> localize a short AD line within a full movie (avg query ~4 s).</td>
+        </tr>
+        <tr>
+          <td class="name">QVHighlights <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">NeurIPS 2021</span></td>
+          <td>Vlogs / news</td>
+          <td>~150 s</td>
+          <td>10k videos</td>
+          <td>Retrieval</td>
+          <td>Moment retrieval / highlight</td>
+          <td class="links"><a href="https://github.com/jayleicn/moment_detr" target="_blank" rel="noopener">Code</a></td>
+          <td class="ex"><span class="lbl">Query:</span> &ldquo;A family is playing basketball together on a green court outside.&rdquo; &rarr; retrieve relevant moments + per-clip saliency.</td>
+        </tr>
+        <tr>
+          <td class="name">YouCook2 <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">AAAI 2018</span></td>
+          <td>Instructional cooking (YouTube)</td>
+          <td>~5.3 min</td>
+          <td>2,000 videos (~176 h)</td>
+          <td>Caption</td>
+          <td>Procedure seg. / dense captioning</td>
+          <td class="links"><a href="http://youcook2.eecs.umich.edu/" target="_blank" rel="noopener">Site</a></td>
+          <td class="ex"><span class="lbl">Recipe step (not QA):</span> &ldquo;Add oil to a pan and spread it well so as to fry the bacon&rdquo; + temporal boundaries.</td>
+        </tr>
+        <tr>
+          <td class="name">HIREST <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">CVPR 2023</span></td>
+          <td>Instructional (YouTube)</td>
+          <td>varied</td>
+          <td>hierarchical step annotations</td>
+          <td>Retrieval + caption</td>
+          <td>Retrieval / moment / step-captioning</td>
+          <td class="links"><a href="https://github.com/j-min/HiREST" target="_blank" rel="noopener">Code</a></td>
+          <td class="ex"><span class="lbl">Prompt:</span> &ldquo;How to make X&rdquo; &rarr; retrieve the relevant clip, find the moment, then caption its steps.</td>
+        </tr>
+        <tr>
+          <td class="name">ANetQA <span style="color:var(--muted);font-weight:400;">(classic)</span></td>
+          <td><span class="venue">CVPR 2023</span></td>
+          <td>ActivityNet (YouTube)</td>
+          <td>~180 s</td>
+          <td>large auto-generated QA</td>
+          <td>MC + open</td>
+          <td>Compositional VideoQA</td>
+          <td class="links"><a href="https://github.com/MILVLG/anetqa-code" target="_blank" rel="noopener">Code</a></td>
+          <td class="ex">&ldquo;What colour is the swimming sea turtle before it is eating the wrack?&rdquo; &middot; &ldquo;Did the person twist the bottle after taking a picture?&rdquo; &rarr; yes <span class="lbl">(compositional)</span></td>
+        </tr>
+        <tr>
+          <td class="name">MovieQA <span style="color:var(--muted);font-weight:400;">(classic · expired)</span></td>
+          <td><span class="venue">CVPR 2016</span></td>
+          <td>Movies + plot/subtitles</td>
+          <td>~2 h (movies)</td>
+          <td>~15k QA, 408 movies</td>
+          <td>MC</td>
+          <td>Story-level QA</td>
+          <td class="links"><a href="http://movieqa.cs.toronto.edu/home/" target="_blank" rel="noopener">Site</a></td>
+          <td class="ex">&ldquo;Why does Forrest undertake a three-year marathon?&rdquo; &mdash; Because he is upset that Jenny left him <span class="lbl">(1 of 5 options)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </details>
+
+  <!-- ----- Domain B: camera roll / personal visual memory ----- -->
+  <details class="section-collapse">
+  <summary class="sub-section"><span class="domain roll">📷 Camera Roll VQA &amp; Personal Visual Memory</span> <span class="count-badge">8 entries &middot; click to expand</span></summary>
+  <p>
+    Benchmarks where the input is a (large) collection of personal images or a long personal
+    history, and questions are personalized and/or scattered across many events.
+  </p>
+
+  <div class="table-scroll">
+    <table class="survey roll">
+      <thead>
+        <tr>
+          <th>Benchmark</th>
+          <th>Venue</th>
+          <th>Source type</th>
+          <th>Personal? / span</th>
+          <th>Scale</th>
+          <th>Task format</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background: var(--roll-soft);">
+          <td class="name">camroll <span style="color:var(--roll);">(ours)</span></td>
+          <td><span class="venue">2026</span></td>
+          <td>Real camera rolls (in-house + YFCC)</td>
+          <td>Personal, 2&ndash;6 yrs</td>
+          <td>50 users, 31,476 img, 2,500 QA</td>
+          <td>VQA: semantic + episodic (MCQ + free-form)</td>
+          <td class="links">
+            <a href="https://thaoshibe.github.io/camroll" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2606.05275" target="_blank" rel="noopener">Paper</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Visual Haystacks (VHs)</td>
+          <td><span class="venue">ICLR 2025</span></td>
+          <td>COCO-derived image sets</td>
+          <td>Not personal</td>
+          <td>1&ndash;10k img / query</td>
+          <td>Multi-image QA (needle-in-haystack)</td>
+          <td class="links">
+            <a href="https://visual-haystacks.github.io/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/visual-haystacks/vhs_benchmark" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2407.13766" target="_blank" rel="noopener">Paper</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="name">PhotoBench</td>
+          <td><span class="venue">arXiv 2026</span></td>
+          <td>Authentic personal albums (3)</td>
+          <td>Personal</td>
+          <td>3,582 img, 1,188 queries</td>
+          <td>Personalized <em>retrieval</em> (vision/metadata/face)</td>
+          <td class="links">
+            <a href="https://github.com/LaVieEnRose365/PhotoBench" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2603.01493" target="_blank" rel="noopener">Paper</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="name">DeepImageSearch</td>
+          <td><span class="venue">arXiv 2026</span></td>
+          <td>Visual histories (image collections)</td>
+          <td>Personal-ish</td>
+          <td>&mdash;</td>
+          <td>Context-aware image <em>retrieval</em> (agents)</td>
+          <td class="links">
+            <a href="https://arxiv.org/abs/2602.10809" target="_blank" rel="noopener">Paper</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="name">Personal Visual Memory</td>
+          <td><span class="venue">arXiv 2026</span></td>
+          <td>Personal visual streams</td>
+          <td>Personal</td>
+          <td>&mdash;</td>
+          <td>QA from explicit &amp; implicit evidence</td>
+          <td class="links">
+            <a href="https://arxiv.org/abs/2605.28806" target="_blank" rel="noopener">Paper</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="name">ATM-Bench <span style="color:var(--muted);font-weight:400;">("According to Me")</span></td>
+          <td><span class="venue">arXiv 2026</span></td>
+          <td>Self-annotated personal data</td>
+          <td>Personal (author's own)</td>
+          <td>&mdash;</td>
+          <td>Long-term personalized referential memory QA</td>
+          <td class="links">
+            <span style="color:var(--muted);">link TBD</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="name">LoCoMo</td>
+          <td><span class="venue">ACL 2024</span></td>
+          <td>Synthetic conversations (+ shared images)</td>
+          <td>Personal (text-centric)</td>
+          <td>~300 turns &times; up to 35 sessions</td>
+          <td>Memory QA, summarization, dialog</td>
+          <td class="links">
+            <a href="https://snap-research.github.io/locomo/" target="_blank" rel="noopener">Page</a><span class="sep">·</span>
+            <a href="https://github.com/snap-research/locomo" target="_blank" rel="noopener">Code</a><span class="sep">·</span>
+            <a href="https://arxiv.org/abs/2402.17753" target="_blank" rel="noopener">Paper</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="name">PerLTQA</td>
+          <td><span class="venue">SIGHAN 2024</span></td>
+          <td>Personal long-term memory (text)</td>
+          <td>Personal (text-only)</td>
+          <td>&mdash;</td>
+          <td>Memory classification, retrieval, fusion QA</td>
+          <td class="links">
+            <span style="color:var(--muted);">link TBD</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note" style="border-left-color: var(--roll);">
+    Notice the column that is hardest to fill here is <b>"Scale"</b> &mdash; several of the personal
+    settings are brand-new (2026) and report different units (images vs. queries vs. sessions).
+    That heterogeneity is itself a clue for Step 3: the personal-memory community hasn't yet agreed
+    on what "one example" even is.
+  </div>
+  </details>
+
+  <!-- ============================ STEP 2 ============================ -->
+  <h2 class="section">Step 2 &middot; Question / task analysis</h2>
+  <p>
+    To move past hand-waving, we downloaded the <b>question text only</b> (no videos) from seven
+    long-video benchmarks and lined them up against <code>camroll</code>. Crucially, <code>camroll</code>
+    is <b>not one benchmark</b> &mdash; it is a <b>suite of five sub-benchmarks</b>
+    (<em>ATM-Bench</em>, <em>DIS-Bench</em>, <em>Persona-MME</em>, <em>In-house</em>, <em>photo-bench</em>),
+    each with its own question style. We treat each as a separate set below. In total that is
+    <b>~102k questions</b>: Video-MME (2,700), LongVideoBench (6,678), LVBench (1,549),
+    EgoLifeQA (500*), VideoOdyssey (2,680), MovieQA (14,944), EPIC-KITCHENS narrations (67,217),
+    and the five camroll subsets (5,857 combined). We then measured answer format, the question-word
+    mix, and two hallmarks of personal memory: <b>first-person framing</b> and
+    <b>episodic / personal-time</b> references.
+  </p>
+
+  <div class="note" style="border-left-color: var(--roll);">
+    <b>The headline.</b> Almost every long-video benchmark is <em>third-person multiple-choice over a
+    single video</em>. Every <code>camroll</code> subset &mdash; and the egocentric outlier
+    <b>EgoLifeQA</b> &mdash; instead makes the <em>user</em> the subject, and none of them use MCQ.
+    But the camroll subsets are far from uniform: they span <b>semantic self-facts</b> (In-house, 96%
+    first-person), <b>episodic recall</b> (ATM-Bench), <b>conversational persona</b> (Persona-MME),
+    <b>photo retrieval</b> (DIS-Bench), and terse <b>tag-style</b> prompts (photo-bench).
+  </div>
+
+  <div class="statstrip">
+    <div class="stat-card roll"><div class="stat-num">5</div><div class="stat-lbl">sub-benchmarks inside camroll</div></div>
+    <div class="stat-card roll"><div class="stat-num">11&ndash;96%</div><div class="stat-lbl">first-person range across camroll subsets</div></div>
+    <div class="stat-card video"><div class="stat-num">0.2&ndash;8%</div><div class="stat-lbl">first-person range across long-video sets</div></div>
+    <div class="stat-card video"><div class="stat-num">100% MCQ</div><div class="stat-lbl">long-video answer format (camroll: 0%)</div></div>
+  </div>
+
+  <!-- chart 1: first-person -->
+  <div class="chart-title">First-person framing &mdash; share of questions containing <em>I / my / me / we</em></div>
+  <div class="chart-cap">camroll subsets in <span style="color:var(--roll);font-weight:600;">orange</span>. Only the personal / egocentric sets put the asker into the question.</div>
+  <div class="barlist">
+    <div class="blabel me">camroll / In-house</div><div class="btrack"><div class="bfill roll" style="width:95.8%"></div></div><div class="bval">95.8%</div>
+    <div class="blabel me">camroll / Persona-MME</div><div class="btrack"><div class="bfill roll" style="width:88.9%"></div></div><div class="bval">88.9%</div>
+    <div class="blabel me">camroll / ATM-Bench</div><div class="btrack"><div class="bfill roll" style="width:80.9%"></div></div><div class="bval">80.9%</div>
+    <div class="blabel">EgoLifeQA</div><div class="btrack"><div class="bfill" style="width:55.4%"></div></div><div class="bval">55.4%</div>
+    <div class="blabel me">camroll / DIS-Bench</div><div class="btrack"><div class="bfill roll" style="width:18.0%"></div></div><div class="bval">18.0%</div>
+    <div class="blabel me">camroll / photo-bench</div><div class="btrack"><div class="bfill roll" style="width:11.3%"></div></div><div class="bval">11.3%</div>
+    <div class="blabel">LongVideoBench</div><div class="btrack"><div class="bfill" style="width:8.1%"></div></div><div class="bval">8.1%</div>
+    <div class="blabel">VideoOdyssey</div><div class="btrack"><div class="bfill" style="width:2.5%"></div></div><div class="bval">2.5%</div>
+    <div class="blabel">Video-MME</div><div class="btrack"><div class="bfill" style="width:0.7%"></div></div><div class="bval">0.7%</div>
+    <div class="blabel">LVBench</div><div class="btrack"><div class="bfill" style="width:0.6%"></div></div><div class="bval">0.6%</div>
+    <div class="blabel">MovieQA</div><div class="btrack"><div class="bfill" style="width:0.2%"></div></div><div class="bval">0.2%</div>
+    <div class="blabel">EPIC-KITCHENS</div><div class="btrack"><div class="bfill" style="width:0.3%"></div></div><div class="bval">0.0%</div>
+  </div>
+
+  <!-- chart 2: episodic -->
+  <div class="chart-title">Episodic / personal-time references &mdash; dates, &ldquo;last week&rdquo;, &ldquo;today&rdquo;, &ldquo;ago&rdquo;, months</div>
+  <div class="chart-cap">camroll subsets in <span style="color:var(--roll);font-weight:600;">orange</span>. camroll &amp; EgoLifeQA anchor questions to <em>when something happened in a life</em>, not <em>where in a clip</em>.</div>
+  <div class="barlist">
+    <div class="blabel">EgoLifeQA</div><div class="btrack"><div class="bfill" style="width:39.8%"></div></div><div class="bval">39.8%</div>
+    <div class="blabel me">camroll / Persona-MME</div><div class="btrack"><div class="bfill roll" style="width:36.0%"></div></div><div class="bval">36.0%</div>
+    <div class="blabel me">camroll / ATM-Bench</div><div class="btrack"><div class="bfill roll" style="width:33.7%"></div></div><div class="bval">33.7%</div>
+    <div class="blabel me">camroll / DIS-Bench</div><div class="btrack"><div class="bfill roll" style="width:22.1%"></div></div><div class="bval">22.1%</div>
+    <div class="blabel me">camroll / In-house</div><div class="btrack"><div class="bfill roll" style="width:17.7%"></div></div><div class="bval">17.7%</div>
+    <div class="blabel me">camroll / photo-bench</div><div class="btrack"><div class="bfill roll" style="width:15.6%"></div></div><div class="bval">15.6%</div>
+    <div class="blabel">LongVideoBench</div><div class="btrack"><div class="bfill" style="width:1.6%"></div></div><div class="bval">1.6%</div>
+    <div class="blabel">Video-MME</div><div class="btrack"><div class="bfill" style="width:1.3%"></div></div><div class="bval">1.3%</div>
+    <div class="blabel">LVBench</div><div class="btrack"><div class="bfill" style="width:1.2%"></div></div><div class="bval">1.2%</div>
+    <div class="blabel">VideoOdyssey</div><div class="btrack"><div class="bfill" style="width:1.2%"></div></div><div class="bval">1.2%</div>
+    <div class="blabel">MovieQA</div><div class="btrack"><div class="bfill" style="width:1.0%"></div></div><div class="bval">1.0%</div>
+    <div class="blabel">EPIC-KITCHENS</div><div class="btrack"><div class="bfill" style="width:0.3%"></div></div><div class="bval">0.0%</div>
+  </div>
+
+  <!-- chart 3: question-word mix (100% stacked) -->
+  <div class="chart-title">Question-word mix (100%-stacked share of questions)</div>
+  <div class="chart-cap">Long-video sets first, then the five camroll subsets. Note how the camroll subsets differ from each other: ATM-Bench leans <span style="color:#c2611f;font-weight:600;">when</span>/<span style="color:#6cb27f;font-weight:600;">where</span> (episodic), photo-bench is almost all <span style="color:#9a9a9a;font-weight:600;">other</span> (terse tags), DIS-Bench is <span style="color:#2e7d4f;font-weight:600;">who</span>/<span style="color:#6cb27f;font-weight:600;">where</span> retrieval. EPIC-KITCHENS is verb+noun narration, omitted here.</div>
+  <div style="display:grid;gap:5px;">
+    <div class="qrow"><div class="blabel">Video-MME</div><div class="sbar"><span class="sseg" style="width:50.0%;background:#1367a7"></span><span class="sseg" style="width:22.7%;background:#5b9bd5"></span><span class="sseg" style="width:3.1%;background:#2e7d4f"></span><span class="sseg" style="width:2.0%;background:#6cb27f"></span><span class="sseg" style="width:1.4%;background:#c2611f"></span><span class="sseg" style="width:5.7%;background:#db8a3a"></span><span class="sseg" style="width:4.3%;background:#b08a1f"></span><span class="sseg" style="width:10.4%;background:#7b5ea7"></span><span class="sseg" style="width:0%;background:#b0457b"></span><span class="sseg" style="width:0.1%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel">LongVideoBench</div><div class="sbar"><span class="sseg" style="width:69.9%;background:#1367a7"></span><span class="sseg" style="width:19.5%;background:#5b9bd5"></span><span class="sseg" style="width:4.7%;background:#2e7d4f"></span><span class="sseg" style="width:2.4%;background:#6cb27f"></span><span class="sseg" style="width:1.7%;background:#c2611f"></span><span class="sseg" style="width:0.3%;background:#db8a3a"></span><span class="sseg" style="width:0.9%;background:#b08a1f"></span><span class="sseg" style="width:0.5%;background:#7b5ea7"></span><span class="sseg" style="width:0%;background:#b0457b"></span><span class="sseg" style="width:0.1%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel">LVBench</div><div class="sbar"><span class="sseg" style="width:55.2%;background:#1367a7"></span><span class="sseg" style="width:5.4%;background:#5b9bd5"></span><span class="sseg" style="width:8.0%;background:#2e7d4f"></span><span class="sseg" style="width:4.5%;background:#6cb27f"></span><span class="sseg" style="width:2.6%;background:#c2611f"></span><span class="sseg" style="width:5.2%;background:#db8a3a"></span><span class="sseg" style="width:4.0%;background:#b08a1f"></span><span class="sseg" style="width:11.7%;background:#7b5ea7"></span><span class="sseg" style="width:1.2%;background:#b0457b"></span><span class="sseg" style="width:2.3%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel">MovieQA</div><div class="sbar"><span class="sseg" style="width:47.1%;background:#1367a7"></span><span class="sseg" style="width:1.3%;background:#5b9bd5"></span><span class="sseg" style="width:18.5%;background:#2e7d4f"></span><span class="sseg" style="width:7.0%;background:#6cb27f"></span><span class="sseg" style="width:2.2%;background:#c2611f"></span><span class="sseg" style="width:11.1%;background:#db8a3a"></span><span class="sseg" style="width:9.8%;background:#b08a1f"></span><span class="sseg" style="width:1.3%;background:#7b5ea7"></span><span class="sseg" style="width:1.7%;background:#b0457b"></span><span class="sseg" style="width:0.1%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel">VideoOdyssey</div><div class="sbar"><span class="sseg" style="width:44.1%;background:#1367a7"></span><span class="sseg" style="width:8.3%;background:#5b9bd5"></span><span class="sseg" style="width:4.7%;background:#2e7d4f"></span><span class="sseg" style="width:2.5%;background:#6cb27f"></span><span class="sseg" style="width:4.5%;background:#c2611f"></span><span class="sseg" style="width:6.9%;background:#db8a3a"></span><span class="sseg" style="width:4.1%;background:#b08a1f"></span><span class="sseg" style="width:15.9%;background:#7b5ea7"></span><span class="sseg" style="width:0.1%;background:#b0457b"></span><span class="sseg" style="width:8.8%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel">EgoLifeQA</div><div class="sbar"><span class="sseg" style="width:34.0%;background:#1367a7"></span><span class="sseg" style="width:0.8%;background:#5b9bd5"></span><span class="sseg" style="width:33.0%;background:#2e7d4f"></span><span class="sseg" style="width:3.0%;background:#6cb27f"></span><span class="sseg" style="width:22.0%;background:#c2611f"></span><span class="sseg" style="width:4.2%;background:#db8a3a"></span><span class="sseg" style="width:1.0%;background:#b08a1f"></span><span class="sseg" style="width:2.0%;background:#7b5ea7"></span><span class="sseg" style="width:0%;background:#b0457b"></span><span class="sseg" style="width:0%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel me">camroll / ATM-Bench</div><div class="sbar"><span class="sseg" style="width:24.0%;background:#1367a7"></span><span class="sseg" style="width:6.4%;background:#5b9bd5"></span><span class="sseg" style="width:1.3%;background:#2e7d4f"></span><span class="sseg" style="width:15.0%;background:#6cb27f"></span><span class="sseg" style="width:26.0%;background:#c2611f"></span><span class="sseg" style="width:0.2%;background:#db8a3a"></span><span class="sseg" style="width:0.7%;background:#b08a1f"></span><span class="sseg" style="width:13.0%;background:#7b5ea7"></span><span class="sseg" style="width:0.6%;background:#b0457b"></span><span class="sseg" style="width:12.8%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel me">camroll / DIS-Bench</div><div class="sbar"><span class="sseg" style="width:0%;background:#1367a7"></span><span class="sseg" style="width:8.2%;background:#5b9bd5"></span><span class="sseg" style="width:23.0%;background:#2e7d4f"></span><span class="sseg" style="width:23.8%;background:#6cb27f"></span><span class="sseg" style="width:12.3%;background:#c2611f"></span><span class="sseg" style="width:0%;background:#db8a3a"></span><span class="sseg" style="width:0%;background:#b08a1f"></span><span class="sseg" style="width:0%;background:#7b5ea7"></span><span class="sseg" style="width:0%;background:#b0457b"></span><span class="sseg" style="width:32.8%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel me">camroll / Persona-MME</div><div class="sbar"><span class="sseg" style="width:50.1%;background:#1367a7"></span><span class="sseg" style="width:8.0%;background:#5b9bd5"></span><span class="sseg" style="width:5.8%;background:#2e7d4f"></span><span class="sseg" style="width:0.8%;background:#6cb27f"></span><span class="sseg" style="width:0.6%;background:#c2611f"></span><span class="sseg" style="width:8.2%;background:#db8a3a"></span><span class="sseg" style="width:10.1%;background:#b08a1f"></span><span class="sseg" style="width:0.2%;background:#7b5ea7"></span><span class="sseg" style="width:0%;background:#b0457b"></span><span class="sseg" style="width:16.1%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel me">camroll / In-house</div><div class="sbar"><span class="sseg" style="width:60.5%;background:#1367a7"></span><span class="sseg" style="width:5.8%;background:#5b9bd5"></span><span class="sseg" style="width:3.3%;background:#2e7d4f"></span><span class="sseg" style="width:6.5%;background:#6cb27f"></span><span class="sseg" style="width:7.8%;background:#c2611f"></span><span class="sseg" style="width:0.1%;background:#db8a3a"></span><span class="sseg" style="width:2.4%;background:#b08a1f"></span><span class="sseg" style="width:7.7%;background:#7b5ea7"></span><span class="sseg" style="width:4.1%;background:#b0457b"></span><span class="sseg" style="width:1.7%;background:#9a9a9a"></span></div></div>
+    <div class="qrow"><div class="blabel me">camroll / photo-bench</div><div class="sbar"><span class="sseg" style="width:0%;background:#1367a7"></span><span class="sseg" style="width:0%;background:#5b9bd5"></span><span class="sseg" style="width:0%;background:#2e7d4f"></span><span class="sseg" style="width:0%;background:#6cb27f"></span><span class="sseg" style="width:0%;background:#c2611f"></span><span class="sseg" style="width:0%;background:#db8a3a"></span><span class="sseg" style="width:0.1%;background:#b08a1f"></span><span class="sseg" style="width:0%;background:#7b5ea7"></span><span class="sseg" style="width:0%;background:#b0457b"></span><span class="sseg" style="width:99.9%;background:#9a9a9a"></span></div></div>
+  </div>
+  <div class="qlegend">
+    <span class="qkey"><i style="background:#1367a7"></i>what</span>
+    <span class="qkey"><i style="background:#5b9bd5"></i>which</span>
+    <span class="qkey"><i style="background:#2e7d4f"></i>who</span>
+    <span class="qkey"><i style="background:#6cb27f"></i>where</span>
+    <span class="qkey"><i style="background:#c2611f"></i>when</span>
+    <span class="qkey"><i style="background:#db8a3a"></i>why</span>
+    <span class="qkey"><i style="background:#b08a1f"></i>how</span>
+    <span class="qkey"><i style="background:#7b5ea7"></i>count / quantity</span>
+    <span class="qkey"><i style="background:#b0457b"></i>yes / no</span>
+    <span class="qkey"><i style="background:#9a9a9a"></i>other</span>
+  </div>
+
+  <!-- summary table -->
+  <h3 class="sub-section">Per-dataset summary</h3>
+  <div class="table-scroll">
+    <table class="analysis">
+      <thead>
+        <tr>
+          <th>Dataset</th><th>Domain</th><th>#&nbsp;Questions</th><th>Answer format</th>
+          <th>Med.&nbsp;opts</th><th>Med.&nbsp;len</th><th>1st-person</th><th>Episodic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Video-MME</td><td>long-video</td><td class="num">2,700</td><td>MCQ (A&ndash;D)</td><td class="num">4</td><td class="num">12w</td><td class="num">0.7%</td><td class="num">1.3%</td></tr>
+        <tr><td>LongVideoBench</td><td>long-video</td><td class="num">6,678</td><td>MCQ 5-way, referring</td><td class="num">5</td><td class="num">43w</td><td class="num">8.1%</td><td class="num">1.6%</td></tr>
+        <tr><td>LVBench</td><td>long-video</td><td class="num">1,549</td><td>MCQ (A&ndash;D)</td><td class="num">4</td><td class="num">11w</td><td class="num">0.6%</td><td class="num">1.2%</td></tr>
+        <tr><td>EgoLifeQA</td><td>long-video (ego)</td><td class="num">500*</td><td>MCQ (A&ndash;D)</td><td class="num">4</td><td class="num">10w</td><td class="num">55.4%</td><td class="num">39.8%</td></tr>
+        <tr><td>VideoOdyssey</td><td>long-video</td><td class="num">2,680</td><td>MCQ, omni-modal</td><td class="num">4</td><td class="num">18w</td><td class="num">2.5%</td><td class="num">1.2%</td></tr>
+        <tr><td>MovieQA</td><td>long-video</td><td class="num">14,944</td><td>MCQ 5-way</td><td class="num">5</td><td class="num">9w</td><td class="num">0.2%</td><td class="num">1.0%</td></tr>
+        <tr><td>EPIC-KITCHENS</td><td>long-video</td><td class="num">67,217</td><td>narration (verb+noun)</td><td class="num">&mdash;</td><td class="num">3w</td><td class="num">0.0%</td><td class="num">0.0%</td></tr>
+        <tr class="me"><td>camroll / ATM-Bench</td><td>camera-roll</td><td class="num">1,013</td><td>open (episodic recall)</td><td class="num">&mdash;</td><td class="num">14w</td><td class="num">80.9%</td><td class="num">33.7%</td></tr>
+        <tr class="me"><td>camroll / DIS-Bench</td><td>camera-roll</td><td class="num">122</td><td>retrieval (find photos)</td><td class="num">&mdash;</td><td class="num">25w</td><td class="num">18.0%</td><td class="num">22.1%</td></tr>
+        <tr class="me"><td>camroll / Persona-MME</td><td>camera-roll</td><td class="num">2,034</td><td>open (conversational)</td><td class="num">&mdash;</td><td class="num">23w</td><td class="num">88.9%</td><td class="num">36.0%</td></tr>
+        <tr class="me"><td>camroll / In-house</td><td>camera-roll</td><td class="num">1,500</td><td>open (semantic self-facts)</td><td class="num">&mdash;</td><td class="num">14w</td><td class="num">95.8%</td><td class="num">17.7%</td></tr>
+        <tr class="me"><td>camroll / photo-bench</td><td>camera-roll</td><td class="num">1,188</td><td>tag / phrase prompt</td><td class="num">&mdash;</td><td class="num">4w</td><td class="num">11.3%</td><td class="num">15.6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="chart-cap" style="margin-top:6px;">camroll subsets shown separately &mdash; combined they total 5,857 questions. First-person / episodic are keyword-based (lower bounds).</div>
+
+  <!-- taxonomy axes -->
+  <h3 class="sub-section">Different labeling axes</h3>
+  <p style="margin-top:4px;">
+    The clearest tell is <em>how each community names its question types</em>. Long-video sets label by
+    <b>visual skill</b> (object / action / temporal / OCR). camroll &amp; EgoLifeQA label by
+    <b>memory function</b> (recall, entity log, relationships, habits) &mdash; a different axis entirely.
+  </p>
+  <div class="taxgrid">
+    <div class="taxcard roll">
+      <h4>camroll (ours)</h4>
+      <div class="sub">five sub-benchmarks &middot; distinct styles</div>
+      <div class="taxrow"><span class="tname">Persona-MME <span style="color:var(--muted);">&middot; conversational</span></span><span class="num">2034</span><div class="ttrack"><div class="tfill" style="width:100%"></div></div></div>
+      <div class="taxrow"><span class="tname">In-house <span style="color:var(--muted);">&middot; semantic self-facts</span></span><span class="num">1500</span><div class="ttrack"><div class="tfill" style="width:74%"></div></div></div>
+      <div class="taxrow"><span class="tname">photo-bench <span style="color:var(--muted);">&middot; tag prompts</span></span><span class="num">1188</span><div class="ttrack"><div class="tfill" style="width:58%"></div></div></div>
+      <div class="taxrow"><span class="tname">ATM-Bench <span style="color:var(--muted);">&middot; episodic recall</span></span><span class="num">1013</span><div class="ttrack"><div class="tfill" style="width:50%"></div></div></div>
+      <div class="taxrow"><span class="tname">DIS-Bench <span style="color:var(--muted);">&middot; photo retrieval</span></span><span class="num">122</span><div class="ttrack"><div class="tfill" style="width:6%"></div></div></div>
+    </div>
+    <div class="taxcard ok">
+      <h4>EgoLifeQA</h4>
+      <div class="sub">life-assistant types &middot; JAKE subset</div>
+      <div class="taxrow"><span class="tname">EventRecall</span><span class="num">126</span><div class="ttrack"><div class="tfill" style="width:100%"></div></div></div>
+      <div class="taxrow"><span class="tname">EntityLog</span><span class="num">125</span><div class="ttrack"><div class="tfill" style="width:99%"></div></div></div>
+      <div class="taxrow"><span class="tname">RelationMap</span><span class="num">125</span><div class="ttrack"><div class="tfill" style="width:99%"></div></div></div>
+      <div class="taxrow"><span class="tname">TaskMaster</span><span class="num">63</span><div class="ttrack"><div class="tfill" style="width:50%"></div></div></div>
+      <div class="taxrow"><span class="tname">HabitInsight</span><span class="num">61</span><div class="ttrack"><div class="tfill" style="width:48%"></div></div></div>
+    </div>
+    <div class="taxcard video">
+      <h4>Video-MME</h4>
+      <div class="sub">visual skill types &middot; top 6</div>
+      <div class="taxrow"><span class="tname">Object Reasoning</span><span class="num">454</span><div class="ttrack"><div class="tfill" style="width:100%"></div></div></div>
+      <div class="taxrow"><span class="tname">Object Recognition</span><span class="num">354</span><div class="ttrack"><div class="tfill" style="width:78%"></div></div></div>
+      <div class="taxrow"><span class="tname">Info Synopsis</span><span class="num">323</span><div class="ttrack"><div class="tfill" style="width:71%"></div></div></div>
+      <div class="taxrow"><span class="tname">Action Recognition</span><span class="num">313</span><div class="ttrack"><div class="tfill" style="width:69%"></div></div></div>
+      <div class="taxrow"><span class="tname">Action Reasoning</span><span class="num">285</span><div class="ttrack"><div class="tfill" style="width:63%"></div></div></div>
+      <div class="taxrow"><span class="tname">Counting</span><span class="num">268</span><div class="ttrack"><div class="tfill" style="width:59%"></div></div></div>
+    </div>
+  </div>
+
+  <!-- representative questions -->
+  <h3 class="sub-section">Representative questions, side by side</h3>
+  <div class="qcompare">
+    <div class="qcol roll">
+      <h4>camroll (ours) &middot; five subsets, one per style</h4>
+      <div class="qex"><span class="src">ATM-Bench &middot; episodic recall</span><span class="q">&ldquo;Today is May 2, 2024 &mdash; I had a formal in Peterhouse last week; what was the name of that red dessert with strawberry I had near the end?&rdquo;</span></div>
+      <div class="qex"><span class="src">In-house &middot; semantic self-fact</span><span class="q">&ldquo;What is my occupation?&rdquo;</span></div>
+      <div class="qex"><span class="src">Persona-MME &middot; conversational</span><span class="q">&ldquo;Hey, that picture of the two giraffes I sent over a week ago&hellip; remind me, what was the thought I had right when I sent it?&rdquo;</span></div>
+      <div class="qex"><span class="src">DIS-Bench &middot; retrieval</span><span class="q">&ldquo;Find photos from the musical performance identified by the blue-and-white event logo, where only the lead singer appears on stage.&rdquo;</span></div>
+      <div class="qex"><span class="src">photo-bench &middot; tag prompt</span><span class="q">&ldquo;girl in purple sweater&rdquo; &middot; &ldquo;cluttered desk&rdquo;</span></div>
+    </div>
+    <div class="qcol video">
+      <h4>Long-video &middot; third-person MCQ</h4>
+      <div class="qex"><span class="src">Video-MME</span><span class="q">&ldquo;&hellip;which decoration has the largest number?&rdquo; &mdash; (A) Apples (B) Candles (C) Berries (D) Same</span></div>
+      <div class="qex"><span class="src">MovieQA</span><span class="q">&ldquo;Why does Hook leave Eamon&rsquo;s apartment?&rdquo; &mdash; (1 of 5 options)</span></div>
+      <div class="qex"><span class="src">EgoLifeQA</span><span class="q">&ldquo;Who used the screwdriver first?&rdquo; &mdash; (A&ndash;D)</span></div>
+      <div class="qex"><span class="src">LongVideoBench</span><span class="q">&ldquo;In the video, which subtitles appear at the same time as the man with black hair, dressed in grey, on stage?&rdquo;</span></div>
+    </div>
+  </div>
+
+  <div class="note" style="border-left-color: var(--ok);">
+    <b>Takeaway for Step 3.</b> The split is not just &ldquo;harder questions&rdquo; &mdash; it is a different
+    <em>question-design philosophy</em>. Long-video benchmarks optimize for clean, gradeable MCQs about a
+    shared video; camera-roll VQA wants open, first-person, time-anchored answers that only the owner
+    could verify. And notice that <code>camroll</code> itself is not one task but <b>five</b> &mdash; episodic
+    recall, retrieval, conversational persona, semantic self-facts, and tag prompts. The personal-memory
+    space hasn&rsquo;t converged on a single format, which is exactly what makes constructing these
+    benchmarks hard &mdash; the subject of Step 3.
+  </div>
+
+  <p class="chart-cap" style="margin-top:14px;">
+    <b>Method &amp; caveats.</b> Questions pulled from each benchmark's released annotations (HuggingFace / GitHub),
+    text only. <code>*</code> EgoLifeQA is the public JAKE subset (500 of ~3,000 Q). MovieQA counts include
+    train+val+test (test answers are gated). EPIC-KITCHENS is action narration, included as the egocentric
+    &ldquo;ground-truth events&rdquo; contrast, not a QA set. First-person / episodic are measured by
+    keyword matching, so treat them as lower bounds.
+  </p>
+
+  <!-- ============================ STEP 3 (placeholder) ============================ -->
+  <h2 class="section">Step 3 &middot; Core challenges &amp; construction differences <span style="color:var(--muted);font-weight:400;font-size:16px;">(later)</span></h2>
+  <div class="placeholder">
+    <p style="margin-top:0;">Open questions to explore once Step 2 gives us evidence:</p>
+    <ul class="tight">
+      <li>Why do long-video benchmarks lean on <b>MCQ</b> while personal memory wants <b>open-ended, first-person</b> answers?</li>
+      <li><b>Who writes the questions?</b> LLM-synthesized vs. human-posed vs. self-annotated &mdash; and what each choice trades off.</li>
+      <li><b>Personalization &amp; the long tail:</b> shared answer vocabularies (video) vs. user-unique answers (~90% in camroll).</li>
+      <li><b>Continuous stream vs. scattered archive:</b> how the input shape changes what "long-context" even means.</li>
+      <li>Privacy &amp; data access constraints unique to real personal data.</li>
+    </ul>
+  </div>
+
+  <hr class="rule" />
+  <footer class="post-footer">
+    Draft &mdash; Steps 1 &amp; 2 of 3. Links verified June 2026. &nbsp;·&nbsp; Two entries still need a URL (marked "link TBD").
+  </footer>
+
+</article>
+</div>
+
+<script>
+(function () {
+  function parseVal(text) {
+    text = (text || "").trim();
+    var year = text.match(/(19|20)\d{2}/);          // prefer a 4-digit year (Venue column)
+    if (year) return { num: parseInt(year[0], 10), isNum: true };
+    var m = text.replace(/,/g, "").match(/(\d+(?:\.\d+)?)\s*([kKmM]?)/); // else first number, with k/m
+    if (m) {
+      var v = parseFloat(m[1]);
+      var suf = m[2].toLowerCase();
+      if (suf === "k") v *= 1e3;
+      if (suf === "m") v *= 1e6;
+      return { num: v, isNum: true };
+    }
+    return { num: 0, isNum: false, str: text.toLowerCase() };
+  }
+
+  function sortTable(table, idx, th) {
+    var tbody = table.querySelector("tbody");
+    var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+    var asc = th.getAttribute("data-asc") !== "true";
+    table.querySelectorAll("thead th").forEach(function (h) {
+      if (h !== th) { h.removeAttribute("data-asc"); h.classList.remove("sorted-asc", "sorted-desc"); }
+    });
+    rows.sort(function (a, b) {
+      var va = parseVal(a.children[idx] ? a.children[idx].textContent : "");
+      var vb = parseVal(b.children[idx] ? b.children[idx].textContent : "");
+      var cmp;
+      if (va.isNum && vb.isNum) cmp = va.num - vb.num;
+      else cmp = (va.str || String(va.num)).localeCompare(vb.str || String(vb.num));
+      return asc ? cmp : -cmp;
+    });
+    rows.forEach(function (r) { tbody.appendChild(r); });
+    th.setAttribute("data-asc", asc ? "true" : "false");
+    th.classList.toggle("sorted-asc", asc);
+    th.classList.toggle("sorted-desc", !asc);
+  }
+
+  document.querySelectorAll("table.survey").forEach(function (table) {
+    table.querySelectorAll("thead th").forEach(function (th, idx) {
+      var label = th.textContent.trim().toLowerCase();
+      if (label === "links" || label === "link" || th.classList.contains("no-sort")) return;
+      th.classList.add("sortable");
+      th.addEventListener("click", function () { sortTable(table, idx, th); });
+    });
+  });
+})();
+</script>
+</body>
+</html>
