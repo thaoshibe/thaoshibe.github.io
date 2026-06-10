@@ -246,6 +246,18 @@ table.analysis tr.me td:first-child { font-weight: 700; color: var(--roll); }
 .qex .src { display: block; font-size: 11px; color: var(--muted); margin-bottom: 1px; }
 .qex .q { font-style: italic; color: #444; }
 
+/* paired question table (EgoLifeQA | camroll) */
+table.qpair { border-collapse: collapse; width: 100%; font-size: 13px; table-layout: fixed; min-width: 640px; }
+table.qpair col { width: 50%; }
+table.qpair th, table.qpair td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+table.qpair td.v { border-right: 1px solid var(--line); }
+table.qpair thead th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+table.qpair thead th.v { color: var(--video); border-bottom: 2px solid var(--video); }
+table.qpair thead th.r { color: var(--roll); border-bottom: 2px solid var(--roll); border-left: 1px solid var(--line); }
+table.qpair tbody tr:hover, table.qpair tr:hover { background: #fafafa; }
+table.qpair .tag { display: block; font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 2px; }
+table.qpair .q { font-style: italic; color: #444; line-height: 1.45; }
+
 /* mini taxonomy cards */
 .taxgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0; }
 .taxcard { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
@@ -1443,6 +1455,126 @@ table.analysis tr.me td:first-child { font-weight: 700; color: var(--roll); }
     &ldquo;ground-truth events&rdquo; contrast, not a QA set. First-person / episodic are measured by
     keyword matching, so treat them as lower bounds.
   </p>
+
+  <!-- ============================ STEP 2.5 ============================ -->
+  <h2 class="section">Step 2.5 &middot; Zooming in: EgoLifeQA vs. camroll</h2>
+  <p>
+    Of all seven long-video sets, <b>EgoLifeQA</b> is the nearest neighbour to <code>camroll</code>:
+    both are egocentric, first-person, and episodic, and both ask a model to remember things scattered
+    far back in a personal history. They are the only two sets where &ldquo;<em>I</em>&rdquo; and
+    &ldquo;<em>when</em>&rdquo; dominate. So it is worth asking: <b>are they the same task?</b> Looking
+    at the actual questions, they turn out to be <b>two different flavours of personal memory.</b>
+  </p>
+
+  <div class="table-scroll">
+    <table class="glance">
+      <thead>
+        <tr><th class="dim">Dimension</th><th class="v">EgoLifeQA</th><th class="r">camroll (ours)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="dim">Input shape</td><td>Continuous head-mounted <b>video stream</b> (the wearer's POV)</td><td>Scattered <b>photo archive</b> (a phone camera roll)</td></tr>
+        <tr><td class="dim">Scale &amp; span</td><td>6 wearers, ~44&nbsp;h each, <b>one shared week</b></td><td>50 users, ~31k photos, <b>2&ndash;6 years</b> each</td></tr>
+        <tr><td class="dim">Subject of the question</td><td>The <b>social scene</b> &mdash; what the housemates did (Tasha, Alice, &ldquo;Me&rdquo;&hellip;)</td><td>The user's <b>own life</b> &mdash; their facts, possessions, trips, thoughts</td></tr>
+        <tr><td class="dim">Answer format</td><td>4-way <b>MCQ</b> (A&ndash;D)</td><td><b>Open-ended</b> + retrieval (no options)</td></tr>
+        <tr><td class="dim">Temporal anchor</td><td>Relative: &ldquo;before&rdquo;, &ldquo;first&rdquo;, &ldquo;earlier&rdquo; + frame timestamps</td><td>Absolute: <b>calendar dates &amp; named events</b> (&ldquo;BMVC 2024&rdquo;, &ldquo;May 2&rdquo;)</td></tr>
+        <tr><td class="dim">Evidence distance</td><td>Median <b>~1.8&nbsp;h</b> back; <b>38%</b> from an earlier day</td><td>Spans <b>years</b>; cued by the date/event named in the question</td></tr>
+        <tr><td class="dim">Modality needed</td><td><b>40%</b> need audio, <b>64%</b> need person-ID</td><td>Photos (+ persona text); <b>no audio</b></td></tr>
+        <tr><td class="dim">Memory type</td><td>Fine-grained <b>episodic</b> within one week</td><td>Episodic across years <b>+ semantic self-knowledge</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- evidence distance chart (EgoLifeQA) -->
+  <div class="chart-title">EgoLifeQA &mdash; how far back the evidence sits (share of questions)</div>
+  <div class="chart-cap">The answer is rarely &ldquo;on screen now&rdquo;: ~76% of questions need evidence from over an hour earlier or a previous day &mdash; the same long-horizon recall camroll demands across years. <span style="color:var(--muted);">(JAKE subset, 464 of 500 Q with timestamps)</span></div>
+  <div class="barlist">
+    <div class="blabel">earlier day(s)</div><div class="btrack"><div class="bfill" style="width:37.9%"></div></div><div class="bval">37.9%</div>
+    <div class="blabel">&gt;60 min, same day</div><div class="btrack"><div class="bfill" style="width:37.7%"></div></div><div class="bval">37.7%</div>
+    <div class="blabel">5&ndash;30 min</div><div class="btrack"><div class="bfill" style="width:15.7%"></div></div><div class="bval">15.7%</div>
+    <div class="blabel">30&ndash;60 min</div><div class="btrack"><div class="bfill" style="width:8.2%"></div></div><div class="bval">8.2%</div>
+    <div class="blabel">&lt;5 min</div><div class="btrack"><div class="bfill" style="width:0.4%"></div></div><div class="bval">0.4%</div>
+  </div>
+
+  <!-- side-by-side question table (collapsible) -->
+  <details class="section-collapse" open>
+  <summary class="sub-section">📋 Read them side by side <span class="count-badge">EgoLifeQA vs. camroll (ATM-Bench &amp; In-house) &middot; click to collapse</span></summary>
+  <p style="margin-top:6px;">
+    Real questions from each, lined up row-by-row. They aren&rsquo;t matched pairs &mdash; just put together so
+    you can <em>feel</em> the difference: EgoLifeQA asks <b>who-did-what</b> in a shared room (MCQ over names),
+    while camroll asks about the user&rsquo;s <b>own</b> facts, trips and purchases (open-ended).
+  </p>
+  <div class="table-scroll">
+    <table class="qpair">
+      <colgroup><col><col></colgroup>
+      <thead>
+        <tr><th class="v">EgoLifeQA &middot; egocentric video (MCQ)</th><th class="r">camroll &middot; ATM-Bench &amp; In-house (open)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="v"><span class="tag">EntityLog</span><span class="q">&ldquo;Who used the screwdriver first?&rdquo;</span></td>
+          <td><span class="tag">In-house &middot; self-fact</span><span class="q">&ldquo;What is my occupation?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">EntityLog</span><span class="q">&ldquo;Where was the black marker in Shure&rsquo;s hand before?&rdquo;</span></td>
+          <td><span class="tag">In-house &middot; self-fact</span><span class="q">&ldquo;Do I normally wear glasses?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">EventRecall</span><span class="q">&ldquo;Katrina is now suggesting dancing &mdash; what other activities has she suggested before?&rdquo;</span></td>
+          <td><span class="tag">ATM-Bench &middot; episodic</span><span class="q">&ldquo;How much did I pay in total for my accommodation for BMVC 2024?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">EventRecall</span><span class="q">&ldquo;Who is missing compared to when we first started the puzzle?&rdquo;</span></td>
+          <td><span class="tag">ATM-Bench &middot; episodic</span><span class="q">&ldquo;Which hotel did I stay in on the first day of my trip to Kent?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">RelationMap</span><span class="q">&ldquo;Who just helped Katrina put the flowers on the table?&rdquo;</span></td>
+          <td><span class="tag">ATM-Bench &middot; episodic</span><span class="q">&ldquo;Where did I have Chaoshan-style beef hotpot in Guangzhou?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">RelationMap</span><span class="q">&ldquo;This morning during our discussion, which two people did I remind not to let their hair cover their glasses?&rdquo;</span></td>
+          <td><span class="tag">In-house &middot; self-fact</span><span class="q">&ldquo;Which university do I attend?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">TaskMaster</span><span class="q">&ldquo;Who plans to grow flowers?&rdquo;</span></td>
+          <td><span class="tag">In-house &middot; self-fact</span><span class="q">&ldquo;What was my major in university?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">TaskMaster</span><span class="q">&ldquo;What are the lunch options?&rdquo;</span></td>
+          <td><span class="tag">ATM-Bench &middot; episodic</span><span class="q">&ldquo;When did I make cream chicken soup?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">HabitInsight</span><span class="q">&ldquo;Who wrote most of the words on the whiteboard?&rdquo;</span></td>
+          <td><span class="tag">In-house &middot; self-fact</span><span class="q">&ldquo;What kind of exotic pet do I like?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">HabitInsight</span><span class="q">&ldquo;What do I usually do after getting close to the sports camera today?&rdquo;</span></td>
+          <td><span class="tag">ATM-Bench &middot; episodic</span><span class="q">&ldquo;On which day did I pass by the Cambridge &rsquo;99 Rowing Club?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">EventRecall</span><span class="q">&ldquo;Now Lucia asks &lsquo;is this a hedgehog?&rsquo; &mdash; what were we discussing the last time she asked a question?&rdquo;</span></td>
+          <td><span class="tag">ATM-Bench &middot; episodic</span><span class="q">&ldquo;Today is April 7, 2022. Why was Fitzwilliam Street closed?&rdquo;</span></td>
+        </tr>
+        <tr>
+          <td class="v"><span class="tag">EntityLog</span><span class="q">&ldquo;Where was the small clapperboard on the table placed before?&rdquo;</span></td>
+          <td><span class="tag">In-house &middot; self-fact</span><span class="q">&ldquo;What brand was the phone I bought with my scholarship money?&rdquo;</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="chart-cap" style="margin-top:6px;">
+    Left: questions are about <b>other people</b> in the wearer&rsquo;s view, answered by picking a name (A&ndash;D).
+    Right: questions are about <b>the user themselves</b>, answered in free text. Both look backward in time.
+  </div>
+  </details>
+
+  <div class="note" style="border-left-color: var(--roll);">
+    <b>The key difference: social vs. autobiographical memory.</b> EgoLifeQA is largely
+    <em>third-party memory captured from a first-person camera</em> &mdash; who did what around the
+    wearer during one intense shared week, often needing audio and face/name recognition.
+    <code>camroll</code> is <em>autobiographical</em> &mdash; the user's own facts, possessions and
+    events across years, answered openly and verifiable only by them. Same egocentric, long-horizon
+    spirit; opposite question subject and answer style.
+  </div>
 
   <!-- ============================ STEP 3 (placeholder) ============================ -->
   <h2 class="section">Step 3 &middot; Core challenges &amp; construction differences <span style="color:var(--muted);font-weight:400;font-size:16px;">(later)</span></h2>
