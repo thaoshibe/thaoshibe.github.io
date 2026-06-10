@@ -3,278 +3,346 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>chó Bơ 🥑 | góc nhỏ của Bơ &amp; Mắm</title>
-  <meta property="og:title" content="chó Bơ 🥑" />
+  <title>cho Bơ 🥑 | góc nhỏ của Bơ &amp; Mắm</title>
+  <meta property="og:title" content="cho Bơ 🥑" />
   <meta property="og:description" content="Những câu chuyện nhỏ về Bơ, Mắm, và chuyện nuôi chó mèo." />
   <meta property="og:image" content="./bo-di-my/our_journey_to_us.png" />
   <link rel="icon" type="image/png" href="../images/bo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" />
   <style>
     :root {
-      --bg: #d2e2ee;
-      --bg-2: #c2d7e7;
-      --card: #f6f3e4;
-      --card-edge: #e7e2cc;
-      --ink: #44617a;
-      --ink-soft: #6f8aa1;
-      --accent: #8fb4cf;
+      --ink: #4b4636;
+      --ink-soft: #9a9079;
+      --line: #efe6d0;
+      --line-strong: #e6dcc2;
+      --accent: #7796b3;
+      --accent-soft: #b6c8da;
+      --card-bg: #faf5e7;
+      --card-edge: #ece2cc;
+      --paper: #fbf6e9;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     body {
-      font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
       color: var(--ink);
-      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-      background-attachment: fixed;
+      background-color: var(--paper);
+      /* notebook grid on warm paper */
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 26px 26px;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
 
-    .wrap { max-width: 1040px; margin: 0 auto; padding: 48px 24px 80px; }
-
-    /* ---- header ---- */
-    header { text-align: center; margin-bottom: 8px; }
-    .title {
-      font-size: clamp(2.4rem, 6vw, 3.6rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin: 0;
-      color: var(--ink);
-    }
-    .title .avo { display: inline-block; transform: translateY(2px); }
-    .subtitle {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.95rem;
-      color: var(--ink-soft);
-      margin-top: 10px;
-    }
-
-    /* ---- tagline banner (like the screenshot) ---- */
-    .banner {
-      background: var(--card);
-      border: 1px solid var(--card-edge);
-      border-radius: 6px;
-      padding: 16px 22px;
-      margin: 28px auto 40px;
-      text-align: center;
-      font-family: 'Space Mono', monospace;
-      font-size: 1.02rem;
-      color: var(--ink);
-      box-shadow: 0 6px 18px rgba(68, 97, 122, 0.08);
-    }
-    .banner .heart { color: #c98c99; margin: 0 10px; }
-
-    /* ---- gallery grid ---- */
-    .grid {
+    .layout {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px 26px;
+      grid-template-columns: 248px 1fr;
+      max-width: 1180px;
+      margin: 0 auto;
+      min-height: 100vh;
     }
-    @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
 
-    .card {
+    /* ---------- sidebar ---------- */
+    .sidebar {
+      border-right: 1px solid var(--line-strong);
+      padding: 38px 26px;
       display: flex;
       flex-direction: column;
+      gap: 26px;
+      background: rgba(251, 246, 233, 0.6);
+    }
+    .brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .brand-sub {
+      font-size: 1.02rem;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .today {
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .today b { color: var(--accent); font-weight: 700; }
+
+    /* mini calendar */
+    .cal {
+      border: 1px solid var(--card-edge);
+      border-radius: 14px;
+      padding: 14px 14px 16px;
+      background: #fffdf7;
+      box-shadow: 0 6px 16px rgba(75, 70, 54, 0.06);
+    }
+    .cal-head {
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 10px;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+      text-align: center;
+      font-size: 0.74rem;
+    }
+    .cal-dow { color: var(--ink-soft); font-weight: 600; padding-bottom: 4px; }
+    .cal-day {
+      padding: 4px 0;
+      border-radius: 50%;
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cal-day.today {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+    .sidebar-foot {
+      margin-top: auto;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.3;
+    }
+    .sidebar-foot a { color: var(--accent); text-decoration: none; }
+
+    /* ---------- main ---------- */
+    .main { padding: 48px 44px 72px; }
+    .topline {
+      text-align: center;
+      font-weight: 600;
+      color: var(--ink-soft);
+      letter-spacing: 0.04em;
+      font-size: 1.05rem;
+    }
+    .clock {
+      text-align: center;
+      font-family: 'Newsreader', 'Playfair Display', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(4.5rem, 13vw, 8rem);
+      line-height: 1;
+      color: var(--accent);
+      margin: 2px 0 8px;
+      letter-spacing: -0.01em;
+    }
+    .clock .dot { animation: blink 1.4s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0.25; } }
+
+    .lead {
+      text-align: center;
+      font-size: 1.35rem;
+      color: var(--ink);
+      margin: 0 0 44px;
+    }
+
+    /* ---------- cards ---------- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px 30px;
+    }
+    @media (max-width: 900px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+
+    .card {
       text-decoration: none;
       color: inherit;
-      transition: transform 0.22s ease;
-    }
-    .card:hover { transform: translateY(-6px); }
-
-    .thumb {
-      position: relative;
-      aspect-ratio: 1 / 1;
-      border-radius: 22px;
-      overflow: hidden;
-      background: var(--card);
-      border: 1px solid var(--card-edge);
-      box-shadow: 0 10px 24px rgba(68, 97, 122, 0.12);
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      transition: transform 0.2s ease;
     }
-    .thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
+    .thumb {
+      aspect-ratio: 4 / 3;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--card-edge);
+      box-shadow: 0 8px 20px rgba(63, 75, 87, 0.08);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
     }
-
-    /* placeholder (coming soon) thumbs */
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .thumb.soon {
       background:
-        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.6), transparent 55%),
-        linear-gradient(160deg, #eef3ea 0%, #e3ecf2 100%);
+        radial-gradient(circle at 30% 22%, #fffdf6, transparent 60%),
+        linear-gradient(160deg, #fbf6e8 0%, #f4ecd7 100%);
     }
-    .thumb .emoji { font-size: 3.4rem; opacity: 0.85; }
+    .thumb .emoji { font-size: 3rem; opacity: 0.8; }
     .thumb .soon-tag {
-      position: absolute;
-      bottom: 12px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.04em;
+      position: absolute; bottom: 10px;
+      font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
       color: var(--ink-soft);
-      background: rgba(246, 243, 228, 0.9);
-      padding: 3px 10px;
-      border-radius: 999px;
+      background: #fffdf7;
+      border: 1px solid var(--card-edge);
+      padding: 3px 10px; border-radius: 999px;
     }
-    .num {
-      position: absolute;
-      top: 12px; left: 12px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--ink-soft);
-      background: rgba(246, 243, 228, 0.92);
-      padding: 2px 9px;
-      border-radius: 999px;
-    }
-
-    .caption {
+    .cap {
       margin-top: 14px;
       text-align: center;
+      font-size: 1.12rem;
+      line-height: 1.3;
+      color: var(--ink);
       padding: 0 6px;
     }
-    .caption .name {
-      font-weight: 600;
-      font-size: 1.02rem;
-      line-height: 1.35;
-      color: var(--ink);
-    }
-    .card.is-live .thumb { border-color: #b9cfdf; }
-    .card.is-live .caption .name { color: #34526b; }
+    .card.is-live:hover { transform: translateY(-5px); }
+    .card.is-live .thumb { border-color: var(--accent-soft); }
     .card:not(.is-live) { cursor: default; }
-    .card:not(.is-live):hover { transform: none; }
 
-    footer {
-      margin-top: 64px;
-      text-align: center;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.82rem;
-      color: var(--ink-soft);
+    /* ---------- responsive ---------- */
+    @media (max-width: 720px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--line-strong);
+        flex-direction: row; flex-wrap: wrap; align-items: center;
+        gap: 16px 24px;
+      }
+      .cal { display: none; }
+      .sidebar-foot { display: none; }
+      .main { padding: 32px 22px 56px; }
+      .cards { grid-template-columns: 1fr 1fr; gap: 28px 18px; }
     }
-    footer a { color: var(--ink); }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1 class="title">chó B<span class="avo">🥑</span></h1>
-      <div class="subtitle">~ góc nhỏ của Bơ &amp; Mắm ~</div>
-    </header>
+  <div class="layout">
 
-    <div class="banner">
-      <span class="heart">♡</span> mỗi tấm hình là một câu chuyện nhỏ <span class="heart">♡</span>
-    </div>
-
-    <main class="grid">
-
-      <!-- 2.1 -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">01</span>
-          <span class="emoji">🌱</span>
-          <span class="soon-tag">coming soon</span>
-        </div>
-        <div class="caption"><div class="name">Lời mở đầu</div></div>
+    <aside class="sidebar">
+      <div>
+        <div class="brand">cho Bơ 🥑</div>
+        <div class="brand-sub">a little corner for Bơ &amp; Mắm</div>
       </div>
 
-      <!-- 2.2 — LIVE -->
-      <a class="card is-live" href="./bo-di-my.html">
-        <div class="thumb">
-          <span class="num">02</span>
-          <img src="./bo-di-my/our_journey_to_us.png" alt="Bơ đi Mỹ" loading="lazy" />
-        </div>
-        <div class="caption"><div class="name">Cùng Bơ đi Mỹ 🇺🇸<br/>hành trình đưa chó mèo qua Mỹ</div></div>
-      </a>
-
-      <!-- 2.3 -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">03</span>
-          <span class="emoji">🦮</span>
-          <span class="soon-tag">coming soon</span>
-        </div>
-        <div class="caption"><div class="name">Chăm sóc một chú chó bị mù</div></div>
+      <div class="today">
+        It's <b id="weekday">—</b>,<br />
+        <span id="longdate">—</span>.
       </div>
 
-      <!-- 2.4 -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">04</span>
-          <span class="emoji">🩺</span>
-          <span class="soon-tag">coming soon</span>
-        </div>
-        <div class="caption"><div class="name">Bảo hiểm cho chó / mèo</div></div>
+      <div class="cal">
+        <div class="cal-head" id="cal-month">—</div>
+        <div class="cal-grid" id="cal-grid"></div>
       </div>
 
-      <!-- 2.5 -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">05</span>
-          <span class="emoji">🕊️</span>
-          <span class="soon-tag">coming soon</span>
-        </div>
-        <div class="caption"><div class="name">An tử cho chó / mèo</div></div>
+      <div class="sidebar-foot">
+        made with <a href="https://thaoshibe.github.io/">chị Thảo</a>
       </div>
+    </aside>
 
-      <!-- 2.6 -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">06</span>
-          <span class="emoji">📝</span>
-          <span class="soon-tag">coming soon</span>
+    <main class="main">
+      <div class="topline" id="topline">— 🥑</div>
+      <div class="clock"><span id="hh">00</span><span class="dot">:</span><span id="mm">00</span></div>
+      <p class="lead">♡ mỗi tấm hình là một câu chuyện nhỏ ♡</p>
+
+      <section class="cards">
+
+        <!-- 01 intro -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">🌱</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">Lời mở đầu</div>
         </div>
-        <div class="caption"><div class="name">39/42 điều Bơ đã làm cùng chị Thảo</div></div>
-      </div>
 
-      <!-- 2.7 -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">07</span>
-          <span class="emoji">🚗</span>
-          <span class="soon-tag">coming soon</span>
+        <!-- 02 LIVE -->
+        <a class="card is-live" href="./bo-di-my.html">
+          <div class="thumb"><img src="./bo-di-my/our_journey_to_us.png" alt="Bơ đi Mỹ" loading="lazy" /></div>
+          <div class="cap">Cùng Bơ đi Mỹ 🇺🇸<br />hành trình đưa chó mèo qua Mỹ</div>
+        </a>
+
+        <!-- 03 -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">🦮</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">Chăm sóc một chú chó bị mù</div>
         </div>
-        <div class="caption"><div class="name">Roadtrip cùng chó mèo</div></div>
-      </div>
 
-      <!-- 2.8 -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">08</span>
-          <span class="emoji">🐾</span>
-          <span class="soon-tag">coming soon</span>
+        <!-- 04 -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">🩺</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">Bảo hiểm cho chó / mèo</div>
         </div>
-        <div class="caption"><div class="name">Những điều Bơ dạy chị Thảo</div></div>
-      </div>
 
-      <!-- 2.9 -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">09</span>
-          <span class="emoji">🏥</span>
-          <span class="soon-tag">coming soon</span>
+        <!-- 05 -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">🕊️</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">An tử cho chó / mèo</div>
         </div>
-        <div class="caption"><div class="name">Chăm sóc thú cưng bị ốm<br/>chuyện Bơ vào ER</div></div>
-      </div>
 
-      <!-- bonus -->
-      <div class="card">
-        <div class="thumb soon">
-          <span class="num">10</span>
-          <span class="emoji">🧺</span>
-          <span class="soon-tag">coming soon</span>
+        <!-- 06 -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">📝</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">39/42 điều Bơ đã làm cùng chị Thảo</div>
         </div>
-        <div class="caption"><div class="name">Lặt vặt chuyện nuôi chó mèo<br/>du lịch, giường, đồ ăn…</div></div>
-      </div>
 
+        <!-- 07 -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">🚗</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">Roadtrip cùng chó mèo</div>
+        </div>
+
+        <!-- 08 -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">🐾</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">Những điều Bơ dạy chị Thảo</div>
+        </div>
+
+        <!-- 09 -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">🏥</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">Chăm sóc thú cưng bị ốm<br />chuyện Bơ vào ER</div>
+        </div>
+
+        <!-- 10 bonus -->
+        <div class="card">
+          <div class="thumb soon"><span class="emoji">🧺</span><span class="soon-tag">coming soon</span></div>
+          <div class="cap">Lặt vặt chuyện nuôi chó mèo<br />du lịch, giường, đồ ăn…</div>
+        </div>
+
+      </section>
     </main>
-
-    <footer>
-      made with ♡ by <a href="https://thaoshibe.github.io/">chị Shibe</a> &amp; anh Oong<br/>
-      for Bơ &amp; Mắm 🥑🐈
-    </footer>
   </div>
+
+  <script>
+    (function () {
+      var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var daysShort = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+      var now = new Date();
+      document.getElementById('weekday').textContent = days[now.getDay()];
+      document.getElementById('longdate').textContent = months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+      document.getElementById('topline').textContent = daysShort[now.getDay()] + ' ' + now.getDate() + '  🥑';
+
+      // live clock
+      function pad(n){ return n < 10 ? '0' + n : '' + n; }
+      function tick(){
+        var d = new Date();
+        document.getElementById('hh').textContent = pad(d.getHours());
+        document.getElementById('mm').textContent = pad(d.getMinutes());
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      // mini calendar
+      var y = now.getFullYear(), mo = now.getMonth();
+      document.getElementById('cal-month').textContent = months[mo] + ' ' + y;
+      var first = new Date(y, mo, 1).getDay();
+      var dim = new Date(y, mo + 1, 0).getDate();
+      var grid = document.getElementById('cal-grid');
+      var html = '';
+      ['S','M','T','W','T','F','S'].forEach(function (d) { html += '<span class="cal-dow">' + d + '</span>'; });
+      for (var i = 0; i < first; i++) html += '<span></span>';
+      for (var day = 1; day <= dim; day++) {
+        var isToday = day === now.getDate();
+        html += '<span class="cal-day' + (isToday ? ' today' : '') + '">' + day + '</span>';
+      }
+      grid.innerHTML = html;
+    })();
+  </script>
 </body>
 </html>
