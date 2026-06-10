@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>chó Bơ 🥑 | góc nhỏ của Bơ &amp; Mắm</title>
+  <meta property="og:title" content="chó Bơ 🥑" />
+  <meta property="og:description" content="Những câu chuyện nhỏ về Bơ, Mắm, và chuyện nuôi chó mèo." />
+  <meta property="og:image" content="./bo-di-my/our_journey_to_us.png" />
+  <link rel="icon" type="image/png" href="../images/bo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+  <style>
+    :root {
+      --bg: #d2e2ee;
+      --bg-2: #c2d7e7;
+      --card: #f6f3e4;
+      --card-edge: #e7e2cc;
+      --ink: #44617a;
+      --ink-soft: #6f8aa1;
+      --accent: #8fb4cf;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    /* ---- header ---- */
+    header { text-align: center; margin-bottom: 8px; }
+    .title {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0;
+      color: var(--ink);
+    }
+    .title .avo { display: inline-block; transform: translateY(2px); }
+    .subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      margin-top: 10px;
+    }
+
+    /* ---- tagline banner (like the screenshot) ---- */
+    .banner {
+      background: var(--card);
+      border: 1px solid var(--card-edge);
+      border-radius: 6px;
+      padding: 16px 22px;
+      margin: 28px auto 40px;
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 1.02rem;
+      color: var(--ink);
+      box-shadow: 0 6px 18px rgba(68, 97, 122, 0.08);
+    }
+    .banner .heart { color: #c98c99; margin: 0 10px; }
+
+    /* ---- gallery grid ---- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px 26px;
+    }
+    @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.22s ease;
+    }
+    .card:hover { transform: translateY(-6px); }
+
+    .thumb {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--card-edge);
+      box-shadow: 0 10px 24px rgba(68, 97, 122, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* placeholder (coming soon) thumbs */
+    .thumb.soon {
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.6), transparent 55%),
+        linear-gradient(160deg, #eef3ea 0%, #e3ecf2 100%);
+    }
+    .thumb .emoji { font-size: 3.4rem; opacity: 0.85; }
+    .thumb .soon-tag {
+      position: absolute;
+      bottom: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+      background: rgba(246, 243, 228, 0.9);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .num {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      background: rgba(246, 243, 228, 0.92);
+      padding: 2px 9px;
+      border-radius: 999px;
+    }
+
+    .caption {
+      margin-top: 14px;
+      text-align: center;
+      padding: 0 6px;
+    }
+    .caption .name {
+      font-weight: 600;
+      font-size: 1.02rem;
+      line-height: 1.35;
+      color: var(--ink);
+    }
+    .card.is-live .thumb { border-color: #b9cfdf; }
+    .card.is-live .caption .name { color: #34526b; }
+    .card:not(.is-live) { cursor: default; }
+    .card:not(.is-live):hover { transform: none; }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+    footer a { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="title">chó B<span class="avo">🥑</span></h1>
+      <div class="subtitle">~ góc nhỏ của Bơ &amp; Mắm ~</div>
+    </header>
+
+    <div class="banner">
+      <span class="heart">♡</span> mỗi tấm hình là một câu chuyện nhỏ <span class="heart">♡</span>
+    </div>
+
+    <main class="grid">
+
+      <!-- 2.1 -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">01</span>
+          <span class="emoji">🌱</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">Lời mở đầu</div></div>
+      </div>
+
+      <!-- 2.2 — LIVE -->
+      <a class="card is-live" href="./bo-di-my.html">
+        <div class="thumb">
+          <span class="num">02</span>
+          <img src="./bo-di-my/our_journey_to_us.png" alt="Bơ đi Mỹ" loading="lazy" />
+        </div>
+        <div class="caption"><div class="name">Cùng Bơ đi Mỹ 🇺🇸<br/>hành trình đưa chó mèo qua Mỹ</div></div>
+      </a>
+
+      <!-- 2.3 -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">03</span>
+          <span class="emoji">🦮</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">Chăm sóc một chú chó bị mù</div></div>
+      </div>
+
+      <!-- 2.4 -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">04</span>
+          <span class="emoji">🩺</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">Bảo hiểm cho chó / mèo</div></div>
+      </div>
+
+      <!-- 2.5 -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">05</span>
+          <span class="emoji">🕊️</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">An tử cho chó / mèo</div></div>
+      </div>
+
+      <!-- 2.6 -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">06</span>
+          <span class="emoji">📝</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">39/42 điều Bơ đã làm cùng chị Thảo</div></div>
+      </div>
+
+      <!-- 2.7 -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">07</span>
+          <span class="emoji">🚗</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">Roadtrip cùng chó mèo</div></div>
+      </div>
+
+      <!-- 2.8 -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">08</span>
+          <span class="emoji">🐾</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">Những điều Bơ dạy chị Thảo</div></div>
+      </div>
+
+      <!-- 2.9 -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">09</span>
+          <span class="emoji">🏥</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">Chăm sóc thú cưng bị ốm<br/>chuyện Bơ vào ER</div></div>
+      </div>
+
+      <!-- bonus -->
+      <div class="card">
+        <div class="thumb soon">
+          <span class="num">10</span>
+          <span class="emoji">🧺</span>
+          <span class="soon-tag">coming soon</span>
+        </div>
+        <div class="caption"><div class="name">Lặt vặt chuyện nuôi chó mèo<br/>du lịch, giường, đồ ăn…</div></div>
+      </div>
+
+    </main>
+
+    <footer>
+      made with ♡ by <a href="https://thaoshibe.github.io/">chị Shibe</a> &amp; anh Oong<br/>
+      for Bơ &amp; Mắm 🥑🐈
+    </footer>
+  </div>
+</body>
+</html>
