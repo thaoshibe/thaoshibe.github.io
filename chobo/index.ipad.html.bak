@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>cho Bơ 🥑 · góc nhỏ</title>
+<meta property="og:title" content="cho Bơ 🥑" />
+<meta property="og:description" content="Những câu chuyện nhỏ về Bơ, Mắm, và chuyện nuôi chó mèo." />
+<meta property="og:image" content="./bo-di-my/our_journey_to_us.png" />
+<link rel="icon" type="image/png" href="../images/bo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PALETTE  — soft cottagecore / pastel kawaii
+   blush, mint, cream, rose, avocado. Everything derives from these.
+   ============================================================ */
+:root{
+  --bg-1:#DCEBD6;        /* soft grass-mint */
+  --bg-2:#CDE6E2;        /* pale sky        */
+  --bg-3:#FAF6E7;        /* warm cream      */
+  --paper:#FBF8EC;
+  /* greens everywhere — accents reuse these names so the whole UI goes green */
+  --pink:#D2E1B4;        /* soft green (was shirt pink) */
+  --pink-soft:#E4EDCE;   /* very soft green wash */
+  --pink-deep:#7E9E58;   /* medium green */
+  --rose:#5E7C40;        /* deep green accent — headings, buttons */
+  --mint:#C6DD9F;        /* grass           */
+  --sage:#9CBE76;        /* tree green      */
+  --sage-deep:#516D38;   /* deep foliage    */
+  --tan:#C7A56A;         /* shiba — faint warm, used sparingly */
+  --tan-deep:#A9874C;
+  --sky:#A7CEC9;         /* sky accent      */
+  --ink:#3F4E2E;         /* deep green text (matches ink outlines) */
+  --ink-soft:#76845B;
+  --tile:rgba(252,250,240,.88);
+  --tile-strong:rgba(252,250,240,.92);
+  --hairline:rgba(110,100,70,.14);   /* faint warm paper edge */
+  --shadow:0 8px 22px rgba(70,85,45,.16);
+  --shadow-soft:0 3px 10px rgba(70,85,45,.12);
+  --radius-tile:5px;
+  --radius-widget:6px;
+  /* self-contained paper grain (grayscale noise) layered over every box */
+  --paper-noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:"Quicksand",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    linear-gradient(rgba(244,248,234,.30), rgba(222,236,213,.36)),
+    url('./images/gpt-image-1.png') center/cover fixed no-repeat,
+    #DCEBD6;
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(14px,3.2vh,42px);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ============================================================
+   DEVICE FRAME — a landscape iPad floating on desktop;
+   full-bleed only on phones (see media query below)
+   ============================================================ */
+.device{
+  position:relative;
+  width:100%;
+  max-width:1180px;
+  height:100%;
+  max-height:860px;
+  padding:0;
+  background:none;
+  border-radius:0;
+  box-shadow:none;
+}
+.screen{
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:4px;
+  overflow:hidden;
+  background:linear-gradient(160deg,#FCFAF0,#F4F0E0);
+  box-shadow:0 16px 46px rgba(70,85,45,.20);
+  border:1px solid rgba(110,100,70,.10);
+  display:flex;
+  flex-direction:column;
+}
+/* paper grain on the sheet + every box */
+.screen::after,.panel::after,.widget::after,.card::after,.gb-entry::after{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background-image:var(--paper-noise);background-size:180px 180px;
+  opacity:.05;mix-blend-mode:multiply;
+}
+
+/* soft drifting decorations behind everything */
+.wallpaper-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.deco{position:absolute;opacity:.85;filter:drop-shadow(0 4px 6px rgba(120,90,100,.08))}
+.float{animation:float 9s ease-in-out infinite}
+.float.b{animation-duration:11s;animation-delay:-3s}
+.float.c{animation-duration:13s;animation-delay:-6s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(6deg)}}
+@media (prefers-reduced-motion:reduce){.float{animation:none}}
+
+/* ============================================================
+   STATUS BAR
+   ============================================================ */
+.statusbar{
+  position:relative;z-index:3;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 26px 6px;
+  font-size:14px;font-weight:700;letter-spacing:.2px;
+  color:var(--ink);
+}
+.statusbar .left{display:flex;gap:10px;align-items:baseline}
+.statusbar .date{font-weight:500;color:var(--ink-soft)}
+.statusbar .right{display:flex;gap:8px;align-items:center}
+.statusbar svg{display:block}
+.battery{font-weight:600;font-size:13px;color:var(--ink-soft)}
+
+/* ============================================================
+   HOME GRID
+   ============================================================ */
+.home{
+  position:relative;z-index:2;
+  flex:1;
+  overflow:auto;
+  padding:10px clamp(16px,3.4vw,40px) 6px;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:1fr;
+  gap:clamp(12px,1.8vw,20px);
+  align-content:start;
+}
+.home::-webkit-scrollbar{width:0}
+
+/* ----- widgets ----- */
+.widget{
+  border-radius:var(--radius-widget);
+  background:var(--tile-strong);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--hairline);
+  box-shadow:var(--shadow-soft);
+  padding:16px 18px;
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease;
+  position:relative;overflow:hidden;
+  text-align:left;
+}
+.widget:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.widget:active{transform:scale(.985)}
+.widget:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+
+.w-note{grid-column:span 3;grid-row:span 2;
+  background:linear-gradient(160deg,rgba(252,247,228,.94),rgba(246,239,210,.92));}
+.w-note .quote{font-family:"Caveat",cursive;font-size:clamp(24px,3.4vw,40px);
+  line-height:1.05;color:var(--rose);font-weight:700;letter-spacing:.5px}
+.w-note .quote span{color:var(--sage-deep)}
+.w-note .sig{font-family:"Caveat",cursive;font-size:18px;color:var(--ink-soft);margin-top:10px}
+
+.w-clock{grid-column:span 3;grid-row:span 2;
+  background:linear-gradient(160deg,rgba(239,244,224,.94),rgba(226,236,203,.92));
+  display:flex;flex-direction:column;justify-content:center}
+.w-clock .wd{font-size:14px;font-weight:700;color:var(--rose);letter-spacing:1px;text-transform:uppercase}
+.w-clock .big{font-size:clamp(40px,7vw,76px);font-weight:600;line-height:.95;color:var(--ink);font-variant-numeric:tabular-nums}
+.w-clock .big small{font-size:.42em;font-weight:600;color:var(--ink-soft);margin-left:6px}
+.w-clock .dt{font-size:14px;color:var(--ink-soft);font-weight:600;margin-top:4px}
+
+.w-feature{grid-column:span 4;grid-row:span 2;
+  background:linear-gradient(160deg,rgba(252,250,240,.94),rgba(242,244,228,.92));}
+.w-feature .wtitle{font-size:13px;font-weight:700;color:var(--sage-deep);letter-spacing:.4px;display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.feature-list{display:flex;flex-direction:column;gap:9px}
+.feature-row{display:flex;align-items:center;gap:11px}
+.feature-dot{width:26px;height:26px;border-radius:5px;flex:none;display:grid;place-items:center;font-size:15px;
+  background:linear-gradient(160deg,var(--pink),var(--pink-deep));}
+.feature-row:nth-child(2) .feature-dot{background:linear-gradient(160deg,var(--mint),var(--sage))}
+.feature-row:nth-child(3) .feature-dot{background:linear-gradient(160deg,#C6DD9F,#7E9E58)}
+.feature-row b{font-weight:600;font-size:14.5px}
+.feature-row em{font-style:normal;color:var(--ink-soft);font-size:12.5px;display:block;margin-top:1px}
+
+.w-photo{grid-column:span 2;grid-row:span 2;padding:0;
+  background:linear-gradient(160deg,rgba(220,232,195,.94),rgba(199,220,164,.92));}
+.w-photo .frame{position:absolute;inset:14px;border-radius:5px;background:rgba(255,255,255,.78);
+  display:grid;place-items:center;box-shadow:0 2px 8px rgba(120,90,100,.14);overflow:hidden}
+.w-photo .frame img{width:100%;height:100%;object-fit:cover}
+.w-photo .scene{font-size:46px;filter:drop-shadow(0 6px 8px rgba(120,90,100,.12))}
+.w-photo .cap{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-family:"Caveat",cursive;
+  font-size:20px;color:var(--sage-deep);text-shadow:0 1px 3px rgba(255,255,255,.7)}
+
+/* ----- app icons ----- */
+.app{
+  grid-column:span 1;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  background:none;border:none;cursor:pointer;padding:2px 0;font-family:inherit;
+}
+.app .glyph{
+  width:100%;max-width:74px;aspect-ratio:1;border-radius:8px;
+  display:grid;place-items:center;font-size:30px;
+  box-shadow:var(--shadow-soft),0 1px 0 rgba(255,255,255,.7) inset;
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.app:hover .glyph{transform:translateY(-3px);box-shadow:var(--shadow)}
+.app:active .glyph{transform:scale(.9)}
+.app:focus-visible{outline:none}
+.app:focus-visible .glyph{outline:3px solid var(--rose);outline-offset:3px}
+.app .label{font-size:12px;font-weight:600;color:var(--ink);text-shadow:0 1px 2px rgba(255,255,255,.6)}
+
+/* icon color families — all in the green / cream / sky-green family */
+.g-pink{background:linear-gradient(160deg,#EAF1DA,#CFE0AE)}
+.g-rose{background:linear-gradient(160deg,#C9DDA0,#9CBE76)}
+.g-mint{background:linear-gradient(160deg,#E4F1D6,#C6DD9F)}
+.g-sage{background:linear-gradient(160deg,#C6DD9F,#9CBE76)}
+.g-cream{background:linear-gradient(160deg,#FBF7E6,#ECE7C4)}
+.g-lilac{background:linear-gradient(160deg,#DEE9CD,#BAD08F)}
+.g-sky{background:linear-gradient(160deg,#DDEDE6,#B7D8CE)}
+
+/* page dots */
+.dots{position:relative;z-index:2;display:flex;gap:7px;justify-content:center;padding:6px 0 10px}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(120,90,100,.25)}
+.dots i.on{background:rgba(120,90,100,.55)}
+
+/* ============================================================
+   DOCK
+   ============================================================ */
+.dock{
+  position:relative;z-index:2;
+  margin:0 auto clamp(12px,2.4vh,22px);
+  display:flex;gap:clamp(14px,2vw,26px);
+  padding:12px clamp(16px,2.2vw,26px);
+  border-radius:8px;
+  background:rgba(255,255,255,.30);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--hairline);
+  box-shadow:var(--shadow-soft);
+}
+.dock .app .glyph{max-width:60px;border-radius:7px;font-size:26px}
+.dock .app .label{display:none}
+
+/* ============================================================
+   FAB
+   ============================================================ */
+.fab{
+  position:absolute;z-index:4;right:22px;bottom:22px;
+  width:54px;height:54px;border-radius:12px;border:none;cursor:pointer;
+  background:linear-gradient(160deg,var(--rose),var(--pink-deep));
+  color:#fff;font-size:28px;font-weight:600;line-height:1;
+  box-shadow:0 8px 18px rgba(94,124,64,.42);
+  transition:transform .16s ease;
+}
+.fab:hover{transform:scale(1.06)}
+.fab:active{transform:scale(.94)}
+.fab:focus-visible{outline:3px solid #fff;outline-offset:2px}
+
+/* ============================================================
+   APP PANEL (opening an app = blog content)
+   ============================================================ */
+.panel{
+  position:absolute;inset:0;z-index:10;
+  background:
+    radial-gradient(120% 80% at 85% 0%, #E4F0DC 0%, transparent 55%),
+    linear-gradient(160deg,#FCF8EC,#F1F4E2);
+  display:flex;flex-direction:column;
+  opacity:0;transform:scale(.86);transform-origin:50% 50%;
+  pointer-events:none;
+  transition:opacity .26s ease, transform .3s cubic-bezier(.2,.8,.25,1);
+}
+.panel.open{opacity:1;transform:scale(1);pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.panel{transition:opacity .2s ease}}
+.panel-bar{
+  display:flex;align-items:center;gap:14px;
+  padding:18px clamp(18px,4vw,40px) 10px;
+}
+.panel-bar .picon{width:40px;height:40px;border-radius:7px;display:grid;place-items:center;font-size:21px;flex:none}
+.panel-bar h2{margin:0;font-size:clamp(20px,3vw,28px);font-weight:700}
+.panel-bar .close{
+  margin-left:auto;width:38px;height:38px;border-radius:8px;border:none;cursor:pointer;
+  background:rgba(255,255,255,.7);color:var(--ink);font-size:18px;
+  box-shadow:var(--shadow-soft);transition:transform .15s ease;
+}
+.panel-bar .close:hover{transform:scale(1.08)}
+.panel-bar .close:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.panel-body{
+  flex:1;overflow:auto;
+  padding:6px clamp(18px,4vw,40px) 34px;
+  font-size:16px;line-height:1.65;color:var(--ink);
+}
+
+/* content bits reused inside panels */
+.card{
+  position:relative;
+  background:rgba(252,250,239,.95);border-radius:6px;padding:18px 20px;margin:0 0 14px;
+  box-shadow:var(--shadow-soft);border:1px solid var(--hairline);
+  cursor:pointer;transition:transform .16s ease,box-shadow .16s ease;
+  text-align:left;width:100%;font-family:inherit;display:block;
+  color:inherit;text-decoration:none;
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.card.soon{cursor:default;opacity:.62}
+.card.soon:hover{transform:none;box-shadow:var(--shadow-soft)}
+.card .meta{font-size:12.5px;color:var(--sage-deep);font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.card h3{margin:6px 0 6px;font-size:20px;font-weight:700;color:var(--ink)}
+.card p{margin:0;color:var(--ink-soft);font-size:14.5px}
+.tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tag{font-size:12.5px;font-weight:600;color:var(--rose);background:var(--pink-soft);padding:5px 11px;border-radius:5px}
+a.tag{text-decoration:none}
+.prose h3{font-family:"Caveat",cursive;font-size:30px;color:var(--rose);margin:18px 0 6px}
+.prose p{margin:0 0 14px;max-width:62ch}
+.lede{font-size:18px;color:var(--ink)}
+.empty{display:grid;place-items:center;text-align:center;height:100%;padding:30px;color:var(--ink-soft)}
+.empty .e-emoji{font-size:54px;margin-bottom:14px}
+.empty h3{font-family:"Caveat",cursive;font-size:34px;color:var(--rose);margin:0 0 8px}
+.empty code{background:#fff;padding:2px 7px;border-radius:7px;font-size:13px;color:var(--sage-deep)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.gallery .gi{aspect-ratio:1;border-radius:6px;display:grid;place-items:center;font-size:40px;box-shadow:var(--shadow-soft);overflow:hidden;position:relative}
+.gallery .gi img{width:100%;height:100%;object-fit:cover}
+.gallery .gi .gi-cap{position:absolute;left:0;right:0;bottom:0;padding:6px 8px;font-size:11.5px;font-weight:600;
+  color:#fff;background:linear-gradient(transparent,rgba(63,78,46,.62));text-align:left}
+.field{width:100%;border:1px solid rgba(120,90,100,.18);background:#fff;border-radius:6px;padding:12px 14px;font:inherit;color:var(--ink);margin-bottom:10px}
+.field:focus{outline:2px solid var(--pink-deep);outline-offset:1px}
+.btn{border:none;cursor:pointer;font:inherit;font-weight:700;color:#fff;
+  background:linear-gradient(160deg,var(--rose),var(--pink-deep));
+  padding:12px 22px;border-radius:7px;box-shadow:var(--shadow-soft);transition:transform .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.gb-entry{position:relative;background:rgba(252,250,239,.95);border-radius:6px;padding:12px 15px;margin-bottom:10px;box-shadow:var(--shadow-soft);border:1px solid var(--hairline)}
+.gb-entry b{font-family:"Caveat",cursive;font-size:20px;color:var(--rose)}
+.gb-entry span{display:block;color:var(--ink);margin-top:2px;font-size:15px}
+
+/* tiny screens: fill viewport, fewer columns */
+@media (max-width:680px){
+  body{padding:0;align-items:stretch}
+  .device{width:100%;max-height:none;aspect-ratio:auto;height:100dvh;border-radius:0;padding:0;box-shadow:none}
+  .screen{border-radius:0}
+  .home{grid-template-columns:repeat(4,1fr)}
+  .w-note,.w-clock{grid-column:span 4}
+  .w-feature{grid-column:span 4}
+  .w-photo{grid-column:span 2}
+}
+</style>
+</head>
+<body>
+<div class="device" role="application" aria-label="cho Bơ — màn hình chính kiểu iPad">
+  <div class="screen">
+
+    <!-- status bar -->
+    <div class="statusbar">
+      <div class="left">
+        <span id="sb-time">3:48</span>
+        <span class="date" id="sb-date">CN · 31 Th8</span>
+      </div>
+      <div class="right">
+        <span class="battery">Bơ &amp; Mắm ♡</span>
+        <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true"><path d="M10 14C12 11 16 11 18 14H2C4 11 8 11 10 14Z" fill="#5C4F55" opacity=".55"/><path d="M10 9C12.5 6 16.5 6 19 9" stroke="#5C4F55" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/></svg>
+        <svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><rect x="1" y="3" width="20" height="9" rx="3" fill="none" stroke="#5C4F55" stroke-width="1.4" opacity=".55"/><rect x="3" y="5" width="13" height="5" rx="1.5" fill="#7C9B66"/><rect x="22.5" y="6" width="2" height="3" rx="1" fill="#5C4F55" opacity=".55"/></svg>
+      </div>
+    </div>
+
+    <!-- HOME GRID -->
+    <main class="home" id="home">
+
+      <!-- handwritten note widget -->
+      <button class="widget w-note" data-app="note">
+        <div class="quote">thương một bé<br>cún hay mèo<br><span>là cả bầu trời</span> ✿</div>
+        <div class="sig">— cho Bơ 🥑</div>
+      </button>
+
+      <!-- live clock widget -->
+      <button class="widget w-clock" data-app="clock">
+        <div class="wd" id="cw-day">CHỦ NHẬT</div>
+        <div class="big" id="cw-time">3:48</div>
+        <div class="dt" id="cw-date">31 tháng 8</div>
+      </button>
+
+      <!-- app row 1 -->
+      <button class="app" data-app="posts"><span class="glyph g-rose">✏️</span><span class="label">bài viết</span></button>
+      <button class="app" data-app="about"><span class="glyph g-mint">🌷</span><span class="label">về Bơ &amp; Mắm</span></button>
+      <button class="app" data-app="gallery"><span class="glyph g-cream">🖼️</span><span class="label">album ảnh</span></button>
+      <button class="app" data-app="guestbook"><span class="glyph g-sage">💌</span><span class="label">sổ lưu bút</span></button>
+      <button class="app" data-app="archive"><span class="glyph g-sky">🏷️</span><span class="label">lưu trữ</span></button>
+      <button class="app" data-app="contact"><span class="glyph g-lilac">✉️</span><span class="label">liên hệ</span></button>
+
+      <!-- featured posts widget -->
+      <button class="widget w-feature" data-app="posts">
+        <div class="wtitle">✦ mới nhất từ blog</div>
+        <div class="feature-list" id="feature-list">
+          <div class="feature-row"><span class="feature-dot">🐾</span><div><b>đang tải…</b><em>chờ một chút nhé</em></div></div>
+        </div>
+      </button>
+
+      <!-- photo widget -->
+      <button class="widget w-photo" data-app="gallery">
+        <div class="frame"><span class="scene">🐾</span></div>
+        <div class="cap">khoảnh khắc ♡</div>
+      </button>
+
+      <!-- app row 2 -->
+      <button class="app" data-app="pets"><span class="glyph g-pink">🐶</span><span class="label">Bơ &amp; Mắm</span></button>
+      <button class="app" data-app="contact"><span class="glyph g-lilac">📸</span><span class="label">Instagram</span></button>
+
+    </main>
+
+    <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+
+    <!-- dock -->
+    <nav class="dock" aria-label="dock">
+      <button class="app" data-app="home"><span class="glyph g-rose">🏡</span></button>
+      <button class="app" data-app="posts"><span class="glyph g-mint">✏️</span></button>
+      <button class="app" data-app="gallery"><span class="glyph g-cream">🖼️</span></button>
+      <button class="app" data-app="search"><span class="glyph g-sky">🔍</span></button>
+    </nav>
+
+    <button class="fab" data-app="howto" aria-label="cách thêm bài viết">+</button>
+
+    <!-- the app/blog panel -->
+    <section class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title">
+      <div class="panel-bar">
+        <span class="picon" id="panel-icon">✏️</span>
+        <h2 id="panel-title">Bài viết</h2>
+        <button class="close" id="panel-close" aria-label="đóng">✕</button>
+      </div>
+      <div class="panel-body" id="panel-body"></div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+/* ---------- live clock (Vietnamese) ---------- */
+function tick(){
+  const now=new Date();
+  let h=now.getHours(), m=now.getMinutes();
+  const ampm=h>=12?'PM':'AM'; let h12=h%12; if(h12===0)h12=12;
+  const mm=String(m).padStart(2,'0');
+  const days=['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
+  const sbDay=['CN','T2','T3','T4','T5','T6','T7'][now.getDay()];
+  const d=now.getDate(), mon=now.getMonth()+1;
+  document.getElementById('sb-time').textContent=`${h12}:${mm}`;
+  document.getElementById('sb-date').textContent=`${sbDay} · ${d} Th${mon}`;
+  document.getElementById('cw-day').textContent=days[now.getDay()].toUpperCase();
+  document.getElementById('cw-time').innerHTML=`${h12}:${mm}<small>${ampm}</small>`;
+  document.getElementById('cw-date').textContent=`${d} tháng ${mon}`;
+}
+tick(); setInterval(tick,1000*20);
+
+/* ---------- helpers ---------- */
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+const esc=escapeHtml;
+function postHref(p){return './post.html?post='+encodeURIComponent(p.slug);}
+function isLive(p){return p.status==='live';}
+
+/* ---------- live data from posts.json ---------- */
+let POSTS=[], SITE={};
+fetch('./posts.json').then(r=>r.json()).then(data=>{
+  SITE=data.site||{}; POSTS=data.posts||[];
+  if(SITE.brand){document.title=SITE.brand+' · góc nhỏ';}
+  renderFeature();
+  // if a content panel is already open, refresh it now that data arrived
+  const a=APPS[currentApp];
+  if(panel.classList.contains('open') && a && a.render){
+    pBody.innerHTML=a.render(); if(a.after)a.after();
+  }
+}).catch(e=>{console.error('không tải được posts.json',e);});
+
+/* favourites widget on the home screen */
+function renderFeature(){
+  const el=document.getElementById('feature-list'); if(!el||!POSTS.length)return;
+  el.innerHTML=POSTS.slice(0,3).map(p=>
+    `<div class="feature-row"><span class="feature-dot">${esc(p.emoji||'🐾')}</span>`
+    +`<div><b>${esc(p.title)}</b><em>${esc(p.eyebrow||'')}`
+    +`${p.dateLabel?' · '+esc(p.dateLabel):(isLive(p)?'':' · sắp ra mắt')}</em></div></div>`
+  ).join('');
+}
+
+/* a reusable post card (live → links to post.html, soon → greyed) */
+function postCard(p){
+  const live=isLive(p);
+  const inner=
+      `<span class="meta">${esc(p.eyebrow||'')}${p.dateLabel?' · '+esc(p.dateLabel):''}</span>`
+    + `<h3>${esc(p.emoji||'')} ${esc(p.title)}</h3>`
+    + (p.excerpt?`<p>${esc(p.excerpt)}</p>`:'')
+    + (live?'':'<span class="tag" style="margin-top:10px;display:inline-block">sắp ra mắt</span>');
+  return live
+    ? `<a class="card" href="${postHref(p)}">${inner}</a>`
+    : `<div class="card soon">${inner}</div>`;
+}
+
+/* ---------- views ---------- */
+function postsList(){
+  if(!POSTS.length) return `<div class="empty"><div class="e-emoji">🐾</div><h3>đang tải…</h3><p>nếu mở bằng <code>file://</code> thì cần một máy chủ nhỏ.<br>Chạy <code>python3 -m http.server</code> rồi mở qua http.</p></div>`;
+  return `<div class="prose"><p class="lede">Góc nhỏ cho những câu chuyện dài. Chạm vào một bài để đọc nhé ♡</p></div>`
+    + POSTS.map(postCard).join('');
+}
+
+function archiveView(){
+  if(!POSTS.length) return postsList();
+  const groups={};
+  POSTS.forEach(p=>{const k=p.eyebrow||'khác';(groups[k]=groups[k]||[]).push(p);});
+  return `<div class="prose"><p class="lede">Duyệt bài viết theo chủ đề.</p></div>`
+    + Object.keys(groups).map(k=>
+        `<div class="prose"><h3>${esc(k)}</h3></div>`
+        + groups[k].map(postCard).join('')
+      ).join('');
+}
+
+function galleryView(){
+  const withCover=POSTS.filter(p=>p.cover);
+  const cls=['g-mint','g-pink','g-cream','g-sky','g-lilac','g-rose','g-sage'];
+  const tiles=POSTS.map((p,i)=>{
+    const body=p.cover
+      ? `<img src="${esc(p.cover)}" alt="${esc(p.title)}" loading="lazy">`
+      : esc(p.emoji||'🐾');
+    return `<div class="gi ${p.cover?'':cls[i%cls.length]}">${body}<span class="gi-cap">${esc(p.title)}</span></div>`;
+  }).join('');
+  return `<div class="prose"><p class="lede">Vài khoảnh khắc của Bơ &amp; Mắm.</p></div>`
+    + `<div class="gallery">${tiles || ''}</div>`
+    + (withCover.length?'':`<p style="color:var(--ink-soft);margin-top:14px">Thêm ảnh <code>cover</code> cho bài viết trong <code>posts.json</code> để hiện ở đây nhé.</p>`);
+}
+
+function searchView(){
+  return `<div class="prose"><p class="lede">Tìm bài viết theo tên hoặc chủ đề ♡</p></div>
+    <input class="field" id="q" placeholder="gõ để tìm… (vd: Bơ, đi Mỹ, bảo hiểm)" oninput="doSearch()">
+    <div id="sresult"></div>`;
+}
+window.doSearch=function(){
+  const q=(document.getElementById('q').value||'').trim().toLowerCase();
+  const el=document.getElementById('sresult'); if(!el)return;
+  if(!q){el.innerHTML='';return;}
+  const hits=POSTS.filter(p=>((p.title||'')+' '+(p.excerpt||'')+' '+(p.eyebrow||'')).toLowerCase().includes(q));
+  el.innerHTML=hits.length
+    ? hits.map(postCard).join('')
+    : `<p style="color:var(--ink-soft)">Không tìm thấy bài nào cho “${esc(q)}”.</p>`;
+};
+
+/* guestbook — entries last only for the visit (needs a backend to persist) */
+let guestbook=[
+  {name:'mina',msg:'góc nhỏ dễ thương nhất internet ♡ Bơ với Mắm đáng yêu quá!'},
+  {name:'theo',msg:'đọc bài Bơ đi Mỹ mà thương ghê. cảm ơn chị Thảo đã viết.'},
+];
+function guestbookView(){
+  return `<div class="prose"><p class="lede">để lại một lời nhắn nhỏ — chào Bơ &amp; Mắm, kể một câu chuyện, gì cũng được ♡</p></div>
+    <input class="field" id="gb-name" placeholder="tên của bạn" maxlength="24">
+    <textarea class="field" id="gb-msg" placeholder="lời nhắn của bạn…" rows="3" maxlength="200"></textarea>
+    <button class="btn" onclick="addEntry()">ký vào sổ lưu bút</button>
+    <div id="gb-list" style="margin-top:20px"></div>`;
+}
+function renderGB(){
+  const el=document.getElementById('gb-list'); if(!el)return;
+  el.innerHTML=guestbook.map(e=>`<div class="gb-entry"><b>${esc(e.name)}</b><span>${esc(e.msg)}</span></div>`).join('');
+}
+window.addEntry=function(){
+  const n=document.getElementById('gb-name').value.trim()||'ẩn danh';
+  const m=document.getElementById('gb-msg').value.trim();
+  if(!m)return;
+  guestbook.unshift({name:n,msg:m});
+  document.getElementById('gb-name').value='';
+  document.getElementById('gb-msg').value='';
+  renderGB();
+};
+
+const APPS={
+  home:    {icon:'🏡',iconCls:'g-rose',title:'Trang chính',close:true},
+  note:    {icon:'✿',iconCls:'g-cream',title:'Một lời nhắn',html:`<div class="empty"><div class="e-emoji">🌼</div><h3>thương một bé cún hay mèo là cả bầu trời</h3><p>Chăm những điều nhỏ bé mỗi ngày — một bát nước sạch, một cái xoa đầu, một câu chuyện được kể lại ♡</p></div>`},
+  clock:   {icon:'🕰️',iconCls:'g-pink',title:'Bây giờ',html:`<div class="prose"><p class="lede">Bây giờ là giờ đẹp nhất để ôm thú cưng một cái ♡</p><p>Đồng hồ này chạy theo giờ máy của người ghé thăm — bạn có thể đổi nó thành lịch đăng bài hay một ngày đếm ngược.</p></div>`},
+  posts:   {icon:'✏️',iconCls:'g-rose',title:'Bài viết',render:postsList},
+  about:   {icon:'🌷',iconCls:'g-mint',title:'Về Bơ & Mắm',html:`<div class="prose"><h3>chào, đây là góc nhỏ của Bơ &amp; Mắm ♡</h3><p class="lede">một chú chó tên Bơ 🥑 và một bé mèo tên Mắm.</p><p>Đây là nơi chị Thảo lưu lại những câu chuyện nhỏ về chuyện nuôi chó mèo — từ hành trình đưa Bơ &amp; Mắm qua Mỹ, những đêm vào viện, đến 1001 điều nhỏ bé mà đáng nhớ mỗi ngày.</p><p>Pha một tách trà, ngồi xuống, và ở lại lâu bao nhiêu cũng được nhé.</p><div class="tagrow"><span class="tag">#nuôichómèo</span><span class="tag">#Bơ</span><span class="tag">#Mắm</span><span class="tag">#chịThảo</span></div></div>`},
+  pets:    {icon:'🐶',iconCls:'g-pink',title:'Bơ & Mắm',html:`<div class="prose"><h3>Bơ 🐶🥑</h3><p>Chú chó nhỏ, là lý do cho cả góc nhỏ này. Đi cùng chị Thảo qua nửa vòng trái đất, và dạy chị rất nhiều điều về yêu thương.</p><h3>Mắm 🐱</h3><p>Bé mèo của nhà — êm ái, lặng lẽ, và luôn ở đó những lúc cần nhất.</p><div class="tagrow"><span class="tag">#Bơ</span><span class="tag">#Mắm</span></div></div>`},
+  gallery: {icon:'🖼️',iconCls:'g-cream',title:'Album ảnh',render:galleryView},
+  guestbook:{icon:'💌',iconCls:'g-sage',title:'Sổ lưu bút',render:guestbookView,after:renderGB},
+  archive: {icon:'🏷️',iconCls:'g-sky',title:'Lưu trữ',render:archiveView},
+  search:  {icon:'🔍',iconCls:'g-sky',title:'Tìm kiếm',render:searchView},
+  contact: {icon:'✉️',iconCls:'g-lilac',title:'Liên hệ',html:`<div class="prose"><p class="lede">nói lời chào nhé ♡</p><p>Tìm Bơ, Mắm và chị Thảo ở đây:</p><div class="tagrow"><a class="tag" href="https://www.instagram.com/avoshibe/" target="_blank" rel="noopener">Instagram</a><a class="tag" href="https://thaoshibe.github.io/" target="_blank" rel="noopener">chị Thảo</a></div></div>`},
+  howto:   {icon:'＋',iconCls:'g-rose',title:'Thêm bài viết',html:`<div class="prose">
+      <p class="lede">Cả màn hình này là một file HTML, còn nội dung tách riêng ra. Thêm bài rất nhẹ nhàng ♡</p>
+      <h3>thêm một bài viết</h3><p>Viết nội dung dưới dạng markdown trong <code>posts/&lt;slug&gt;.md</code>, rồi thêm một dòng vào <code>posts.json</code> (hoặc đổi một mục <code>"soon"</code> thành <code>"live"</code>). Bài sẽ tự hiện trong app <b>Bài viết</b> và widget mới nhất.</p>
+      <h3>đổi giao diện</h3><p>Màu sắc nằm trong khối <code>:root</code> ở đầu file <code>index.html</code> — đổi các mã màu pastel là cả màn hình đổi theo.</p>
+      <h3>đăng lên mạng</h3><p>Đã chạy sẵn trên GitHub Pages. Sổ lưu bút hiện chỉ lưu trong lúc ghé thăm — muốn lưu thật cần thêm một backend nhỏ.</p>
+    </div>`},
+};
+
+/* ---------- panel open / close ---------- */
+const panel=document.getElementById('panel');
+const pBody=document.getElementById('panel-body');
+const pTitle=document.getElementById('panel-title');
+const pIcon=document.getElementById('panel-icon');
+let lastFocus=null, currentApp='posts';
+
+function setPanel(key){
+  const a=APPS[key]; if(!a)return;
+  currentApp=key;
+  pTitle.textContent=a.title;
+  pIcon.textContent=a.icon;
+  pIcon.className='picon '+(a.iconCls||'g-rose');
+  if(a.close){ closePanel(); return; }
+  pBody.innerHTML = a.render ? a.render() : (a.html||'');
+  if(a.after) a.after();
+  pBody.scrollTop=0;
+}
+function openApp(key,originEl){
+  if(key==='home'){closePanel();return;}
+  lastFocus=originEl||null;
+  setPanel(key);
+  if(APPS[key] && APPS[key].close) return; // home: nothing to open
+  if(originEl){
+    const r=originEl.getBoundingClientRect();
+    const s=panel.getBoundingClientRect();
+    panel.style.transformOrigin=`${r.left+r.width/2-s.left}px ${r.top+r.height/2-s.top}px`;
+  } else { panel.style.transformOrigin='50% 50%'; }
+  panel.classList.add('open');
+  document.getElementById('panel-close').focus();
+}
+function closePanel(){
+  panel.classList.remove('open');
+  if(lastFocus){lastFocus.focus();lastFocus=null;}
+}
+document.getElementById('panel-close').addEventListener('click',closePanel);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});
+
+document.querySelectorAll('[data-app]').forEach(el=>{
+  el.addEventListener('click',()=>openApp(el.dataset.app,el));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>thương nhớ Bơ 🥑</title>
+  <link rel="icon" type="image/png" href="../images/bo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" />
+  <link rel="stylesheet" href="./theme.css" />
+</head>
+<body>
+
+  <div class="post-topbar">
+    <div class="post-topbar-inner">
+      <a class="back-btn" href="./index.html">← tất cả bài viết</a>
+      <a class="post-topbar-brand" href="./index.html">thương nhớ Bơ 🥑</a>
+    </div>
+  </div>
+
+  <article class="post">
+    <header class="post-header" id="post-header" hidden>
+      <div class="post-emoji" id="post-emoji"></div>
+      <h1 class="post-title" id="post-title"></h1>
+      <div class="post-meta" id="post-meta"></div>
+      <hr class="post-divider" />
+    </header>
+
+    <div class="post-content" id="post-content">
+      <div class="post-status">đang tải…</div>
+    </div>
+
+    <footer class="post-foot">
+      <a href="./index.html">← về trang chính · thương nhớ Bơ 🥑</a>
+    </footer>
+  </article>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+  <script>
+  (function () {
+    var params  = new URLSearchParams(location.search);
+    var slug    = params.get('post');
+    var content = document.getElementById('post-content');
+
+    if (!slug || !/^[a-z0-9\-]+$/i.test(slug)) {
+      content.innerHTML = '<div class="post-status">Không tìm thấy bài viết. <a href="./index.html">← về trang chính</a></div>';
+      return;
+    }
+
+    // load manifest (for title/date/author) + the markdown body in parallel
+    Promise.all([
+      fetch('./posts.json').then(function (r) { return r.json(); }),
+      fetch('./posts/' + slug + '.md').then(function (r) {
+        if (!r.ok) throw new Error('not found');
+        return r.text();
+      })
+    ]).then(function (res) {
+      var manifest = res[0];
+      var md       = res[1];
+      var meta     = (manifest.posts || []).find(function (p) { return p.slug === slug; }) || {};
+      var site     = manifest.site || {};
+
+      // ── header from manifest metadata ──
+      if (meta.title) {
+        document.getElementById('post-emoji').textContent = meta.emoji || '';
+        document.getElementById('post-title').textContent = meta.title;
+        document.title = meta.title + ' · ' + (site.brand || 'thương nhớ Bơ 🥑');
+        var metaEl = document.getElementById('post-meta');
+        var bits = '';
+        if (site.avatar) bits += '<img src="' + site.avatar + '" alt="" />';
+        bits += '<span>' + (site.author || '') + (meta.dateLabel ? ' · ' + meta.dateLabel : '') + '</span>';
+        metaEl.innerHTML = bits;
+        document.getElementById('post-header').hidden = false;
+      }
+
+      // ── render markdown ──
+      marked.setOptions({ gfm: true, breaks: false });
+      content.innerHTML = marked.parse(md);
+
+      // ── turn standalone images into <figure>, alt text → <figcaption> ──
+      content.querySelectorAll('img').forEach(function (img) {
+        var p = img.closest('p');
+        if (!p) return;
+        // standalone == the paragraph has no text other than the image
+        if (p.textContent.trim() !== '') return;
+        var fig = document.createElement('figure');
+        // keep the wrapping <a> (Notion links image to full size) if present
+        var node = img.parentElement && img.parentElement.tagName === 'A' ? img.parentElement : img;
+        fig.appendChild(node.cloneNode(true));
+        var alt = img.getAttribute('alt');
+        if (alt && alt.trim()) {
+          var cap = document.createElement('figcaption');
+          cap.textContent = alt.trim();
+          fig.appendChild(cap);
+        }
+        p.replaceWith(fig);
+      });
+
+      // smooth-scroll for in-page anchors (e.g. the #english jump)
+      content.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var t = document.getElementById(a.getAttribute('href').slice(1));
+          if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+        });
+      });
+    }).catch(function () {
+      content.innerHTML = '<div class="post-status">Bài viết này chưa có nội dung. <a href="./index.html">← về trang chính</a></div>';
+      document.getElementById('post-header').hidden = true;
+    });
+  })();
+  </script>
+
+</body>
+</html>
