@@ -12,12 +12,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face{
+  font-family:"Thao Hand Rough";
+  src:url("./fonts/thao-hand-rough.ttf") format("truetype");
+  font-display:swap;
+}
 :root{
   --ink:#3F4E2E; --ink-soft:#76845B; --rose:#5E7C40; --sage-deep:#516D38;
-  --hairline:rgba(255,255,255,.55);
-  --glass-edge:rgba(255,255,255,.62);
-  --shadow:0 12px 30px rgba(70,85,45,.20);
-  --shadow-soft:0 4px 12px rgba(70,85,45,.13);
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -25,9 +26,9 @@ body{
   margin:0;font-family:"Quicksand",system-ui,-apple-system,"Segoe UI",sans-serif;
   color:var(--ink);-webkit-font-smoothing:antialiased;
   background:#e0ead0;min-height:100dvh;
-  display:flex;align-items:flex-start;justify-content:flex-end;padding:clamp(12px,3vh,40px);padding-top:0;
+  padding:clamp(28px,6vw,78px);
+  display:flex;justify-content:flex-end;align-items:flex-start;
 }
-/* sharp, slightly faded wallpaper behind the container */
 body::before{
   content:"";position:fixed;inset:0;z-index:-1;
   background:
@@ -35,140 +36,61 @@ body::before{
     #cfe0b8 url('./images/gpt-image-1.png') center/cover no-repeat;
 }
 
-/* ===== centered bounding-box container ===== */
-.device{position:relative;width:min(92vw,340px);height:min(86vh,560px)}
-.screen{
-  position:relative;width:100%;height:100%;
-  border-radius:26px;overflow:hidden;
-  /* its own (smaller) copy of the wallpaper */
-  background:#cfe0b8 url('./images/gpt-image-1.png') center/cover no-repeat;
-  box-shadow:var(--shadow);
-  display:flex;flex-direction:column;padding:clamp(14px,2.2vw,22px);
+.page{width:min(48vw,560px);text-align:right;text-shadow:0 1px 9px rgba(255,255,255,.72)}
+.post-grid{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-direction:column;gap:clamp(13px,1.7vw,21px);
 }
-/* hand-drawn wobbly white outline */
-.frame-draw{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;
-  filter:drop-shadow(0 1px 1.5px rgba(80,90,55,.22))}
-
-.head{flex:none;text-align:center;padding:4px 6px 12px;text-shadow:0 1px 6px rgba(255,255,255,.7)}
-.head .t{font-size:clamp(20px,3vw,26px);font-weight:700;color:var(--rose)}
-.head .s{font-size:12.5px;color:var(--ink-soft);font-weight:600;margin-top:3px}
-
-/* translucent content panel inside the container */
-.content{
-  flex:1;display:flex;flex-direction:column;min-height:0;
-  background:linear-gradient(160deg,rgba(252,250,240,.58),rgba(242,244,228,.52));
-  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
-  border:1px solid var(--hairline);border-radius:16px;box-shadow:var(--shadow-soft);
-  padding:13px 14px;
+.post-grid li{min-width:0}
+.widget{
+  display:block;color:inherit;text-decoration:none;
+  font-family:"Thao Hand Rough","Quicksand",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:clamp(25px,3vw,40px);font-weight:400;line-height:1.14;letter-spacing:-.01em;word-spacing:.08em;
 }
-.content .wtitle{flex:none;font-size:13px;font-weight:700;letter-spacing:.4px;color:var(--sage-deep);margin:0 2px 9px}
-.plist{flex:1;overflow:auto;display:flex;flex-direction:column;gap:2px}
-.plist::-webkit-scrollbar{width:5px}
-.plist::-webkit-scrollbar-thumb{background:rgba(83,111,56,.22);border-radius:99px}
-.prow{display:flex;align-items:center;gap:10px;padding:9px 6px;border-radius:9px;text-decoration:none;color:var(--ink);transition:background .15s ease}
-a.prow:hover{background:rgba(255,255,255,.55)}
-.prow .pe{font-size:18px;flex:none;width:24px;text-align:center}
-.prow .pcol{min-width:0}
-.prow b{font-weight:600;font-size:14px;display:block;line-height:1.25}
-.prow em{font-style:normal;font-size:11.5px;color:var(--ink-soft);display:block;margin-top:1px}
-.prow.soon{opacity:.55}
-.prow .soon-tag{margin-left:auto;font-size:10px;font-weight:700;color:#fff;background:var(--sage-deep);padding:2px 7px;border-radius:99px;white-space:nowrap}
-.empty-row{font-size:13px;color:var(--ink-soft);padding:10px 6px;text-align:center}
-
-/* ===== clock in a corner ===== */
-.clock-corner{
-  position:fixed;z-index:3;right:clamp(14px,2.4vw,30px);bottom:clamp(14px,2.4vw,30px);
-  text-align:center;padding:11px 18px;border-radius:14px;
-  background:linear-gradient(160deg,rgba(252,250,240,.55),rgba(242,244,228,.5));
-  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
-  border:1px solid var(--hairline);box-shadow:var(--shadow-soft);
+.num{
+  color:var(--ink-soft);font-family:"Thao Hand Rough","Quicksand",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:.82em;font-weight:400;margin-right:.35em;vertical-align:.02em;
 }
-.clock-corner .wd{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sage-deep)}
-.clock-corner .big{font-size:clamp(28px,4vw,40px);font-weight:600;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
-.clock-corner .big small{font-size:.4em;color:var(--ink-soft);margin-left:5px}
-.clock-corner .dt{font-size:11.5px;color:var(--ink-soft);font-weight:600;margin-top:3px}
+a.widget{border-bottom:1px solid rgba(63,78,46,.28);width:max-content;max-width:100%;margin-left:auto}
+a.widget:hover{color:var(--sage-deep);border-bottom-color:currentColor}
+.widget.soon{opacity:.78}
+.empty-row{font-size:16px;color:var(--ink-soft)}
+
+@media (max-width:900px){
+  .page{width:min(62vw,500px)}
+}
 
 @media (max-width:680px){
-  body{padding:0}
-  .device{width:100%;height:100dvh}
-  .screen{border-radius:0}
-  .frame-draw{display:none}
-  .clock-corner{right:12px;bottom:12px;padding:9px 14px}
+  body{padding:28px 22px;display:block}
+  .page{width:100%}
+  .post-grid{gap:13px}
 }
 </style>
 </head>
 <body>
 
-  <!-- centered container -->
-  <div class="device">
-    <div class="screen">
-      <div class="head">
-        <div class="t" id="site-title">thương nhớ Bơ 🥑</div>
-        <div class="s" id="tagline">góc nhỏ của Bơ &amp; Mắm</div>
-      </div>
-      <div class="content">
-        <div class="wtitle">Bài viết</div>
-        <div class="plist" id="plist"><div class="empty-row">đang tải…</div></div>
-      </div>
-    </div>
-
-    <!-- hand-drawn white frame -->
-    <svg class="frame-draw" viewBox="0 0 340 560" preserveAspectRatio="none" aria-hidden="true">
-      <defs>
-        <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="2" seed="6" result="n"/>
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
-        </filter>
-      </defs>
-      <rect x="7" y="7" width="326" height="546" rx="24" ry="24"
-            fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"
-            filter="url(#rough)" vector-effect="non-scaling-stroke"/>
-    </svg>
-  </div>
-
-  <!-- clock tucked in a corner -->
-  <div class="clock-corner">
-    <div class="wd" id="cw-day">CHỦ NHẬT</div>
-    <div class="big" id="cw-time">3:48</div>
-    <div class="dt" id="cw-date">31 tháng 8</div>
-  </div>
+  <main class="page">
+    <ol class="post-grid" id="plist"><li class="empty-row">đang tải…</li></ol>
+  </main>
 
 <script>
-/* ---------- live clock (visitor's local time) ---------- */
-function tick(){
-  const now=new Date();
-  let h=now.getHours(), m=now.getMinutes();
-  const ampm=h>=12?'PM':'AM'; let h12=h%12; if(h12===0)h12=12;
-  const mm=String(m).padStart(2,'0');
-  const days=['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
-  const d=now.getDate(), mon=now.getMonth()+1;
-  document.getElementById('cw-day').textContent=days[now.getDay()].toUpperCase();
-  document.getElementById('cw-time').innerHTML=`${h12}:${mm}<small>${ampm}</small>`;
-  document.getElementById('cw-date').textContent=`${d} tháng ${mon}`;
-}
-tick(); setInterval(tick,1000*20);
-
 /* ---------- posts list ---------- */
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function isLive(p){return p.status==='live';}
 
 fetch('./posts.json').then(r=>r.json()).then(data=>{
   const site=data.site||{}, posts=data.posts||[];
-  if(site.brand){document.getElementById('site-title').textContent=site.brand;document.title=site.brand+' · góc nhỏ';}
-  if(site.tagline){document.getElementById('tagline').textContent=site.tagline;}
+  if(site.brand){document.title=site.brand;}
   const el=document.getElementById('plist');
-  el.innerHTML = posts.length ? posts.map(p=>{
-    const meta=(p.eyebrow||'')+(p.dateLabel?' · '+p.dateLabel:'');
-    const inner=`<span class="pe">${esc(p.emoji||'🐾')}</span>`
-      +`<span class="pcol"><b>${esc(p.title)}</b>`
-      +(meta?`<em>${esc(meta)}</em>`:(isLive(p)?'':'<em>sắp ra mắt</em>'))+`</span>`
-      +(isLive(p)?'':'<span class="soon-tag">soon</span>');
+  el.innerHTML = posts.length ? posts.map((p,i)=>{
+    const title=esc(p.title);
+    const label=`<span class="num">${i+1}.</span>${title}`;
     return isLive(p)
-      ? `<a class="prow" href="./post.html?post=${encodeURIComponent(p.slug)}">${inner}</a>`
-      : `<div class="prow soon">${inner}</div>`;
-  }).join('') : '<div class="empty-row">chưa có bài viết.</div>';
+      ? `<li><a class="widget" href="./post.html?post=${encodeURIComponent(p.slug)}">${label}</a></li>`
+      : `<li><div class="widget soon">${label}</div></li>`;
+  }).join('') : '<li class="empty-row">chưa có bài viết.</li>';
 }).catch(e=>{
-  document.getElementById('plist').innerHTML='<div class="empty-row">Không tải được (cần mở qua http).</div>';
+  document.getElementById('plist').innerHTML='<li class="empty-row">Không tải được (cần mở qua http).</li>';
   console.error(e);
 });
 </script>
