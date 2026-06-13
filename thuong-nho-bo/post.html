@@ -7,17 +7,14 @@
   <link rel="icon" type="image/png" href="../images/bo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" />
   <link rel="stylesheet" href="./theme.css" />
 </head>
 <body>
 
-  <div class="post-topbar">
-    <div class="post-topbar-inner">
-      <a class="back-btn" href="./index.html">← tất cả bài viết</a>
-      <a class="post-topbar-brand" href="./index.html">thương nhớ Bơ 🥑</a>
-    </div>
-  </div>
+  <div class="bg-layer" id="bg-layer"></div>
+
+  <nav class="toc" id="toc" hidden></nav>
 
   <article class="post">
     <header class="post-header" id="post-header" hidden>
@@ -49,9 +46,10 @@
     }
 
     // load manifest (for title/date/author) + the markdown body in parallel
+    var bust = '?_=' + Date.now();
     Promise.all([
-      fetch('./posts.json').then(function (r) { return r.json(); }),
-      fetch('./posts/' + slug + '.md').then(function (r) {
+      fetch('./posts.json' + bust).then(function (r) { return r.json(); }),
+      fetch('./posts/' + slug + '.md' + bust).then(function (r) {
         if (!r.ok) throw new Error('not found');
         return r.text();
       })
@@ -60,6 +58,12 @@
       var md       = res[1];
       var meta     = (manifest.posts || []).find(function (p) { return p.slug === slug; }) || {};
       var site     = manifest.site || {};
+
+      // ── per-post background image (falls back to default sage) ──
+      if (meta.background) {
+        var bg = document.getElementById('bg-layer');
+        if (bg) bg.style.backgroundImage = "url('" + meta.background + "')";
+      }
 
       // ── header from manifest metadata ──
       if (meta.title) {
@@ -97,13 +101,114 @@
         p.replaceWith(fig);
       });
 
-      // smooth-scroll for in-page anchors (e.g. the #english jump)
-      content.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      // ── fold caption paragraphs into the preceding image ──
+      // a paragraph is treated as a caption if it starts with "[" or is
+      // sandwiched directly between two images.
+      content.querySelectorAll('figure').forEach(function (fig) {
+        var nxt = fig.nextElementSibling;
+        if (nxt && nxt.tagName === 'P') {
+          var txt = nxt.textContent.trim();
+          var nextIsFig = nxt.nextElementSibling && nxt.nextElementSibling.tagName === 'FIGURE';
+          if (txt && (txt.charAt(0) === '[' || nextIsFig)) {
+            var cap = fig.querySelector('figcaption');
+            if (!cap) { cap = document.createElement('figcaption'); fig.appendChild(cap); }
+            cap.textContent = txt;
+            nxt.remove();
+          }
+        }
+      });
+
+      // ── wrap each big-title (h2) section + its content into a card ──
+      (function groupSections() {
+        var nodes = Array.prototype.slice.call(content.childNodes);
+        var sections = [], current = null;
+        nodes.forEach(function (node) {
+          var isH2 = node.nodeType === 1 && node.tagName === 'H2';
+          if (isH2 || current === null) {
+            current = document.createElement('section');
+            current.className = 'post-section';
+            sections.push(current);
+          }
+          current.appendChild(node);
+        });
+        sections.forEach(function (s) { content.appendChild(s); });
+      })();
+
+      // ── group runs of consecutive images into a compact row (2–3 across) ──
+      (function groupImages() {
+        content.querySelectorAll('.post-section').forEach(function (sec) {
+          var child = sec.firstElementChild;
+          while (child) {
+            if (child.tagName === 'FIGURE') {
+              var run = [child], next = child.nextElementSibling;
+              while (next && next.tagName === 'FIGURE') {
+                run.push(next);
+                next = next.nextElementSibling;
+              }
+              if (run.length >= 2) {
+                var row = document.createElement('div');
+                row.className = 'img-row';
+                sec.insertBefore(row, run[0]);
+                run.forEach(function (f) { row.appendChild(f); });
+                child = next;
+                continue;
+              }
+            }
+            child = child.nextElementSibling;
+          }
+        });
+      })();
+
+      // ── build the table of contents (h2 + h3) ──
+      var toc   = document.getElementById('toc');
+      var heads = content.querySelectorAll('h2, h3');
+      var tocLinks = [];
+      if (toc && heads.length) {
+        var used = {};
+        var slugify = function (t) {
+          var s = t.toLowerCase().trim()
+                   .replace(/[^a-z0-9\u00C0-\u024f\u1e00-\u1eff]+/g, '-')
+                   .replace(/^-+|-+$/g, '') || 'muc';
+          if (used[s]) { used[s]++; s += '-' + used[s]; } else { used[s] = 1; }
+          return s;
+        };
+        var html = '<div class="toc-title">mục lục</div><ol class="toc-list">';
+        heads.forEach(function (h) {
+          if (!h.id) h.id = slugify(h.textContent);
+          var lvl = h.tagName === 'H3' ? 3 : 2;
+          html += '<li class="lvl-' + lvl + '"><a href="#' + h.id + '">' +
+                  h.textContent.replace(/[<>&]/g, '') + '</a></li>';
+        });
+        html += '</ol><a class="toc-back" href="./index.html">← tất cả bài viết</a>';
+        toc.innerHTML = html;
+        toc.hidden = false;
+        tocLinks = Array.prototype.slice.call(toc.querySelectorAll('.toc-list a'));
+      }
+
+      // smooth-scroll for in-page anchors (content links + TOC)
+      document.querySelectorAll('.post-content a[href^="#"], .toc-list a[href^="#"]').forEach(function (a) {
         a.addEventListener('click', function (e) {
           var t = document.getElementById(a.getAttribute('href').slice(1));
-          if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+          if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); history.replaceState(null, '', a.getAttribute('href')); }
         });
       });
+
+      // highlight the section currently in view
+      if (tocLinks.length && 'IntersectionObserver' in window) {
+        var byId = {};
+        tocLinks.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+        var spy = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            var link = byId[en.target.id];
+            if (!link) return;
+            if (en.isIntersecting) {
+              tocLinks.forEach(function (l) { l.classList.remove('active'); });
+              link.classList.add('active');
+            }
+          });
+        }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+        heads.forEach(function (h) { spy.observe(h); });
+      }
     }).catch(function () {
       content.innerHTML = '<div class="post-status">Bài viết này chưa có nội dung. <a href="./index.html">← về trang chính</a></div>';
       document.getElementById('post-header').hidden = true;

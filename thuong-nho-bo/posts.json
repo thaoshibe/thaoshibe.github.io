@@ -16,7 +16,8 @@
       "excerpt": "hành trình đưa chó mèo qua Mỹ — CDC permit, ANA, và 24 giờ trên không trung cùng Bơ & Mắm.",
       "date": "2022-08-28",
       "dateLabel": "Aug 2022",
-      "cover": "./bo-di-my/our_journey_to_us.png"
+      "cover": "./bo-di-my/our_journey_to_us.png",
+      "background": "./bo-di-my/bo-di-my-background.png"
     },
     { "slug": "chi-thao-day-bo", "status": "soon", "title": "chị Thảo dạy Bơ" },
     { "slug": "bo-day-chi-thao", "status": "soon", "title": "Bơ dạy chị Thảo" },
