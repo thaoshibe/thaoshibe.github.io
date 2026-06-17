@@ -24,7 +24,19 @@
     { "slug": "hai-chi-em-cung-hoc", "status": "soon", "title": "Hai chị em cùng học" },
     { "slug": "39-42-dieu-hai-chi-em-cung-lam", "status": "soon", "title": "39/42 điều hai chị em cùng làm" },
     { "slug": "thay-nang-qua-tim", "status": "soon", "title": "Nghe thấy nắng | Chăm sóc chó bị mù" },
-    { "slug": "tam-biet-bo", "status": "soon", "title": "Tạm biệt Bơ | An tử cho chó, mèo" },
+    {
+      "slug": "tam-biet-bo",
+      "status": "live",
+      "url": "./tam-biet-bo.html",
+      "emoji": "🕊️",
+      "eyebrow": "tạm biệt",
+      "title": "Tạm biệt Bơ | An tử cho chó, mèo",
+      "excerpt": "Lần cuối Bơ vào viện — kể lại theo trình tự thời gian, tôn trọng từng dòng ghi chú của bác sĩ.",
+      "date": "2026-05-24",
+      "dateLabel": "May 2026",
+      "cover": "./tam-biet-bo/tam-biet-bo.png",
+      "background": "./tam-biet-bo/tam-biet-bo.png"
+    },
     { "slug": "cho-den-khi-minh-gap-lai", "status": "soon", "title": "Cho đến khi mình gặp lại" }
   ]
 }

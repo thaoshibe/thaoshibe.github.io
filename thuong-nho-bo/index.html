@@ -99,8 +99,9 @@ fetch('./posts.json').then(r=>r.json()).then(data=>{
   el.innerHTML = posts.length ? posts.map((p,i)=>{
     const title=esc(p.title);
     const label=`<span class="num">${i+1}.</span>${title}`;
+    const href = p.url ? p.url : `./post.html?post=${encodeURIComponent(p.slug)}`;
     return isLive(p)
-      ? `<li><a class="widget" href="./post.html?post=${encodeURIComponent(p.slug)}">${label}</a></li>`
+      ? `<li><a class="widget" href="${esc(href)}">${label}</a></li>`
       : `<li><div class="widget soon">${label}</div></li>`;
   }).join('') : '<li class="empty-row">chưa có bài viết.</li>';
 }).catch(e=>{
