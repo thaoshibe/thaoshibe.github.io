@@ -22,7 +22,18 @@
     { "slug": "chi-thao-day-bo", "status": "soon", "title": "chị Thảo dạy Bơ" },
     { "slug": "bo-day-chi-thao", "status": "soon", "title": "Bơ dạy chị Thảo" },
     { "slug": "hai-chi-em-cung-hoc", "status": "soon", "title": "Hai chị em cùng học" },
-    { "slug": "39-42-dieu-hai-chi-em-cung-lam", "status": "soon", "title": "39/42 điều hai chị em cùng làm" },
+    {
+      "slug": "39-42-dieu-hai-chi-em-cung-lam",
+      "status": "live",
+      "emoji": "🥑",
+      "eyebrow": "hai chị em",
+      "title": "39/42 điều hai chị em cùng làm",
+      "excerpt": "danh sách 42 điều chị Thảo muốn cùng Bơ làm — 39 điều đã cùng nhau đi qua.",
+      "date": "2026-05-24",
+      "dateLabel": "May 2026",
+      "cover": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg",
+      "background": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg"
+    },
     { "slug": "thay-nang-qua-tim", "status": "soon", "title": "Nghe thấy nắng | Chăm sóc chó bị mù" },
     {
       "slug": "tam-biet-bo",
