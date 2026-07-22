@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <title>relsim: data viewer - Anonymous Captions</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
+    
+    <meta property="og:site_name" content="Relational Visual Similarity">
+    <meta property="og:title" content="Relational Visual Similarity: Anonymous Captions">
+    <meta property="og:description" content="Relational Visual Similarity Anonymous Captions Data Viewer">
+    <meta property="og:url" content="https://thaoshibe.github.io/relsim">
+    <meta property="og:image" content="../images/favicon.png">
+    
+    <meta name="twitter:title" content="Relational Visual Similarity: Anonymous Captions">
+    <meta name="twitter:description" content="Relational Visual Similarity: Anonymous Captions">
+    <meta name="twitter:url" content="https://thaoshibe.github.io/relsim">
+    <meta name="twitter:image" content="../images/favicon.png">
+    
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+        .info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .item a {
+            display: block;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .item-image {
+            max-height: 150px;
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+            background-color: #f0f0f0;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .item-image.error {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .item-caption {
+            padding: 15px;
+            color: #333;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+        .item-number {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination button.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination button.active:hover {
+            background: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .pagination .ellipsis {
+            padding: 8px 4px;
+            color: #999;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .content { width:100% !important; }
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Tooltip styles */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            line-height: 14px;
+            text-align: center;
+            background-color: #666;
+            color: white;
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: help;
+            margin-left: 3px;
+            vertical-align: super;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 300px;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+            line-height: 1.4;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #f8f9fa transparent transparent transparent;
+        }
+
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .attention-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffa726;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .attention-box::before {
+            content: "⚠️ ";
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="highlight-clean" style="padding-top: 30px;padding-bottom:10px;">
+        <div class="container" style="max-width: 768px;">
+            <h1 class="text-center">relsim: Anonymous Captions Dataset</h1>
+            <center><i>Data viewer for paper: <a href="../index.html">"Relational Visual Similarity"</a></i></center>
+            <center><a href="../index.html">📂 Project Page</a> | <a href="index.html">🔙 Back to Data Viewer Map</a> | <a href="seed_groups.html">▶️ See Seed Groups Dataset</a></center>
+        </div>
+    </div>
+    <hr class="divider" style="max-width: 850px;"/>
+    <div class="container" style="max-width: 850px;text-align:justify;">
+        <b>Anonymous Captions Dataset</b> is a collection of <i style="background-color: #fdff72;"><b>{image, generated anonymous caption<span class="tooltip-container"><span class="tooltip-icon">?</span><span class="tooltip-text">Anonymous captions are image captions that do not refer to specific visible objects but instead capture the relational logic conveyed by the image.</span></span>}</b></i> pairs, split into Train (100k) and Test (14k) sets. You are currently viewing the Test Split.
+        <div class="attention-box">
+            All images are extracted from the publicly available <a href="https://laion.ai/blog/laion-5b/">LAION</a> dataset. Images are shown by their original Image URL. Some images may not be available because their original URLs are no longer active. We do not own any rights to the images and acknowledge the original authors of each images.
+        </div>
+        <p style="text-align:right; font-size:80%;">Want to download the dataset or access the captioning model? Click <a href="https://github.com/thaoshibe/relsim?tab=readme-ov-file#data">on this Github Repo</a>.</p>
+    </div>
+    <hr class="divider" style="max-width: 768px;"/>
+    <div class="container" style="max-width: 1500px;">
+        <div class="info" id="info">Loading data...</div>
+        <div id="pagination-top" class="pagination"></div>
+        <div id="grid" class="grid"></div>
+        <div id="pagination-bottom" class="pagination"></div>
+    </div>
+    <hr class="divider" />
+    <center><i>Hey, you've reached the end. This website is created by <a href="https://thaoshibe.github.io/">Thao Nguyen</a>; Thank you (.❛ ᴗ ❛.).</i></center>
+    <br>
+    <script>
+        // Data loaded from external JSONL file
+        let items = [];
+        let currentPage = 1;
+        const itemsPerPage = 500;
+
+        // Function to load and parse JSONL file
+        async function loadData() {
+            try {
+                const response = await fetch('test_data.jsonl');
+                if (!response.ok) {
+                    throw new Error('Failed to load data file');
+                }
+                
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                
+                // Parse each line as JSON
+                items = lines.map(line => JSON.parse(line));
+                
+                // Display the items
+                displayItems();
+                renderPagination();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('info').innerHTML = `<span style="color: red;">Error loading data: ${error.message}</span>`;
+            }
+        }
+        
+        function displayItems() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = ''; // Clear existing items
+            
+            const totalPages = Math.ceil(items.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, items.length);
+            
+            // Update info display
+            document.getElementById('info').innerHTML = `
+                Showing items <strong>${startIndex + 1}-${endIndex}</strong> of <strong>${items.length}</strong> 
+                (Page <strong>${currentPage}</strong> of <strong>${totalPages}</strong>)
+            `;
+            
+            // Get items for current page
+            const itemsToDisplay = items.slice(startIndex, endIndex);
+            
+            itemsToDisplay.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                
+                // Create clickable link for image
+                const imgLink = document.createElement('a');
+                imgLink.href = item.url_link;
+                imgLink.target = '_blank';
+                imgLink.rel = 'noopener noreferrer';
+                
+                const img = document.createElement('img');
+                img.className = 'item-image';
+                img.src = item.url_link;
+                img.alt = item.caption;
+                img.loading = 'lazy';
+                
+                // Handle image load errors
+                img.onerror = function() {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'item-image error';
+                    errorDiv.textContent = 'Image URL not working';
+                    imgLink.replaceWith(errorDiv);
+                };
+                
+                imgLink.appendChild(img);
+                
+                const captionDiv = document.createElement('div');
+                captionDiv.className = 'item-caption';
+                
+                const numberDiv = document.createElement('div');
+                numberDiv.className = 'item-number';
+                numberDiv.textContent = `#${startIndex + index + 1}`;
+                
+                const captionText = document.createElement('div');
+                captionText.textContent = item.caption;
+                
+                captionDiv.appendChild(numberDiv);
+                captionDiv.appendChild(captionText);
+                
+                itemDiv.appendChild(imgLink);
+                itemDiv.appendChild(captionDiv);
+                
+                grid.appendChild(itemDiv);
+            });
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(items.length / itemsPerPage);
+            const paginationTop = document.getElementById('pagination-top');
+            const paginationBottom = document.getElementById('pagination-bottom');
+            
+            // Clear existing pagination
+            paginationTop.innerHTML = '';
+            paginationBottom.innerHTML = '';
+            
+            // Create pagination buttons
+            const paginationHTML = createPaginationButtons(totalPages);
+            paginationTop.innerHTML = paginationHTML;
+            paginationBottom.innerHTML = paginationHTML;
+            
+            // Add event listeners to both pagination sections
+            [paginationTop, paginationBottom].forEach(section => {
+                section.querySelectorAll('button[data-page]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const page = parseInt(button.dataset.page);
+                        goToPage(page);
+                    });
+                });
+            });
+        }
+
+        function createPaginationButtons(totalPages) {
+            let buttons = '';
+            
+            // Previous button
+            buttons += `<button data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>← Previous</button>`;
+            
+            // Page numbers
+            const maxVisiblePages = 7;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start if we're near the end
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page button
+            if (startPage > 1) {
+                buttons += `<button data-page="1">1</button>`;
+                if (startPage > 2) {
+                    buttons += `<span class="ellipsis">...</span>`;
+                }
+            }
+            
+            // Page number buttons
+            for (let i = startPage; i <= endPage; i++) {
+                buttons += `<button data-page="${i}" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            // Last page button
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    buttons += `<span class="ellipsis">...</span>`;
+                }
+                buttons += `<button data-page="${totalPages}">${totalPages}</button>`;
+            }
+            
+            // Next button
+            buttons += `<button data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>`;
+            
+            return buttons;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(items.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            displayItems();
+            renderPagination();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Load data and display items when page loads
+        loadData();
+    </script>
+</body>
+</html>

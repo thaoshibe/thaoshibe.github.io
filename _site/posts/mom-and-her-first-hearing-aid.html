@@ -1,0 +1,232 @@
+<script src="http://www.google.com/jsapi" type="text/javascript"></script> 
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+<style type="text/css">
+/*    body {
+        font-family: Times; 
+        font-weight:300;
+        font-size:18px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1100px;
+    }*/
+    body {
+    background: #f6f6f6;
+    font-family: sans-serif, serif;
+    max-width: 900px;
+    padding-left: auto;
+    padding-right: auto;
+    /*padding-bottom: 10px;*/
+    /*border: 1px solid #ddd;*/
+    /*outline: 1300px solid #fff;*/
+    margin: 0px auto;
+    }
+    h1 {
+        font-size:32px;
+        font-weight:300;
+    }
+    
+    .disclaimerbox {
+        background-color: #eee;     
+        border: 1px solid #eeeeee;
+        border-radius: 10px ;
+        -moz-border-radius: 10px ;
+        -webkit-border-radius: 10px ;
+        padding: 20px;
+    }
+
+    video.header-vid {
+        height: 140px;
+        border: 1px solid black;
+        border-radius: 10px ;
+        -moz-border-radius: 10px ;
+        -webkit-border-radius: 10px ;
+    }
+    
+    img.header-img {
+        height: 140px;
+        border: 1px solid black;
+        border-radius: 10px ;
+        -moz-border-radius: 10px ;
+        -webkit-border-radius: 10px ;
+    }
+    
+    img.rounded {
+        border: 1px solid #eeeeee;
+        border-radius: 10px ;
+        -moz-border-radius: 10px ;
+        -webkit-border-radius: 10px ;
+    }
+    
+    a:link,a:visited
+    {
+        color: #1367a7;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #208799;
+    }
+    
+    td.dl-link {
+        height: 160px;
+        text-align: center;
+        font-size: 22px;
+    }
+code {
+    display: block;
+  white-space: pre-wrap  
+  font-family: Consolas,"courier new";
+  color: crimson;
+  background-color: #f1f1f1;
+  padding: 2px;
+  font-size: 105%;
+}
+pre { font-family: monospace; }
+
+    .layered-paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+        box-shadow:
+        0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+        5px 5px 0 0px #fff, /* The second layer */
+        5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+        10px 10px 0 0px #fff, /* The third layer */
+        10px 10px 1px 1px rgba(0,0,0,0.35), /* The third layer shadow */
+        15px 15px 0 0px #fff, /* The fourth layer */
+        15px 15px 1px 1px rgba(0,0,0,0.35), /* The fourth layer shadow */
+        20px 20px 0 0px #fff, /* The fifth layer */
+        20px 20px 1px 1px rgba(0,0,0,0.35), /* The fifth layer shadow */
+        25px 25px 0 0px #fff, /* The fifth layer */
+        25px 25px 1px 1px rgba(0,0,0,0.35); /* The fifth layer shadow */
+        margin-left: 10px;
+        margin-right: 45px;
+    }
+
+    .paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+        box-shadow:
+        0px 0px 1px 1px rgba(0,0,0,0.35); /* The top layer shadow */
+
+        margin-left: 10px;
+        margin-right: 45px;
+    }
+
+
+    .layered-paper { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+        box-shadow:
+        0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+        5px 5px 0 0px #fff, /* The second layer */
+        5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+        10px 10px 0 0px #fff, /* The third layer */
+        10px 10px 1px 1px rgba(0,0,0,0.35); /* The third layer shadow */
+        margin-top: 5px;
+        margin-left: 10px;
+        margin-right: 30px;
+        margin-bottom: 5px;
+    }
+    
+    .vert-cent {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    hr
+    {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    }
+</style>
+
+<body>
+    <article id="564a26d0-9924-4623-9b7b-07b45cd4e88b" class="page serif">
+        <header>
+            <!-- <div class="page-header-icon undefined"><span class="icon">🎧</span></div> -->
+            <br>
+            <center><h1 class="page-title">🎧<br><br>Mẹ và chiếc máy trợ thính đầu tiên</h1></center></header>
+            <hr>
+            <div class="page-body">
+            <br>Ngày 9 tháng 7, năm 2022,
+            <br>Ngày mình mua cho mẹ chiếc máy trợ thính đầu tiên.
+            <br>
+            <br>
+            <a href="./mom-and-her-first-hearing-aid/me-va-bo.png"><img style="width:900px" src="./mom-and-her-first-hearing-aid/me-va-bo.png"></a>
+            <br><br>
+            <center><i>Mẹ khoe Bơ chiếc “tai” mới mua.</i></center>
+
+            <br>Mình đã đưa mẹ đi khám, và phát hiện ra mẹ bị điếc bẩm sinh. Rồi, hai mẹ con đi thử máy trợ thính.
+            <br>Ngày hôm nay, mình mua được cho mẹ một chiếc máy trợ thính ưng ý.
+
+            <br><br>
+            ●・○・●・○・●
+            <br>
+            <br>Ngày hôm nay, thực sự, sẽ in mãi trong tâm trí của mình, như một thành tựu lớn.
+            <br>Lớn nhất.
+            <br>Lớn hơn cả những cột mốc đầu đời của cho chính bản thân mình, như Tháng lương đầu tiên, hay, Tốt nghiệp Đại học.
+            
+            <br>Mình đã khóc trong lòng, một ít, khi thấy mẹ ngồi trước quạt, bật công tắc.
+            <br>Đó là lần đầu tiên, trong 48 năm, trên trái đất này, mẹ của mình nghe được tiếng quay của cánh quạt.
+            <br>Thế giới này thật lạ lẫm.
+            <br>Thật xúc động.
+            <br>Con người ta, đi hết hơn một nửa cuộc đời, mới được nghe những âm thanh vốn dĩ luôn ở xung quanh.
+            
+            <br><br>
+            ●・○・●・○・●
+            <br>
+            <br>Mình chợt nhận ra rằng, mình phải cảm ơn bản thân mình thật nhiều.
+            <br>Vì mình đã thật mạnh mẽ và can đảm.
+            <br>Mình cảm ơn bản thân mình, vì đã kiên trì và nỗ lực trong nhiều năm qua.
+            
+            <br>Để, có được ngày hôm nay,
+            <br>Ngày mình tự hào về chính mình.
+            <br>Mình, không những vững bước trên đôi chân của chính mình.
+            <br>Mà, hơn cả, mình đã có thể mang lại được cuộc sống, trước mắt là tốt hơn, cho những người mình yêu thương.
+            <br>Cho mẹ.
+            
+            <br>Với chiếc máy trợ thính này, mẹ sẽ lần đầu tiên, nghe được thật nhiều âm thanh. Những âm thanh mẹ chưa từng biết đến.
+            <br>Chiếc máy trợ thính này sẽ hoàn thiện 05 giác quan của mẹ (tai, mắt, mũi, miệng, và tay).
+            <br>Hãy cảm nhận cuộc sống bằng cả 5 giác quan, một cách hoàn thiện nhất, mẹ nhé.
+
+            <br><br>
+            ●・○・●・○・●
+            <br>
+            <br>Dẫu vậy, con muốn nói với mẹ rằng:
+            Sẽ có những thứ/ những điều mẹ vẫn không thể nghe.
+            <br>Không thể nhìn, ngửi, nếm, hay cầm/ nắm.
+            <br>Một trong số những thứ đó, chính là tình cảm của con.
+            <br>Con mong mẹ luôn nhớ rằng, trên mọi bước đường mà con đi, dù có, hay không có mẹ, thì con vẫn sẽ luôn ở bên mẹ.
+            <br>Dù mẹ có nghe thấy, hay không nghe thấy những lời yêu thương từ con.
+            <br>Thì con vẫn luôn yêu mẹ nhất trên đời.
+            <br>
+            <br>Con,
+            <br>Thảo.
+            <br><br>
+            <hr>
+        </div>
+        <!-- </div> -->
+        <!-- </div> -->
+
+    </article>
+</body>
+
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Image Retrieval Results</title>
+    
+    <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:site_name" content="Relational Visual Similarity">
+    <meta property="og:title" content="Relational Visual Similarity: Retrieval Results">
+    <meta property="og:description" content="Image Retrieval Results Viewer">
+    <meta property="og:url" content="https://thaoshibe.github.io/relsim">
+    <meta property="og:image" content="../images/favicon.png">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:title" content="Relational Visual Similarity: Retrieval Results">
+    <meta name="twitter:description" content="Image Retrieval Results Viewer">
+    <meta name="twitter:url" content="https://thaoshibe.github.io/relsim">
+    <meta name="twitter:image" content="../images/favicon.png">
+    
+    <style>
+        /* ========================================
+           Global Styles
+           ======================================== */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: white;
+            font-family: 'Source Sans Pro', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* ========================================
+           Header Section
+           ======================================== */
+        .page-header {
+            background: white;
+            color: #333;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .page-header p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        /* ========================================
+           Controls Section
+           ======================================== */
+        .controls-container {
+            background: white;
+            /* padding: 5px 20px; */
+            margin: 0 20px 8px 20px;
+            text-align: center;
+        }
+
+        .controls-container select {
+            /* padding: 6px 12px; */
+            border-radius: 5px;
+            border: 1px solid #999;
+            font-size: 0.95em;
+            cursor: pointer;
+            font-weight: 400;
+            background: white;
+            transition: all 0.2s ease;
+            min-width: 130px;
+        }
+
+        .controls-container select:hover {
+            border-color: #333;
+        }
+
+        .controls-label {
+            display: inline-block;
+            margin-right: 12px;
+            font-weight: 400;
+            color: #333;
+            font-size: 1em;
+        }
+
+        /* ========================================
+           Query Container
+           ======================================== */
+        .query-container {
+            margin-bottom: 20px;
+            padding: 10px 0;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .query-main {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            min-height: 250px;
+            max-width: 100%;
+        }
+
+        .query-image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-width: 250px;
+            flex-shrink: 0;
+        }
+
+        .query-image-label {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .query-image-id {
+            font-size: 0.9em;
+            font-weight: 400;
+            color: #666;
+            text-align: center;
+            width: 100%;
+            padding: 6px 12px;
+
+        }
+
+        .query-image {
+            width: auto;
+            height: 400px;
+            max-width: 400px;
+            object-fit: contain;
+            background-color: white;
+            border: 1px solid #999;
+            padding: 8px;
+            border-radius: 5px;
+            transition: opacity 0.2s ease;
+        }
+        
+        .query-image:hover {
+            opacity: 0.9;
+        }
+
+        /* ========================================
+           Results Container & Method Sections
+           ======================================== */
+        .query-image.error {
+            width: auto;
+            height: 250px;
+            min-width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            color: #999;
+            border: 1px solid #ddd;
+        }
+
+        .results-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .comparison-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .method-section {
+            padding: 6px 10px;
+            background: white;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            border-radius: 8px;
+            min-width: 0;
+            overflow: hidden;
+            position: relative;
+            gap: 8px;
+        }
+
+        .method-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #333;
+            padding: 8px 6px;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            white-space: nowrap;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+
+        .method-section.ours {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .method-section.comparison {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        }
+
+        .retrieved-images {
+            display: flex;
+            flex-direction: row;
+            gap: 6px;
+            flex-wrap: nowrap;
+            align-items: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #999 #f0f0f0;
+            flex: 1;
+            min-width: 0;
+        }
+        
+
+        .retrieved-images::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .retrieved-images::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .retrieved-images::-webkit-scrollbar-thumb {
+            background: #999;
+            border-radius: 4px;
+        }
+
+        .retrieved-images::-webkit-scrollbar-thumb:hover {
+            background: #666;
+        }
+
+        .retrieved-item {
+            flex: 0 0 auto;
+            height: 200px;
+            transition: opacity 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .retrieved-item:hover {
+            opacity: 0.85;
+            z-index: 5;
+        }
+
+        .retrieved-item .score-overlay {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: 400;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .retrieved-item:hover .score-overlay {
+            opacity: 1;
+        }
+
+        .retrieved-image {
+            width: auto;
+            height: 200px;
+            max-width: 300px;
+            object-fit: contain;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0px;
+        }
+
+        .retrieved-image.error {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.75em;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        /* ========================================
+           Pagination
+           ======================================== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 15px 20px;
+            flex-wrap: wrap;
+            background: white;
+            margin: 0 20px;
+        }
+
+        #pagination-top {
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .pagination button {
+            padding: 6px 12px;
+            border: 1px solid #999;
+            background: white;
+            color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 400;
+            transition: all 0.2s ease;
+            min-width: 40px;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f5f5f5;
+            border-color: #333;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #f5f5f5;
+        }
+
+        .pagination button.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .pagination button.active:hover {
+            background: #555;
+            border-color: #555;
+        }
+
+        .pagination .ellipsis {
+            padding: 10px 8px;
+            color: #999;
+            font-weight: 400;
+        }
+
+        .pagination-info {
+            color: #666;
+            font-size: 0.95em;
+            white-space: nowrap;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ========================================
+           Utility Classes
+           ======================================== */
+        .attention-box {
+            border-left: 4px solid #ffa726;
+            padding: 12px 16px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: black;
+            background-color: #fff8e1;
+        }
+
+        .attention-box::before {
+            content: "⚠️ ";
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        /* ========================================
+           Responsive Design
+           ======================================== */
+        @media only screen and (max-width: 1200px) {
+            .query-main {
+                flex-direction: column;
+            }
+            
+            .query-image-container {
+                align-self: center;
+            }
+
+            .results-container {
+                flex-direction: column;
+            }
+
+            .retrieved-images {
+                /* Keep horizontal scrolling on all screen sizes */
+                flex-wrap: nowrap;
+            }
+
+            .retrieved-item {
+                flex: 0 0 auto;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .content { width:100% !important; }
+            
+            .query-main {
+                gap: 10px;
+            }
+            
+            .results-container {
+                gap: 8px;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 10px;
+            }
+
+            .pagination-info {
+                order: -1;
+            }
+
+            .query-image {
+                height: 300px;
+                max-width: 300px;
+            }
+
+            .retrieved-image {
+                height: 150px;
+                max-width: 200px;
+            }
+
+            .retrieved-item {
+                height: 150px;
+            }
+
+            .page-header {
+                padding: 20px 10px;
+            }
+
+            .page-header h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>🔍 Image Retrieval Results</h1>
+    </div>
+    <center style="margin-top: -15px;"><a href="../index.html">🔙  Back to Project Page</a></center>
+    <br>
+    <center>
+        <p style="text-align: justify; font-size: 1em; max-width: 850px;">
+            We present <b><font style="background-color: #fdff72;">uncurated retrieval results</font></b> for 1,000 randomly selected <a href="https://thaoshibe.github.io/relsim/data_viewer/anonymous_captions.html">test images</a>.
+            For each query, we retrieve the top 10 most similar images using:
+            <font style="background-color: #D4EDDA; font-weight: bold;">(i) Relational-based: <font style="color: green; font-weight: bold;">relsim (ours)</font></font>
+            <font style="background-color: #F8D7DA; font-weight: bold;">(ii) Attribute-based: <font style="color: red; font-weight: bold;">DINO</font> and <font style="color: red; font-weight: bold;">CLIP</font></font>
+            <!-- <br>Some images may be missing if their original URLs are no longer active. -->
+        </p>
+                </center>
+    <div class="controls-container">
+        <label class="controls-label" for="comparison-method">Select Comparison Method:</label>
+        <select id="comparison-method">
+            <option value="dino">relsim vs. DINO</option>
+            <option value="clip">relsim vs. CLIP</option>
+        </select>
+    </div>
+    <center>
+    <div class="attention-box" style="max-width: 768px; text-align: justify; font-size: 1em;">
+        All images are sourced from the publicly available <a href="https://laion.ai/blog/laion-5b/">LAION</a> dataset and displayed via their <b>original URLs, which may no longer be active</b>. We do <b>not</b> claim ownership and credit the original creators.
+    </div>
+    </center>
+    
+    <div class="container" style="max-width: 100%; padding: 0 10px;">
+        <div id="pagination-top" class="pagination"></div>
+        <div id="results-container"></div>
+        <div id="pagination-bottom" class="pagination"></div>
+    </div>
+    <script>
+        // ========================================
+        // Configuration & State
+        // ========================================
+        const CONFIG = {
+            DATA_FILE: '1000_images_retrieved_images.json',
+            ITEMS_PER_PAGE:15,
+            MAX_VISIBLE_PAGES: 3,
+            IMAGES_TO_SHOW: { start: 1, end: 7 }, // Skip first image (index 0), show indices 1-6
+            DEFAULT_COMPARISON: 'dino'
+        };
+
+        let state = {
+            data: [],
+            currentPage: 1,
+            comparisonMethod: CONFIG.DEFAULT_COMPARISON
+        };
+
+        // ========================================
+        // Data Loading
+        // ========================================
+        async function loadData() {
+            try {
+                const response = await fetch(CONFIG.DATA_FILE);
+                if (!response.ok) {
+                    throw new Error('Failed to load data file');
+                }
+                
+                state.data = await response.json();
+                
+                displayResults();
+                renderPagination();
+                initializeEventListeners();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showErrorMessage(error.message);
+            }
+        }
+
+        // ========================================
+        // Event Listeners
+        // ========================================
+        function initializeEventListeners() {
+            const selector = document.getElementById('comparison-method');
+            selector.addEventListener('change', (e) => {
+                state.comparisonMethod = e.target.value;
+                displayResults();
+            });
+        }
+
+        function showErrorMessage(message) {
+            const container = document.getElementById('results-container');
+            if (container) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: #d32f2f; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                        <strong>Error loading data:</strong> ${message}
+                    </div>
+                `;
+            }
+        }
+        
+        // ========================================
+        // Display Functions
+        // ========================================
+        function displayResults() {
+            const container = document.getElementById('results-container');
+            container.innerHTML = '';
+            
+            const { start, end } = getPageRange();
+            const itemsToDisplay = state.data.slice(start, end);
+            
+            itemsToDisplay.forEach((item, index) => {
+                const queryDiv = createQueryContainer(item, start + index);
+                container.appendChild(queryDiv);
+            });
+        }
+
+        function getPageRange() {
+            const start = (state.currentPage - 1) * CONFIG.ITEMS_PER_PAGE;
+            const end = Math.min(start + CONFIG.ITEMS_PER_PAGE, state.data.length);
+            return { start, end };
+        }
+
+        function createQueryContainer(item, globalIndex) {
+            const queryDiv = document.createElement('div');
+            queryDiv.className = 'query-container';
+            
+            const mainDiv = document.createElement('div');
+            mainDiv.className = 'query-main';
+            
+            // Query image section
+            const queryImageContainer = createQueryImageSection(item, queryDiv);
+            mainDiv.appendChild(queryImageContainer);
+            
+            // Results sections (relsim and comparison method)
+            const resultsContainer = createResultsSections(item);
+            mainDiv.appendChild(resultsContainer);
+            
+            queryDiv.appendChild(mainDiv);
+            return queryDiv;
+        }
+
+        function createQueryImageSection(item, queryDiv) {
+            const container = document.createElement('div');
+            container.className = 'query-image-container';
+            
+            const label = document.createElement('div');
+            label.className = 'query-image-label';
+            label.textContent = 'Query Image';
+            container.appendChild(label);
+            
+            const link = document.createElement('a');
+            link.href = item.query_url;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            
+            const img = document.createElement('img');
+            img.className = 'query-image';
+            img.src = item.query_url;
+            img.alt = `Query ${item.query_image}`;
+            img.loading = 'lazy';
+            img.onerror = () => { queryDiv.style.display = 'none'; };
+            
+            link.appendChild(img);
+            container.appendChild(link);
+            
+            // Add image ID below the image
+            const imageId = document.createElement('div');
+            imageId.className = 'query-image-id';
+            imageId.textContent = `Image ID: ${item.query_image}`;
+            container.appendChild(imageId);
+            
+            return container;
+        }
+
+        function createResultsSections(item) {
+            const container = document.createElement('div');
+            container.className = 'results-container';
+            
+            // relsim section
+            const relsimSection = createMethodSection(
+                item, 
+                'relsim_top_10', 
+                'relsim_top_10_scores', 
+                'Relational-based retrieval (relsim)', 
+                'ours',
+                'relsim'
+            );
+            container.appendChild(relsimSection);
+            
+            // Comparison method section
+            const comparisonKey = `${state.comparisonMethod}_top_10`;
+            const comparisonScoreKey = `${state.comparisonMethod}_top_10_scores`;
+            const comparisonMethodName = state.comparisonMethod.toUpperCase();
+            const comparisonLabel = `Attribute-based retrieval (${comparisonMethodName})`;
+            const comparisonSection = createMethodSection(
+                item, 
+                comparisonKey, 
+                comparisonScoreKey, 
+                comparisonLabel, 
+                'comparison',
+                comparisonMethodName
+            );
+            container.appendChild(comparisonSection);
+            
+            return container;
+        }
+        
+        function createMethodSection(item, methodKey, scoresKey, methodLabel, styleClass, shortLabel) {
+            const section = document.createElement('div');
+            section.className = `method-section ${styleClass}`;
+            
+            const images = item[methodKey] || [];
+            const scores = parseScores(item[scoresKey]);
+            
+            // Display images from index 1 to 6 (skip first image at index 0)
+            const { start, end } = CONFIG.IMAGES_TO_SHOW;
+            const imagesToShow = images.slice(start, end);
+            
+            // If no images to show, hide the section immediately
+            if (imagesToShow.length === 0) {
+                section.style.display = 'none';
+                return section;
+            }
+            
+            // Add method label
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'method-label';
+            labelDiv.textContent = methodLabel;
+            section.appendChild(labelDiv);
+            
+            const imagesContainer = document.createElement('div');
+            imagesContainer.className = 'retrieved-images';
+            
+            let loadedImagesCount = 0;
+            let failedImagesCount = 0;
+            
+            imagesToShow.forEach((imageUrl, idx) => {
+                const retrievedItem = createRetrievedImage(imageUrl, idx, scores, shortLabel, section, imagesToShow.length);
+                imagesContainer.appendChild(retrievedItem);
+            });
+            
+            section.appendChild(imagesContainer);
+            
+            return section;
+        }
+
+        function parseScores(scoresString) {
+            try {
+                return JSON.parse(scoresString || '[]');
+            } catch (e) {
+                console.error('Error parsing scores:', e);
+                return [];
+            }
+        }
+
+        function createRetrievedImage(imageUrl, displayIdx, scores, methodLabel, section, totalImages) {
+            const item = document.createElement('div');
+            item.className = 'retrieved-item';
+            
+            const link = document.createElement('a');
+            link.href = imageUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            
+            const img = document.createElement('img');
+            img.className = 'retrieved-image';
+            img.src = imageUrl;
+            img.alt = `Rank ${displayIdx + 1}`;
+            img.loading = 'lazy';
+            
+            img.onerror = () => { 
+                item.style.display = 'none';
+                // Check if we should hide the entire section
+                setTimeout(() => checkIfSectionShouldBeHidden(section), 100);
+            };
+            
+            img.onload = () => {
+                // Make sure section is visible if at least one image loads
+                if (section.style.display === 'none') {
+                    section.style.display = '';
+                }
+            };
+            
+            link.appendChild(img);
+            item.appendChild(link);
+            
+            // Add score overlay
+            const scoreOverlay = createScoreOverlay(displayIdx, scores, methodLabel);
+            item.appendChild(scoreOverlay);
+            
+            return item;
+        }
+
+        function createScoreOverlay(displayIdx, scores, methodLabel) {
+            const overlay = document.createElement('div');
+            overlay.className = 'score-overlay';
+            
+            const actualIndex = displayIdx + 1; // +1 because we're showing from index 1
+            const rank = displayIdx + 1; // Display rank starting from 1
+            const score = scores[actualIndex];
+            
+            overlay.textContent = score !== undefined 
+                ? `${methodLabel} | #${rank}: ${score.toFixed(3)}`
+                : `${methodLabel} | Rank #${rank}`;
+            
+            return overlay;
+        }
+        
+        function checkIfSectionShouldBeHidden(section) {
+            if (!section) return;
+            
+            // Check if there are any visible retrieved-items
+            const allItems = section.querySelectorAll('.retrieved-item');
+            const hasVisibleItems = Array.from(allItems).some(item => {
+                return item.style.display !== 'none';
+            });
+            
+            // Hide the entire section if no items are visible
+            if (!hasVisibleItems) {
+                section.style.display = 'none';
+            }
+        }
+
+
+        // ========================================
+        // Pagination Functions
+        // ========================================
+        function renderPagination() {
+            const totalPages = getTotalPages();
+            const totalItems = state.data.length;
+            const startItem = (state.currentPage - 1) * CONFIG.ITEMS_PER_PAGE + 1;
+            const endItem = Math.min(state.currentPage * CONFIG.ITEMS_PER_PAGE, totalItems);
+            
+            const paginationInfoHTML = `<div class="pagination-info">Showing items ${startItem}-${endItem} of ${totalItems}</div>`;
+            const paginationButtonsHTML = `<div class="pagination-buttons">${createPaginationButtons(totalPages)}</div>`;
+            const paginationHTML = paginationInfoHTML + paginationButtonsHTML;
+            
+            ['pagination-top', 'pagination-bottom'].forEach(id => {
+                const section = document.getElementById(id);
+                section.innerHTML = paginationHTML;
+                attachPaginationListeners(section);
+            });
+        }
+
+        function getTotalPages() {
+            return Math.ceil(state.data.length / CONFIG.ITEMS_PER_PAGE);
+        }
+
+        function attachPaginationListeners(section) {
+            section.querySelectorAll('button[data-page]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const page = parseInt(button.dataset.page);
+                    goToPage(page);
+                });
+            });
+        }
+
+        function createPaginationButtons(totalPages) {
+            const parts = [];
+            
+            // Previous button
+            parts.push(createButton(state.currentPage - 1, '← Previous', state.currentPage === 1));
+            
+            // Page numbers with ellipsis
+            const pageRange = calculatePageRange(totalPages);
+            parts.push(...createPageNumbers(pageRange, totalPages));
+            
+            // Next button
+            parts.push(createButton(state.currentPage + 1, 'Next →', state.currentPage === totalPages));
+            
+            return parts.join('');
+        }
+
+        function calculatePageRange(totalPages) {
+            const half = Math.floor(CONFIG.MAX_VISIBLE_PAGES / 2);
+            let start = Math.max(1, state.currentPage - half);
+            let end = Math.min(totalPages, start + CONFIG.MAX_VISIBLE_PAGES - 1);
+            
+            // Adjust start if we're near the end
+            if (end - start < CONFIG.MAX_VISIBLE_PAGES - 1) {
+                start = Math.max(1, end - CONFIG.MAX_VISIBLE_PAGES + 1);
+            }
+            
+            return { start, end };
+        }
+
+        function createPageNumbers(range, totalPages) {
+            const parts = [];
+            
+            // First page + ellipsis
+            if (range.start > 1) {
+                parts.push(createButton(1, '1'));
+                if (range.start > 2) {
+                    parts.push('<span class="ellipsis">...</span>');
+                }
+            }
+            
+            // Middle page numbers
+            for (let i = range.start; i <= range.end; i++) {
+                const isActive = i === state.currentPage;
+                parts.push(createButton(i, i.toString(), false, isActive));
+            }
+            
+            // Last page + ellipsis
+            if (range.end < totalPages) {
+                if (range.end < totalPages - 1) {
+                    parts.push('<span class="ellipsis">...</span>');
+                }
+                parts.push(createButton(totalPages, totalPages.toString()));
+            }
+            
+            return parts;
+        }
+
+        function createButton(page, text, disabled = false, active = false) {
+            const disabledAttr = disabled ? 'disabled' : '';
+            const activeClass = active ? 'active' : '';
+            return `<button data-page="${page}" ${disabledAttr} class="${activeClass}">${text}</button>`;
+        }
+
+        function goToPage(page) {
+            const totalPages = getTotalPages();
+            if (page < 1 || page > totalPages) return;
+            
+            state.currentPage = page;
+            displayResults();
+            renderPagination();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========================================
+        // Initialize Application
+        // ========================================
+        loadData();
+    </script>
+</body>
+</html>
+

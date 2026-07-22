@@ -1,0 +1,36 @@
+{
+  "dataset": "camroll-v2 (demo log)",
+  "assumptions": {
+    "haystack_images_per_user": 1000,
+    "haystack_tokens": 512000,
+    "tokens_per_image": 512,
+    "note": "needle_tokens = needle_images_est x 512. Estimates are rough, meant to illustrate how task type (not history size) drives context-needed-per-query. driver taxonomy: single-retrieval | set-retrieval | temporal-aggregation | holistic-aggregation | selection-ranking | generation | single-image."
+  },
+  "questions": [
+    { "id": 1,  "q": "Do you remember the time I visited a place with a beautiful castle-like building surrounded by green grass?", "driver": "single-retrieval", "needle_images_est": 2,   "needle_tokens_est": 1024 },
+    { "id": 2,  "q": "Gather beautiful running locations from around the world, captured as selfies, first-person photos, or scenic images.", "driver": "set-retrieval", "needle_images_est": 30, "needle_tokens_est": 15360 },
+    { "id": 3,  "q": "Find all photos of me taken before my daughter was born.", "driver": "set-retrieval + temporal-cutoff", "needle_images_est": 200, "needle_tokens_est": 102400 },
+    { "id": 4,  "q": "Choose five diverse photos from my recent six-month trip through Central America to show my friends. Include activities such as diving, hiking, rock climbing, skydiving, and snowboarding.", "driver": "selection-ranking (diversify over subset)", "needle_images_est": 150, "needle_tokens_est": 76800 },
+    { "id": 5,  "q": "What kind of fungus is this?", "driver": "single-image (no personal history)", "needle_images_est": 1, "needle_tokens_est": 512 },
+    { "id": 6,  "q": "Choose the five best photos from my last trip.", "driver": "selection-ranking", "needle_images_est": 75, "needle_tokens_est": 38400 },
+    { "id": 7,  "q": "Find a photo of me that can be cropped into a square portrait for a profile picture.", "driver": "attribute-search (return 1, scan many)", "needle_images_est": 10, "needle_tokens_est": 5120 },
+    { "id": 8,  "q": "Find the best photos of my cat from 2014.", "driver": "filtered-ranking (subject + year)", "needle_images_est": 15, "needle_tokens_est": 7680 },
+    { "id": 9,  "q": "Where did I go in September 2009?", "driver": "temporal-aggregation", "needle_images_est": 20, "needle_tokens_est": 10240 },
+    { "id": 10, "q": "What food did I eat during 2020?", "driver": "temporal-aggregation (long-range)", "needle_images_est": 60, "needle_tokens_est": 30720 },
+    { "id": 11, "q": "Find a beautiful sunset photo.", "driver": "single-retrieval", "needle_images_est": 2, "needle_tokens_est": 1024 },
+    { "id": 12, "q": "Where have I visited?", "driver": "holistic-aggregation", "needle_images_est": 500, "needle_tokens_est": 256000 },
+    { "id": 13, "q": "How much time did I spend underwater compared with above water?", "driver": "holistic-aggregation (classify + count all)", "needle_images_est": 1000, "needle_tokens_est": 512000 },
+    { "id": 14, "q": "What did I do at CVPR?", "driver": "event-aggregation", "needle_images_est": 20, "needle_tokens_est": 10240 },
+    { "id": 15, "q": "我的照片里有什么？", "driver": "holistic-aggregation (summarize whole album)", "needle_images_est": 1000, "needle_tokens_est": 512000 },
+    { "id": 16, "q": "When was the last time I ate pizza?", "driver": "filtered + recency (return few)", "needle_images_est": 3, "needle_tokens_est": 1536 },
+    { "id": 17, "q": "Find photos from my birthday party.", "driver": "event set-retrieval", "needle_images_est": 20, "needle_tokens_est": 10240 },
+    { "id": 18, "q": "Where did I leave my key?", "driver": "single-retrieval (recent)", "needle_images_est": 2, "needle_tokens_est": 1024 },
+    { "id": 19, "q": "Where have I traveled?", "driver": "holistic-aggregation", "needle_images_est": 400, "needle_tokens_est": 204800 },
+    { "id": 20, "q": "Where should I go for my next trip?", "driver": "holistic-aggregation + reasoning", "needle_images_est": 400, "needle_tokens_est": 204800 },
+    { "id": 21, "q": "Choose memories featuring my dog.", "driver": "set-retrieval (subject filter)", "needle_images_est": 30, "needle_tokens_est": 15360 },
+    { "id": 22, "q": "我昨天吃了什么？", "driver": "temporal-filter (small window)", "needle_images_est": 4, "needle_tokens_est": 2048 },
+    { "id": 23, "q": "Create a 1990s-style selfie in front of the Golden Gate Bridge in San Francisco.", "driver": "generation (few reference)", "needle_images_est": 2, "needle_tokens_est": 1024 },
+    { "id": 24, "q": "Choose the photo in which I look happiest.", "driver": "selection-ranking (over all photos of me)", "needle_images_est": 100, "needle_tokens_est": 51200 },
+    { "id": 25, "q": "Find photos of my family.", "driver": "set-retrieval (subject filter)", "needle_images_est": 50, "needle_tokens_est": 25600 }
+  ]
+}

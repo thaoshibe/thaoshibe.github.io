@@ -1,0 +1,53 @@
+{
+  "site": {
+    "brand": "thương nhớ Bơ 🥑",
+    "author": "chị Thảo",
+    "avatar": "./bo-di-my/our_journey_to_us.png"
+  },
+  "posts": [
+    { "slug": "chao-bo", "status": "soon", "title": "chào Bơ" },
+    {
+      "slug": "bo-di-my",
+      "status": "live",
+      "featured": true,
+      "emoji": "✈️",
+      "eyebrow": "hành trình",
+      "title": "cùng Bơ đi Mỹ",
+      "excerpt": "hành trình đưa chó mèo qua Mỹ — CDC permit, ANA, và 24 giờ trên không trung cùng Bơ & Mắm.",
+      "date": "2022-08-28",
+      "dateLabel": "Aug 2022",
+      "cover": "./bo-di-my/our_journey_to_us.png",
+      "background": "./bo-di-my/bo-di-my-background.png"
+    },
+    { "slug": "chi-thao-day-bo", "status": "soon", "title": "chị Thảo dạy Bơ" },
+    { "slug": "bo-day-chi-thao", "status": "soon", "title": "Bơ dạy chị Thảo" },
+    { "slug": "hai-chi-em-cung-hoc", "status": "soon", "title": "Hai chị em cùng học" },
+    {
+      "slug": "39-42-dieu-hai-chi-em-cung-lam",
+      "status": "live",
+      "emoji": "🥑",
+      "eyebrow": "hai chị em",
+      "title": "39/42 điều hai chị em cùng làm",
+      "excerpt": "danh sách 42 điều chị Thảo muốn cùng Bơ làm — 39 điều đã cùng nhau đi qua.",
+      "date": "2026-05-24",
+      "dateLabel": "May 2026",
+      "cover": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg",
+      "background": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg"
+    },
+    { "slug": "thay-nang-qua-tim", "status": "soon", "title": "Nghe thấy nắng | Chăm sóc chó bị mù" },
+    {
+      "slug": "tam-biet-bo",
+      "status": "live",
+      "url": "./tam-biet-bo.html",
+      "emoji": "🕊️",
+      "eyebrow": "tạm biệt",
+      "title": "Tạm biệt Bơ | An tử cho chó, mèo",
+      "excerpt": "Lần cuối Bơ vào viện — kể lại theo trình tự thời gian, tôn trọng từng dòng ghi chú của bác sĩ.",
+      "date": "2026-05-24",
+      "dateLabel": "May 2026",
+      "cover": "./tam-biet-bo/tam-biet-bo.png",
+      "background": "./tam-biet-bo/tam-biet-bo.png"
+    },
+    { "slug": "cho-den-khi-minh-gap-lai", "status": "soon", "title": "Cho đến khi mình gặp lại" }
+  ]
+}

@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Personalization survey — context-size plot</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:1040px;margin:40px auto;color:#222}
+  #plot{width:100%;height:680px}
+  .note{color:#666;font-size:0.9rem;margin-top:12px;line-height:1.5}
+  .excluded{color:#999;font-size:0.82rem;margin-top:20px;line-height:1.5}
+  table{border-collapse:collapse;margin-top:24px;font-size:0.82rem;width:100%}
+  th,td{border:1px solid #ddd;padding:5px 8px;text-align:left;vertical-align:top}
+  th{background:#f5f5f5}
+</style>
+</head>
+<body>
+<h2>Personal context size (tokens, log scale) vs. modality</h2>
+<p class="note">
+  <b>Default view — needle vs. haystack</b> (benchmarks): X = personal context available, Y = context
+  needed to answer one query, both log tokens (1 image ≈ 512). Color = modality. <b>Marker size = temporal
+  span</b> of the user history (bigger = longer; smallest = span not stated). <b>Filled = personal</b> (needs a
+  specific user's info); <b>hollow = general</b> (not user-specific, e.g. generic long-document QA). Distance below
+  the dotted <i>needle = haystack</i> line = the retrieval/compression difficulty.
+  <b>Fill opacity = recency</b> (faint = older arXiv, solid = published near now, mid-2026).
+  <br>The <b>modality</b> button shows all 176 points (benchmarks ● + methods ◆) with modality on Y instead —
+  wider coverage but flatter. Needle/span are benchmark-only (methods have no intrinsic needle). Many values are
+  best-effort estimates from paper stats; see hover + table.
+</p>
+
+<div style="margin:10px 0 6px">
+  <b>View:</b>
+  <button onclick="render('needle')">needle vs haystack (default)</button>
+  <button onclick="render('modality')">modality (all 176)</button>
+  <span class="note" id="modenote"></span>
+</div>
+<div id="plot"></div>
+<table id="data-table"></table>
+
+<p class="excluded">
+  <b>Excluded (not individual personal context):</b>
+  <i>Generic/group preference-opt</i> — Mult-DPO, PAFO, Semantic Flow Regularization, One Model for All, Many Preferences Few Policies, Personas within Parameters, CBP-Tuning, DiffPO, P-Tailor.
+  <i>Model-level trait steering (no per-user context)</i> — Persona Vectors (Anthropic), LMLPA (eval tool).
+  <i>Non-personal RAG / long-doc QA</i> — Self-RAG, HippoRAG, ReadAgent.
+  <i>Not per-user</i> — See Act Adapt (domain adaptation), UserLM-R1 (user simulator).
+  <i>Different axis</i> — CharacterBench (fictional character), Think Thrice (per-conversation ToM), Beyond Static Personas (trait steering), Visual Haystacks (generic COCO), CAPE (unconfirmed).
+</p>
+
+<script>
+// ground-truth benchmark data + method data extracted from papers this session.
+// kind: "benchmark" | "method".  caveat: optional flag string.
+const points = [
+  // ---------- BENCHMARKS ----------
+  { name: "ATM-Bench", kind:"benchmark", modality: "text+image", tokens: 2605608, note: "6,741 emails + 3,759 imgs + videos, ~4yr, 1 user" },
+  { name: "DIS-Bench", kind:"benchmark", modality: "image", tokens: 1024000, note: "2,000 photos/user, ~3.4yr" },
+  { name: "Persona-MME", kind:"benchmark", modality: "text", tokens: 128000, note: "up to 500 dialogue turns (128k context)" },
+  { name: "PhotoBench", kind:"benchmark", modality: "image", tokens: 611328, note: "~1,194 images/album" },
+  { name: "MemoryQA", kind:"benchmark", modality: "image", tokens: 15872, note: "~11-51 images/question search space" },
+  { name: "OmniQuery", kind:"benchmark", modality: "text+image", tokens: 512000, note: "1,000 files/participant (eval cap)" },
+  { name: "PersonaMem", kind:"benchmark", modality: "text", tokens: 128000, note: "10/20/60 sessions (~32k-1M)" },
+  { name: "CUPID", kind:"benchmark", modality: "text", tokens: 9109, note: "8 prior sessions + 1 current" },
+  { name: "MMPB", kind:"benchmark", modality: "text+image", tokens: 1792, note: "5 ref imgs/concept + short text" },
+  { name: "LifeSim", kind:"benchmark", modality: "text", tokens: 14000, note: "long-horizon >14K tokens" },
+  { name: "MemoryCD", kind:"benchmark", modality: "text", tokens: 300000, note: "Amazon review history 272K-387K" },
+  { name: "PERMA", kind:"benchmark", modality: "text", tokens: 35000, note: "75-85 events/user" },
+  { name: "PrefEval", kind:"benchmark", modality: "text", tokens: 100000, note: "up to 300 turns / ~100k" },
+  { name: "PersonaMem-v2", kind:"benchmark", modality: "text", tokens: 128000, note: "extended (base ~32K)" },
+  { name: "LOCOMO", kind:"benchmark", modality: "text+image", tokens: 25750, note: "9,209 text tok + 32.3 imgs/conv" },
+  { name: "LongMemEval", kind:"benchmark", modality: "text", tokens: 1019117, note: "-M split (501.9 sessions)" },
+  { name: "BABILong", kind:"benchmark", modality: "text", tokens: 1000000, note: "configurable, 0-50M tested", general:true },
+  { name: "ConvoMem", kind:"benchmark", modality: "text", tokens: 100000, note: "1hr/day x 4 weeks example" },
+  { name: "ChildEval", kind:"benchmark", modality: "text", tokens: 4200, note: "6-10 turn dialogue/child" },
+  { name: "Whose Norms? (PACT)", kind:"benchmark", modality: "text", tokens: 30, note: "1 pref sentence + 3 attributes" },
+  { name: "Psy-Chronicle", kind:"benchmark", modality: "text", tokens: 170000, note: "~900 units/student" },
+  { name: "SocialPersona", kind:"benchmark", modality: "text+image", tokens: 67000, note: "176.8 posts + 130.4 imgs/user (lower bound)" },
+  { name: "PEC-Home", kind:"benchmark", modality: "text", tokens: 139, note: "4-turn persona dialogue" },
+  { name: "STALE", kind:"benchmark", modality: "text", tokens: 150000, note: "haystack of distractor sessions", caveat:"borderline fit" },
+  { name: "Personalized Benchmarking", kind:"benchmark", modality: "text", tokens: 5900, note: "avg 59 pref queries/user", caveat:"borderline fit" },
+  { name: "Stories of Your Life as Others", kind:"benchmark", modality: "text", tokens: 1300, note: "~1,000-word persona, 75 items" },
+  { name: "Ego-Grounding (MyEgo)", kind:"benchmark", modality: "text+image", tokens: 16400, note: "32-frame default" },
+  { name: "PICon", kind:"benchmark", modality: "text", tokens: 6250, note: "50+10 turns" },
+  { name: "AgenticShop", kind:"benchmark", modality: "text", tokens: 525, note: "~19-20 checklist items + narrative" },
+  { name: "Persona2Web", kind:"benchmark", modality: "text", tokens: 30000, note: "~2,000 history entries/user" },
+  { name: "EmoHarbor", kind:"benchmark", modality: "text", tokens: 1375, note: "persona + up to 15-turn dialogue" },
+  { name: "BESPOKE", kind:"benchmark", modality: "text", tokens: 13000, note: "71.8 search + 23.9 chat sessions" },
+  { name: "LaMP-QA", kind:"benchmark", modality: "text", tokens: 13500, note: "~100-160 profile items/user" },
+  { name: "LongLaMP", kind:"benchmark", modality: "text", tokens: 249, note: "profile 34-120 items (task-dep)" },
+  { name: "PersonalSum", kind:"benchmark", modality: "text", tokens: 3250, note: "~28.2 summaries/user" },
+  { name: "Can LLM be a Personalized Judge?", kind:"benchmark", modality: "text", tokens: 37, note: "8.25 demographic attributes/user" },
+  { name: "FoCus", kind:"benchmark", modality: "text", tokens: 65, note: "5 persona sentences" },
+  { name: "PersonaChat", kind:"benchmark", modality: "text", tokens: 50, note: "4-5 profile sentences" },
+  { name: "VisualMem (Personal Visual Memory)", kind:"benchmark", modality: "text+image", tokens: 219000, note: "171.7 imgs + ~131K text/persona" },
+  { name: "iOSWorld", kind:"benchmark", modality: "text+image", tokens: 30000, note: "persistent user across 26 apps (est.)", caveat:"token est. rough" },
+
+  // ---------- METHODS: generative / VLM concept-learning (own few-shot setup) ----------
+  { name: "DreamBooth", kind:"method", modality: "text+image", tokens: 2048, note: "3-5 subject imgs + class noun" },
+  { name: "Yo'LLaVA", kind:"method", modality: "image", tokens: 2560, note: "5 imgs/concept, no captions" },
+  { name: "MyVLM", kind:"method", modality: "text+image", tokens: 2048, note: "~4 imgs/concept + captions" },
+  { name: "PALAVRA", kind:"method", modality: "image", tokens: 2560, note: "~5 imgs/concept (PerVL)" },
+  { name: "PeKit", kind:"method", modality: "image", tokens: 1536, note: "1-5 ref imgs (training-free)" },
+  { name: "PLVM", kind:"method", modality: "image", tokens: 512, note: "1 facial img -> 16 tokens" },
+  { name: "MC-LLaVA", kind:"method", modality: "image", tokens: 5120, note: "10 imgs/concept" },
+  { name: "PVIT", kind:"method", modality: "text+image", tokens: 530, note: "1 img + name/intro" },
+  { name: "RAP-MLLM", kind:"method", modality: "text+image", tokens: 550, note: "1 avatar img + name + desc" },
+  { name: "UniCTokens", kind:"method", modality: "text+image", tokens: 2560, note: "3-10 imgs/concept" },
+  { name: "YoChameleon", kind:"method", modality: "image", tokens: 2000, note: "3-5 imgs/concept" },
+  { name: "ICPT", kind:"method", modality: "text+image", tokens: 1500, note: "1-6 imgs (adaptive)" },
+  { name: "Personal-VCL", kind:"method", modality: "text+image", tokens: 2176, note: "4.25 ctx imgs/clips/query" },
+  { name: "Ego (Embedding-Guided)", kind:"method", modality: "text+image", tokens: 1536, note: "1-5 views (training-free)" },
+  { name: "CoViP", kind:"method", modality: "text+image", tokens: 2500, note: "variable interleaved img-text" },
+  { name: "Online-PVLM", kind:"method", modality: "image", tokens: 2048, note: "up to 4 ref imgs" },
+  { name: "RePIC", kind:"method", modality: "text+image", tokens: 1536, note: "max 3 ref imgs" },
+  { name: "R2P", kind:"method", modality: "text+image", tokens: 512, note: "1 ref img + category" },
+  { name: "PVChat", kind:"method", modality: "image", tokens: 4096, note: "1 video/subject, 8 frames" },
+  { name: "Concept-as-Tree", kind:"method", modality: "text+image", tokens: 1024, note: "1-3 real imgs + synthetic" },
+  { name: "Personalized Rep from Personalized Gen", kind:"method", modality: "image", tokens: 1536, note: "3 real ref imgs/instance" },
+  { name: "PEARL", kind:"method", modality: "text+image", tokens: 512, note: "~1 frame/clip per concept" },
+  { name: "Bring My Cup!", kind:"method", modality: "text+image", tokens: 2560, note: "~5 ref imgs/object (VLA)" },
+  { name: "HMPPS", kind:"method", modality: "text+image", tokens: 4300, note: "5-7 products (img+text)/user" },
+  { name: "Orca", kind:"method", modality: "text+image", tokens: 230, note: "profile + traits (imgs captioned)" },
+  { name: "CFALR", kind:"method", modality: "text+image", tokens: 2500, note: "3-5 hist items (img+text+CF)" },
+  { name: "HaNoRec", kind:"method", modality: "text+image", tokens: 5000, note: "interaction seq + item imgs" },
+  { name: "camroll", kind:"benchmark", modality: "image", tokens: 322560, note: "camroll dataset — full camera roll ~630 imgs/user" },
+  { name: "camroll-v2", kind:"benchmark", modality: "image", tokens: 512000, note: "built on camroll — 1,000 imgs/user, 1,796 Qs, avg 4.2 answer photos/Q (ours)", alpha:1 },
+  { name: "RealFill", kind:"method", modality:"image", tokens:2560, note:"≤5 scene reference images (uses all) — personalized inpainting (generation)" },
+  { name: "CollaPoser", kind:"method", modality:"text+image", tokens:100000, note:"organizes a WHOLE personal album into collage cutouts; LLM selects subset per story (understanding/tool)", caveat:"album size not stated (est.)" },
+  { name: "PRAC (aesthetics)", kind:"method", modality: "text+image", tokens: 5120, note: "10-shot (100-shot=51K) + profile" },
+  { name: "ImageGem", kind:"method", modality: "text+image", tokens: 24576, note: "48 imgs/uploader + prompts" },
+
+  // ---------- METHODS: memory systems (inherit conversational-memory benchmarks) ----------
+  { name: "A-MEM", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo" },
+  { name: "LightMem", kind:"method", modality: "text", tokens: 103000, note: "inherits LongMemEval" },
+  { name: "MemVerse", kind:"method", modality: "text+image", tokens: 103000, note: "inherits LongMemEval + ScienceQA/MSR-VTT" },
+  { name: "SimpleMem", kind:"method", modality: "text+image", tokens: 25750, note: "inherits LoCoMo (+ multimodal variant)" },
+  { name: "TraceMem", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo" },
+  { name: "Zep/Graphiti", kind:"method", modality: "text", tokens: 103000, note: "inherits DMR + LongMemEval" },
+  { name: "MemGPT/Letta", kind:"method", modality: "text", tokens: 20000, note: "inherits DMR (approx)", caveat:"DMR not in GT" },
+  { name: "Mem0", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo" },
+  { name: "MemOS", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo/LongMemEval/PrefEval/PersonaMem" },
+  { name: "Cognee", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo + BEAM" },
+  { name: "EverMemOS", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo/LongMemEval" },
+  { name: "Memory-R1", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo" },
+  { name: "O-Mem", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo/PersonaMem" },
+  { name: "MemInsight", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo + LLM-REDIAL" },
+  { name: "Mem-alpha", kind:"method", modality: "text", tokens: 50000, note: "inherits MemoryAgentBench (approx)", caveat:"bench not in GT" },
+  { name: "MemR3", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo" },
+  { name: "PersonaTree", kind:"method", modality: "text", tokens: 25750, note: "inherits person-understanding benches (approx)" },
+  { name: "VisualClaw", kind:"method", modality: "text+image", tokens: 16400, note: "inherits EgoSchema/Video-MME (approx)", caveat:"est." },
+
+  // ---------- METHODS: recsys crossover (own ultra-long behavior history) ----------
+  { name: "DV365", kind:"method", modality: "text", tokens: 40000, note: "user history avg 40K (up to 70K events)" },
+  { name: "HiT-LBM", kind:"method", modality: "text", tokens: 115000, note: "lifelong chunks ~2,350-2,750 items" },
+  { name: "HLLM", kind:"method", modality: "text", tokens: 8000, note: "50 items x <=256 tok (academic)" },
+  { name: "TWIN V2", kind:"method", modality: "text", tokens: 1000000, note: "behavior seq up to ~10^6 items (IDs)" },
+
+  // ---------- METHODS: text profiling / preference (own or inherit LaMP) ----------
+  { name: "PPlug", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP (full user history)" },
+  { name: "MTA", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP" },
+  { name: "RPO", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP" },
+  { name: "P2P (Instant Adapt)", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP/LongLaMP" },
+  { name: "PriME", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP" },
+  { name: "Attn-GS", kind:"method", modality: "text", tokens: 10000, note: "inherits LaMP-5 + MovieLens (compresses)" },
+  { name: "Rewrite Prompts", kind:"method", modality: "text", tokens: 5000, note: "Avocado/Amazon/Reddit history" },
+  { name: "Guided Profile Generation", kind:"method", modality: "text", tokens: 400, note: "Amazon/LaMP-7/PER-CHAT" },
+  { name: "BUMP (Self-supervised Profile)", kind:"method", modality: "text", tokens: 300, note: "free-form profile (T=300, from 15 items)" },
+  { name: "Imitating Real Person Style", kind:"method", modality: "text", tokens: 5900, note: "~4,400-word transcript segment" },
+  { name: "PRELUDE / CIPHER", kind:"method", modality: "text", tokens: 10000, note: "edit history over 200 rounds (rough)" },
+  { name: "AuPEL", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP/Amazon reviews" },
+  { name: "ProfiLLM", kind:"method", modality: "text", tokens: 1000, note: "profile from ~6-7 troubleshooting convos" },
+  { name: "MetaRouter", kind:"method", modality: "text", tokens: 3000, note: "~6 pairwise cost-perf prefs" },
+  { name: "CAPO", kind:"method", modality: "text", tokens: 5000, note: "per-annotator label+explanation history" },
+  { name: "EpiPersona", kind:"method", modality: "text", tokens: 5000, note: "~9-15 preference pairs/user" },
+  { name: "VRF", kind:"method", modality: "text", tokens: 2000, note: "small per-user preference-pair set" },
+  { name: "PAHF", kind:"method", modality: "text", tokens: 3000, note: "per-user memory (embodied+shopping)" },
+  { name: "PersonaGym+PPOpt", kind:"method", modality: "text", tokens: 3000, note: "interaction trajectory + profile" },
+  { name: "POPI", kind:"method", modality: "text", tokens: 300, note: "4-8 pref pairs -> NL summary" },
+  { name: "Clarifying Questions", kind:"method", modality: "text", tokens: 800, note: "up to 10 clarifying-Q turns" },
+  { name: "UniMS-RAG", kind:"method", modality: "text", tokens: 150, note: "inherits DuLeMon/KBP (persona sents)" },
+  { name: "MAESTRO", kind:"method", modality: "text", tokens: 300, note: "running preference memory (GUI)" },
+  { name: "CCS", kind:"method", modality: "text", tokens: 100, note: "structured capability profile" },
+  { name: "CLIPR (Transferable Prefs)", kind:"method", modality: "text", tokens: 150, note: "NL pref rules over <=15 turns" },
+  { name: "Continuous Behavioral (Health)", kind:"method", modality: "text+image", tokens: 300, note: "onboarding profile + behavior (UI)" },
+  { name: "Personalized Text Gen (Fine-Grained)", kind:"method", modality: "text", tokens: 100, note: "linguistic attribute spec" },
+  { name: "Inferring Personality from Conversations", kind:"method", modality: "text", tokens: 2000, note: "one transcript/user", caveat:"name ambiguous" },
+  { name: "Implicit Persona Detection", kind:"method", modality: "text", tokens: 150, note: "inherits PersonaChat (implicit)" },
+
+  // ---------- METHODS: steering / activation-editing (~0 personal-context tokens) ----------
+  { name: "Persona Vectors in Games", kind:"method", modality: "text", tokens: 10, note: "activation steering vector", caveat:"~0 context" },
+  { name: "Geometry of Persona", kind:"method", modality: "text", tokens: 10, note: "persona vector arithmetic", caveat:"~0 context" },
+  { name: "Contrastive Activation Steering", kind:"method", modality: "text", tokens: 10, note: "activation direction", caveat:"~0 context" },
+  { name: "Playing Devil's Advocate", kind:"method", modality: "text", tokens: 10, note: "off-the-shelf persona vector", caveat:"~0 context" },
+  { name: "Tracing Persona Vectors", kind:"method", modality: "text", tokens: 10, note: "interpretability, steering dir", caveat:"~0 context" },
+  { name: "CLIPer", kind:"method", modality: "text", tokens: 10, note: "classifier-guided logit steering", caveat:"~0 context" },
+  { name: "Dynamic Generation of Personalities", kind:"method", modality: "text", tokens: 10, note: "hypernetwork trait conditioning", caveat:"~0 context" },
+  { name: "AdaptFuse", kind:"method", modality: "text", tokens: 10, note: "externalized Bayesian posterior", caveat:"~0 to LLM" },
+  { name: "Context Steering (CoS)", kind:"method", modality: "text", tokens: 30, note: "short context string (decoding)" },
+
+  // ---------- METHODS: SFT/RL batch B ----------
+  { name: "CDCDA-PLM (On-Device)", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP (6 tasks)" },
+  { name: "VAC (NL Feedback QA)", kind:"method", modality: "text", tokens: 13500, note: "inherits LaMP-QA" },
+  { name: "MM-R1", kind:"method", modality: "text+image", tokens: 600, note: "1 ref img + prompt (zero-shot)" },
+  { name: "End-to-End Personalization", kind:"method", modality: "text", tokens: 1200, note: "<=20 rated items/user (MovieLens)" },
+  { name: "CAP-LLM", kind:"method", modality: "text", tokens: 2000, note: "<=50 clicked articles (up to ~25k w/ bodies)" },
+  { name: "CoPe", kind:"method", modality: "text", tokens: 1000, note: "inherits LaMP + LongLaMP" },
+  { name: "Generative Adapter", kind:"method", modality: "text", tokens: 6000, note: "inherits MSC (multi-session chat)" },
+  { name: "Personalized LM w/o User IDs", kind:"method", modality: "text", tokens: 10, note: "per-user embedding (~1 soft token)", caveat:"compressed" },
+  { name: "Online Personalizing White-box", kind:"method", modality: "text", tokens: 30, note: "online neural-bandit soft prompt" },
+  { name: "OPPU (Democratizing)", kind:"method", modality: "text", tokens: 8000, note: "inherits LaMP, full untruncated history" },
+  { name: "Per-Pcs (Personalized Pieces)", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP" },
+  { name: "HYDRA", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP (5 tasks)" },
+  { name: "PEFT-U", kind:"benchmark", modality: "text", tokens: 300, note: "13+ tasks, 15k+ users; small per-user example set" },
+
+  // ---------- METHODS: raw-dump Memory/Retrieval ----------
+  { name: "TRUSTMEM", kind:"method", modality: "text", tokens: 150000, note: "inherits MemoryAgentBench/HaluMem/Mem-alpha", caveat:"ID med" },
+  { name: "Towards Root Memories", kind:"benchmark", modality: "text", tokens: 30000, note: "introduces IMLogic (undisclosed)", caveat:"tok est." },
+  { name: "WISPA (Wireless Personal Agent)", kind:"method", modality: "text", tokens: 800, note: "wireless-sim preference params", caveat:"loose list fit" },
+  { name: "AtomMem", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo", caveat:"name collision" },
+  { name: "Statistical Priors (Implicit Prefs)", kind:"method", modality: "text", tokens: 2000, note: "ToolBench-60 skill stats" },
+  { name: "MemGuard", kind:"method", modality: "text", tokens: 50000, note: "inherits HaluMem/LoCoMo/LongMemEval/PerLTQA", caveat:"ID med" },
+  { name: "DeferMem", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo + LongMemEval-S" },
+  { name: "EmoTrack", kind:"benchmark", modality: "text", tokens: 10000, note: "LongCounsel-8 (5 sessions x ~40 turns)" },
+  { name: "CALMem", kind:"method", modality: "text", tokens: 20000, note: "custom 30-session eval (deploy up to ~25M)" },
+  { name: "TriMem (Rethinking How to Remember)", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo + PerLTQA" },
+  { name: "RUMS", kind:"method", modality: "text", tokens: 500, note: "50 static memory items/profile" },
+  { name: "HingeMem", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo" },
+  { name: "SensorPersona", kind:"method", modality: "text", tokens: 4300000, note: "up to 3mo mobile-sensor stream (~143k/day)", caveat:"non-image sensor outlier" },
+  { name: "FileGram", kind:"benchmark", modality: "text+image", tokens: 5500, note: "FileGramBench (+PDF/audio/video)" },
+  { name: "MemMachine", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo + LongMemEval-S" },
+  { name: "Orion", kind:"method", modality: "text", tokens: 4500, note: "inherits PersonalWAB (~30 records/user)" },
+  { name: "MemRerank", kind:"benchmark", modality: "text", tokens: 3000, note: "own (Amazon-Review-2023 + C4)", caveat:"tok est." },
+  { name: "Multi-Step Retrieval Reasoning", kind:"method", modality: "text", tokens: 13500, note: "inherits LaMP-QA (top-k=3)" },
+  { name: "P3 (User Privacy Personalized Gen)", kind:"method", modality: "text", tokens: 13500, note: "inherits LaMP-QA (m=10)" },
+  { name: "PURPLE (Contextual Bandits)", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP + LongLaMP (K=5 of 20)" },
+  { name: "Bi-Mem", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo" },
+  { name: "Me-Agent", kind:"method", modality: "text+image", tokens: 7500, note: "own UserFingerTip (60 users, instr+screenshots)" },
+  { name: "Inside Out (Core Memory Trees)", kind:"method", modality: "text", tokens: 32000, note: "inherits PersonaMem" },
+  { name: "PGraphRAG", kind:"benchmark", modality: "text", tokens: 600, note: "sparse (1-2.4 reviews/user, top-k~4)" },
+  { name: "SeCom", kind:"method", modality: "text", tokens: 25750, note: "inherits LoCoMo + Long-MT-Bench+" },
+  { name: "Integrating Summarization & Retrieval", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP (retrieval-capped)" },
+  { name: "PLUM (Learn to Remember Convs)", kind:"method", modality: "text", tokens: 100000, note: "up to 100 convs/user (LoRA-injected)" },
+  { name: "ROPG (Retrieval-Aug Opt)", kind:"method", modality: "text", tokens: 5000, note: "inherits LaMP (1-6)" },
+
+  // ---------- METHODS/benchmarks: final VLM-B stragglers ----------
+  { name: "RF-Mem (Evoking User Memory)", kind:"method", modality: "text", tokens: 100000, note: "inherits PersonaMem/LongMemEval (retrieves small top-K)" },
+  { name: "Persona Hub (1B Personas)", kind:"benchmark", modality: "text", tokens: 20, note: "1-2 sentence persona descriptions" },
+  { name: "Personalized LLMs (Wozniak, ICDMw)", kind:"method", modality: "text", tokens: 10, note: "user ID + learned embedding (~1 token)", caveat:"compressed" },
+  { name: "LaMP", kind:"benchmark", modality: "text", tokens: 5000, note: "17-290 items/task; RAG feeds top-K" },
+  { name: "Predict Persona for Dialogue", kind:"method", modality: "text", tokens: 55, note: "inherits PersonaChat (predicted persona)" },
+
+  // ---------- newly added benchmarks ----------
+  { name: "Mem-PAL", kind:"benchmark", modality:"text", tokens:50000, note:"888 logs + 361 turns/user (~62.5 topics), Chinese", caveat:"tokens est. (paper uses logs/turns)" },
+  { name: "ALPBench (Ren)", kind:"benchmark", modality:"text", tokens:100000, note:"194-429 behaviors/user; 3/6/12-mo horizons; needs full history" },
+  { name: "GISTBench", kind:"benchmark", modality:"text", tokens:5000, note:"≤100 short-video engagements/prompt (VLM-described)", caveat:"tokens est. (paper uses engagement counts)" },
+
+  // ---------- GENERAL long-context / needle-in-haystack benchmarks (NOT personal -> hollow) ----------
+  { name:"NIAH", kind:"benchmark", modality:"text", tokens:128000, note:"original needle-in-haystack (Paul Graham essay filler)", general:true },
+  { name:"RULER", kind:"benchmark", modality:"text", tokens:128000, note:"13 synthetic long-context tasks", general:true },
+  { name:"LongBench", kind:"benchmark", modality:"text", tokens:13000, note:"bilingual multitask long-context (avg ~13K)", general:true },
+  { name:"InfiniteBench", kind:"benchmark", modality:"text", tokens:200000, note:"100K+ token tasks (passkey, novel QA)", general:true },
+  { name:"HELMET", kind:"benchmark", modality:"text", tokens:128000, note:"7-category long-context eval", general:true },
+  { name:"Visual Haystacks", kind:"benchmark", modality:"image", tokens:5120000, note:"up to 10,000 generic COCO images", general:true },
+  { name:"MM-NIAH", kind:"benchmark", modality:"text+image", tokens:72000, note:"multimodal needle (≤36 interleaved images)", general:true },
+  { name:"VNBench", kind:"benchmark", modality:"text+image", tokens:92000, note:"video needle-in-haystack (60-180s)", general:true },
+];
+
+const colors = { image: "#e07a5f", text: "#3d5a80", "text+image": "#81b29a" };
+const modalities = ["image", "text", "text+image"];
+// shape = kind (benchmark ● / method ◆); FILL = personal (filled) vs general (hollow, not user-specific)
+function symbolFor(p){ const b = p.kind==="method" ? "diamond" : "circle"; return p.general ? b+"-open" : b; }
+function hover(p){ return `<b>${p.name}</b> (${p.kind})<br>${p.tokens.toLocaleString()} tokens<br>${p.note}${p.caveat ? '<br><i>⚠ '+p.caveat+'</i>' : ''}`; }
+// marker size encodes temporal span (days). null span -> small base size.
+function sizeForSpan(d){ return d == null ? 6 : 8 + 10*Math.log10(d); }
+function spanLabel(d){ return d == null ? "span: not stated" : ("span ≈ " + d + " days" + (d>=365 ? " ("+(d/365).toFixed(1)+" yr)" : "")); }
+function shortName(n){ return n.replace(/\s*\(.*?\)\s*/g, "").trim(); }
+
+// benchmark-only metadata for the alternate Y-axes. needle = tokens needed per query; spanDays = temporal span.
+const benchMeta = {
+  "ATM-Bench":{needle:145,spanDays:1460}, "DIS-Bench":{needle:1968,spanDays:1241}, "Persona-MME":{needle:512,spanDays:30},
+  "PhotoBench":{needle:512,spanDays:null}, "MemoryQA":{needle:512,spanDays:null}, "OmniQuery":{needle:512,spanDays:69},
+  "PersonaMem":{needle:512,spanDays:14}, "CUPID":{needle:922,spanDays:7}, "MMPB":{needle:1024,spanDays:null},
+  "LifeSim":{needle:500,spanDays:60}, "MemoryCD":{needle:500,spanDays:730}, "PERMA":{needle:500,spanDays:90},
+  "LOCOMO":{needle:500,spanDays:90}, "LongMemEval":{needle:3000,spanDays:45}, "BABILong":{needle:30,spanDays:null},
+  "ConvoMem":{needle:300,spanDays:28}, "ChildEval":{needle:4000,spanDays:null}, "Whose Norms? (PACT)":{needle:30,spanDays:null},
+  "Psy-Chronicle":{needle:null,spanDays:112}, "SocialPersona":{needle:6144,spanDays:730}, "PEC-Home":{needle:105,spanDays:null},
+  "STALE":{needle:null,spanDays:null}, "Personalized Benchmarking":{needle:null,spanDays:null}, "Stories of Your Life as Others":{needle:null,spanDays:null},
+  "Ego-Grounding (MyEgo)":{needle:8192,spanDays:7}, "PICon":{needle:null,spanDays:null}, "AgenticShop":{needle:null,spanDays:null},
+  "Persona2Web":{needle:300,spanDays:365}, "EmoHarbor":{needle:null,spanDays:null}, "BESPOKE":{needle:null,spanDays:21},
+  "LaMP-QA":{needle:1000,spanDays:null}, "LongLaMP":{needle:400,spanDays:null}, "PersonalSum":{needle:500,spanDays:null},
+  "Can LLM be a Personalized Judge?":{needle:50,spanDays:null}, "FoCus":{needle:65,spanDays:null}, "PersonaChat":{needle:50,spanDays:null},
+  "VisualMem (Personal Visual Memory)":{needle:512,spanDays:60}, "iOSWorld":{needle:null,spanDays:null}, "PEFT-U":{needle:300,spanDays:null},
+  "EmoTrack":{needle:500,spanDays:null}, "MemRerank":{needle:null,spanDays:null}, "PGraphRAG":{needle:500,spanDays:null},
+  "FileGram":{needle:null,spanDays:null}, "Persona Hub (1B Personas)":{needle:20,spanDays:null}, "LaMP":{needle:1600,spanDays:null},
+  "Towards Root Memories":{needle:null,spanDays:null},
+  // retrieval-style METHOD that genuinely has a needle (big haystack -> tiny answer set)
+  "camroll":{needle:512,spanDays:1095}, "camroll-v2":{needle:2156,spanDays:1095}, "PrefEval":{needle:50,spanDays:null},
+  "RealFill":{needle:2560,spanDays:null}, "CollaPoser":{needle:5120,spanDays:null},
+  "Mem-PAL":{needle:6000,spanDays:282}, "ALPBench (Ren)":{needle:100000,spanDays:365}, "GISTBench":{needle:150,spanDays:30},
+  "NIAH":{needle:40,spanDays:null}, "RULER":{needle:40,spanDays:null}, "LongBench":{needle:500,spanDays:null},
+  "InfiniteBench":{needle:40,spanDays:null}, "HELMET":{needle:500,spanDays:null}, "Visual Haystacks":{needle:512,spanDays:null},
+  "MM-NIAH":{needle:512,spanDays:null}, "VNBench":{needle:512,spanDays:null}
+};
+
+// one real example Q&A per dataset (from raw data / papers) for the hover tooltip
+const examples = {
+  "ATM-Bench": "Q: How much did I pay in total for my accommodation for BMVC 2024? — A: £799.74",
+  "DIS-Bench": "Q: Find photos from the musical performance with the blue-and-white logo, only the lead singer on stage — A: (retrieve photo IDs)",
+  "Persona-MME": "Q: That picture of two giraffes I sent last week — what was the thought I had? — A: Ames' small stories",
+  "photo-bench": "Q: retrieve “cluttered desk” from my album — A: (image retrieval)",
+  "PhotoBench": "Q: retrieve “cluttered desk” from my personal album — A: (image retrieval, ranked photo IDs)",
+  "BABILong": "Q: Where is the apple? — A: (single fact recovered from long distractor text)",
+  "In-house (Adobe)": "Q: What is my occupation? — A: Student",
+  "PersonaMem": "Q: I went to an Italian restaurant yesterday. — A: Nice! Though I thought you prefer Mediterranean now.",
+  "CUPID": "Q: Help me revise this section. — A: (applies the concise, jargon-free style prior sessions revealed) [illustrative]",
+  "MMPB": "Q: Is <sks> (my personalized concept) in the image? — A: Yes.",
+  "LOCOMO": "Q: What is Caroline's marital status? — A: (single-hop fact recalled from earlier chat)",
+  "LongMemEval": "Q: What car model did I mention buying? — A: Tesla Model 3.",
+  "ConvoMem": "Q: What university is Emma attending? — A: Stanford.",
+  "PrefEval": "Pref: I have an intense phobia of insects. → Q: recommend summer outdoor activities — A: (insect-free ones)",
+  "ChildEval": "Q: Dad said he'd take me to the flower garden — have you been? — A: …since you're allergic to pollen, wear a mask…",
+  "LaMP": "Q: Generate a headline for this news article in the author's style — A: (headline matching their past HuffPost style)",
+  "LaMP-QA": "Q: (Travel) beginner-friendly hiking trails near me? + user narrative — A: (long-form, covers user's aspects) [illustrative]",
+  "LongLaMP": "Q: Generate an abstract for the title 'Reactive and dynamic local search for max-clique…' — A: This paper presents…",
+  "PersonalSum": "Q: Summarize this article for this reader — A: (reader-focused summary emphasizing what they care about)",
+  "Can LLM be a Personalized Judge?": "Q: Given this user profile, would they prefer response A or B? — A: A (+ certainty)",
+  "FoCus": "Q: Cool! What is it? — A: This is Thorps Building, a heritage-listed commercial building.",
+  "PersonaChat": "Persona: I like hunting. → Q: getting ready for cheetah chasing to stay in shape — A: You must be fast! Hunting's a favorite of mine.",
+  "MemoryQA": "Q: Where did I park my car? — A: (recalled from stored photo memories)",
+  "OmniQuery": "Q: Which meat did I order last time at this Japanese BBQ place? — A: (from retrieved dining memory)",
+  "VisualMem (Personal Visual Memory)": "Q: Does the desk get enough natural light? — A: Yes, it seems well lit by the nearby window.",
+  "Ego-Grounding (MyEgo)": "Q: Is this my rag? — A: Yes, it's on the steering wheel.",
+  "Whose Norms? (PACT)": "Q: In Afghanistan, wear a hijab outside or a loose scarf? — A: Follow-Culture (hijab) vs Allow-Preference (scarf)",
+  "SocialPersona": "Q: Recommend something that fits my usual taste — A: (rec matching timeline-inferred interests)",
+  "PEC-Home": "Q: Turn on the light (room omitted) — A: bedroom.light.turn_on()",
+  "Persona2Web": "Q: Find a female doctor near Southside Jacksonville on my preferred site — A: (infer preferred site, filter)",
+  "LifeSim": "Q: Suggest a sport for me right now (rainy, 10:30, home) — A: You can do 20–30 min of yoga.",
+  "MemoryCD": "Q: Predict my star rating for this Home & Kitchen product — A: (rating from cross-domain history)",
+  "PERMA": "Q: Set up weekly family lunches on Sundays — A: (schedules recurring, recalling family preference)",
+  "PEFT-U": "Q: Label this post (offensive?) — A: (differs per user: normal / hatespeech / offensive)",
+  "EmoTrack": "Q: (a counseling-session transcript) — A: PHQ-8 depression severity score 0–24",
+  "PGraphRAG": "Q: Great stay, clean room in DT Seattle — A: (expanded review in the user's writing style)",
+  "Persona Hub (1B Personas)": "Q: (linguist persona) create a math problem — A: (a computational-linguistics-flavored problem)",
+  "camroll": "Q: What did I eat for breakfast? — A: (grounded in the user's camera-roll photos)",
+  "camroll-v2": "Q: Find all photos from Oct 2021 when I led our group meeting — A: (returns the matching photos)",
+  "Mem-PAL": "Q: (brief work-advice request) — A: (infers full implicit need from logged preferences)",
+  "ALPBench (Ren)": "Q: 12mo shoe interactions → next-purchase attributes — A: Price:Medium, Running Shoes, Laces, Round toe",
+  "GISTBench": "Q: verify the user's interests from 30d of video engagement — A: (interests with ≥2 explicit signals)",
+  "NIAH": "Q: What's the best thing to do in SF? — A: eat a sandwich in Dolores Park (planted fact)",
+  "RULER": "Q: retrieve the value for this key among many distractor KV pairs — A: (the magic number)",
+  "LongBench": "Q: single-doc QA over a long legal/scientific document — A: (span-grounded answer)",
+  "InfiniteBench": "Q: recover the passkey buried in 100K+ tokens — A: (the hidden number)",
+  "HELMET": "Q: many-doc RAG QA over 128K tokens — A: (answer with citations)",
+  "Visual Haystacks": "Q: For the image with a dog, is there a car? — A: (find the needle image among thousands)",
+  "MM-NIAH": "Q: which inserted image appeared in the document? — A: (the DALL·E cartoon)",
+  "VNBench": "Q: retrieve/order/count needles inserted into a video — A: (the needle answer)",
+  "RealFill": "Q: fill the missing region of this photo — A: (authentic completion from ~5 reference shots)",
+  "CollaPoser": "Q: build a storytelling collage from my album about our trip — A: (selected, segmented photo cutouts)"
+};
+
+// arXiv IDs (accuracy-checked; a few uncertain raw-dump entries left out rather than mis-linked).
+// The ID also encodes the publication date: YYMM.NNNNN -> MM/20YY.
+const arxivId = {
+  "ATM-Bench":"2603.01990","DIS-Bench":"2602.10809","Persona-MME":"2604.13074","PhotoBench":"2603.01493",
+  "MemoryQA":"2509.18436","OmniQuery":"2409.08250","PersonaMem":"2504.14225","CUPID":"2508.01674","MMPB":"2509.22820",
+  "LifeSim":"2603.12152","MemoryCD":"2603.25973","PERMA":"2603.23231","LOCOMO":"2402.17753","LongMemEval":"2410.10813",
+  "BABILong":"2406.10149","ConvoMem":"2511.10523","ChildEval":"2605.27805","Whose Norms? (PACT)":"2606.07877",
+  "Psy-Chronicle":"2605.22140","SocialPersona":"2606.26654","PEC-Home":"2606.18636","STALE":"2605.06527",
+  "Personalized Benchmarking":"2604.18943","Stories of Your Life as Others":"2604.06071","Ego-Grounding (MyEgo)":"2604.01966",
+  "PICon":"2603.25620","AgenticShop":"2602.12315","Persona2Web":"2602.17003","EmoHarbor":"2601.01530","BESPOKE":"2509.21106",
+  "LaMP-QA":"2506.00137","LongLaMP":"2407.11016","PersonalSum":"2410.03905","Can LLM be a Personalized Judge?":"2406.11657",
+  "FoCus":"2112.08619","PersonaChat":"1801.07243","VisualMem (Personal Visual Memory)":"2605.28806","iOSWorld":"2606.09764",
+  "PEFT-U":"2407.18078","EmoTrack":"2605.22286","PGraphRAG":"2501.02157","FileGram":"2604.04901","Persona Hub (1B Personas)":"2406.20094","LaMP":"2304.11406","PrefEval":"2502.09597","PersonaMem-v2":"2512.06688",
+  "DreamBooth":"2208.12242","Yo'LLaVA":"2406.09400","MyVLM":"2403.14599","PALAVRA":"2204.01694","PeKit":"2502.02452",
+  "PLVM":"2412.17610","MC-LLaVA":"2411.11706","PVIT":"2410.07113","RAP-MLLM":"2410.13360","UniCTokens":"2505.14671",
+  "YoChameleon":"2504.20998","ICPT":"2605.31513","Personal-VCL":"2605.10936","Ego (Embedding-Guided)":"2603.09771",
+  "CoViP":"2602.03454","Online-PVLM":"2511.20056","RePIC":"2506.18369","R2P":"2503.18623","PVChat":"2503.17069",
+  "Concept-as-Tree":"2503.12999","Personalized Rep from Personalized Gen":"2412.16156","PEARL":"2603.20422",
+  "Bring My Cup!":"2512.20014","HMPPS":"2509.18682","Orca":"2411.10006","CFALR":"2606.13001","HaNoRec":"2511.18740",
+  "camroll":"2606.05275","PRAC (aesthetics)":"2607.15752","ImageGem":"2510.18433",
+  "A-MEM":"2502.12110","LightMem":"2510.18866","MemVerse":"2512.03627","SimpleMem":"2601.02553","TraceMem":"2602.09712",
+  "Zep/Graphiti":"2501.13956","MemGPT/Letta":"2310.08560","Mem0":"2504.19413","MemOS":"2507.03724","EverMemOS":"2601.02163",
+  "Memory-R1":"2508.19828","O-Mem":"2511.13593","MemInsight":"2503.21760","Mem-alpha":"2509.25911","MemR3":"2512.20237",
+  "PersonaTree":"2606.04780","VisualClaw":"2606.16295",
+  "DV365":"2506.00450","HiT-LBM":"2505.19505","HLLM":"2409.12740","TWIN V2":"2407.16357",
+  "PPlug":"2409.11901","MTA":"2511.20072","RPO":"2511.05286","P2P (Instant Adapt)":"2510.16282","PriME":"2503.18008",
+  "Attn-GS":"2602.07778","Rewrite Prompts":"2310.00152","Guided Profile Generation":"2409.13093","BUMP (Self-supervised Profile)":"2606.05336",
+  "Imitating Real Person Style":"2410.03848","PRELUDE / CIPHER":"2404.15269","AuPEL":"2310.11593","ProfiLLM":"2506.13980",
+  "MetaRouter":"2606.06178","CAPO":"2605.28802","EpiPersona":"2603.28197","VRF":"2604.00997","PAHF":"2602.16173",
+  "PersonaGym+PPOpt":"2602.12394","POPI":"2510.17881","Clarifying Questions":"2510.12015","UniMS-RAG":"2401.13256",
+  "MAESTRO":"2604.06134","CCS":"2605.15404","CLIPR (Transferable Prefs)":"2605.12682","Continuous Behavioral (Health)":"2606.26937",
+  "Personalized Text Gen (Fine-Grained)":"2402.04914","Inferring Personality from Conversations":"2507.14355","Implicit Persona Detection":"2204.07372",
+  "Persona Vectors in Games":"2603.21398","Geometry of Persona":"2512.07092","Contrastive Activation Steering":"2503.05213",
+  "Playing Devil's Advocate":"2605.21006","Tracing Persona Vectors":"2605.13329","CLIPer":"2605.07162",
+  "Dynamic Generation of Personalities":"2404.07084","AdaptFuse":"2604.03925","Context Steering (CoS)":"2405.01768",
+  "CDCDA-PLM (On-Device)":"2508.21313","VAC (NL Feedback QA)":"2508.10695","MM-R1":"2508.11433","End-to-End Personalization":"2508.01514",
+  "CAP-LLM":"2508.03935","CoPe":"2506.12109","Generative Adapter":"2411.05877","Personalized LM w/o User IDs":"2501.06062",
+  "Online Personalizing White-box":"2404.16115","OPPU (Democratizing)":"2402.04401","Per-Pcs (Personalized Pieces)":"2406.10471","HYDRA":"2406.02888",
+  "Personalized LLMs (Wozniak, ICDMw)":"2402.09269","Predict Persona for Dialogue":"2111.15093",
+  "DeferMem":"2605.22411","CALMem":"2605.20724","TriMem (Rethinking How to Remember)":"2605.19952","RUMS":"2604.14473",
+  "HingeMem":"2604.06845","SensorPersona":"2604.06204","MemMachine":"2604.04853",
+  "TRUSTMEM":"2606.25161","Towards Root Memories":"2606.23283","WISPA (Wireless Personal Agent)":"2606.23255",
+  "AtomMem":"2606.19847","Statistical Priors (Implicit Prefs)":"2606.05828","MemGuard":"2605.28009",
+  "Inside Out (Core Memory Trees)":"2601.05171","SeCom":"2502.05589","Integrating Summarization & Retrieval":"2310.20081",
+  "PLUM (Learn to Remember Convs)":"2411.13405","ROPG (Retrieval-Aug Opt)":"2404.05970","RF-Mem (Evoking User Memory)":"2603.09250",
+  "MemRerank":"2603.29247","Multi-Step Retrieval Reasoning":"2602.19317","P3 (User Privacy Personalized Gen)":"2601.17569",
+  "PURPLE (Contextual Bandits)":"2601.12078","Bi-Mem":"2601.06490","Me-Agent":"2601.20162",
+  "Mem-PAL":"2511.13410","ALPBench (Ren)":"2602.03056","GISTBench":"2603.29112",
+  "RULER":"2404.06654","LongBench":"2308.14508","InfiniteBench":"2402.13718","HELMET":"2410.02694",
+  "Visual Haystacks":"2407.13766","MM-NIAH":"2406.07230","VNBench":"2406.09367",
+  "RealFill":"2309.16668","CollaPoser":"2601.18428"
+};
+function arxivDate(id){ return (id && /^\d{4}\./.test(id)) ? (id.slice(2,4)+"/20"+id.slice(0,2)) : ""; }
+// fill opacity encodes recency: older paper -> fainter, near-now (mid-2026) -> solid.
+const NOW_FRAC = 2026 + 6/12, OLDEST_FRAC = 2018;
+function alphaForRecency(p){
+  if(p.alpha != null) return p.alpha;                   // explicit override (e.g. our newest work)
+  const id = arxivId[p.name];
+  if(!id || !/^\d{4}\./.test(id)) return 0.4;           // unknown date -> mid
+  const yf = 2000 + (+id.slice(0,2)) + ((+id.slice(2,4))-1)/12;
+  const a = (yf - OLDEST_FRAC) / (NOW_FRAC - OLDEST_FRAC);
+  return Math.max(0.18, Math.min(1, a));                // floor 0.18 so oldest stay visible
+}
+
+// camroll-v2 example queries: same haystack (512K), needle varies purely by task type.
+const demoQueries = [
+  {q:"Do you remember the place with a castle-like building on green grass?", needle:1024, driver:"single-retrieval"},
+  {q:"Gather beautiful running locations worldwide (selfies / first-person / scenic).", needle:15360, driver:"set-retrieval"},
+  {q:"Find all photos of me taken before my daughter was born.", needle:102400, driver:"set-retrieval + temporal-cutoff"},
+  {q:"Choose 5 diverse photos from my 6-month Central America trip (diving, hiking, ...).", needle:76800, driver:"selection-ranking"},
+  {q:"What kind of fungus is this?", needle:512, driver:"single-image (no history)"},
+  {q:"Choose the five best photos from my last trip.", needle:38400, driver:"selection-ranking"},
+  {q:"Find a photo of me croppable to a square profile picture.", needle:5120, driver:"attribute-search"},
+  {q:"Find the best photos of my cat from 2014.", needle:7680, driver:"filtered-ranking"},
+  {q:"Where did I go in September 2009?", needle:10240, driver:"temporal-aggregation"},
+  {q:"What food did I eat during 2020?", needle:30720, driver:"temporal-aggregation (long-range)"},
+  {q:"Find a beautiful sunset photo.", needle:1024, driver:"single-retrieval"},
+  {q:"Where have I visited?", needle:256000, driver:"holistic-aggregation"},
+  {q:"How much time did I spend underwater vs above water?", needle:512000, driver:"holistic-aggregation (all)"},
+  {q:"What did I do at CVPR?", needle:10240, driver:"event-aggregation"},
+  {q:"我的照片里有什么？", needle:512000, driver:"holistic-aggregation"},
+  {q:"When was the last time I ate pizza?", needle:1536, driver:"filtered + recency"},
+  {q:"Find photos from my birthday party.", needle:10240, driver:"event set-retrieval"},
+  {q:"Where did I leave my key?", needle:1024, driver:"single-retrieval (recent)"},
+  {q:"Where have I traveled?", needle:204800, driver:"holistic-aggregation"},
+  {q:"Where should I go for my next trip?", needle:204800, driver:"holistic-aggregation + reasoning"},
+  {q:"Choose memories featuring my dog.", needle:15360, driver:"set-retrieval (subject)"},
+  {q:"我昨天吃了什么？", needle:2048, driver:"temporal-filter (small)"},
+  {q:"Create a 1990s-style selfie in front of the Golden Gate Bridge.", needle:1024, driver:"generation"},
+  {q:"Choose the photo in which I look happiest.", needle:51200, driver:"selection-ranking"},
+  {q:"Find photos of my family.", needle:25600, driver:"set-retrieval (subject)"}
+];
+
+function render(mode){
+  let traces, layout, note;
+  if(mode === "modality"){
+    traces = modalities.map(mod => {
+      const pts = points.filter(p => p.modality === mod);
+      return { x: pts.map(p=>p.tokens), y: pts.map(()=>mod), text: pts.map(hover), hoverinfo:"text",
+        mode:"markers", type:"scatter", name:mod,
+        marker:{ size:12, color:colors[mod], symbol:pts.map(symbolFor), opacity:pts.map(alphaForRecency), line:{width:0.5,color:"#fff"} } };
+    });
+    layout = { xaxis:{title:"personal context available (tokens, log)",type:"log"},
+      yaxis:{title:"input modality",categoryorder:"array",categoryarray:modalities}, margin:{t:20}, legend:{orientation:"h",y:-0.15} };
+    note = "All 176 points (● benchmark, ◆ method). Widest coverage.";
+  } else if(mode === "needle"){
+    const bpts = points.filter(p => benchMeta[p.name] && benchMeta[p.name].needle != null);
+    traces = modalities.map(mod => {
+      const pts = bpts.filter(p => p.modality === mod);
+      return { x: pts.map(p=>p.tokens), y: pts.map(p=>benchMeta[p.name].needle),
+        text: pts.map(p=>shortName(p.name)),
+        textposition: "top center", textfont: {size:9, color:"#555"},
+        hovertext: pts.map(p=>`<b>${p.name}</b><br>haystack ${p.tokens.toLocaleString()} tok<br>needle ${benchMeta[p.name].needle.toLocaleString()} tok<br>${spanLabel(benchMeta[p.name].spanDays)}`),
+        hoverinfo:"text", mode:"markers+text", type:"scatter", name:mod,
+        marker:{ size:pts.map(p=>sizeForSpan(benchMeta[p.name].spanDays)), color:colors[mod], symbol:pts.map(symbolFor), opacity:pts.map(alphaForRecency), line:{width:0.5,color:"#fff"} } };
+    });
+    traces.push({ x:[10,3000000], y:[10,3000000], mode:"lines", type:"scatter", name:"needle = haystack",
+      line:{dash:"dot",color:"#bbb"}, hoverinfo:"skip" });
+    // camroll-v2 example queries: all at the same haystack (512K), needle varies by task type
+    traces.push({
+      x: demoQueries.map(()=>512000), y: demoQueries.map(d=>d.needle),
+      text: demoQueries.map(d=>`<b>camroll-v2 query</b><br>${d.q}<br>needle ~${d.needle.toLocaleString()} tok — ${d.driver}`),
+      hoverinfo:"text", mode:"markers", type:"scatter", name:"camroll-v2 queries (25)",
+      marker:{ size:7, color:"#7a3b8f", symbol:"x", opacity:0.7 } });
+    layout = { xaxis:{title:"haystack: context available (tokens, log)",type:"log"},
+      yaxis:{title:"needle: context needed per query (tokens, log)",type:"log"}, margin:{t:20}, legend:{orientation:"h",y:-0.15} };
+    note = bpts.length + " benchmarks. Gap below dotted line = retrieval difficulty. Marker SIZE = temporal span (bigger = longer history; smallest = span not stated).";
+  } else {
+    const bpts = points.filter(p => benchMeta[p.name] && benchMeta[p.name].spanDays != null);
+    traces = modalities.map(mod => {
+      const pts = bpts.filter(p => p.modality === mod);
+      return { x: pts.map(p=>p.tokens), y: pts.map(p=>benchMeta[p.name].spanDays),
+        text: pts.map(p=>`<b>${p.name}</b><br>${p.tokens.toLocaleString()} tok<br>span ≈ ${benchMeta[p.name].spanDays} days`),
+        hoverinfo:"text", mode:"markers", type:"scatter", name:mod,
+        marker:{ size:14, color:colors[mod], symbol:"circle", opacity:0.85, line:{width:0.5,color:"#fff"} } };
+    });
+    layout = { xaxis:{title:"personal context available (tokens, log)",type:"log"},
+      yaxis:{title:"temporal span of personal history (days, log)",type:"log"}, margin:{t:20}, legend:{orientation:"h",y:-0.15} };
+    note = "Only " + bpts.length + " benchmarks state a temporal span — the rest are static/not-time-based (sparse axis, honest finding).";
+  }
+  Plotly.react("plot", traces, layout, {responsive:true});
+  document.getElementById("modenote").textContent = "  " + note;
+}
+render("needle");
+
+function rowHtml(p){
+  const id = arxivId[p.name];
+  const nameCell = id ? `<a href="https://arxiv.org/abs/${id}" target="_blank" rel="noopener">${p.name}</a>` : p.name;
+  const bm = benchMeta[p.name] || {};
+  return `<tr><td>${nameCell}</td><td>${p.general?'general':'personal'}</td><td>${p.modality}</td><td>${p.tokens.toLocaleString()}</td><td>${bm.needle!=null?bm.needle.toLocaleString():''}</td><td>${bm.spanDays!=null?bm.spanDays:''}</td><td>${examples[p.name]||''}</td><td>${arxivDate(id)}</td></tr>`;
+}
+const byTok = (a,b)=>a.tokens-b.tokens;
+const benches = points.filter(p=>p.kind==="benchmark").sort(byTok);
+const meths   = points.filter(p=>p.kind==="method").sort(byTok);
+const header = `<tr><th>Name (→ arXiv)</th><th>Personal?</th><th>Modality</th><th>Haystack tok</th><th>Needle tok</th><th>Span days</th><th>Example Q&amp;A</th><th>arXiv mm/yyyy</th></tr>`;
+const sec = (label) => `<tr><td colspan="8" style="background:#e8ecf5;font-weight:bold">${label}</td></tr>`;
+document.getElementById("data-table").innerHTML =
+  header +
+  sec(`BENCHMARKS (${benches.length}) — needle is a property of the task, so it's filled here`) +
+  benches.map(rowHtml).join("") +
+  sec(`METHODS (${meths.length}) — no intrinsic needle (inherits its evaluation benchmark's), so needle is blank by design`) +
+  meths.map(rowHtml).join("") +
+  sec(`CAMROLL-V2 EXAMPLE QUERIES (${demoQueries.length}) — same haystack (512,000), needle 512→512K purely by task type`) +
+  demoQueries.slice().sort((a,b)=>a.needle-b.needle).map(d =>
+    `<tr><td>${d.q}</td><td>personal</td><td>image</td><td>512,000</td><td>${d.needle.toLocaleString()}</td><td>1095</td><td>${d.driver}</td><td></td></tr>`
+  ).join("");
+</script>
+</body>
+</html>

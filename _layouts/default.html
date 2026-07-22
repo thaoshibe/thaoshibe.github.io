@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page.title | default: site.title }}</title>
+  <link rel="stylesheet" href="/static/css/blog.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <img class="header-img" src="https://thaoshibe.github.io/images/Picture1.jpg" alt="">
+    </header>
+    <nav class="site-nav">
+      <a href="/posts/">Posts</a>
+    </nav>
+    <main>
+      {{ content }}
+    </main>
+    <footer class="site-footer">&copy; {{ site.time | date: "%Y" }} {{ site.title | default: "thaoshibe" }}</footer>
+  </div>
+</body>
+</html>

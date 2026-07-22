@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Zoom-in: per-question needle distribution</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="zoom-data.js"></script>
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:960px;margin:40px auto;color:#222}
+  #plot{width:100%;height:640px}
+  .note{color:#666;font-size:0.9rem;line-height:1.5}
+  code{background:#f4f4f4;padding:0 3px;border-radius:3px}
+</style>
+</head>
+<body>
+<h2>Zoom-in: needle per <i>question</i> (not per dataset)</h2>
+<p class="note">
+  Each dot is <b>one question</b>; x = the personal context that question actually needs (needle, log tokens; 1 image ≈ 512).
+  Computed from raw per-question evidence: camroll-v2 <code>anchor_images</code>, ATM-Bench <code>evidence_ids</code>,
+  DIS-Bench <code>answer_photo_ids</code>, camroll-v1 <code>evidence</code>; camroll-demo = our 25 designed queries (estimated).
+  Each row is a <b>density curve</b> (where the mass of questions sits). On the baseline, each <b>bubble = a distinct needle value, sized by how many questions share it</b>; hover a bubble to see those questions in full (up to 20 listed for very large bubbles). All questions included (no subsampling).
+</p>
+<div id="plot"></div>
+<p class="note" id="finding"></p>
+
+<script>
+const order  = ["ATM-Bench","camroll-v1","camroll-v2","DIS-Bench","camroll-demo (est)"];
+const colors = {"ATM-Bench":"#3d5a80","camroll-v1":"#98c1d9","camroll-v2":"#e07a5f","DIS-Bench":"#ee6c4d","camroll-demo (est)":"#7a3b8f"};
+
+function hexToRgba(h,a){ const n=parseInt(h.slice(1),16); return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
+function sizeForCount(c){ return 7 + 6*Math.log10(Math.max(c,1)); }
+function wrap(s,w){ const words=s.split(" "); let line="",out=[]; for(const wd of words){ if((line+" "+wd).trim().length>w){out.push(line);line=wd;} else line=(line?line+" ":"")+wd; } if(line)out.push(line); return out.join("<br>&nbsp;&nbsp;"); }
+function binHover(b){
+  let s = `<b>${b.c} question${b.c>1?"s":""}</b> · needle ≈ ${b.n.toLocaleString()} tok<br>`;
+  s += b.qs.map(q=>"• "+wrap(q,70)).join("<br>");
+  if(b.more>0) s += `<br>…and ${b.more} more`;
+  return s;
+}
+
+const traces = [];
+order.forEach(name => {
+  const bins = zoomData[name];
+  // density curve (from expanded per-question values, in log10 space)
+  const vals = [];
+  bins.forEach(b => { const lx = Math.log10(b.n); for(let i=0;i<b.c;i++) vals.push(lx); });
+  traces.push({
+    type:"violin", orientation:"h", name:name, x:vals, y:vals.map(()=>name),
+    points:false, side:"positive", width:2.2, scalemode:"width",
+    line:{color:colors[name], width:1.5}, fillcolor:hexToRgba(colors[name],0.4),
+    meanline:{visible:true, color:"#333"}, box:{visible:false},
+    hoverinfo:"skip", showlegend:false
+  });
+  // one bubble per distinct needle value, sized by #questions, hover lists the questions
+  traces.push({
+    type:"scatter", mode:"markers", name:name,
+    x: bins.map(b=>Math.log10(b.n)), y: bins.map(()=>name),
+    marker:{ size: bins.map(b=>sizeForCount(b.c)), color:colors[name], opacity:0.8, line:{width:0.7, color:"#fff"} },
+    customdata: bins.map(binHover),
+    hovertemplate: "%{customdata}<extra></extra>", showlegend:false
+  });
+});
+
+Plotly.newPlot("plot", traces, {
+  xaxis: { title: "needle: context needed per question (tokens, log)  ·  bubble size = #questions",
+           tickvals: [2,3,4,5,6], ticktext: ["100","1K","10K","100K","1M"], range: [1.7, 6.05], zeroline:false },
+  yaxis: { automargin: true },
+  hovermode: "closest",
+  hoverlabel: { align: "left", bgcolor: "rgba(255,255,255,0.96)", bordercolor:"#ccc", font:{size:11, color:"#222"} },
+  showlegend: false,
+  margin: { t: 20 }
+}, {responsive:true});
+
+// quick finding text
+const med = n => { const a=zoomData[n].map(d=>d.n).sort((x,y)=>x-y); return a[Math.floor(a.length/2)]; };
+document.getElementById("finding").innerHTML =
+  "<b>Finding:</b> the real benchmarks cluster at a <i>tiny</i> needle — median ≈ " +
+  med("ATM-Bench").toLocaleString() + " (ATM), " + med("camroll-v1").toLocaleString() + " (camroll-v1), " +
+  med("camroll-v2").toLocaleString() + " (camroll-v2) tokens — i.e. most questions are answerable from ~1–2 evidence items, " +
+  "even though each user's haystack is 300K–500K tokens. Only the <b>designed</b> holistic queries (camroll-demo, purple) push the needle " +
+  "toward the whole album (up to 512K). So today's benchmarks concentrate on low-needle look-ups; the high-needle regime is under-tested.";
+</script>
+</body>
+</html>

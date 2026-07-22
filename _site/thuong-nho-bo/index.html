@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>thương nhớ Bơ</title>
+<meta property="og:title" content="thương nhớ Bơ 🥑" />
+<meta property="og:description" content="Những câu chuyện nhỏ về Bơ, Mắm, và chuyện nuôi chó mèo." />
+<meta property="og:image" content="./bo-di-my/our_journey_to_us.png" />
+<link rel="icon" type="image/png" href="../images/bo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:"Thao Hand Grid";
+  src:url("./fonts/thao-hand-rough.ttf?v=10") format("truetype");
+  font-display:swap;
+}
+:root{
+  --ink:#3F4E2E; --ink-soft:#76845B; --rose:#5E7C40; --sage-deep:#516D38;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;font-family:"Quicksand",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--ink);-webkit-font-smoothing:antialiased;
+  background:#e0ead0;min-height:100dvh;
+  padding:clamp(28px,6vw,78px);
+  display:flex;justify-content:flex-end;align-items:flex-start;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    #cfe0b8 url('./images/gpt-image-1.png') center/cover no-repeat;
+}
+
+.page{width:min(48vw,560px);text-align:right;text-shadow:0 1px 9px rgba(255,255,255,.72)}
+.post-grid{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-direction:column;gap:clamp(13px,1.7vw,21px);
+}
+.post-grid li{min-width:0}
+.widget{
+  display:block;color:inherit;text-decoration:none;
+  font-family:"Thao Hand Grid","Quicksand",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:clamp(15px,1.7vw,23px);font-weight:400;line-height:1.18;letter-spacing:-.06em;word-spacing:.02em;
+  background:rgba(255,255,255,.62);border-radius:.55em;
+  padding:.1em .5em;width:max-content;max-width:100%;margin-left:auto;
+}
+.num{
+  color:var(--ink-soft);font-family:"Thao Hand Grid","Quicksand",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:.82em;font-weight:400;margin-right:.35em;
+}
+a.widget{
+  position:relative;isolation:isolate;
+  transition:color .18s ease, background .18s ease;
+}
+a.widget::before{
+  content:"";position:absolute;z-index:-1;inset:-.16em -.42em -.1em;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 70' preserveAspectRatio='none'%3E%3Cpath d='M7 22 L46 13 L104 17 L168 10 L236 15 L312 9 L366 17 L394 11 L398 31 L391 49 L396 60 L348 55 L274 61 L196 56 L122 62 L64 57 L22 61 L5 51 L13 37 L5 28 Z' fill='%23ffe24d'/%3E%3C/svg%3E");
+  background-size:100% 100%;background-repeat:no-repeat;
+  transform:rotate(-1.2deg) scaleX(.2);
+  transform-origin:right center;
+  opacity:0;
+  transition:opacity .12s ease, transform .28s cubic-bezier(.22,.7,.3,1);
+}
+a.widget:hover{color:var(--ink);background:transparent;border-bottom-color:transparent}
+a.widget:hover::before{opacity:.85;transform:rotate(-1.2deg) scaleX(1)}
+.widget.soon{opacity:.78}
+.empty-row{font-size:16px;color:var(--ink-soft)}
+
+@media (max-width:900px){
+  .page{width:min(62vw,500px)}
+}
+
+@media (max-width:680px){
+  body{padding:28px 22px;display:block}
+  .page{width:100%}
+  .post-grid{gap:13px}
+}
+</style>
+</head>
+<body>
+
+  <main class="page">
+    <ol class="post-grid" id="plist"><li class="empty-row">đang tải…</li></ol>
+  </main>
+
+<script>
+/* ---------- posts list ---------- */
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function isLive(p){return p.status==='live';}
+
+fetch('./posts.json').then(r=>r.json()).then(data=>{
+  const site=data.site||{}, posts=data.posts||[];
+  if(site.brand){document.title=site.brand;}
+  const el=document.getElementById('plist');
+  el.innerHTML = posts.length ? posts.map((p,i)=>{
+    const title=esc(p.title);
+    const label=`<span class="num">${i+1}.</span>${title}`;
+    const href = p.url ? p.url : `./post.html?post=${encodeURIComponent(p.slug)}`;
+    return isLive(p)
+      ? `<li><a class="widget" href="${esc(href)}">${label}</a></li>`
+      : `<li><div class="widget soon">${label}</div></li>`;
+  }).join('') : '<li class="empty-row">chưa có bài viết.</li>';
+}).catch(e=>{
+  document.getElementById('plist').innerHTML='<li class="empty-row">Không tải được (cần mở qua http).</li>';
+  console.error(e);
+});
+</script>
+</body>
+</html>

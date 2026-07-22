@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <title>relsim: data viewer - Seed Groups</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
+    
+    <meta property="og:site_name" content="Relational Visual Similarity">
+    <meta property="og:title" content="Relational Visual Similarity: Seed Groups">
+    <meta property="og:description" content="Relational Visual Similarity Seed Groups Data Viewer">
+    <meta property="og:url" content="https://thaoshibe.github.io/relsim">
+    <meta property="og:image" content="../images/favicon.png">
+    
+    <meta name="twitter:title" content="Relational Visual Similarity: Seed Groups">
+    <meta name="twitter:description" content="Relational Visual Similarity: Seed Groups">
+    <meta name="twitter:url" content="https://thaoshibe.github.io/relsim">
+    <meta name="twitter:image" content="../images/favicon.png">
+    
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+        .info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .groups-container {
+            padding: 20px 0;
+        }
+
+        .group {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .group-header {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .group-number {
+            font-weight: bold;
+            color: #007bff;
+            font-size: 1.1em;
+        }
+
+        .group-caption {
+            color: #333;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .item a {
+            display: block;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background-color: #f0f0f0;
+        }
+
+        .item-image.error {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination button.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination button.active:hover {
+            background: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .pagination .ellipsis {
+            padding: 8px 4px;
+            color: #999;
+        }
+
+        .attention-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffa726;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .attention-box::before {
+            content: "⚠️ ";
+            font-weight: bold;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .content { width:100% !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="highlight-clean" style="padding-top: 30px;padding-bottom:10px;">
+        <div class="container" style="max-width: 768px;">
+            <h1 class="text-center">relsim: Seed Groups Dataset</h1>
+            <center><i>Data viewer for paper: <a href="../index.html">"Relational Visual Similarity"</a></i></center>
+            <center><a href="../index.html">📂 Project Page</a> | <a href="index.html">🔙 Back to Data Viewer Map</a> | <a href="anonymous_captions.html">▶️ See Anonymous Captions Dataset</a></center>
+        </div>
+    </div>
+    <hr class="divider" style="max-width: 850px;"/>
+    <div class="container" style="max-width: 850px;text-align:justify;">
+        <b>Seed Groups Dataset</b> is a collection of <i style="background-color: #fdff72;"><b>{image group, anonymous caption}</b></i> pairs. This dataset is used to train the anonymous captioning model.
+        <div class="attention-box">
+            All images are extracted from the publicly available <a href="https://laion.ai/blog/laion-5b/">LAION</a> dataset. Images are shown by their original Image URL. Some images may not be available because their original URLs are no longer active. We do not own any rights to the images and acknowledge the original authors of each images.
+        </div>
+        <p style="text-align:right; font-size:80%;">Want to download the dataset? Click <a href="https://github.com/thaoshibe/relsim?tab=readme-ov-file#data">on this Github Repo</a>.</p>
+    </div>
+    <hr class="divider" style="max-width: 768px;"/>
+    <div class="container" style="max-width: 1200px;">
+        <div class="info" id="info">Loading data...</div>
+        <div id="pagination-top" class="pagination"></div>
+        <div id="groups-container" class="groups-container"></div>
+        <div id="pagination-bottom" class="pagination"></div>
+    </div>
+    <hr class="divider" />
+    <center><i>Hey, you've reached the end. This website is created by <a href="https://thaoshibe.github.io/">Thao Nguyen</a>; Thank you (.❛ ᴗ ❛.).</i></center>
+
+    <script>
+        // Data loaded from external JSON file
+        let groups = [];
+        let currentPage = 1;
+        const groupsPerPage = 50;
+
+        // Function to load and parse JSON file
+        async function loadData() {
+            try {
+                const response = await fetch('seed_group.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load data file');
+                }
+                
+                groups = await response.json();
+                
+                // Display the groups
+                displayGroups();
+                renderPagination();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('info').innerHTML = `<span style="color: red;">Error loading data: ${error.message}</span>`;
+            }
+        }
+        
+        function displayGroups() {
+            const container = document.getElementById('groups-container');
+            container.innerHTML = ''; // Clear existing content
+            
+            const totalPages = Math.ceil(groups.length / groupsPerPage);
+            const startIndex = (currentPage - 1) * groupsPerPage;
+            const endIndex = Math.min(startIndex + groupsPerPage, groups.length);
+            
+            // Update info display
+            document.getElementById('info').innerHTML = `
+                Showing groups <strong>${startIndex + 1}-${endIndex}</strong> of <strong>${groups.length}</strong> 
+                (Page <strong>${currentPage}</strong> of <strong>${totalPages}</strong>)
+            `;
+            
+            // Get groups for current page
+            const groupsToDisplay = groups.slice(startIndex, endIndex);
+            
+            groupsToDisplay.forEach((group, groupIndex) => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'group';
+                
+                // Group header with number and caption on same line
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'group-header';
+                
+                const captionDiv = document.createElement('div');
+                captionDiv.className = 'group-caption';
+                captionDiv.innerHTML = `<span class="group-number">Group #${startIndex + groupIndex + 1}:</span> ${group.anonymous_caption}`;
+                
+                headerDiv.appendChild(captionDiv);
+                
+                // Grid for images
+                const gridDiv = document.createElement('div');
+                gridDiv.className = 'grid';
+                
+                group.image_urls.forEach((url, imgIndex) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'item';
+                    
+                    // Create clickable link for image
+                    const imgLink = document.createElement('a');
+                    imgLink.href = url;
+                    imgLink.target = '_blank';
+                    imgLink.rel = 'noopener noreferrer';
+                    
+                    const img = document.createElement('img');
+                    img.className = 'item-image';
+                    img.src = url;
+                    img.alt = `Image ${imgIndex + 1} from ${group.anonymous_caption}`;
+                    img.loading = 'lazy';
+                    
+                    // Handle image load errors
+                    img.onerror = function() {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'item-image error';
+                        errorDiv.textContent = 'Image URL not working';
+                        imgLink.replaceWith(errorDiv);
+                    };
+                    
+                    imgLink.appendChild(img);
+                    itemDiv.appendChild(imgLink);
+                    gridDiv.appendChild(itemDiv);
+                });
+                
+                groupDiv.appendChild(gridDiv);
+                groupDiv.appendChild(headerDiv);
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(groups.length / groupsPerPage);
+            const paginationTop = document.getElementById('pagination-top');
+            const paginationBottom = document.getElementById('pagination-bottom');
+            
+            // Clear existing pagination
+            paginationTop.innerHTML = '';
+            paginationBottom.innerHTML = '';
+            
+            // Create pagination buttons
+            const paginationHTML = createPaginationButtons(totalPages);
+            paginationTop.innerHTML = paginationHTML;
+            paginationBottom.innerHTML = paginationHTML;
+            
+            // Add event listeners to both pagination sections
+            [paginationTop, paginationBottom].forEach(section => {
+                section.querySelectorAll('button[data-page]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const page = parseInt(button.dataset.page);
+                        goToPage(page);
+                    });
+                });
+            });
+        }
+
+        function createPaginationButtons(totalPages) {
+            let buttons = '';
+            
+            // Previous button
+            buttons += `<button data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>← Previous</button>`;
+            
+            // Page numbers
+            const maxVisiblePages = 7;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start if we're near the end
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page button
+            if (startPage > 1) {
+                buttons += `<button data-page="1">1</button>`;
+                if (startPage > 2) {
+                    buttons += `<span class="ellipsis">...</span>`;
+                }
+            }
+            
+            // Page number buttons
+            for (let i = startPage; i <= endPage; i++) {
+                buttons += `<button data-page="${i}" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            // Last page button
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    buttons += `<span class="ellipsis">...</span>`;
+                }
+                buttons += `<button data-page="${totalPages}">${totalPages}</button>`;
+            }
+            
+            // Next button
+            buttons += `<button data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>`;
+            
+            return buttons;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(groups.length / groupsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            displayGroups();
+            renderPagination();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Load data and display groups when page loads
+        loadData();
+    </script>
+</body>
+</html>

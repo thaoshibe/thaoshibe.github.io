@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cho Bơ 🥑</title>
+  <meta property="og:title" content="cho Bơ 🥑" />
+  <meta property="og:description" content="Những câu chuyện nhỏ về Bơ, Mắm, và chuyện nuôi chó mèo." />
+  <meta property="og:image" content="./bo-di-my/our_journey_to_us.png" />
+  <link rel="icon" type="image/png" href="../images/bo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" />
+  <link rel="stylesheet" href="./theme.css" />
+</head>
+<body>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a class="masthead-brand" href="./index.html" id="brand">cho Bơ 🥑</a>
+      <div class="masthead-tag" id="tagline"></div>
+      <nav>
+        <ul class="masthead-nav">
+          <li><a href="https://thaoshibe.github.io/">chị Thảo</a></li>
+          <li><a href="https://www.instagram.com/avoshibe/">Instagram</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <div class="post-status" style="color:var(--ink-3)">đang tải…</div>
+  </main>
+
+  <footer class="foot">
+    made with ♡ by <a href="https://thaoshibe.github.io/">chị Thảo</a>
+  </footer>
+
+  <script>
+  (function () {
+    var main = document.getElementById('main');
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+      });
+    }
+    function href(p) { return './post.html?post=' + encodeURIComponent(p.slug); }
+    function isLive(p) { return p.status === 'live'; }
+
+    function imgBox(p, cls, phCls) {
+      if (p.cover) {
+        return '<div class="' + cls + '"><img src="' + esc(p.cover) + '" alt="" loading="lazy" /></div>';
+      }
+      return '<div class="' + cls + ' ph ' + (phCls || p.ph || '') + '">' + esc(p.emoji || '') + '</div>';
+    }
+
+    function metaLine(site, p) {
+      var bits = '';
+      if (site.avatar) bits += '<img src="' + esc(site.avatar) + '" alt="" />';
+      bits += '<span>' + esc(site.author || '') + (p.dateLabel ? ' · ' + esc(p.dateLabel) : '') + '</span>';
+      return '<div class="meta">' + bits + '</div>';
+    }
+
+    // featured (center of hero)
+    function featCard(p) {
+      return '<a class="feat" href="' + href(p) + '">'
+        + imgBox(p, 'feat-img')
+        + '<div class="feat-body">'
+        +   '<div class="eyebrow">' + esc(p.emoji || '') + ' ' + esc(p.eyebrow || '') + '</div>'
+        +   '<div class="feat-title">' + esc(p.title) + '</div>'
+        +   (p.excerpt ? '<div class="feat-sub">' + esc(p.excerpt) + '</div>' : '')
+        + '</div></a>';
+    }
+
+    // side post (hero columns) — live ones link, soon ones don't
+    function sideCard(p, site) {
+      var inner =
+          imgBox(p, 'side-img')
+        + '<div class="eyebrow">' + esc(p.eyebrow || '') + '</div>'
+        + '<div class="side-title">' + esc(p.title) + '</div>'
+        + (p.excerpt ? '<div class="side-sub">' + esc(p.excerpt) + '</div>' : '')
+        + metaLine(site, p);
+      return isLive(p)
+        ? '<a class="side" href="' + href(p) + '">' + inner + '</a>'
+        : '<div class="side">' + inner + '</div>';
+    }
+
+    // grid card (remaining posts)
+    function gridCard(p) {
+      var soon = isLive(p) ? '' : ' soon';
+      var tag  = isLive(p) ? '' : '<span class="soon-tag">soon</span>';
+      var inner =
+          '<div class="card-img' + (p.cover ? '' : ' ph ' + (p.ph || '')) + '">'
+        +   (p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy" />' : esc(p.emoji || ''))
+        +   tag
+        + '</div>'
+        + '<div class="eyebrow">' + esc(p.eyebrow || '') + '</div>'
+        + '<div class="card-title">' + esc(p.title) + '</div>'
+        + (p.excerpt ? '<div class="card-sub">' + esc(p.excerpt) + '</div>' : '');
+      return isLive(p)
+        ? '<a class="card' + soon + '" href="' + href(p) + '">' + inner + '</a>'
+        : '<div class="card' + soon + '">' + inner + '</div>';
+    }
+
+    fetch('./posts.json').then(function (r) { return r.json(); }).then(function (data) {
+      var site  = data.site || {};
+      var posts = data.posts || [];
+
+      document.getElementById('brand').textContent = site.brand || 'cho Bơ 🥑';
+      document.getElementById('tagline').textContent = site.tagline || '';
+      document.title = site.brand || 'cho Bơ 🥑';
+
+      var featured = posts.filter(function (p) { return p.featured; })[0] || posts[0];
+      var rest = posts.filter(function (p) { return p !== featured; });
+
+      // first 4 of the rest go in the hero side columns, two per side
+      var sides = rest.slice(0, 4);
+      var grid  = rest.slice(4);
+
+      var html = '<div class="divider-label">mới nhất</div>';
+
+      html += '<section class="hero">';
+      html +=   '<div class="hero-col">' + sides.slice(0, 2).map(function (p) { return sideCard(p, site); }).join('') + '</div>';
+      html +=   '<div class="hero-main">' + featCard(featured) + '</div>';
+      html +=   '<div class="hero-col">' + sides.slice(2, 4).map(function (p) { return sideCard(p, site); }).join('') + '</div>';
+      html += '</section>';
+
+      if (grid.length) {
+        html += '<div class="divider-label">tất cả bài viết</div>';
+        html += '<section class="grid">' + grid.map(gridCard).join('') + '</section>';
+      }
+
+      main.innerHTML = html;
+    }).catch(function (e) {
+      main.innerHTML = '<div class="post-status" style="color:var(--ink-3)">Không tải được danh sách bài viết.</div>';
+      console.error(e);
+    });
+  })();
+  </script>
+
+</body>
+</html>

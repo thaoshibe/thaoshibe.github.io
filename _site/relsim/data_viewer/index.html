@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <title>relsim: data viewer</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <meta property="og:site_name" content="Relational Visual Similarity">
+    <meta property="og:title" content="Relational Visual Similarity: Data Viewer">
+    <meta property="og:description" content="Relational Visual Similarity Data Viewer">
+    <meta property="og:url" content="https://thaoshibe.github.io/relsim">
+    <meta property="og:image" content="../images/favicon.png">
+    
+    <meta name="twitter:title" content="Relational Visual Similarity: Data Viewer">
+    <meta name="twitter:description" content="Relational Visual Similarity: Data Viewer">
+    <meta name="twitter:url" content="https://thaoshibe.github.io/relsim">
+    <meta name="twitter:image" content="../images/favicon.png">
+    
+    <script></script>
+    
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RK8Z1K8X2K');
+    </script>
+    <style type="text/css">
+    .btn {
+    color:black;
+    text-decoration:none;
+}
+.btn:hover {
+    color: black;
+    text-decoration:none;
+}
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 768px;
+  position: relative;
+  margin: auto;
+}
+.citation {
+  background-color: #f1f1f1;
+  border: 1px solid #DCDCDC;
+  padding-left: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 8px;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: 0px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 0 3px 3px 0;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0);
+}
+
+.dot {
+  cursor: pointer;
+  height: 9px;
+  width: 9px;
+  margin: 0 2px;
+  background-color: #bbb;
+  color:gray;
+  display: inline-block;
+}
+
+.active, .dot:hover {
+  background-color: #FFFFCC;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+table.demo1 {
+    width:900;
+    text-align:center;
+    margin-left:auto;
+    margin-right: auto;
+}
+td.prompt {
+    width:100%;
+    text-align:center;
+    font-family: times, serif;
+    font-size:110%;
+}
+td.prompt a {
+    color: #B0B0B0;
+    text-decoration:none;
+}
+td.prompt a:hover, td.prompt a.active {
+    color:black;
+    text-decoration:none;
+}
+.img-stack {
+    position:relative;
+    display: block;
+    width:256px;
+    height:256px;
+}
+.img-stack img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+}
+.img-stack img.active {
+    z-index: 0;
+}
+.img-stack .overlay {
+    width: 256px;
+    height: 256px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: white;
+}
+
+.carousel > table {
+    position:absolute;
+    top: 0px;
+    transition: left 0.2s;
+    width:1000px;
+}
+.carousel_table td {
+    text-align:center;
+}
+.carousel_table td:nth-child(4) {
+    font-size:200%;
+}
+pre {
+    background-color:#eee;
+    border: 1px solid #999;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: break-spaces;
+    width:80%;
+    text-align:left;
+}
+.dl_link {
+    display: inline-block;
+    padding-right: 6px;
+    padding-left: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.dl_link, .dl_link td {
+    color: black;
+    text-decoration: none;
+    font-size: 120%;
+}
+.dl_link, .dl_link table {
+    border-radius: 5px;
+    background-color: none;
+}
+.dl_link:hover, .dl_link:hover * {
+    color: #404040 !important;
+    background-color: #d9d9d9 !important;
+}
+@media only screen and (max-width: 768px) {
+    .content { width:100% !important; }
+}
+</style>
+<style type="text/css">
+.btn {
+    color:black;
+    text-decoration:none;
+}
+.btn:hover {
+    color:gray;
+    text-decoration:none;
+}
+table.demo1 {
+    width:90%;
+    text-align:center;
+}
+td.prompt {
+    width:100%;
+    text-align:center;
+    font-family: fantasy;
+    font-size:100%;
+};
+td.prompt a {
+    color:#ddd;
+    text-decoration:none;
+}
+td.prompt a:hover, td.prompt a.active {
+    color:black;
+    text-decoration:none;
+}
+.img-stack {
+    position:relative;
+    display: block;
+}
+.img-stack img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+}
+.img-stack img.active {
+    z-index: 1;
+}
+.img-stack .overlay {
+    width: 256px;
+    height: 256px;
+    opacity: 0;
+    transition: opacity .2s;
+    z-index: 2;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: white;
+}
+.citation-container {
+  position: relative;
+}
+
+.copy-button {
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+pre {
+    background-color:#eee;
+    border: 1px solid #999;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: break-spaces;
+    width:80%;
+    text-align:left;
+}
+td.gif {
+    width: 33%;
+    font-family: monospace;
+    font-size: 120%;
+}
+.dl_link {
+    display: inline-block;
+    padding-right: 6px;
+    padding-left: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.dl_link, .dl_link td {
+    color: black;
+    text-decoration: none;
+    font-size: 120%;
+}
+.dl_link, .dl_link table {
+    border-radius: 5px;
+    background-color: none;
+}
+.dl_link:hover, .dl_link:hover * {
+    color: #404040 !important;
+    background-color: #d9d9d9 !important;
+}
+
+@media only screen and (max-width: 930px) {
+    .content { width:100% !important; }
+}
+</style>
+<script type="text/javascript">
+  var curr_idx = 0;
+  var num_tables = 5;
+  function move(direction) {
+      if (curr_idx == 0 && direction < 0) {
+      move(num_tables - 1);
+      return;
+      }
+      if (curr_idx == num_tables - 1 && direction > 0) {
+      move(-1 * (num_tables - 1));
+      return;
+      }
+      tables = document.getElementsByClassName("carousel_table");
+      for(var i = 0; i < tables.length; i++) {
+      tables[i].style.left = (parseInt(tables[i].style.left.substring(0, tables[i].style.left.length - 2)) - direction * 650).toString() + "px";
+      }
+      curr_idx += direction;
+  }
+  function hideOverlay(classname) {
+      document.getElementById(classname + "_overlay").style.opacity = "0";
+  }
+  function activate_img(classname, idx, max) {
+      document.getElementById(classname + "_overlay").style.opacity = "1";
+      setTimeout(function() {
+      for(var i = 1; i <= max; i++) {
+          document.getElementById(classname + "_" + i.toString()).className = "";
+          document.getElementById(classname + "_text_" + i.toString()).className = "";
+      }
+      document.getElementById(classname + "_" + idx.toString()).className = "active";
+      document.getElementById(classname + "_text_" + idx.toString()).className = "active";
+      setTimeout(hideOverlay, 200, classname);
+      }, 200);
+  }
+
+  let img_id = 1;
+  let interval_id;
+  function activate(classname,idx,max){
+    activate_img(classname, idx, max);
+    clearInterval(interval_id);
+  }
+
+  if (!interval_id){
+    interval_id = setInterval(()=>{
+        img_id = img_id + 1;
+        if (img_id > 9){
+            img_id = 1;
+        }
+        activate_img('bo', img_id, 9);
+    }, 2500);
+  }
+    function copyToClipboard() {
+      const citationText = document.getElementById("citation").innerText;
+
+      // Create a temporary textarea element
+      const textarea = document.createElement("textarea");
+      textarea.value = citationText;
+      document.body.appendChild(textarea);
+
+      // Copy the text from the textarea to the clipboard
+      textarea.select();
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(textarea);
+
+      // Display a success message or perform any other desired action
+      // alert("Citation copied to clipboard!");
+    }
+    function toggleblock(blockId)
+    {
+        var block = document.getElementById(blockId);
+        if (block.style.display == 'none') {
+        block.style.display = 'block' ;
+        } else {
+        block.style.display = 'none' ;
+        }
+    }
+
+    $( document ).ready(function() {
+        $( ".blockId" ).click(function() {
+
+            $('.blockId').toggle();
+            $(this).toggleClass('open'); 
+        });
+
+    });
+</script>
+
+</head>
+
+<body>
+    <div class="highlight-clean" style="padding-top: 30px;padding-bottom:10px;">
+        <div class="container" style="max-width: 768px;">
+            <h1 class="text-center">relsim: data viewer</h1>
+            <center><i>Data viewer for paper: <a href="../index.html">"Relational Visual Similarity"</a></i></center>
+            <center><a href="../index.html">📂 Project Page</a> | <a href="seed_groups.html">▶️ See Seed Groups Dataset</a> | <a href="anonymous_captions.html">▶️ See Anonymous Captions Dataset</a></center>
+        </div>
+
+    </div>
+    <hr class="divider" style="max-width: 768px;"/>
+    <div class="container" style="max-width: 768px;">
+        This is a data viewer for the datasets used in the paper <a href="../index.html">"Relational Visual Similarity"</a>.
+        You can navigate through the datasets using the buttons below.
+        <br>
+        <!-- # create a table with 3 columns: from left to right: A.png, B.png and C.png -->
+    </div>
+    <div class="container" style="max-width: 950px;">
+        <table style="text-align:center;">
+            <tr>
+                <td><img src="A.png" style="width: 100%; height: 100%;"></td>
+                <td><a href="seed_groups.html"><img src="B.png" style="width: 100%; height: 100%;"></a>
+                    <p><b><a style="font-size: 120%;" href="seed_groups.html">B- Seed Group</a></b></p>
+                </td>
+                <td><a href="anonymous_captions.html"><img src="C.png" style="width: 100%; height: 100%;"></a>
+                    <p><b><a style="font-size: 120%;" href="anonymous_captions.html">C- Anonymous Captions</a></b></p>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr class="divider" />
+    <div class="container" style="max-width: 768px; text-align:justify;">
+        <h4>Acknowledgements/ Disclaimer</h4>
+        All images are extracted from the publicable available <a href="https://laion.ai/blog/laion-5b/">LAION</a> dataset.
+        We (the authors of the paper) do not own any rights to the images and acknowledge the original authors of each images.
+        Each image is associcated with the corresponding image URL in the LAION dataset. Some images may not be available anymore because their original URLs are no longer active.
+        <br>
+        This data is use for research purposes only. Please respect the original authors and the license of the images.
+        </div>
+    <hr class="divider" />
+    <center><i>Hey, you've reached the end. This website is created by <a href="https://thaoshibe.github.io/">Thao Nguyen</a>; Thank you (.❛ ᴗ ❛.).</i></center>
+</body>
+
+</html>

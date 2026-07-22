@@ -1,0 +1,429 @@
+<script src="http://www.google.com/jsapi" type="text/javascript"></script> 
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+<style type="text/css">
+	body {
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+		font-weight:300;
+		font-size:18px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 1100px;
+	}
+	
+	h1 {
+		font-size:32px;
+		font-weight:300;
+	}
+	
+	.disclaimerbox {
+		background-color: #eee;		
+		border: 1px solid #eeeeee;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+		padding: 20px;
+	}
+
+	video.header-vid {
+		height: 140px;
+		border: 1px solid black;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+	
+	img.header-img {
+		height: 140px;
+		border: 1px solid black;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+	
+	img.rounded {
+		border: 1px solid #eeeeee;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+	
+	a:link,a:visited
+	{
+		color: #1367a7;
+		text-decoration: none;
+	}
+	a:hover {
+		color: #208799;
+	}
+	
+	td.dl-link {
+		height: 160px;
+		text-align: center;
+		font-size: 22px;
+	}
+code {
+	display: block;
+  white-space: pre-wrap  
+  font-family: Consolas,"courier new";
+  color: crimson;
+  background-color: #f1f1f1;
+  padding: 2px;
+  font-size: 105%;
+}
+pre { font-family: monospace; }
+
+	.layered-paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		5px 5px 0 0px #fff, /* The second layer */
+		5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		10px 10px 0 0px #fff, /* The third layer */
+		10px 10px 1px 1px rgba(0,0,0,0.35), /* The third layer shadow */
+		15px 15px 0 0px #fff, /* The fourth layer */
+		15px 15px 1px 1px rgba(0,0,0,0.35), /* The fourth layer shadow */
+		20px 20px 0 0px #fff, /* The fifth layer */
+		20px 20px 1px 1px rgba(0,0,0,0.35), /* The fifth layer shadow */
+		25px 25px 0 0px #fff, /* The fifth layer */
+		25px 25px 1px 1px rgba(0,0,0,0.35); /* The fifth layer shadow */
+		margin-left: 10px;
+		margin-right: 45px;
+	}
+
+	.paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35); /* The top layer shadow */
+
+		margin-left: 10px;
+		margin-right: 45px;
+	}
+
+
+	.layered-paper { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		5px 5px 0 0px #fff, /* The second layer */
+		5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		10px 10px 0 0px #fff, /* The third layer */
+		10px 10px 1px 1px rgba(0,0,0,0.35); /* The third layer shadow */
+		margin-top: 5px;
+		margin-left: 10px;
+		margin-right: 30px;
+		margin-bottom: 5px;
+	}
+	
+	.vert-cent {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	
+	hr
+	{
+		border: 0;
+		height: 1px;
+		background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	}
+</style>
+
+<html>
+<head>
+	<title>Lipstick ain't enough: Beyond Color-Matching for In-the-Wild Makeup Transfer</title>
+	<meta property="og:image" content="./images/CPM/paper-square.png"/> <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/ if you update and want to force Facebook to rescrape. -->
+	<meta property="og:title" content="Lipstick ain't enough: Beyond Color-Matching for In-the-Wild Makeup Transfer" />
+	<meta property="og:description" content="✨ A holistic makeup transfer framework that can replicate both color and pattern from reference style to another image ✨" />
+
+	<script async src=""></script> 
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-75863369-6');
+	</script>
+	<link rel="icon" type="image/png" href="./images/CPM/lipstick.png"/>
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+<body>
+	<script type="text/javascript" src="script.js"></script>
+	<br>
+	<center>
+		<!-- <img class="round" style="width:500px" src="./images/CPM/cvpr.jpg"/> -->
+		<!-- <br/> -->
+		<br/>
+		<!-- <hr> -->
+		<span style="font-size:36px">Lipstick ain't enough:<br/> Beyond Color-Matching for In-the-Wild Makeup Transfer</span>
+		<br>
+		<!-- <hr> -->
+		<!-- </br> -->
+		<span style="font-size:22px; color:#011B56;">━ <a href="https://openaccess.thecvf.com/CVPR2021">CVPR 2021</a> ━</span>
+
+		<!-- <br></br> -->
+		<table align=center width=600px>
+			<table align=center width=600px>
+				<tr>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:22px"><a href="https://thaoshibe.github.io">Thao Nguyen<sup>1</sup></a></span>
+						</center>
+					</td>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:22px"><a href="https://sites.google.com/site/anhttranusc/">Anh Tran<sup>1,2</sup></a></span>
+						</center>
+					</td>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:22px"><a href="https://www3.cs.stonybrook.edu/~minhhoai/">Minh Hoai<sup>1,3</sup></a></span>
+						</center>
+					</td>
+				</tr>
+			</table>
+			<table align=center width=700px>
+				<tr>
+					<td align=center width=80px>
+						<center>
+							<span style="font-size:18px"><a href="https://www.vinai.io/publications/"><sup>1</sup>VinAI Research</a>
+								<!-- <img class="img" width=100px src="./images/vinai-logo.png"></img> -->
+							</span>
+						</center>
+					</td>
+					<td align=center width=80px>
+						<center>
+							<span style="font-size:18px"><a href="https://vinuni.edu.vn"><sup>2</sup>VinUniversity</a></span>
+						</center>
+					</td>
+					<td align=center width=80px>
+						<center>
+							<span style="font-size:18px"><a href="https://www3.cs.stonybrook.edu/~cvl/"><sup>3</sup>Stony Brook University</a></span>
+						</center>
+					</td>
+				</tr>
+			</table>
+			<table align=center width=800px>
+				<tr>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:24px"><a href='https://arxiv.org/abs/2104.01867'>[Paper]</a></span>
+						</center>
+					</td>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:24px"><a href='https://github.com/VinAIResearch/CPM'>[GitHub]</a></span><br>
+						</center>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:24px"><a href='https://github.com/VinAIResearch/CPM#datasets'>[Datasets]</a></span><br>
+						</center>
+					</td>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:24px"><a href='https://colab.research.google.com/drive/1K9QVSHPJ8fx9X8yg6KnhE40PPlyW5iNp?usp=sharing'>[Colab]</a></span><br>
+						</center>
+					</td>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:24px"><a href='https://drive.google.com/file/d/1heSDV3oQLvXU1mkDY8R4cPFz6v8Id6WO/view'>[Poster]</a></span>
+						</center>
+					</td>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:24px"><a href='https://drive.google.com/file/d/13jNcY6Egtn7WduFCxruDy6nJ2lYvJ7Ih/view'>[Slides]</a></span>
+						</center>
+					</td>
+					</td>
+				</tr>
+			</table>
+		</table>
+		<!-- <hr> -->
+	</center>
+	<br>
+	<center>
+<!-- 		<iframe src="https://ghbtns.com/github-btn.html?user=VinAIResearch&repo=CPM&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub">
+		</iframe> -->
+		<a class="github-button" href="https://github.com/VinAIResearch/CPM" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star VinAIResearch/CPM on GitHub">Star</a> &nbsp&nbsp&nbsp
+		<a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Check%20out" data-size="large"> Tweet It!</a>
+	</center>
+	<center>
+		<table align=center width=850px>
+			<tr>
+				<td width=260px>
+					<center>
+						<img class="round" style="width:1000px" src="./images/CPM/teaser.png"/>
+					</center>
+				</td>
+			</tr>
+		</table>
+		<table align=center width=850px>
+			<tr>
+				<td><i>
+					In-the-wild facial makeup consists of both <b>color transfer</b> and <b>pattern addition</b>. We propose a holistic method that can transfer the colors and patterns from a reference makeup style to another image.
+				</i></td>
+			</tr>
+		</table>
+	</center>
+	<hr>
+	<table align=center width=850px>
+		<center><h1>Abstract</h1></center>
+		<tr>
+			<td>
+				Makeup transfer is the task of applying on a source face the makeup style from a reference image. Real-life makeups are diverse and wild, which cover not only color-changing but also patterns, such as stickers, blushes, and jewelries. However, existing works overlooked the latter components and confined makeup transfer to color manipulation, focusing only on light makeup styles. In this work, we propose a holistic makeup transfer framework that can handle all the mentioned makeup components. It consists of an improved color transfer branch and a novel pattern transfer branch to learn all makeup properties, including color, shape, texture, and location. To train and evaluate such a system, we also introduce new makeup datasets for real and synthetic extreme makeup. Experimental results show that our framework achieves the state of the art performance on both light and extreme makeup styles.
+			</td>
+		</tr>
+	</table>
+	<br>
+
+	<hr>
+	<div class=figure>
+		<center>
+			<p><img class="round" style='width: 240px' src='./images/CPM/result.gif'>
+			<figcaption>In this work, we <b>extend the definition of the makeup transfer</b>.
+				<br>Our proposed method can replicate both color and pattern (drawings, glitters, etc.) from target style.</figcaption>
+		</center>
+	</div>
+	<hr>
+<!-- <br>
+ -->
+	<center>
+		<center><h1>Paper Videos</h1></center>
+		<p><b>✌️ Two</b>-Minute Video<p>
+		<iframe width="640" height="360"
+		src="https://www.youtube.com/embed/S6qiUgpARXA">
+		</iframe>
+		<p><b>🖐️ Five</b>-Minute Video<p>
+		<iframe width="640" height="360"
+		src="https://www.youtube.com/embed/8JbqCgdc8YU">
+		</iframe>
+	</center>
+<hr>
+	<center><h1>Code and Datasets</h1></center>
+	<center>
+		<p>You can try it in Google Colab <a href='https://colab.research.google.com/drive/1K9QVSHPJ8fx9X8yg6KnhE40PPlyW5iNp?usp=sharing'>here</a>!<a href="https://colab.research.google.com/drive/1K9QVSHPJ8fx9X8yg6KnhE40PPlyW5iNp?usp=sharing">
+		<img src="./images/CPM/google-colab.png" alt="Google Colab" height="30">
+		</a></p>
+	</center>
+	<table align=center width=800px>
+		<tr>
+			<td align=center width=400px>
+				<center>
+					<td><a href="https://github.com/VinAIResearch/CPM"><img class="round" style="width:450px" src="./images/CPM/framework.png"/></a></td>
+				</center>
+			</td>
+			<td><td colspan="100%"></td></td>
+			<td align=center width=250px>
+				<center>
+					<td><a href="https://github.com/VinAIResearch/CPM#datasets"><img class="round" style="width:200px" src="./images/CPM/datasets.png"/></a></td>
+				</center>
+			</td>
+		</tr>
+	</table>
+	<table align=center width=800px>
+		<tr>
+			<center>
+				<td align=center width=450px style="font-size: 24px"><a href='https://github.com/VinAIResearch/CPM'>[Github]</a></td>
+				<td ><td colspan="100%"></td></td>
+				<td align=center width=250px style="font-size: 24px"><a href='https://github.com/VinAIResearch/CPM#datasets'>[Datasets]</a></td>
+			</center>
+		</tr>
+	</table>
+	<br>
+	<hr>
+	<table align=center width=800px>
+		<center><h1>Paper and Supplementary Material</h1></center>
+		<tr>
+			<td><a href="https://arxiv.org/abs/2104.01867"><img class="w3-border w3-padding" style="height:200px" src="./images/CPM/paper-square.png"/></a></td>
+			<td><span style="font-size:14pt">Thao Nguyen, Anh Tran, Minh Hoai.<br>
+				<b>Lipstick ain't enough: Beyond Color-Matching for In-the-Wild Makeup Transfer</b><br>
+				In CVPR, 2021.<br>
+				
+				[<a href="https://arxiv.org/abs/2104.01867">paper</a>] [<a href="https://drive.google.com/file/d/1TXYTvGoVlRzS7jodsYcRuh9EaK_UUeII/view?usp=sharing">supplementary</a>] [<a href="https://drive.google.com/file/d/1heSDV3oQLvXU1mkDY8R4cPFz6v8Id6WO/view?usp=sharing">poster</a>]<br>
+			</td>
+		</tr>
+	</table>
+	<table align=center width=640px>
+		<tr style="font-size:14px"><td><i>➥ <a href="https://openaccess.thecvf.com/content/CVPR2021/html/Nguyen_Lipstick_Aint_Enough_Beyond_Color_Matching_for_In-the-Wild_Makeup_Transfer_CVPR_2021_paper.html">BibTeX</a>:</i></td></tr>
+		<tr style="background-color:#E2E2E2;font-family:'monospace';font-size:14px;">
+			<td>
+				<!-- <br> -->
+				@inproceedings{m_Nguyen-etal-CVPR21,<br>
+				&nbsp&nbsp&nbsp&nbsp&nbsp author = {Thao Nguyen and Anh Tran and Minh Hoai},<br>
+				&nbsp&nbsp&nbsp&nbsp&nbsp title = {Lipstick ain't enough: Beyond Color Matching for In-the-Wild Makeup Transfer},<br>
+				&nbsp&nbsp&nbsp&nbsp&nbsp year = {2021},<br>
+				&nbsp&nbsp&nbsp&nbsp&nbsp booktitle = {Proceedings of the {IEEE} Conference on Computer Vision and Pattern Recognition (CVPR)}<br>
+				&nbsp&nbsp&nbsp}
+		<br></td>
+		</tr>
+	</table>
+	<br>
+	<hr>
+	<table align=center width=800px>
+		<center><h1 id = "qualitative-result"> &#x1F441; Qualitative Performane Comparisons &#x1F441;  </h1></center>
+		<tr><center>We show <a href="https://thaoshibe.github.io/images/CPM/CPM_qualitative.html">additional results</a> on multiple datasets: <a href="https://dl.acm.org/doi/10.1145/3240508.3240618">Makeup Transfer (BeautyGAN)</a>, <a href="https://github.com/VinAIResearch/CPM\#datasets">CPM-Synt-1</a>, <a href="https://github.com/VinAIResearch/CPM\#datasets">CPM-Synt-2</a>, and <a href="https://github.com/VinAIResearch/CPM\#datasets">CPM-Real</a>.<br>
+		Baselises (left to right): <a href="https://github.com/Honlan/DMT">DMT</a> (arXiv 2019), <a href="https://github.com/Honlan/BeautyGAN">BeautyGAN</a> (ACM'MM 2018), <a href="https://github.com/wangguanzhi/LADN">LADN</a> (ICCV 2019), and <a href="https://github.com/wtjiang98/PSGAN">PSGAN</a> (CVPR 2020).<br>
+		</tr>
+		</center><tr>
+			<br>
+			<center><a href="https://thaoshibe.github.io/images/CPM/CPM_qualitative.html"><img class="round" style="width:800px" src="./images/CPM/CPM_qualitative_result.png"/></a></center>
+		</tr><td><center><br><a href="https://thaoshibe.github.io/images/CPM/CPM_qualitative.html#beautygan">✓ Additional results on <b>Makeup Transfer Dataset</b></a></center></td><tr>
+		</tr><td><center><a href="https://thaoshibe.github.io/images/CPM/CPM_qualitative.html#cpm-synt-1">✓ Additional results on <b>CPM-Synt-1</b></a></center></td><tr>
+		</tr><td><center><a href="https://thaoshibe.github.io/images/CPM/CPM_qualitative.html#cpm-synt-2">✓ Additional results on <b>CPM-Synt-2</b></a></center></td><tr>
+		</tr><td><center><a href="https://thaoshibe.github.io/images/CPM/CPM_qualitative.html#cpm-real">✓ Additional results on <b>CPM-Real</b></a></center></td><tr>
+		</tr><td><center><a href="https://thaoshibe.github.io/images/CPM/CPM_qualitative.html#diff-cases">➫ <b style="color:#ff0000">Difficult Cases</b> </center></td><tr>
+		<tr>
+			<td><center>Other applications (interpolation and partial makeup) can be found in our <a href="https://openaccess.thecvf.com/content/CVPR2021/papers/Nguyen_Lipstick_Aint_Enough_Beyond_Color_Matching_for_In-the-Wild_Makeup_Transfer_CVPR_2021_paper.pdf">main paper</a> or <a href="https://openaccess.thecvf.com/content/CVPR2021/supplemental/Nguyen_Lipstick_Aint_Enough_CVPR_2021_supplemental.pdf">supplementary</a>.<br>
+			We skipped some baselines which have no released model, such as BeautyGLOW and CA-GAN.<br>
+			</center></td>
+		</tr>
+		<tr><td style="color:#696969"><center><i>Further info: ⇨ <a href="https://github.com/thaoshibe/awesome-makeup-transfer">[awesome-makeup-transfer]</a>: a curated list of Makeup Transfer and related resources.</i></center></td></tr>
+	</table>
+	<!-- <a href='qualitative-result'>test</a> -->
+	<br>
+	<hr>
+
+<!-- <hr> -->
+<!-- <br> -->
+	<table align=center width=900px>
+		<tr>
+			<td width=400px>
+				<left>
+					<center><h1>Acknowledgements</h1></center>
+					This template was originally made by <a href="http://web.mit.edu/phillipi/">Phillip Isola</a> and <a href="http://richzhang.github.io/">Richard Zhang</a> for a <a href="http://richzhang.github.io/colorization/">colorful</a> ECCV project; the code can be found <a href="https://github.com/richzhang/webpage-template">here</a>. Thank you (◍•ڡ•◍).
+				</left>
+			</td>
+		</tr>
+	</table>
+	
+      <center>
+    <a href="javascript:toggleblock('notice')" style="text-align:center;font-size:70%;color:#808080">▶ thaoshibe.github.io's clustrmaps 🌎</a>.
+    <div id="notice" style="display:none; color:#dedede; font-size:.5em;">
+      <p>
+        <a href='https://clustrmaps.com/site/1bkav'  title='Visit tracker'><img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=500&t=n&d=4-WmIVyY3mwr_qd4cmoiMTnxCOtUaXhGXjPPdLtvLR4'/></a>
+      </p>
+    </div>
+  </center>
+<br>
+</body>
+</html>
