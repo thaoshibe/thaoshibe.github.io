@@ -4,16 +4,10 @@
    posts/*.md and posts.json; this file never needs to touch it.
    ════════════════════════════════════════════════════════════ */
 
-@font-face{
-  font-family:"Thao Hand Grid";
-  src:url("./fonts/thao-hand-rough.ttf?v=10") format("truetype");
-  font-display:swap;
-}
-
 :root {
   --bg:       #e0ead0;
-  --card:     rgba(252,253,247,.84);
-  --paper:    rgba(252,253,247,.84);
+  --card:     rgba(255,254,249,.94);
+  --paper:    rgba(255,254,249,.94);
   --border:   rgba(101,120,72,.22);
   --border-2: rgba(101,120,72,.34);
   --ink:      #3F4E2E;
@@ -23,10 +17,10 @@
   --accent:   #516D38;
   --sage-deep:#516D38;
   --r:        14px;
-  --maxw:     1180px;
-  --serif:    'Playfair Display', Georgia, serif;
+  --maxw:     760px;
+  --serif:    'Crimson Pro', Georgia, serif;
   --sans:     'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --hand:     'Thao Hand Grid', 'Quicksand', -apple-system, sans-serif;
+  --hand:     'Crimson Pro', Georgia, serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,9 +29,9 @@ html { background: var(--bg); }
 body { background: transparent; }
 html, body {
   color: var(--ink);
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.6;
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
@@ -49,7 +43,7 @@ html, body {
 .bg-layer::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(224,234,208,.30), rgba(224,234,208,.55));
+  background: rgba(224,234,208,.16);
 }
 
 a { color: inherit; }
@@ -297,12 +291,11 @@ a { color: inherit; }
   width: min(208px, 22vw);
   max-height: 82vh; overflow: auto;
   z-index: 40;
-  padding: 16px 18px;
-  background: rgba(252,253,247,.66);
-  backdrop-filter: saturate(150%) blur(8px);
-  border: 1px solid rgba(255,255,255,.5);
-  border-radius: 16px;
-  box-shadow: 0 10px 36px rgba(50,66,38,.12);
+  padding: 18px 20px;
+  background: rgba(255,254,249,.94);
+  border: 1px solid var(--border-2);
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(50,66,38,.1);
 }
 .toc-title {
   font-family: var(--hand);
@@ -313,7 +306,7 @@ a { color: inherit; }
 .toc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
 .toc-list a {
   display: block;
-  font-size: 12.5px; line-height: 1.35;
+  font-size: 14px; line-height: 1.35;
   color: var(--ink-3); text-decoration: none;
   border-left: 2px solid transparent;
   padding: 3px 0 3px 11px;
@@ -323,11 +316,11 @@ a { color: inherit; }
   color: var(--sage-deep);
   border-left-color: var(--sage-deep);
 }
-.toc-list .lvl-3 a { padding-left: 22px; font-size: 11.5px; color: var(--ink-4); }
+.toc-list .lvl-3 a { padding-left: 22px; font-size: 13px; color: var(--ink-4); }
 .toc-back {
   display: inline-block;
   margin-top: 14px;
-  font-size: 12px; font-weight: 600;
+  font-size: 13px; font-weight: 600;
   color: var(--ink-3); text-decoration: none;
 }
 .toc-back:hover { color: var(--sage-deep); }
@@ -335,25 +328,28 @@ a { color: inherit; }
 @media (max-width: 1160px) { .toc { display: none; } }
 
 .post {
-  max-width: 920px;
+  max-width: 760px;
   margin: clamp(34px,5vw,60px) auto clamp(40px,6vw,72px);
-  padding: 0 clamp(18px,4vw,40px);
-  text-shadow: 0 1px 10px rgba(255,255,255,.85), 0 0 2px rgba(255,255,255,.7);
+  padding: clamp(28px,5vw,58px) clamp(24px,6vw,68px);
+  background: var(--paper);
+  border: 1px solid rgba(101,120,72,.2);
+  border-radius: 24px;
+  box-shadow: 0 18px 55px rgba(50,66,38,.16);
 }
-.post-header { padding: 8px 0 26px; text-align: center; }
-.post-emoji { font-size: 2.6rem; line-height: 1; }
+.post-header { padding: 0 0 24px; text-align: center; }
+.post-emoji { font-size: 2rem; line-height: 1; }
 .post-title {
   font-family: var(--hand);
-  font-size: clamp(2rem,5vw,3rem);
-  font-weight: 400;
-  line-height: 1.08;
+  font-size: clamp(2.35rem,5vw,3.25rem);
+  font-weight: 600;
+  line-height: 1.02;
   letter-spacing: -.02em;
   color: var(--ink);
   margin-top: 14px;
 }
 .post-meta {
-  font-size: 13px; color: var(--ink-3);
-  margin-top: 16px;
+  font-family: var(--sans);font-size: 12px; color: var(--ink-3);
+  margin-top: 14px;
   display: flex; align-items: center; justify-content: center; gap: 8px;
 }
 .post-meta img { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
@@ -364,31 +360,31 @@ a { color: inherit; }
 }
 
 /* rendered markdown body */
-.post-content { font-size: 16.5px; line-height: 1.78; color: var(--ink-2); }
+.post-content { font-family: var(--serif);font-size: 19px; line-height: 1.72; color: var(--ink-2); }
 .post-content > *:first-child { margin-top: 0; }
 .post-content p { margin: 1.05em 0; }
 .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
   font-family: var(--hand);
   color: var(--ink);
-  font-weight: 400;
-  line-height: 1.12;
+  font-weight: 600;
+  line-height: 1.08;
   letter-spacing: -.02em;
   scroll-margin-top: 22px;
 }
-.post-content h2 { font-size: 2rem; margin: 1.5em 0 .5em; }
-.post-content h3 { font-size: 1.55rem; margin: 1.4em 0 .4em; }
+.post-content h2 { font-size: 2rem; margin: 1.4em 0 .5em; }
+.post-content h3 { font-size: 1.45rem; margin: 1.35em 0 .4em; }
 
 /* each big-title section wrapped in a readable card */
 .post-section {
-  background: rgba(252,253,247,.72);
-  backdrop-filter: saturate(150%) blur(8px);
-  border: 1px solid rgba(255,255,255,.55);
-  border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(50,66,38,.14);
-  padding: clamp(20px,3.5vw,40px) clamp(20px,4vw,44px);
-  margin: 26px 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  margin: 34px 0;
   text-shadow: none;
 }
+.post-section + .post-section {border-top:1px solid var(--border);padding-top:34px}
 .post-section > *:first-child { margin-top: 0; }
 .post-section > *:last-child { margin-bottom: 0; }
 .post-content h4 { font-size: 1.25rem; margin: 1.3em 0 .3em; }
@@ -417,7 +413,7 @@ a { color: inherit; }
   border-radius: 10px; display: block; margin: 0 auto;
 }
 .post-content figcaption {
-  font-size: 13px; color: var(--ink-4);
+  font-size: 15px; color: var(--ink-4);
   margin-top: 10px; line-height: 1.5; font-style: italic;
 }
 .post-content p > img { border-radius: 10px; }
@@ -430,7 +426,7 @@ a { color: inherit; }
   padding: 16px 20px;
   margin: 1.6em 0;
   color: var(--ink-2);
-  font-size: 15.5px;
+  font-size: 18px;
 }
 .post-content blockquote p { margin: .5em 0; }
 .post-content blockquote p:first-child { margin-top: 0; }
@@ -438,7 +434,7 @@ a { color: inherit; }
 .post-content blockquote h4 { margin-top: .6em; }
 
 /* tables */
-.post-content table { border-collapse: collapse; width: 100%; margin: 1.6em 0; font-size: 14.5px; }
+.post-content table { border-collapse: collapse; width: 100%; margin: 1.6em 0; font-size: 16px; }
 .post-content th, .post-content td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
 .post-content th { background: rgba(168,206,123,.18); font-weight: 600; color: var(--ink); }
 
@@ -450,12 +446,12 @@ a { color: inherit; }
 
 .post-foot {
   border-top: 1px solid var(--border);
-  margin-top: 56px; padding-top: 28px;
+  margin-top: 48px; padding-top: 24px;
   text-align: center;
 }
 .post-foot a {
   font-family: var(--hand);
-  font-size: 18px; font-weight: 400;
+  font-size: 18px; font-weight: 500;
   color: var(--accent); text-decoration: none;
 }
 .post-foot a:hover { color: var(--ink); }
@@ -474,7 +470,10 @@ a { color: inherit; }
   .grid { grid-template-columns: repeat(2, 1fr); }
   .wrap { padding: 28px 16px 48px; }
   .hero-col { flex-direction: column; }
-  .post-title { font-size: 1.9rem; }
-  .post-content { font-size: 16px; }
+  .post {margin:0;padding:30px 20px 42px;border-radius:0;border-left:0;border-right:0}
+  .post-title { font-size: 2.25rem; }
+  .post-content { font-size: 18px; line-height:1.68; }
+  .post-section {margin:28px 0}
+  .post-section + .post-section {padding-top:28px}
   .feat-title { font-size: 1.45rem; }
 }

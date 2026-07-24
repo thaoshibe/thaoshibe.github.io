@@ -1,6 +1,6 @@
 {
   "site": {
-    "brand": "thương nhớ Bơ 🥑",
+    "brand": "Bơ và chị Thảo",
     "author": "chị Thảo",
     "avatar": "./bo-di-my/our_journey_to_us.png"
   },
@@ -21,7 +21,6 @@
     },
     { "slug": "chi-thao-day-bo", "status": "soon", "title": "chị Thảo dạy Bơ" },
     { "slug": "bo-day-chi-thao", "status": "soon", "title": "Bơ dạy chị Thảo" },
-    { "slug": "hai-chi-em-cung-hoc", "status": "soon", "title": "Hai chị em cùng học" },
     {
       "slug": "39-42-dieu-hai-chi-em-cung-lam",
       "status": "live",
