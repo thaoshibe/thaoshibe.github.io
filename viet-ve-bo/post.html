@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="./theme.css" />
 </head>
-<body>
+<body class="reading-page">
 
   <div class="bg-layer" id="bg-layer"></div>
 
@@ -96,14 +96,15 @@
       });
 
       // ── fold caption paragraphs into the preceding image ──
-      // a paragraph is treated as a caption if it starts with "[" or is
-      // sandwiched directly between two images.
+      // Captions imported from Notion are ordinary paragraphs. Keep short,
+      // plain paragraphs with the image so the caption always travels with it.
       content.querySelectorAll('figure').forEach(function (fig) {
         var nxt = fig.nextElementSibling;
         if (nxt && nxt.tagName === 'P') {
           var txt = nxt.textContent.trim();
           var nextIsFig = nxt.nextElementSibling && nxt.nextElementSibling.tagName === 'FIGURE';
-          if (txt && (txt.charAt(0) === '[' || nextIsFig)) {
+          var shortPlainCaption = txt.length <= 220 && !nxt.querySelector('strong, code');
+          if (txt && (txt.charAt(0) === '[' || nextIsFig || shortPlainCaption)) {
             var cap = fig.querySelector('figcaption');
             if (!cap) { cap = document.createElement('figcaption'); fig.appendChild(cap); }
             cap.textContent = txt;
@@ -128,30 +129,12 @@
         sections.forEach(function (s) { content.appendChild(s); });
       })();
 
-      // ── group runs of consecutive images into a compact row (2–3 across) ──
-      (function groupImages() {
-        content.querySelectorAll('.post-section').forEach(function (sec) {
-          var child = sec.firstElementChild;
-          while (child) {
-            if (child.tagName === 'FIGURE') {
-              var run = [child], next = child.nextElementSibling;
-              while (next && next.tagName === 'FIGURE') {
-                run.push(next);
-                next = next.nextElementSibling;
-              }
-              if (run.length >= 2) {
-                var row = document.createElement('div');
-                row.className = 'img-row';
-                sec.insertBefore(row, run[0]);
-                run.forEach(function (f) { row.appendChild(f); });
-                child = next;
-                continue;
-              }
-            }
-            child = child.nextElementSibling;
-          }
-        });
-      })();
+      // ── scatter story images to alternating sides of the reading column ──
+      content.querySelectorAll('figure').forEach(function (fig, index) {
+        fig.classList.add('story-image');
+        fig.classList.add(index % 2 === 0 ? 'story-image-left' : 'story-image-right');
+        fig.classList.add('story-image-' + ((index % 4) + 1));
+      });
 
       // ── build the table of contents (h2 + h3) ──
       var toc   = document.getElementById('toc');

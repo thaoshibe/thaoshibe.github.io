@@ -27,6 +27,8 @@
 
 html { background: var(--bg); }
 body { background: transparent; }
+.landing-page,
+.reading-page { overflow-x: hidden; }
 html, body {
   color: var(--ink);
   font-family: var(--serif);
@@ -393,26 +395,46 @@ a { color: inherit; }
 .post-content li { margin: .4em 0; }
 .post-content hr { border: none; border-top: 1px solid var(--border); margin: 2.4em 0; }
 
-/* runs of consecutive images → compact responsive row (2–3 across) */
-.post-content .img-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 14px;
-  margin: 1.6em 0;
-  align-items: start;
+/* story images alternate beyond the reading column, like scattered memories */
+.post-content figure {
+  background: rgba(255,254,249,.97);
+  box-shadow: 0 14px 38px rgba(50,66,38,.13);
+  clear: both;
+  margin-bottom: 2.15em;
+  margin-top: 2.15em;
+  padding: 8px 8px 0;
+  text-align: left;
+  transform: rotate(var(--story-rotate, -1deg));
+  width: min(430px, 74%);
 }
-.post-content .img-row figure { margin: 0; }
-.post-content .img-row img { width: auto; height: auto; max-height: 256px; margin: 0 auto; }
-
-/* images → figures with caption */
-.post-content figure { margin: 2em 0; text-align: center; }
+.post-content figure.story-image-left {
+  margin-left: clamp(-150px, -10vw, -72px);
+  margin-right: auto;
+}
+.post-content figure.story-image-right {
+  margin-left: auto;
+  margin-right: clamp(-150px, -10vw, -72px);
+}
+.post-content figure.story-image-1 { --story-rotate: -1.4deg; width: min(420px, 72%); }
+.post-content figure.story-image-2 { --story-rotate: 1.1deg; width: min(350px, 64%); }
+.post-content figure.story-image-3 { --story-rotate: -.6deg; width: min(460px, 78%); }
+.post-content figure.story-image-4 { --story-rotate: 1.7deg; width: min(380px, 68%); }
 .post-content img {
-  max-width: 100%; max-height: 256px; width: auto; height: auto;
-  border-radius: 10px; display: block; margin: 0 auto;
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-height: none;
+  max-width: 100%;
+  object-fit: contain;
+  width: auto;
 }
 .post-content figcaption {
-  font-size: 15px; color: var(--ink-4);
-  margin-top: 10px; line-height: 1.5; font-style: italic;
+  color: var(--ink-4);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.4;
+  padding: 9px 3px 10px;
+  text-align: left;
 }
 .post-content p > img { border-radius: 10px; }
 
@@ -463,6 +485,13 @@ a { color: inherit; }
   .hero-col { flex-direction: row; flex-wrap: wrap; gap: 24px; margin-top: 28px; }
   .hero-col .side { flex: 1 1 240px; }
   .grid { grid-template-columns: repeat(3, 1fr); }
+  .post-content figure,
+  .post-content figure.story-image-left,
+  .post-content figure.story-image-right {
+    margin-left: auto;
+    margin-right: auto;
+    width: min(500px, 88%);
+  }
 }
 @media (max-width: 640px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
@@ -473,5 +502,13 @@ a { color: inherit; }
   .post-content { font-size: 18px; line-height:1.68; }
   .post-section {margin:28px 0}
   .post-section + .post-section {padding-top:28px}
+  .post-content figure,
+  .post-content figure.story-image-left,
+  .post-content figure.story-image-right {
+    margin: 1.6em auto;
+    padding: 6px 6px 0;
+    transform: none;
+    width: 100%;
+  }
   .feat-title { font-size: 1.45rem; }
 }

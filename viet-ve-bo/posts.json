@@ -18,9 +18,24 @@
       "cover": "./bo-di-my/our_journey_to_us.png",
       "background": "./bo-di-my/bo-di-my-background.png"
     },
-    { "slug": "chao-bo", "status": "soon", "title": "chào Bơ" },
-    { "slug": "chi-thao-day-bo", "status": "soon", "title": "chị Thảo dạy Bơ" },
-    { "slug": "bo-day-chi-thao", "status": "soon", "title": "Bơ dạy chị Thảo" },
+    {
+      "slug": "chao-bo",
+      "status": "soon",
+      "title": "chào Bơ",
+      "excerpt": "câu chuyện về ngày Bơ bước vào cuộc đời chị Thảo."
+    },
+    {
+      "slug": "chi-thao-day-bo",
+      "status": "soon",
+      "title": "chị Thảo dạy Bơ",
+      "excerpt": "những điều chị Thảo từng kiên nhẫn dạy cho Bơ."
+    },
+    {
+      "slug": "bo-day-chi-thao",
+      "status": "soon",
+      "title": "Bơ dạy chị Thảo",
+      "excerpt": "và những điều Bơ lặng lẽ dạy lại chị Thảo."
+    },
     {
       "slug": "39-42-dieu-hai-chi-em-cung-lam",
       "status": "soon",
@@ -33,7 +48,12 @@
       "cover": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg",
       "background": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg"
     },
-    { "slug": "thay-nang-qua-tim", "status": "soon", "title": "Nghe thấy nắng | Chăm sóc chó bị mù" },
+    {
+      "slug": "thay-nang-qua-tim",
+      "status": "soon",
+      "title": "Nghe thấy nắng | Chăm sóc chó bị mù",
+      "excerpt": "chăm sóc và cùng Bơ làm quen với thế giới khi không còn nhìn thấy."
+    },
     {
       "slug": "tam-biet-bo",
       "status": "soon",
@@ -47,6 +67,11 @@
       "cover": "./tam-biet-bo/tam-biet-bo.png",
       "background": "./tam-biet-bo/tam-biet-bo.png"
     },
-    { "slug": "cho-den-khi-minh-gap-lai", "status": "soon", "title": "Cho đến khi mình gặp lại" }
+    {
+      "slug": "cho-den-khi-minh-gap-lai",
+      "status": "soon",
+      "title": "Cho đến khi mình gặp lại",
+      "excerpt": "một lời nhắn gửi Bơ, cho quãng thời gian hai chị em tạm xa nhau."
+    }
   ]
 }
