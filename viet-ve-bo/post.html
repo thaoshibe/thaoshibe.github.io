@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../images/bo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" />
   <link rel="stylesheet" href="./theme.css" />
 </head>
 <body class="reading-page">
@@ -134,6 +134,36 @@
         fig.classList.add('story-image');
         fig.classList.add(index % 2 === 0 ? 'story-image-left' : 'story-image-right');
         fig.classList.add('story-image-' + ((index % 4) + 1));
+      });
+
+      // Consecutive image-only blocks belong together in the reading column.
+      // This avoids leaving an empty text column between alternating floats.
+      content.querySelectorAll('.post-section').forEach(function (section) {
+        var node = section.firstElementChild;
+        while (node) {
+          if (!node.matches('figure.story-image')) {
+            node = node.nextElementSibling;
+            continue;
+          }
+
+          var run = [];
+          var cursor = node;
+          while (cursor && cursor.matches('figure.story-image')) {
+            run.push(cursor);
+            cursor = cursor.nextElementSibling;
+          }
+
+          if (run.length > 1) {
+            var gallery = document.createElement('div');
+            gallery.className = 'story-gallery';
+            run[0].before(gallery);
+            run.forEach(function (fig) {
+              fig.classList.remove('story-image-left', 'story-image-right');
+              gallery.appendChild(fig);
+            });
+          }
+          node = cursor;
+        }
       });
 
       // ── build the table of contents (h2 + h3) ──

@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" href="../images/bo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./theme.css" />
 <style>
   .landing-head {
@@ -20,7 +20,7 @@
   .landing-brand {
     color: var(--ink);
     font-family: var(--serif);
-    font-size: clamp(2.35rem, 4vw, 3.35rem);
+    font-size: clamp(1.45rem, 2.3vw, 1.9rem);
     font-weight: 500;
     letter-spacing: -.035em;
     line-height: 1;
@@ -29,11 +29,11 @@
   .landing-note {
     color: var(--ink-4);
     font-family: var(--sans);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
-    letter-spacing: .18em;
+    letter-spacing: .04em;
     margin-top: 12px;
-    text-transform: uppercase;
+    text-transform: none;
   }
 
   .story-stage {
@@ -44,7 +44,7 @@
   }
   .post-list {
     margin: 0 auto;
-    max-width: 600px;
+    max-width: 460px;
   }
   .post-row {
     color: inherit;
@@ -57,20 +57,28 @@
   .post-row.soon { cursor: default; }
   .row-title {
     font-family: var(--serif);
-    font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+    font-size: clamp(.92rem, 1.4vw, 1.05rem);
     font-weight: 500;
     letter-spacing: -.018em;
     line-height: 1.25;
     transition: color .18s ease;
   }
+  .row-status {
+    color: var(--ink-4);
+    font-family: var(--sans);
+    font-size: .64em;
+    font-weight: 400;
+    letter-spacing: .03em;
+    vertical-align: .08em;
+  }
   .post-row:not(.soon):hover .row-title { color: var(--accent); }
   .post-row.soon .row-title { color: var(--ink-2); }
   .row-summary {
     color: var(--ink-3);
-    font-size: 13px;
+    font-size: 11.5px;
     line-height: 1.35;
     margin: 2px 0 0;
-    max-width: 580px;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -80,26 +88,161 @@
     --memory-shift: 0px;
     border: 8px solid rgba(255, 254, 249, .96);
     border-bottom-width: 22px;
-    box-shadow: 0 14px 38px rgba(50, 66, 38, .14);
-    height: auto;
+    box-shadow: 0 14px 38px rgba(0, 0, 0, .12);
+    height: 200px;
+    max-height: 200px;
+    overflow: hidden;
     pointer-events: none;
     position: absolute;
     top: calc(50% + var(--memory-shift));
     transform: translateY(-50%) rotate(var(--memory-rotate));
-    width: 158px;
+    width: max-content;
     z-index: 1;
   }
   .side-memory img {
     display: block;
-    height: auto;
-    width: 100%;
+    height: 100%;
+    max-height: none;
+    max-width: none;
+    width: auto;
   }
   .memory-left { right: calc(100% + clamp(64px, 8vw, 128px)); }
   .memory-right { left: calc(100% + clamp(64px, 8vw, 128px)); }
-  .memory-1 { --memory-rotate: -3.5deg; --memory-shift: -12px; width: 166px; }
-  .memory-2 { --memory-rotate: 2.7deg; --memory-shift: 10px; width: 126px; }
-  .memory-3 { --memory-rotate: -1.4deg; --memory-shift: 4px; width: 172px; }
-  .memory-4 { --memory-rotate: 4deg; --memory-shift: -9px; width: 148px; }
+  .memory-1 { --memory-rotate: -3.5deg; --memory-shift: -12px; }
+  .memory-2 { --memory-rotate: 2.7deg; --memory-shift: -86px; }
+  .memory-3 { --memory-rotate: -1.4deg; --memory-shift: 4px; }
+  .memory-4 { --memory-rotate: 4deg; --memory-shift: 44px; }
+
+  .life-line {
+    margin: 0 auto clamp(54px, 8vw, 86px);
+    max-width: 760px;
+    padding: 0 28px;
+  }
+  .life-line-track {
+    --met: 23.5305%;
+    --parted: 28.3640%;
+    --now: 28.5718%;
+    --symbol-size: 13px;
+    background: var(--border-2);
+    height: 1px;
+    position: relative;
+  }
+  .life-line-together {
+    background: var(--accent);
+    height: 3px;
+    left: var(--met);
+    position: absolute;
+    top: -1px;
+    width: calc(var(--parted) - var(--met));
+  }
+  .life-point {
+    color: var(--ink-3);
+    font-family: var(--sans);
+    font-size: 8.5px;
+    line-height: 1.35;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+  }
+  .life-point::before {
+    background: var(--bg);
+    border: 1.5px solid var(--ink-4);
+    border-radius: 50%;
+    content: '';
+    height: 7px;
+    left: 50%;
+    position: absolute;
+    top: 0;
+    transform: translate(-50%, -50%);
+    width: 7px;
+  }
+  .life-point time,
+  .life-point span { display: block; }
+  .life-point span {
+    font-size: var(--symbol-size);
+    line-height: 1;
+    margin-top: 3px;
+  }
+  .life-point time {
+    color: var(--ink-2);
+    font-weight: 400;
+    letter-spacing: .04em;
+  }
+  .life-start {
+    left: 0;
+    padding-top: 12px;
+    transform: translateX(-1px);
+  }
+  .life-start::before { left: 0; transform: translate(0, -50%); }
+  .life-met {
+    left: var(--met);
+    padding-top: 12px;
+    text-align: right;
+    transform: translateX(-100%);
+  }
+  .life-met::before { left: 100%; transform: translate(-50%, -50%); }
+  .life-parted {
+    left: var(--parted);
+    padding-top: 12px;
+  }
+  .life-parted::before { left: 0; transform: translate(0, -50%); }
+  .life-met::before,
+  .life-parted::before {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    color: var(--accent);
+    height: var(--symbol-size);
+    width: 5px;
+  }
+  .life-met::before {
+    border-bottom: 1px solid var(--accent);
+    border-left: 1px solid var(--accent);
+    border-top: 1px solid var(--accent);
+    content: '';
+  }
+  .life-parted::before {
+    border-bottom: 1px solid var(--accent);
+    border-right: 1px solid var(--accent);
+    border-top: 1px solid var(--accent);
+    content: '';
+    transform: translate(-50%, -50%);
+  }
+  .life-now {
+    left: var(--now);
+  }
+  .life-now::before {
+    animation: now-pulse 2.4s ease-out infinite;
+    background: var(--bg);
+    border-color: var(--accent);
+    height: 3px;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 3px;
+  }
+  .life-end {
+    padding-top: 12px;
+    right: 0;
+    text-align: right;
+  }
+  .life-end::before {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    content: '×';
+    font-family: var(--sans);
+    font-size: var(--symbol-size);
+    font-weight: 400;
+    height: auto;
+    left: 100%;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+    width: auto;
+  }
+  @keyframes now-pulse {
+    0%, 45% { box-shadow: 0 0 0 0 rgba(17, 17, 17, .26); }
+    80%, 100% { box-shadow: 0 0 0 6px rgba(17, 17, 17, 0); }
+  }
 
   @media (max-width: 1040px) {
     .memory-left { right: calc(100% + 38px); }
@@ -115,12 +258,18 @@
     .story-stage { padding-inline: 20px; }
     .post-row { padding-block: 9px; }
     .row-summary {
-      font-size: 12.5px;
+      font-size: 11px;
       white-space: normal;
     }
+    .life-line { padding-inline: 22px; }
+    .life-point { font-size: 8px; }
+    .life-point span { max-width: 82px; white-space: normal; }
+    .life-met { padding-top: 14px; }
+    .life-parted { padding-top: 14px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .row-title { transition: none; }
+    .life-now::before { animation: none; }
   }
 </style>
 </head>
@@ -130,7 +279,7 @@
 
   <header class="landing-head">
     <a class="landing-brand" id="brand" href="./index.html">viết về Bơ</a>
-    <p class="landing-note">những câu chuyện của hai chị em</p>
+    <p class="landing-note">Những chuyện về Bơ — chú chó đầu tiên của mình.</p>
   </header>
 
   <main class="story-stage">
@@ -139,9 +288,50 @@
     </section>
   </main>
 
+  <section class="life-line" aria-label="Dòng thời gian của chị và Bơ, từ năm 1997 đến khoảng năm 2100">
+    <div class="life-line-track" id="life-line-track">
+      <div class="life-line-together" aria-hidden="true"></div>
+      <div class="life-point life-start">
+        <time datetime="1997-04">04/97</time>
+        <span>🌱</span>
+      </div>
+      <div class="life-point life-met">
+        <time datetime="2021-06-05">06/21</time>
+        <span>🧡🐕</span>
+      </div>
+      <div class="life-point life-parted">
+        <time datetime="2026-05-24">05/26</time>
+        <span>🌈🐕</span>
+      </div>
+      <div class="life-point life-now" id="life-now" aria-label="Bây giờ"></div>
+      <div class="life-point life-end">
+        <time datetime="2100">~ 2100</time>
+        <span>✨</span>
+      </div>
+    </div>
+  </section>
+
   <footer class="foot">Copyright © 2026 <a href="../index.html">Thảo Shibe</a></footer>
 
 <script>
+function updateLifeLineNow(){
+  var start = Date.UTC(1997, 3, 1);
+  var end = Date.UTC(2100, 0, 1);
+  var today = new Date();
+  var now = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+  var position = Math.max(0, Math.min(100, (now - start) / (end - start) * 100));
+  var track = document.getElementById('life-line-track');
+  var marker = document.getElementById('life-now');
+
+  if(track) track.style.setProperty('--now', position + '%');
+  if(marker) marker.setAttribute('aria-label', 'Bây giờ — ' +
+    String(today.getMonth() + 1).padStart(2, '0') + '/' +
+    String(today.getFullYear()).slice(-2));
+}
+
+updateLifeLineNow();
+setInterval(updateLifeLineNow, 60000);
+
 function esc(value){
   return String(value == null ? '' : value).replace(/[&<>"']/g,function(char){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];
@@ -173,6 +363,9 @@ fetch('./posts.json?_=' + Date.now()).then(function(response){
     var href = post.url || ('./post.html?post=' + encodeURIComponent(post.slug));
     var attrs = soon ? '' : ' href="' + esc(href) + '"';
     var picture = '';
+    var statusLabel = soon && (post.status === 'soon' || post.status === 'tba')
+      ? '<span class="row-status">[' + esc(post.status) + ']</span> '
+      : '';
 
     if(post.cover){
       var side = imageIndex % 2 === 0 ? 'memory-left' : 'memory-right';
@@ -184,7 +377,7 @@ fetch('./posts.json?_=' + Date.now()).then(function(response){
     }
 
     return '<' + tag + ' class="post-row' + (soon ? ' soon' : '') + '"' + attrs + '>' +
-      '<div class="row-title">' + esc(post.title) + '</div>' +
+      '<div class="row-title">' + statusLabel + esc(post.title) + '</div>' +
       (post.excerpt ? '<div class="row-summary">' + esc(post.excerpt) + '</div>' : '') +
       picture +
     '</' + tag + '>';

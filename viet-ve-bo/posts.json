@@ -2,7 +2,7 @@
   "site": {
     "brand": "viết về Bơ",
     "author": "chị Thảo",
-    "avatar": "./bo-di-my/our_journey_to_us.png"
+    "avatar": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=P_6-46UAAAAJ&citpid=23"
   },
   "posts": [
     {
@@ -12,29 +12,21 @@
       "emoji": "✈️",
       "eyebrow": "hành trình",
       "title": "Cùng Bơ đi Mỹ | Tự làm thủ tục đưa chó/ mèo đi Mỹ",
-      "excerpt": "hành trình đưa chó mèo qua Mỹ — CDC permit, ANA, và 24 giờ trên không trung cùng Bơ & Mắm.",
+      "excerpt": "chuẩn bị giấy tờ thủ tục đưa chó/ mèo đi Mỹ từ Việt Nam",
       "date": "2022-08-28",
       "dateLabel": "Aug 2022",
-      "cover": "./bo-di-my/our_journey_to_us.png",
+      "cover": "https://thaoshibe.github.io/images/bo.png",
       "background": "./bo-di-my/bo-di-my-background.png"
     },
     {
       "slug": "chao-bo",
       "status": "soon",
-      "title": "chào Bơ",
-      "excerpt": "câu chuyện về ngày Bơ bước vào cuộc đời chị Thảo."
-    },
-    {
-      "slug": "chi-thao-day-bo",
-      "status": "soon",
-      "title": "chị Thảo dạy Bơ",
-      "excerpt": "những điều chị Thảo từng kiên nhẫn dạy cho Bơ."
+      "title": "chào Bơ"
     },
     {
       "slug": "bo-day-chi-thao",
       "status": "soon",
-      "title": "Bơ dạy chị Thảo",
-      "excerpt": "và những điều Bơ lặng lẽ dạy lại chị Thảo."
+      "title": "Bơ dạy chị Thảo"
     },
     {
       "slug": "39-42-dieu-hai-chi-em-cung-lam",
@@ -42,7 +34,6 @@
       "emoji": "🥑",
       "eyebrow": "hai chị em",
       "title": "39/42 điều hai chị em cùng làm",
-      "excerpt": "danh sách 42 điều chị Thảo muốn cùng Bơ làm — 39 điều đã cùng nhau đi qua.",
       "date": "2026-05-24",
       "dateLabel": "May 2026",
       "cover": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg",
@@ -51,8 +42,7 @@
     {
       "slug": "thay-nang-qua-tim",
       "status": "soon",
-      "title": "Nghe thấy nắng | Chăm sóc chó bị mù",
-      "excerpt": "chăm sóc và cùng Bơ làm quen với thế giới khi không còn nhìn thấy."
+      "title": "Nghe thấy nắng | Chăm sóc chó bị mù"
     },
     {
       "slug": "tam-biet-bo",
@@ -60,18 +50,17 @@
       "url": "./tam-biet-bo.html",
       "emoji": "🕊️",
       "eyebrow": "tạm biệt",
-      "title": "Tạm biệt Bơ | An tử cho chó, mèo",
-      "excerpt": "Lần cuối Bơ vào viện — kể lại theo trình tự thời gian, tôn trọng từng dòng ghi chú của bác sĩ.",
+      "title": "Tạm biệt Bơ",
       "date": "2026-05-24",
       "dateLabel": "May 2026",
-      "cover": "./tam-biet-bo/tam-biet-bo.png",
+      "cover": "./bo-di-my/Untitled 18.png",
       "background": "./tam-biet-bo/tam-biet-bo.png"
     },
     {
       "slug": "cho-den-khi-minh-gap-lai",
       "status": "soon",
       "title": "Cho đến khi mình gặp lại",
-      "excerpt": "một lời nhắn gửi Bơ, cho quãng thời gian hai chị em tạm xa nhau."
+      "cover": "https://raw.githubusercontent.com/thaoshibe/relsim/refs/heads/main/anonymous_caption/bo.jpg"
     }
   ]
 }
