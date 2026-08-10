@@ -28,6 +28,15 @@
 		body {
 		line-height: 1.5;
 		white-space: pre-wrap;
+		background: #faf8f2;
+		}
+		body::before {
+		content: "";
+		position: fixed; inset: 0; z-index: -1;
+		pointer-events: none;
+		background-image: radial-gradient(rgba(101,120,72,.16) 1px, transparent 1px);
+		background-size: 24px 24px;
+		opacity: .55;
 		}
 		a,
 		a.visited {

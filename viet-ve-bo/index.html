@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>viết về Bơ</title>
+<meta property="og:title" content="viết về Bơ" />
+<meta property="og:description" content="Những câu chuyện về Bơ, Mắm, và chuyện nuôi chó mèo." />
+<meta property="og:image" content="./bo-di-my/our_journey_to_us.png" />
+<link rel="icon" type="image/png" href="../images/bo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./theme.css" />
+<style>
+  .hero-figure { margin: 0 0 44px; text-align: center; }
+  .hero-figure img {
+    width: 100%; max-height: 360px; object-fit: cover;
+    border-radius: var(--r);
+    border: 1px solid var(--border-2);
+    box-shadow: 0 18px 55px rgba(50,66,38,.16);
+  }
+
+  .post-list { display: flex; flex-direction: column; }
+  .post-row {
+    display: flex; align-items: flex-start; gap: 22px;
+    text-decoration: none; color: inherit;
+    padding: 26px 0;
+  }
+  .post-row + .post-row { border-top: 1px solid var(--border); }
+  .post-row.soon { cursor: default; }
+  .row-img {
+    position: relative; flex: 0 0 120px;
+    width: 120px; height: 120px;
+    border-radius: var(--r); overflow: hidden;
+    background: #f0efed;
+  }
+  .row-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .row-img.ph { display: flex; align-items: center; justify-content: center; font-size: 1.7rem; }
+  .row-body { flex: 1; min-width: 0; padding-top: 2px; }
+  .row-title {
+    font-family: var(--serif); font-size: 1.3rem; font-weight: 700;
+    line-height: 1.25; letter-spacing: -.01em;
+  }
+  .post-row:not(.soon):hover .row-title { color: var(--accent); }
+  .post-row.soon .row-title { color: var(--ink-4); font-weight: 500; font-style: italic; }
+  .row-summary { font-size: 14px; color: var(--ink-3); margin-top: 8px; line-height: 1.6; }
+  .row-date { font-size: 12px; color: var(--ink-4); margin-top: 12px; }
+  @media (max-width: 560px) {
+    .post-row { gap: 16px; }
+    .row-img { flex-basis: 84px; width: 84px; height: 84px; }
+    .row-title { font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg-layer"></div>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a class="masthead-brand" href="./index.html">viết về Bơ</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <figure class="hero-figure">
+      <img src="./images/gpt-image-1.png" alt="viết về Bơ" />
+    </figure>
+
+    <section class="post-list" id="post-grid" aria-label="Những câu chuyện về Bơ">
+      <p class="post-status">đang tải…</p>
+    </section>
+  </main>
+
+  <footer class="foot">Copyright © 2026 <a href="../index.html">Thảo Shibe</a></footer>
+
+<script>
+function esc(value){
+  return String(value == null ? '' : value).replace(/[&<>"']/g,function(char){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];
+  });
+}
+
+fetch('./posts.json?_=' + Date.now()).then(function(response){
+  if(!response.ok) throw new Error('Không tải được danh sách bài viết');
+  return response.json();
+}).then(function(data){
+  var site = data.site || {};
+  var posts = data.posts || [];
+  var grid = document.getElementById('post-grid');
+
+  if(site.brand){
+    document.title = site.brand;
+    document.querySelector('.masthead-brand').textContent = site.brand;
+  }
+
+  if(!posts.length){
+    grid.innerHTML = '<p class="post-status">album vẫn đang chờ câu chuyện đầu tiên.</p>';
+    return;
+  }
+
+  grid.innerHTML = posts.map(function(post, index){
+    var soon = post.status !== 'live';
+    var tag = soon ? 'div' : 'a';
+    var href = soon ? '' : (post.url || ('./post.html?post=' + encodeURIComponent(post.slug)));
+    var attrs = soon ? '' : ' href="' + esc(href) + '"';
+
+    var picture = post.cover
+      ? '<div class="row-img"><img src="' + esc(post.cover) + '" alt="" />' +
+        (soon ? '<span class="soon-tag">[soon]</span>' : '') + '</div>'
+      : '<div class="row-img ph ph-' + ((index % 9) + 1) + '">' + esc(post.emoji || '🥑') +
+        (soon ? '<span class="soon-tag">[soon]</span>' : '') + '</div>';
+
+    return '<' + tag + ' class="post-row' + (soon ? ' soon' : '') + '"' + attrs + '>' +
+      picture +
+      '<div class="row-body">' +
+        '<div class="row-title">' + esc(post.title) + '</div>' +
+        (post.summary ? '<div class="row-summary">' + esc(post.summary) + '</div>' : '') +
+        (post.dateLabel ? '<div class="row-date">' + esc(post.dateLabel) + '</div>' : '') +
+      '</div>' +
+      '</' + tag + '>';
+  }).join('');
+}).catch(function(error){
+  document.getElementById('post-grid').innerHTML =
+    '<p class="post-status">Không mở được album — hãy thử lại một chút nha.</p>';
+  console.error(error);
+});
+</script>
+</body>
+</html>

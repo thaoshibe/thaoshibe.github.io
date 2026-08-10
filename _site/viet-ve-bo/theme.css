@@ -5,7 +5,7 @@
    ════════════════════════════════════════════════════════════ */
 
 :root {
-  --bg:       #e0ead0;
+  --bg:       #faf8f2;
   --card:     rgba(255,254,249,.94);
   --paper:    rgba(255,254,249,.94);
   --border:   rgba(101,120,72,.22);
@@ -35,15 +35,17 @@ html, body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
-/* fixed background layer — image set directly in JS (see post.html) */
+/* fixed background layer — subtle dotted grid, shared across every page */
 .bg-layer {
   position: fixed; inset: 0; z-index: -1;
-  background: #cfe0b8 center / cover no-repeat;
+  background: var(--bg);
 }
 .bg-layer::after {
   content: "";
   position: absolute; inset: 0;
-  background: rgba(224,234,208,.16);
+  background-image: radial-gradient(var(--border-2) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: .55;
 }
 
 a { color: inherit; }
@@ -331,10 +333,6 @@ a { color: inherit; }
   max-width: 760px;
   margin: clamp(34px,5vw,60px) auto clamp(40px,6vw,72px);
   padding: clamp(28px,5vw,58px) clamp(24px,6vw,68px);
-  background: var(--paper);
-  border: 1px solid rgba(101,120,72,.2);
-  border-radius: 24px;
-  box-shadow: 0 18px 55px rgba(50,66,38,.16);
 }
 .post-header { padding: 0 0 24px; text-align: center; }
 .post-emoji { font-size: 2rem; line-height: 1; }
@@ -404,12 +402,12 @@ a { color: inherit; }
   align-items: start;
 }
 .post-content .img-row figure { margin: 0; }
-.post-content .img-row img { width: 100%; height: auto; }
+.post-content .img-row img { width: auto; height: auto; max-height: 256px; margin: 0 auto; }
 
 /* images → figures with caption */
 .post-content figure { margin: 2em 0; text-align: center; }
 .post-content img {
-  max-width: 100%; height: auto;
+  max-width: 100%; max-height: 256px; width: auto; height: auto;
   border-radius: 10px; display: block; margin: 0 auto;
 }
 .post-content figcaption {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bơ và chị Thảo</title>
+  <title>viết về Bơ</title>
   <link rel="icon" type="image/png" href="../images/bo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,7 +29,7 @@
     </div>
 
     <footer class="post-foot">
-      <a href="./index.html">← về trang chính · Bơ và chị Thảo</a>
+      <a href="./index.html">← về trang chính · viết về Bơ</a>
     </footer>
   </article>
 
@@ -59,17 +59,11 @@
       var meta     = (manifest.posts || []).find(function (p) { return p.slug === slug; }) || {};
       var site     = manifest.site || {};
 
-      // ── per-post background image (falls back to default sage) ──
-      if (meta.background) {
-        var bg = document.getElementById('bg-layer');
-        if (bg) bg.style.backgroundImage = "url('" + meta.background + "')";
-      }
-
       // ── header from manifest metadata ──
       if (meta.title) {
         document.getElementById('post-emoji').textContent = meta.emoji || '';
         document.getElementById('post-title').textContent = meta.title;
-        document.title = meta.title + ' · ' + (site.brand || 'Bơ và chị Thảo');
+        document.title = meta.title + ' · ' + (site.brand || 'viết về Bơ');
         var metaEl = document.getElementById('post-meta');
         var bits = '';
         if (site.avatar) bits += '<img src="' + site.avatar + '" alt="" />';
