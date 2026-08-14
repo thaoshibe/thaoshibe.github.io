@@ -10,26 +10,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
   <script src="theme.js"></script>
+  <link rel="stylesheet" href="theme.css" />
   <style>
-    * { box-sizing: border-box; }
+    /* Shared shell lives in theme.css; landing-only styles below. */
     body {
       width: min(680px, calc(100% - 32px));
-      margin: 0 auto;
       padding: 54px 0;
-      color: #292929;
-      background-color: #fff;
-      background-image:
-        linear-gradient(rgba(92,100,102,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(92,100,102,.08) 1px, transparent 1px);
-      background-size: 20px 20px;
-      font-family: "Poppins", sans-serif;
     }
-    nav { margin-bottom: 54px; color: #777; font-size: 13px; }
-    nav a { color: #3567a8; }
-    h1 { margin: 0; font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.15; }
+    nav { margin-bottom: 54px; }
     .intro { max-width: 520px; margin: 13px 0 40px; color: #666; line-height: 1.65; }
+    .landing-meta { margin: 9px 0 0; color: #777; font-size: 13px; line-height: 1.55; }
+    .landing-meta a { text-underline-offset: 2px; }
     .landing-header {
-      margin-bottom: 14px; padding: 22px; border: 1px solid #cfcfca;
+      position: relative;
+      margin-bottom: 14px; padding: 22px; border: 1px solid rgba(92,100,102,.2); border-radius: 3px;
       background: #fff; box-shadow: 0 7px 20px rgba(44,52,58,.11), 0 1px 3px rgba(44,52,58,.08);
     }
     .landing-header .intro { margin-bottom: 0; }
@@ -37,7 +31,8 @@
     .choice {
       min-height: 190px;
       padding: 22px;
-      border: 1px solid #cfcfca;
+      border: 1px solid rgba(92,100,102,.2);
+      border-radius: 3px;
       color: inherit;
       background: #fff;
       box-shadow: 0 7px 20px rgba(44,52,58,.11), 0 1px 3px rgba(44,52,58,.08);
@@ -55,26 +50,14 @@
     .preview-pixel { width: 15.5px; height: 15.5px; background: var(--preview-color); }
     .choice strong { display: block; font-size: 19px; }
     .choice p { margin: 7px 0 0; color: #777; font-size: 13px; line-height: 1.55; }
-    footer { margin-top: 44px; color: #888; font-size: 12px; }
-    .theme-toggle {
-      position: fixed; z-index: 30; top: 16px; right: 18px; padding: 2px 0;
-      border: 0; color: #777; background: transparent; font: inherit; font-size: 12px;
-      text-decoration: underline; text-underline-offset: 4px; cursor: pointer;
-    }
-    .theme-toggle:hover, .theme-toggle:focus-visible { color: #292929; outline: none; }
-    html[data-theme="dark"] body {
-      color: #e8e3dc; background-color: #242321;
-      background-image:
-        linear-gradient(rgba(205, 190, 174, 0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(205, 190, 174, 0.07) 1px, transparent 1px);
-      background-size: 20px 20px;
-    }
-    html[data-theme="dark"] a { color: #9bbbd8; }
+    footer { margin-top: 44px; padding-top: 12px; border-top: 1px solid #ddd; color: var(--muted); font-size: 11px; }
     html[data-theme="dark"] nav,
     html[data-theme="dark"] .intro,
+    html[data-theme="dark"] .landing-meta,
     html[data-theme="dark"] footer,
     html[data-theme="dark"] .choice p,
     html[data-theme="dark"] .choice-mark { color: #aaa39a; }
+    html[data-theme="dark"] footer { border-color: #55504a; }
     html[data-theme="dark"] .choice {
       border-color: #514d48;
       background: #302e2b;
@@ -85,8 +68,6 @@
     }
     html[data-theme="dark"] .preview-week { border-color: #77716b; background: rgba(62,59,55,.72); }
     html[data-theme="dark"] .preview-pixel.github { --preview-color: #706d69 !important; }
-    html[data-theme="dark"] .theme-toggle { color: #bbb4ab; }
-    html[data-theme="dark"] .theme-toggle:hover { color: #f2eee8; }
     @media (max-width: 560px) {
       body { padding-top: 28px; }
       .choices { grid-template-columns: 1fr; }
@@ -96,11 +77,16 @@
   </style>
 </head>
 <body>
-  <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
   <main>
     <header class="landing-header">
+      <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
       <h1>life-of-thao</h1>
-      <p class="intro">The same life at two scales: the long view in weeks, and the texture of ordinary days in color.</p>
+      <!-- <p class="intro">The same life at two scales: the long view in weeks, and the texture of ordinary days in color.</p> -->
+      <p class="landing-meta">Start date: Aug 13, 2026 · Inspired by [
+        <a href="https://waitbutwhy.com/2014/05/life-weeks.html">Your Life in Weeks ↗</a>,
+        <a href="https://busterbenson.com/life-in-weeks">Buster Benson’s Life in Weeks ↗</a>
+        <a href="https://happycoding.io/blog/year-in-pixels-2019">happycoding's My Year in Pixels 2019 ↗</a>
+      ]</p>
     </header>
     <div class="choices">
       <a class="choice" href="life-in-weeks/">
@@ -109,7 +95,7 @@
           <span class="preview-week">2</span>
           <span class="preview-week">3</span>
         </span>
-        <strong>Life in Weeks →</strong>
+        <strong>life-in-weeks →</strong>
         <p>Years, milestones, and memories across a lifetime.</p>
       </a>
       <a class="choice" href="year-in-pixels/">
@@ -120,7 +106,7 @@
           <span class="preview-pixel" style="--preview-color:#839ed7"></span>
           <span class="preview-pixel github" style="--preview-color:#c3c3be"></span>
         </span>
-        <strong>Year in Pixels →</strong>
+        <strong>year-in-pixels →</strong>
         <p>One color for every day, seen together.</p>
       </a>
     </div>

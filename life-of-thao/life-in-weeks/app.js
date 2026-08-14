@@ -17,6 +17,7 @@
   const durations = (data.durations || []).map((duration) => ({
     ...duration,
     className: `duration-${duration.className}`,
+    phaseVar: `--phase-${duration.className}`,
     startWeek: Math.floor((parseDate(duration.start) - birthDate) / WEEK_MS),
     endWeek: duration.end
       ? Math.floor((parseDate(duration.end) - birthDate) / WEEK_MS)
@@ -35,6 +36,21 @@
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
+  }
+
+  // Each phase is its own full-width line; overlapping phases stack their
+  // lines upward from the bottom (offset by one line height each).
+  function durationLines(activeDurations) {
+    const image = activeDurations
+      .map((duration) => {
+        const color = `var(${duration.phaseVar})`;
+        return `linear-gradient(${color}, ${color})`;
+      })
+      .join(", ");
+    const position = activeDurations
+      .map((duration, index) => `bottom calc(${index} * var(--phase-line)) left 0`)
+      .join(", ");
+    return { image, position };
   }
 
   function addWeeks(date, weeks) {
@@ -102,15 +118,6 @@
 
   function renderHeader() {
     document.querySelector("#preview-note").hidden = !isPreview;
-    const meta = document.querySelector("#timeline-meta");
-    meta.append(`Start date: ${formatDate(parseDate(data.pageStartDate))} · Inspired by `);
-
-    const inspiration = document.createElement("a");
-    inspiration.href = "https://busterbenson.com/life-in-weeks";
-    inspiration.target = "_blank";
-    inspiration.rel = "noopener noreferrer";
-    inspiration.textContent = "Buster Benson’s Life in Weeks ↗";
-    meta.appendChild(inspiration);
 
     if (!isPreview) {
       document.querySelector("#intro-copy").textContent =
@@ -141,9 +148,11 @@
     const activeDurations = durations.filter(
       ({ startWeek, endWeek }) => weekIndex >= startWeek && weekIndex <= endWeek
     );
-    activeDurations.forEach((duration) => week.classList.add("in-duration", duration.className));
-    if (activeDurations.some(({ startWeek, endWeek }) => weekIndex === startWeek || weekIndex === endWeek)) {
-      week.classList.add("duration-boundary");
+    if (activeDurations.length) {
+      week.classList.add("in-duration");
+      const { image, position } = durationLines(activeDurations);
+      week.style.setProperty("--week-line", image);
+      week.style.setProperty("--week-line-pos", position);
     }
 
     if (weekIndex < weeksLived) week.classList.add("lived");

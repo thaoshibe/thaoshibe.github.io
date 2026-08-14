@@ -1,6 +1,7 @@
+/* Shared shell (tokens, body background, theme toggle, dark base) lives in
+   ../theme.css. This file only holds the year-in-pixels layout. */
+
 :root {
-  --ink: #292929;
-  --muted: #777;
   --line: #d5d5d0;
   --github-pixel: #c3c3be;
   --ghost-pixel-line: rgba(92,100,102,.055);
@@ -8,29 +9,10 @@
   --pixel-size: 9px;
   --pixel-gap: 2.5px;
 }
-* { box-sizing: border-box; }
-.theme-toggle {
-  position: fixed; z-index: 30; top: 16px; right: 18px; padding: 2px 0;
-  border: 0; color: var(--muted); background: transparent; font: inherit; font-size: 12px;
-  text-decoration: underline; text-underline-offset: 4px; cursor: pointer;
-}
-.theme-toggle:hover, .theme-toggle:focus-visible { color: var(--ink); outline: none; }
-body {
-  width: min(700px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 28px 0 50px;
-  color: var(--ink);
-  background-color: #fff;
-  background-image:
-    linear-gradient(rgba(92,100,102,.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(92,100,102,.08) 1px, transparent 1px);
-  background-size: 20px 20px;
-  font-family: "Poppins", sans-serif;
-}
-a { color: #3567a8; }
-nav { margin-bottom: 20px; color: var(--muted); font-size: 13px; }
-h1 { margin: 0 0 7px; font-size: 31px; }
+body { width: min(700px, calc(100% - 32px)); }
+nav { margin-bottom: 20px; }
 header {
+  position: relative;
   margin-bottom: 28px;
   padding: 20px;
   border: 1px solid rgba(92,100,102,.2);
@@ -49,6 +31,36 @@ main {
   background: #fff;
   box-shadow: 0 7px 20px rgba(44,52,58,.11), 0 1px 3px rgba(44,52,58,.08);
 }
+.view-switch { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: flex-end; margin-bottom: 18px; }
+.view-switch[hidden] { display: none; }
+.view-switch button {
+  padding: 1px 0; border: 0; color: var(--muted); background: transparent;
+  font: inherit; font-size: 12px; text-decoration: underline;
+  text-decoration-color: #c0c0ba; text-decoration-thickness: 1px;
+  text-underline-offset: 4px; cursor: pointer;
+}
+.view-switch button:hover, .view-switch button:focus-visible {
+  color: var(--ink); text-decoration-color: var(--ink); outline: none;
+}
+.view-switch button.active {
+  color: var(--ink); font-weight: 500;
+  text-decoration-color: var(--ink); text-decoration-thickness: 2px;
+}
+.pixel-legend {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  gap: 3px 14px;
+  width: fit-content;
+  margin: 10px auto 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+.pixel-legend[hidden] { display: none; }
+.legend-key { display: flex; align-items: center; gap: 4px; }
+.legend-swatch { width: 9px; height: 9px; border-radius: 2px; background: var(--swatch); }
+.legend-swatch.empty { background: rgba(255, 255, 255, .45); border: 1px solid var(--line); }
+
 .years { display: grid; gap: 30px; }
 .year + .year { padding-top: 25px; border-top: 1px solid var(--line); }
 h2 { margin: 0 0 10px; font-size: 16px; font-weight: 500; }
@@ -109,21 +121,11 @@ h2 { margin: 0 0 10px; font-size: 16px; font-weight: 500; }
 .day-card p { margin: 4px 0 0; color: #666; font-size: 11px; }
 footer { margin-top: 42px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
 html[data-theme="dark"] {
-  --ink: #e8e3dc;
-  --muted: #aaa39a;
   --line: #55504a;
   --github-pixel: #706d69;
   --ghost-pixel-line: rgba(232,227,220,.06);
   --ghost-pixel-fill: rgba(62,59,55,.06);
 }
-html[data-theme="dark"] body {
-  background-color: #242321;
-  background-image:
-    linear-gradient(rgba(205,190,174,.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(205,190,174,.07) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-html[data-theme="dark"] a { color: #9bbbd8; }
 html[data-theme="dark"] header > p { color: #b9b2a9; }
 html[data-theme="dark"] header { border-color: #514d48; background: #302e2b; box-shadow: 0 8px 24px rgba(0,0,0,.32), 0 1px 4px rgba(0,0,0,.28); }
 html[data-theme="dark"] main {

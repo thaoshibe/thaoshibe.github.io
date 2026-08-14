@@ -4,26 +4,43 @@
   const data = window.PIXEL_DATA;
   const yearsContainer = document.querySelector("#years");
   const card = document.querySelector("#day-card");
+  const switcher = document.querySelector("#view-switch");
   const formatter = new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" });
   const monthFormatter = new Intl.DateTimeFormat("en", { month: "short" });
   const today = new Date();
   const todayKey = dateKey(today.getFullYear(), today.getMonth(), today.getDate());
 
-  const yearsFromDays = Object.keys(data.days || {}).map((key) => Number(key.slice(0, 4)));
-  const configuredYears = Array.isArray(data.years) ? data.years : [data.year];
-  const years = [...new Set([...configuredYears, ...yearsFromDays].filter(Number.isFinite))].sort((a, b) => b - a);
+  // Support the multi-view shape, but still render a flat {days, ...} config.
+  const views = data.views || [{
+    id: "days",
+    label: "Days",
+    days: data.days,
+    loggingPeriods: data.loggingPeriods,
+    yearNotes: data.yearNotes
+  }];
 
-  document.querySelector("#title").textContent = years.length === 1 ? `${years[0]} in Pixels` : "Years in Pixels";
+  const configuredYears = Array.isArray(data.years) ? data.years : (data.year ? [data.year] : []);
+  const yearsFromViews = views.flatMap((view) => Object.keys(view.days || {})).map((key) => Number(key.slice(0, 4)));
+  const years = [...new Set([...configuredYears, ...yearsFromViews].filter(Number.isFinite))].sort((a, b) => b - a);
+
+  document.querySelector("#title").textContent = years.length === 1 ? `${years[0]}-in-pixels` : "years-in-pixels";
 
   function dateKey(year, month, day) {
     return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   }
 
-  function isInLoggingPeriod(key) {
-    return (data.loggingPeriods || []).some(({ start, end }) => key >= start && (!end || key <= end));
+  function isInLoggingPeriod(view, key) {
+    return (view.loggingPeriods || []).some(({ start, end }) => key >= start && (!end || key <= end));
   }
 
-  function renderYear(year) {
+  // Only render the years a view actually has data for (fall back to this year).
+  function viewYears(view) {
+    const present = new Set(Object.keys(view.days || {}).map((key) => Number(key.slice(0, 4))));
+    const list = years.filter((year) => present.has(year));
+    return list.length ? list : [today.getFullYear()];
+  }
+
+  function renderYear(view, year) {
     const section = document.createElement("section");
     section.className = "year";
     const heading = document.createElement("h2");
@@ -67,7 +84,7 @@
       const month = date.getMonth();
       const day = date.getDate();
       const key = dateKey(year, month, day);
-      const entry = data.days[key];
+      const entry = view.days[key];
       const pixel = document.createElement(entry ? "button" : "span");
       const isToday = key === todayKey;
       pixel.className = "day";
@@ -80,7 +97,7 @@
         pixel.setAttribute("aria-label", `${pixel.title}: ${entry.label || "colored day"}`);
         pixel.addEventListener("click", (event) => showCard(event.currentTarget, key, entry));
       } else {
-        if (!isInLoggingPeriod(key) || key > todayKey) pixel.classList.add("ghost");
+        if (!isInLoggingPeriod(view, key) || key > todayKey) pixel.classList.add("ghost");
         if (isToday) pixel.setAttribute("aria-label", `Today: ${pixel.title}`);
         else pixel.setAttribute("aria-hidden", "true");
       }
@@ -108,16 +125,67 @@
     gridRow.append(weekdayLabels, grid);
     calendar.append(monthLabels, gridRow);
     section.append(heading, calendar);
-    if (data.yearNotes?.[year]) {
+    // The color key sits below each year's grid; any year note goes under it.
+    if (view.legend?.length) {
+      section.appendChild(buildLegend(view.legend));
+    }
+    if (view.yearNotes?.[year]) {
       const note = document.createElement("p");
       note.className = "year-note";
-      note.textContent = data.yearNotes[year];
+      note.textContent = view.yearNotes[year];
       section.appendChild(note);
     }
     yearsContainer.appendChild(section);
   }
 
-  years.forEach(renderYear);
+  function buildLegend(legend) {
+    const wrap = document.createElement("div");
+    wrap.className = "pixel-legend";
+    legend.forEach((item) => {
+      const key = document.createElement("span");
+      key.className = "legend-key";
+      const swatch = document.createElement("span");
+      swatch.className = "legend-swatch";
+      if (item.empty) {
+        swatch.classList.add("empty");
+      } else {
+        swatch.style.setProperty("--swatch", item.color);
+      }
+      swatch.setAttribute("aria-hidden", "true");
+      key.append(swatch, `${item.emoji ? `${item.emoji} ` : ""}${item.label || item.id}`);
+      wrap.appendChild(key);
+    });
+    return wrap;
+  }
+
+  function renderView(view) {
+    card.hidden = true;
+    yearsContainer.replaceChildren();
+    viewYears(view).forEach((year) => renderYear(view, year));
+
+    switcher.querySelectorAll("[data-view]").forEach((button) => {
+      const active = button.dataset.view === view.id;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+  }
+
+  function buildTabs() {
+    if (views.length < 2) {
+      switcher.hidden = true;
+      return;
+    }
+    views.forEach((view) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.dataset.view = view.id;
+      button.textContent = view.label;
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", () => renderView(view));
+      switcher.appendChild(button);
+    });
+    switcher.hidden = false;
+  }
 
   function showCard(anchor, key, entry) {
     const [year, month, day] = key.split("-").map(Number);
@@ -141,4 +209,7 @@
   document.addEventListener("pointerdown", (event) => {
     if (!event.target.closest(".colored") && !event.target.closest("#day-card")) card.hidden = true;
   });
+
+  buildTabs();
+  renderView(views[0]);
 })();

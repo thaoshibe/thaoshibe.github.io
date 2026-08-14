@@ -1,0 +1,85 @@
+/* Shared shell for all life-of-thao pages: design tokens, dotted-grid
+   background, Poppins font, theme toggle, and dark-mode base. Page-specific
+   layout lives in each subpage's own style.css. */
+
+:root {
+  --ink: #292929;
+  --muted: #777;
+  --link: #3567a8;
+}
+
+html[data-theme="dark"] {
+  --ink: #e8e3dc;
+  --muted: #aaa39a;
+  --link: #9bbbd8;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+a { color: var(--link); }
+
+body {
+  margin: 0 auto;
+  padding: 28px 0 50px;
+  color: var(--ink);
+  background-color: #fff;
+  background-image:
+    linear-gradient(rgba(92, 100, 102, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 100, 102, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Shared header typography, so the title / nav / intro read the same on every
+   page. Pages set their own layout (widths, margins) but not these sizes. */
+h1 {
+  margin: 0 0 7px;
+  font-size: 31px;
+  line-height: 1.2;
+}
+
+nav {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+html[data-theme="dark"] body {
+  background-color: #242321;
+  background-image:
+    linear-gradient(rgba(205, 190, 174, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(205, 190, 174, 0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Anchored to the top-right corner of the title box (its header is
+   position: relative on each page). */
+.theme-toggle {
+  position: absolute;
+  z-index: 30;
+  top: 14px;
+  right: 16px;
+  padding: 2px 0;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  color: var(--ink);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

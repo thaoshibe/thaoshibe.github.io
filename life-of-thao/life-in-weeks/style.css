@@ -1,54 +1,22 @@
+/* Shared shell (tokens, body background, theme toggle, dark base) lives in
+   ../theme.css. This file only holds the weeks-view layout. */
+
 :root {
-  --ink: #292929;
-  --muted: #777;
-  --link: #3567a8;
-  --paper: #fff;
   --week-size: 12px;
   --week-gap: 3px;
-}
-
-* { box-sizing: border-box; }
-
-.theme-toggle {
-  position: fixed;
-  z-index: 30;
-  top: 16px;
-  right: 18px;
-  padding: 2px 0;
-  border: 0;
-  color: var(--muted);
-  background: transparent;
-  font: inherit;
-  font-size: 12px;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  cursor: pointer;
-}
-
-.theme-toggle:hover,
-.theme-toggle:focus-visible {
-  color: var(--ink);
-  outline: none;
-}
-
-html {
-  scroll-behavior: smooth;
+  /* Life-phase colors, borrowed from year-in-pixels' palette. Drawn as a
+     thin line along the bottom of each week; overlapping phases split that
+     line into equal segments (composed in app.js). */
+  --phase-high-school: #839ed7;
+  --phase-undergrad: #df91a9;
+  --phase-bo: #ffa409;
+  --phase-mam: #c8c5c6;
+  --phase-phd: #7fa875;
+  --phase-line: 3px;
 }
 
 body {
   width: min(100%, 820px);
-  margin: 0 auto;
-  padding: 28px 0 50px;
-  color: var(--ink);
-  background-color: #fff;
-  background-image:
-    linear-gradient(rgba(92, 100, 102, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(92, 100, 102, 0.08) 1px, transparent 1px);
-  background-size: 20px 20px;
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 17px;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
 }
 
 .site-header,
@@ -63,9 +31,8 @@ main {
   padding: 0;
 }
 
-a { color: var(--link); }
-
 .site-header {
+  position: relative;
   margin-bottom: 28px;
   padding: 20px;
   border: 1px solid rgba(92, 100, 102, 0.2);
@@ -76,14 +43,6 @@ a { color: var(--link); }
 
 .site-header nav {
   margin-bottom: 20px;
-  color: var(--muted);
-  font-size: 15px;
-}
-
-h1 {
-  margin: 0 0 7px;
-  font-size: 31px;
-  line-height: 1.2;
 }
 
 .site-header > p {
@@ -162,16 +121,16 @@ h1 {
 .duration-legend[hidden] { display: none; }
 .duration-key { display: inline-flex; align-items: center; gap: 5px; }
 .duration-swatch {
-  width: 10px;
-  height: 10px;
-  border: 1px solid;
-  border-radius: 1px;
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
   background: transparent;
 }
-.duration-swatch.duration-high-school { border-color: #789cc4; }
-.duration-swatch.duration-undergrad { border-color: #d98585; }
-.duration-swatch.duration-bo { border-color: #d49a70; }
-.duration-swatch.duration-phd { border-color: #77a875; }
+.duration-swatch.duration-high-school { background: var(--phase-high-school); }
+.duration-swatch.duration-undergrad { background: var(--phase-undergrad); }
+.duration-swatch.duration-bo { background: var(--phase-bo); }
+.duration-swatch.duration-mam { background: var(--phase-mam); }
+.duration-swatch.duration-phd { background: var(--phase-phd); }
 
 .timeline[hidden],
 .memory-list-view[hidden],
@@ -446,19 +405,29 @@ h1 {
   outline-offset: 1px;
 }
 
-.week.duration-high-school { border-color: #789cc4; }
-.week.duration-undergrad { border-color: #d98585; }
-.week.duration-bo { border-color: #d49a70; }
-.week.duration-phd { border-color: #77a875; }
-.week.duration-bo.duration-phd {
-  border-top-color: #77a875;
-  border-right-color: #d49a70;
-  border-bottom-color: #77a875;
-  border-left-color: #d49a70;
+/* Life phases show as a crayon line along the bottom of the week. Overlapping
+   phases stack their lines upward (one per phase). --week-line (the colors)
+   and --week-line-pos (their stacked positions) are composed per week in
+   app.js. The line is drawn on ::after so the crayon filter only roughens the
+   stroke, leaving the box and its text crisp. */
+.crayon-defs { position: absolute; width: 0; height: 0; }
+
+.week.in-duration {
+  position: relative;
+  isolation: isolate;
 }
-.week.has-memory.in-duration:not(.duration-boundary) {
-  border-color: #999;
-  background: rgba(255, 255, 255, 0.72);
+
+.week.in-duration::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--week-line);
+  background-repeat: no-repeat;
+  background-position: var(--week-line-pos, bottom);
+  background-size: 100% var(--phase-line);
+  filter: url(#crayon);
 }
 
 .tooltip {
@@ -515,20 +484,6 @@ footer {
 
 footer p { margin: 0; }
 
-html[data-theme="dark"] {
-  --ink: #e8e3dc;
-  --muted: #aaa39a;
-  --link: #9bbbd8;
-}
-
-html[data-theme="dark"] body {
-  background-color: #242321;
-  background-image:
-    linear-gradient(rgba(205, 190, 174, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(205, 190, 174, 0.07) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
 html[data-theme="dark"] .site-header,
 html[data-theme="dark"] .decade,
 html[data-theme="dark"] .memory-list-view,
@@ -549,24 +504,6 @@ html[data-theme="dark"] .week.has-memory,
 html[data-theme="dark"] .week.current {
   border-color: #8b857c;
   color: #e8e3dc;
-  background: rgba(62, 59, 55, 0.94);
-}
-html[data-theme="dark"] .week.duration-high-school,
-html[data-theme="dark"] .duration-swatch.duration-high-school { border-color: #8eafd2; }
-html[data-theme="dark"] .week.duration-undergrad,
-html[data-theme="dark"] .duration-swatch.duration-undergrad { border-color: #d99696; }
-html[data-theme="dark"] .week.duration-bo,
-html[data-theme="dark"] .duration-swatch.duration-bo { border-color: #dea780; }
-html[data-theme="dark"] .week.duration-phd,
-html[data-theme="dark"] .duration-swatch.duration-phd { border-color: #8fb784; }
-html[data-theme="dark"] .week.duration-bo.duration-phd {
-  border-top-color: #8fb784;
-  border-right-color: #dea780;
-  border-bottom-color: #8fb784;
-  border-left-color: #dea780;
-}
-html[data-theme="dark"] .week.has-memory.in-duration:not(.duration-boundary) {
-  border-color: #8b857c;
   background: rgba(62, 59, 55, 0.94);
 }
 html[data-theme="dark"] .list-memory { border-color: #4e4a45; color: var(--ink); }
@@ -626,7 +563,6 @@ html[data-theme="dark"] .beyond-now { border-color: #68625b; background: rgba(62
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   .week.current,
   .live-spark { animation: none; }
 }

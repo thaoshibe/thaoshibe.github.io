@@ -50,7 +50,7 @@
     2026: `
       06-23 06-24 06-25 06-26 06-27 06-28 06-29
       07-04 07-06 07-07 07-08 07-09 07-10 07-11 07-12 07-13 07-14 07-15 07-16 07-17 07-20 07-21 07-22 07-23 07-24 07-25 07-26 07-27 07-28 07-29 07-30
-      08-01 08-03 08-04 08-05 08-06 08-07 08-08 08-10 08-11 08-12 08-13
+      08-01 08-03 08-04 08-05 08-06 08-07 08-08 08-10 08-11 08-12 08-13 08-14
     `
   };
 
@@ -127,6 +127,50 @@
     "2026-07-27": "sfo"
   };
 
+  /* ───────────────────────────────────────────────────────────────────────
+   * EMOTIONS — the easy part to maintain.
+   *   1. Palette below maps a mood name → color + emoji + label. Extend freely.
+   *   2. Log ONE line per day in emotionLog:  "YYYY-MM-DD": "good"
+   *      Need a note too?  "YYYY-MM-DD": { mood: "good", note: "shipped it!" }
+   * That's it — the Emotions tab builds itself from these two blocks.
+   * ─────────────────────────────────────────────────────────────────────── */
+  const emotionStyles = {
+    neutral:       { color: "#c4c0b8", label: "neutral" },
+    good:          { color: "#f7d774", label: "good" },
+    "really-good": { color: "#f2b705", label: "really good" },
+    "ok-ish":      { color: "#a7cfa0", label: "ok-ish" },
+    content:       { color: "#6a9e63", label: "content" },
+    sad:           { color: "#9db8e3", label: "sad" },
+    "really-sad":  { color: "#5b7fb5", label: "really sad" },
+    lazy:          { color: "#df91a9", label: "lazy" },
+    tired:         { color: "#9c7a54", label: "tired" },
+    stressed:      { color: "#ef8354", label: "stressed" },
+    terrible:      { color: "#d4614e", label: "terrible" }
+  };
+
+  const emotionLog = {
+    "2026-08-13": "ok-ish",
+    "2026-08-14": "neutral"
+    // add a new line each day, e.g. "2026-08-15": "really-good",
+  };
+
+  const emotionDays = {};
+  for (const [key, value] of Object.entries(emotionLog)) {
+    const mood = typeof value === "string" ? value : value.mood;
+    const style = emotionStyles[mood];
+    if (!style) continue;
+    const note = typeof value === "string" ? "" : value.note;
+    emotionDays[key] = {
+      color: style.color,
+      label: style.label,
+      ...(note && { description: note })
+    };
+  }
+
+  // Legend order follows emotionStyles; "no log" leads the first column.
+  const emotionLegend = Object.entries(emotionStyles).map(([id, style]) => ({ id, ...style }));
+  emotionLegend.splice(0, 0, { id: "no-log", label: "no log", empty: true });
+
   const days = {};
   for (const [year, dates] of Object.entries(workdays)) {
     const style = workdayStyles[year];
@@ -172,21 +216,37 @@
 
   window.PIXEL_DATA = {
     years: [2026, 2025, 2024, 2023],
-    days,
-    loggingPeriods: [
-      { start: "2023-05-30", end: "2025-06-17" },
-      { start: "2026-06-23" }
-    ],
-    yearNotes: {
-      2023: "May 30 2023 — Started logging.",
-      2025: "Jun 17 2025 — Stopped logging · gray pixels after this date come from GitHub activity.",
-      2026: "Jun 23 2026 — Resumed logging · gray pixels before this date come from GitHub activity."
-    },
     yearEmojis: {
       2023: "🌱",
       2024: "🌸",
       2025: "✨",
       2026: "🌈"
-    }
+    },
+    views: [
+      {
+        id: "work",
+        label: "Work",
+        days,
+        loggingPeriods: [
+          { start: "2023-05-30", end: "2025-06-17" },
+          { start: "2026-06-23" }
+        ],
+        yearNotes: {
+          2023: "May 30 2023 — Started logging.",
+          2025: "Jun 17 2025 — Stopped logging · gray pixels after this date come from GitHub activity.",
+          2026: "Jun 23 2026 — Resumed logging · gray pixels before this date come from GitHub activity."
+        }
+      },
+      {
+        id: "emotions",
+        label: "Emotions",
+        days: emotionDays,
+        loggingPeriods: [{ start: "2026-08-13" }],
+        yearNotes: {
+          2026: "Aug 13 2026 — Started logging emotions."
+        },
+        legend: emotionLegend
+      }
+    ]
   };
 })();

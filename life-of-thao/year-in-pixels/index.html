@@ -4,22 +4,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Thao's year, one colorful day at a time." />
-  <title>Year in Pixels · life-of-thao</title>
+  <title>year-in-pixels · life-of-thao</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
   <script src="../theme.js"></script>
+  <link rel="stylesheet" href="../theme.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
   <header>
-    <nav><a href="../">life-of-thao</a> / Year in Pixels</nav>
-    <h1 id="title">Year in Pixels</h1>
+    <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
+    <nav><a href="../">life-of-thao</a> / year-in-pixels</nav>
+    <h1 id="title">year-in-pixels</h1>
     <p>One square for every day, across the years. Color becomes a tiny memory.</p>
-    <p class="data-note">Year colors come from the emoji calendars. Gray pixels were filled from GitHub activity history.</p>
+    <p class="data-note">In <strong>Work</strong>, colored days mark when I went to work (gray pixels come from GitHub activity); in <strong>Emotions</strong>, each color is how that day felt.</p>
   </header>
+  <div class="view-switch" id="view-switch" aria-label="Pixel view" hidden></div>
   <main>
     <div class="years" id="years" aria-live="polite"></div>
   </main>
