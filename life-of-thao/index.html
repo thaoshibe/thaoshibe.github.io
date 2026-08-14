@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Two ways of looking at a life: in weeks and in daily pixels." />
+  <title>Life of Thao</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="theme.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: min(680px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 54px 0;
+      color: #292929;
+      background: #fff;
+      font-family: "Poppins", sans-serif;
+    }
+    nav { margin-bottom: 54px; color: #777; font-size: 13px; }
+    nav a { color: #3567a8; }
+    h1 { margin: 0; font-size: clamp(2rem, 8vw, 3.8rem); line-height: 1.1; }
+    .intro { max-width: 520px; margin: 13px 0 40px; color: #666; line-height: 1.65; }
+    .landing-header {
+      margin-bottom: 14px; padding: 22px; border: 1px solid #cfcfca;
+      background: #fff; box-shadow: 0 7px 20px rgba(44,52,58,.11), 0 1px 3px rgba(44,52,58,.08);
+    }
+    .landing-header .intro { margin-bottom: 0; }
+    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .choice {
+      min-height: 190px;
+      padding: 22px;
+      border: 1px solid #cfcfca;
+      color: inherit;
+      background: #fff;
+      box-shadow: 0 7px 20px rgba(44,52,58,.11), 0 1px 3px rgba(44,52,58,.08);
+      text-decoration: none;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .choice:hover { transform: translateY(-2px); box-shadow: 0 11px 26px rgba(44,52,58,.15), 0 2px 5px rgba(44,52,58,.1); }
+    .choice-mark { display: block; margin-bottom: 42px; color: #888; font-size: 12px; }
+    .choice strong { display: block; font-size: 19px; }
+    .choice p { margin: 7px 0 0; color: #777; font-size: 13px; line-height: 1.55; }
+    footer { margin-top: 44px; color: #888; font-size: 12px; }
+    .theme-toggle {
+      position: fixed; z-index: 30; top: 16px; right: 18px; padding: 2px 0;
+      border: 0; color: #777; background: transparent; font: inherit; font-size: 12px;
+      text-decoration: underline; text-underline-offset: 4px; cursor: pointer;
+    }
+    .theme-toggle:hover, .theme-toggle:focus-visible { color: #292929; outline: none; }
+    html[data-theme="dark"] body {
+      color: #e8e3dc; background-color: #242321;
+      background-image:
+        linear-gradient(rgba(205, 190, 174, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(205, 190, 174, 0.07) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    html[data-theme="dark"] a { color: #9bbbd8; }
+    html[data-theme="dark"] nav,
+    html[data-theme="dark"] .intro,
+    html[data-theme="dark"] footer,
+    html[data-theme="dark"] .choice p,
+    html[data-theme="dark"] .choice-mark { color: #aaa39a; }
+    html[data-theme="dark"] .choice {
+      border-color: #514d48;
+      background: #302e2b;
+      box-shadow: 0 8px 24px rgba(0,0,0,.32), 0 1px 4px rgba(0,0,0,.28);
+    }
+    html[data-theme="dark"] .landing-header {
+      border-color: #514d48; background: #302e2b; box-shadow: 0 8px 24px rgba(0,0,0,.32), 0 1px 4px rgba(0,0,0,.28);
+    }
+    html[data-theme="dark"] .theme-toggle { color: #bbb4ab; }
+    html[data-theme="dark"] .theme-toggle:hover { color: #f2eee8; }
+    @media (max-width: 560px) {
+      body { padding-top: 28px; }
+      .choices { grid-template-columns: 1fr; }
+      .choice { min-height: 160px; }
+      .choice-mark { margin-bottom: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
+  <main>
+    <header class="landing-header">
+      <h1>Life of Thao</h1>
+      <p class="intro">The same life at two scales: the long view in weeks, and the texture of ordinary days in color.</p>
+    </header>
+    <div class="choices">
+      <a class="choice" href="life-in-weeks/">
+        <span class="choice-mark">□ □ □ □ □</span>
+        <strong>Life in Weeks →</strong>
+        <p>Years, milestones, and memories across a lifetime.</p>
+      </a>
+      <a class="choice" href="year-in-pixels/">
+        <span class="choice-mark">■ ■ ■ ■ ■</span>
+        <strong>Year in Pixels →</strong>
+        <p>One color for every day, seen together.</p>
+      </a>
+    </div>
+  </main>
+  <footer>Created by <a href="https://thaoshibe.github.io/">Thao</a> ♡</footer>
+</body>
+</html>

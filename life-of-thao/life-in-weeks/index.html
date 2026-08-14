@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A life in weeks, by Thao." />
+  <meta name="theme-color" content="#f6f1e8" />
+  <meta property="og:title" content="Life of Thao, in weeks" />
+  <meta property="og:description" content="Small squares, big memories." />
+  <title>Life of Thao, in weeks</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="../theme.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
+  <header class="site-header">
+    <nav aria-label="Main navigation">
+      <a href="../">Life of Thao</a> / Life in Weeks
+    </nav>
+    <h1>Life in weeks</h1>
+    <p id="intro-copy">My life, where each week is a little square. Memories are written into the weeks when they happened.</p>
+    <p class="timeline-meta" id="timeline-meta"></p>
+    <p class="preview-note" id="preview-note" hidden>
+      Preview data — add your birthday and memories in <code>life-data.js</code>.
+    </p>
+  </header>
+
+  <main id="timeline">
+    <div class="view-switch" aria-label="Timeline view">
+      <button type="button" class="active" data-view="weeks" aria-pressed="true">Weeks</button>
+      <button type="button" data-view="list" aria-pressed="false">List</button>
+      <button type="button" data-view="images" aria-pressed="false">Images</button>
+      <button type="button" data-action="jump-now">Jump to Now</button>
+    </div>
+    <div class="timeline" id="life-grid" aria-live="polite"></div>
+    <div class="memory-list-view" id="memory-list" aria-live="polite" hidden></div>
+    <div class="memory-image-view" id="memory-images" aria-live="polite" hidden></div>
+  </main>
+
+  <footer>
+    <p>Created by <a href="https://thaoshibe.github.io/">Thao</a> ♡</p>
+  </footer>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <script src="life-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

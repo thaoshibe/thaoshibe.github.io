@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Thao's year, one colorful day at a time." />
+  <title>Year in Pixels · Life of Thao</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="../theme.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
+  <header>
+    <nav><a href="../">Life of Thao</a> / Year in Pixels</nav>
+    <h1 id="title">Year in Pixels</h1>
+    <p>One square for every day. Color becomes a tiny memory.</p>
+    <p class="data-note">Edit <code>pixel-data.js</code> to color a day.</p>
+  </header>
+  <main>
+    <div class="years" id="years" aria-live="polite"></div>
+  </main>
+  <footer>Created by <a href="https://thaoshibe.github.io/">Thao</a> ♡</footer>
+  <div class="day-card" id="day-card" hidden></div>
+  <script src="pixel-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
