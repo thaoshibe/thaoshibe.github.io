@@ -9,10 +9,19 @@
   const today = startOfDay(new Date());
   const totalWeeks = data.yearsToShow * 52;
   const weeksLived = clamp(Math.floor((today - birthDate) / WEEK_MS), 0, totalWeeks);
+  const twentiesStartAge = data.twentiesStartAge ?? 20;
   const grid = document.querySelector("#life-grid");
   const list = document.querySelector("#memory-list");
   const imageView = document.querySelector("#memory-images");
   const tooltip = document.querySelector("#tooltip");
+  const durations = (data.durations || []).map((duration) => ({
+    ...duration,
+    className: `duration-${duration.className}`,
+    startWeek: Math.floor((parseDate(duration.start) - birthDate) / WEEK_MS),
+    endWeek: duration.end
+      ? Math.floor((parseDate(duration.end) - birthDate) / WEEK_MS)
+      : weeksLived
+  }));
   let pinnedAnchor = null;
 
   function parseDate(value) {
@@ -32,6 +41,20 @@
     const result = new Date(date);
     result.setDate(result.getDate() + weeks * 7);
     return result;
+  }
+
+  function firstWeekInCalendarYear(year) {
+    const yearStart = new Date(year, 0, 1);
+    let weekIndex = clamp(Math.floor((yearStart - birthDate) / WEEK_MS), 0, totalWeeks);
+
+    while (weekIndex < totalWeeks && addWeeks(birthDate, weekIndex).getFullYear() < year) {
+      weekIndex += 1;
+    }
+    while (weekIndex > 0 && addWeeks(birthDate, weekIndex - 1).getFullYear() >= year) {
+      weekIndex -= 1;
+    }
+
+    return weekIndex;
   }
 
   function formatDate(date) {
@@ -69,7 +92,8 @@
       const day = String(birthday.getDate()).padStart(2, "0");
       addMilestone({
         date: `${birthday.getFullYear()}-${month}-${day}`,
-        title: String(age)
+        title: String(age),
+        isAgeMarker: true
       });
     }
 
@@ -92,21 +116,46 @@
       document.querySelector("#intro-copy").textContent =
         `My life since ${formatDate(birthDate)}, where each week is a little square. Memories are written into the weeks when they happened.`;
     }
+
+    const legend = document.querySelector("#duration-legend");
+    durations.forEach((duration) => {
+      const item = document.createElement("span");
+      item.className = "duration-key";
+      const swatch = document.createElement("span");
+      swatch.className = `duration-swatch ${duration.className}`;
+      swatch.setAttribute("aria-hidden", "true");
+      item.append(swatch, duration.label);
+      legend.appendChild(item);
+    });
+    legend.hidden = durations.length === 0;
   }
 
   function createWeek(weekIndex, milestones) {
     const weekDate = addWeeks(birthDate, weekIndex);
     const memories = milestones.get(weekIndex);
+    const isAgeMarker = memories?.length === 1 && memories[0].isAgeMarker;
     const isCurrent = weekIndex === weeksLived;
-    const week = document.createElement(memories ? "button" : "span");
+    const week = document.createElement(memories && !isAgeMarker ? "button" : "span");
     week.className = "week";
+
+    const activeDurations = durations.filter(
+      ({ startWeek, endWeek }) => weekIndex >= startWeek && weekIndex <= endWeek
+    );
+    activeDurations.forEach((duration) => week.classList.add("in-duration", duration.className));
+    if (activeDurations.some(({ startWeek, endWeek }) => weekIndex === startWeek || weekIndex === endWeek)) {
+      week.classList.add("duration-boundary");
+    }
 
     if (weekIndex < weeksLived) week.classList.add("lived");
     if (isCurrent) {
       week.classList.add("current");
     }
 
-    if (memories) {
+    if (isAgeMarker) {
+      week.classList.add("age-marker");
+      week.textContent = memories[0].title;
+      week.setAttribute("aria-label", `Age ${memories[0].title}`);
+    } else if (memories) {
       week.classList.add("has-memory");
       week.type = "button";
       week.dataset.week = weekIndex;
@@ -122,7 +171,7 @@
       week.setAttribute("aria-hidden", "true");
     }
 
-    if (isCurrent && memories) {
+    if (isCurrent && memories && !isAgeMarker) {
       const liveMarker = document.createElement("span");
       liveMarker.className = "live-marker";
       liveMarker.innerHTML = '<span class="live-spark" aria-hidden="true">✦</span> Now';
@@ -158,20 +207,29 @@
       if (decade === 0 || decade === 10) {
         const compactYears = document.createElement("div");
         compactYears.className = "week-row compact-years";
-        compactYears.setAttribute("aria-label", `Ages ${decade} through ${decade + 9}`);
+
+        const birthYear = birthDate.getFullYear();
+        const firstCalendarYear = birthYear + decade;
+        const lastCalendarYear = birthYear + (decade === 0 ? 9 : twentiesStartAge - 1);
+        compactYears.setAttribute(
+          "aria-label",
+          `Calendar years ${firstCalendarYear} through ${lastCalendarYear}`
+        );
 
         let displayedYear = null;
-        const firstWeek = decade * 52;
-        const lastWeek = (decade + 10) * 52;
+        const firstWeek = decade === 0 ? 0 : firstWeekInCalendarYear(firstCalendarYear);
+        const lastWeek = firstWeekInCalendarYear(
+          birthYear + (decade === 0 ? 10 : twentiesStartAge)
+        );
         for (let weekIndex = firstWeek; weekIndex < lastWeek; weekIndex += 1) {
           const calendarYear = addWeeks(birthDate, weekIndex).getFullYear();
 
           if (calendarYear !== displayedYear) {
+            displayedYear = calendarYear;
             const yearMarker = document.createElement("span");
             yearMarker.className = "year-marker";
             yearMarker.textContent = calendarYear;
             compactYears.appendChild(yearMarker);
-            displayedYear = calendarYear;
           }
 
           compactYears.appendChild(createWeek(weekIndex, milestones));
@@ -183,21 +241,24 @@
         continue;
       }
 
-      for (let age = decade; age < Math.min(decade + 10, data.yearsToShow); age += 1) {
+      const firstAge = decade === 20 ? twentiesStartAge : decade;
+      for (let age = firstAge; age < Math.min(decade + 10, data.yearsToShow); age += 1) {
+        const calendarYear = birthDate.getFullYear() + age;
         const year = document.createElement("div");
         year.className = "year-row";
 
         const label = document.createElement("div");
         label.className = "year-label";
-        label.innerHTML = `<strong>${age}</strong><span>${birthDate.getFullYear() + age}</span>`;
+        label.innerHTML = `<strong>${age}</strong><span>${calendarYear}</span>`;
         year.appendChild(label);
 
         const weekRow = document.createElement("div");
         weekRow.className = "week-row";
-        weekRow.setAttribute("aria-label", `Age ${age}`);
+        weekRow.setAttribute("aria-label", `Age ${age}, calendar year ${calendarYear}`);
 
-        for (let weekOfYear = 0; weekOfYear < 52; weekOfYear += 1) {
-          const weekIndex = age * 52 + weekOfYear;
+        const firstWeek = firstWeekInCalendarYear(calendarYear);
+        const lastWeek = firstWeekInCalendarYear(calendarYear + 1);
+        for (let weekIndex = firstWeek; weekIndex < lastWeek; weekIndex += 1) {
           weekRow.appendChild(createWeek(weekIndex, milestones));
         }
 
@@ -238,11 +299,8 @@
     const fragment = document.createDocumentFragment();
 
     sortedMemories.forEach((memory, index) => {
-      const row = document.createElement("button");
-      row.type = "button";
+      const row = document.createElement("div");
       row.className = "list-memory";
-      row.dataset.memoryIndex = index;
-      row.setAttribute("aria-expanded", "false");
 
       const date = document.createElement("span");
       date.className = "list-memory-date";
@@ -250,7 +308,25 @@
 
       const title = document.createElement("span");
       title.className = "list-memory-title";
-      title.textContent = `${memory.emoji ? `${memory.emoji} ` : ""}${memory.title}`;
+
+      const trigger = document.createElement("button");
+      trigger.type = "button";
+      trigger.className = "list-memory-trigger";
+      trigger.dataset.memoryIndex = index;
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.textContent = `${memory.emoji ? `${memory.emoji} ` : ""}${memory.title}`;
+      title.appendChild(trigger);
+
+      if (memory.link) {
+        const link = document.createElement("a");
+        link.className = "list-memory-link";
+        link.href = memory.link;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        const linkTitle = (memory.linkLabel || "link").replace(/\s*↗$/, "");
+        link.textContent = `[${linkTitle}]`;
+        title.appendChild(link);
+      }
 
       row.append(date, title);
       fragment.appendChild(row);
@@ -259,7 +335,7 @@
     list.appendChild(fragment);
     wireMemoryInteractions(
       list,
-      ".list-memory",
+      ".list-memory-trigger",
       (anchor) => [sortedMemories[Number(anchor.dataset.memoryIndex)]]
     );
   }
@@ -339,6 +415,7 @@
         grid.hidden = view !== "weeks";
         list.hidden = view !== "list";
         imageView.hidden = view !== "images";
+        document.querySelector("#duration-legend").hidden = view !== "weeks" || durations.length === 0;
 
         buttons.forEach((item) => {
           const active = item === button;

@@ -6,6 +6,8 @@
   const card = document.querySelector("#day-card");
   const formatter = new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" });
   const monthFormatter = new Intl.DateTimeFormat("en", { month: "short" });
+  const today = new Date();
+  const todayKey = dateKey(today.getFullYear(), today.getMonth(), today.getDate());
 
   const yearsFromDays = Object.keys(data.days || {}).map((key) => Number(key.slice(0, 4)));
   const configuredYears = Array.isArray(data.years) ? data.years : [data.year];
@@ -17,11 +19,15 @@
     return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   }
 
+  function isInLoggingPeriod(key) {
+    return (data.loggingPeriods || []).some(({ start, end }) => key >= start && (!end || key <= end));
+  }
+
   function renderYear(year) {
     const section = document.createElement("section");
     section.className = "year";
     const heading = document.createElement("h2");
-    heading.textContent = year;
+    heading.textContent = `${year}${data.yearEmojis?.[year] ? ` ${data.yearEmojis[year]}` : ""}`;
 
     const firstDate = new Date(year, 0, 1);
     const daysInYear = Math.round((new Date(year + 1, 0, 1) - firstDate) / 86400000);
@@ -63,6 +69,7 @@
       const key = dateKey(year, month, day);
       const entry = data.days[key];
       const pixel = document.createElement(entry ? "button" : "span");
+      const isToday = key === todayKey;
       pixel.className = "day";
       pixel.title = formatter.format(date);
 
@@ -73,7 +80,18 @@
         pixel.setAttribute("aria-label", `${pixel.title}: ${entry.label || "colored day"}`);
         pixel.addEventListener("click", (event) => showCard(event.currentTarget, key, entry));
       } else {
-        pixel.setAttribute("aria-hidden", "true");
+        if (!isInLoggingPeriod(key) || key > todayKey) pixel.classList.add("ghost");
+        if (isToday) pixel.setAttribute("aria-label", `Today: ${pixel.title}`);
+        else pixel.setAttribute("aria-hidden", "true");
+      }
+
+      if (isToday) {
+        pixel.classList.add("current");
+        const now = document.createElement("span");
+        now.className = "now-label";
+        now.setAttribute("aria-hidden", "true");
+        now.innerHTML = '<span class="now-spark">✦</span> Now';
+        pixel.appendChild(now);
       }
       grid.appendChild(pixel);
     }
@@ -90,6 +108,12 @@
     gridRow.append(weekdayLabels, grid);
     calendar.append(monthLabels, gridRow);
     section.append(heading, calendar);
+    if (data.yearNotes?.[year]) {
+      const note = document.createElement("p");
+      note.className = "year-note";
+      note.textContent = data.yearNotes[year];
+      section.appendChild(note);
+    }
     yearsContainer.appendChild(section);
   }
 

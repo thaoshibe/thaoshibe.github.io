@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Two ways of looking at a life: in weeks and in daily pixels." />
-  <title>Life of Thao</title>
+  <title>life-of-thao</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,12 +17,16 @@
       margin: 0 auto;
       padding: 54px 0;
       color: #292929;
-      background: #fff;
+      background-color: #fff;
+      background-image:
+        linear-gradient(rgba(92,100,102,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(92,100,102,.08) 1px, transparent 1px);
+      background-size: 20px 20px;
       font-family: "Poppins", sans-serif;
     }
     nav { margin-bottom: 54px; color: #777; font-size: 13px; }
     nav a { color: #3567a8; }
-    h1 { margin: 0; font-size: clamp(2rem, 8vw, 3.8rem); line-height: 1.1; }
+    h1 { margin: 0; font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.15; }
     .intro { max-width: 520px; margin: 13px 0 40px; color: #666; line-height: 1.65; }
     .landing-header {
       margin-bottom: 14px; padding: 22px; border: 1px solid #cfcfca;
@@ -41,7 +45,14 @@
       transition: transform 150ms ease, box-shadow 150ms ease;
     }
     .choice:hover { transform: translateY(-2px); box-shadow: 0 11px 26px rgba(44,52,58,.15), 0 2px 5px rgba(44,52,58,.1); }
-    .choice-mark { display: block; margin-bottom: 42px; color: #888; font-size: 12px; }
+    .choice-mark { display: flex; align-items: center; gap: 5px; min-height: 18px; margin-bottom: 42px; color: #888; }
+    .preview-week, .preview-pixel { width: 18px; height: 18px; border-radius: 2px; }
+    .preview-week {
+      display: grid; place-items: center;
+      border: 1px solid #aaa; background: rgba(255,255,255,.72);
+      font-size: 9px; line-height: 1;
+    }
+    .preview-pixel { width: 15.5px; height: 15.5px; background: var(--preview-color); }
     .choice strong { display: block; font-size: 19px; }
     .choice p { margin: 7px 0 0; color: #777; font-size: 13px; line-height: 1.55; }
     footer { margin-top: 44px; color: #888; font-size: 12px; }
@@ -72,6 +83,8 @@
     html[data-theme="dark"] .landing-header {
       border-color: #514d48; background: #302e2b; box-shadow: 0 8px 24px rgba(0,0,0,.32), 0 1px 4px rgba(0,0,0,.28);
     }
+    html[data-theme="dark"] .preview-week { border-color: #77716b; background: rgba(62,59,55,.72); }
+    html[data-theme="dark"] .preview-pixel.github { --preview-color: #706d69 !important; }
     html[data-theme="dark"] .theme-toggle { color: #bbb4ab; }
     html[data-theme="dark"] .theme-toggle:hover { color: #f2eee8; }
     @media (max-width: 560px) {
@@ -86,17 +99,27 @@
   <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
   <main>
     <header class="landing-header">
-      <h1>Life of Thao</h1>
+      <h1>life-of-thao</h1>
       <p class="intro">The same life at two scales: the long view in weeks, and the texture of ordinary days in color.</p>
     </header>
     <div class="choices">
       <a class="choice" href="life-in-weeks/">
-        <span class="choice-mark">□ □ □ □ □</span>
+        <span class="choice-mark" aria-hidden="true">
+          <span class="preview-week">1</span>
+          <span class="preview-week">2</span>
+          <span class="preview-week">3</span>
+        </span>
         <strong>Life in Weeks →</strong>
         <p>Years, milestones, and memories across a lifetime.</p>
       </a>
       <a class="choice" href="year-in-pixels/">
-        <span class="choice-mark">■ ■ ■ ■ ■</span>
+        <span class="choice-mark" aria-hidden="true">
+          <span class="preview-pixel" style="--preview-color:#7fa875"></span>
+          <span class="preview-pixel" style="--preview-color:#df91a9"></span>
+          <span class="preview-pixel" style="--preview-color:#deb85c"></span>
+          <span class="preview-pixel" style="--preview-color:#839ed7"></span>
+          <span class="preview-pixel github" style="--preview-color:#c3c3be"></span>
+        </span>
         <strong>Year in Pixels →</strong>
         <p>One color for every day, seen together.</p>
       </a>

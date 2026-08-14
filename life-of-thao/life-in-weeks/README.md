@@ -1,4 +1,4 @@
-# Life of Thao, in weeks
+# life-of-thao, in weeks
 
 A no-build, data-driven life calendar for GitHub Pages.
 
