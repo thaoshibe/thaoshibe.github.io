@@ -50,7 +50,7 @@
     2026: `
       06-23 06-24 06-25 06-26 06-27 06-28 06-29
       07-04 07-06 07-07 07-08 07-09 07-10 07-11 07-12 07-13 07-14 07-15 07-16 07-17 07-20 07-21 07-22 07-23 07-24 07-25 07-26 07-27 07-28 07-29 07-30
-      08-01 08-03 08-04 08-05 08-06 08-07 08-08 08-10 08-11 08-12 08-13 08-14 08-15 08-17 08-18 08-19
+      08-01 08-03 08-04 08-05 08-06 08-07 08-08 08-10 08-11 08-12 08-13 08-14 08-15 08-17 08-18 08-19 08-20 08-21 08-22 08-23
     `
   };
 
@@ -140,7 +140,7 @@
     good:          { color: "#f7d774", label: "good" },
     "really-good": { color: "#f2b705", label: "really good" },
     "ok-ish":      { color: "#a7cfa0", label: "ok-ish" },
-    content:       { color: "#6a9e63", label: "content" },
+    "hard-working": { color: "#6a9e63", label: "hard-working" },
     sad:           { color: "#9db8e3", label: "sad" },
     "really-sad":  { color: "#5b7fb5", label: "really sad" },
     lazy:          { color: "#df91a9", label: "lazy" },
@@ -156,7 +156,11 @@
     "2026-08-16": "ok-ish",
     "2026-08-17": "ok-ish",
     "2026-08-18": { mood: "really-sad", note: "i miss Bơ so much, cried like a baby at 9pm" },
-    "2026-08-19": "ok-ish"
+    "2026-08-19": "ok-ish",
+    "2026-08-20": "hard-working",
+    "2026-08-21": "hard-working",
+    "2026-08-22": "hard-working",
+    "2026-08-23": "hard-working"
     // add a new line each day, e.g. "2026-08-16": "really-good",
   };
 
