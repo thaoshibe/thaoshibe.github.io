@@ -1,22 +1,36 @@
 {
   "site": {
     "brand": "viết về Bơ",
+    "tagline": "Những chuyện về Bơ — chú chó đầu tiên của mình.",
     "author": "chị Thảo",
-    "avatar": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=P_6-46UAAAAJ&citpid=23"
+    "avatar": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=P_6-46UAAAAJ&citpid=23",
+    "footer": {
+      "text": "Copyright © 2026",
+      "label": "Thảo Shibe",
+      "url": "../index.html"
+    },
+    "landingImages": [
+      { "post": "bo-di-my", "src": "https://thaoshibe.github.io/images/bo.png", "side": "left", "variation": 1 },
+      { "post": "39-42-dieu-hai-chi-em-cung-lam", "src": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg", "side": "right", "variation": 2 },
+      { "post": "tam-biet-bo", "src": "./bo-di-my/Untitled 18.png", "side": "left", "variation": 3 },
+      { "post": "cho-den-khi-minh-gap-lai", "src": "https://raw.githubusercontent.com/thaoshibe/relsim/refs/heads/main/anonymous_caption/bo.jpg", "side": "right", "variation": 4 }
+    ],
+    "timeline": {
+      "start": { "date": "1997-04-01", "label": "04/97", "symbol": "🌱" },
+      "met": { "date": "2021-06-05", "label": "06/21", "symbol": "🧡🐕" },
+      "parted": { "date": "2026-05-24", "label": "05/26", "symbol": "🌈🐕" },
+      "end": { "date": "2100-01-01", "label": "~ 2100", "symbol": "✨" }
+    }
   },
   "posts": [
     {
       "slug": "bo-di-my",
       "status": "live",
-      "featured": true,
       "emoji": "✈️",
-      "eyebrow": "hành trình",
       "title": "Cùng Bơ đi Mỹ | Tự làm thủ tục đưa chó/ mèo đi Mỹ",
       "excerpt": "chuẩn bị giấy tờ thủ tục đưa chó/ mèo đi Mỹ từ Việt Nam",
       "date": "2022-08-28",
-      "dateLabel": "Aug 2022",
-      "cover": "https://thaoshibe.github.io/images/bo.png",
-      "background": "./bo-di-my/bo-di-my-background.png"
+      "dateLabel": "Aug 2022"
     },
     {
       "slug": "chao-bo",
@@ -32,12 +46,9 @@
       "slug": "39-42-dieu-hai-chi-em-cung-lam",
       "status": "soon",
       "emoji": "🥑",
-      "eyebrow": "hai chị em",
       "title": "39/42 điều hai chị em cùng làm",
       "date": "2026-05-24",
-      "dateLabel": "May 2026",
-      "cover": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg",
-      "background": "./39-42-dieu-hai-chi-em-cung-lam/PXL_20230209_154004992-EDIT.jpeg"
+      "dateLabel": "May 2026"
     },
     {
       "slug": "thay-nang-qua-tim",
@@ -49,18 +60,14 @@
       "status": "soon",
       "url": "./tam-biet-bo.html",
       "emoji": "🕊️",
-      "eyebrow": "tạm biệt",
       "title": "Tạm biệt Bơ",
       "date": "2026-05-24",
-      "dateLabel": "May 2026",
-      "cover": "./bo-di-my/Untitled 18.png",
-      "background": "./tam-biet-bo/tam-biet-bo.png"
+      "dateLabel": "May 2026"
     },
     {
       "slug": "cho-den-khi-minh-gap-lai",
       "status": "soon",
-      "title": "Cho đến khi mình gặp lại",
-      "cover": "https://raw.githubusercontent.com/thaoshibe/relsim/refs/heads/main/anonymous_caption/bo.jpg"
+      "title": "Cho đến khi mình gặp lại"
     }
   ]
 }

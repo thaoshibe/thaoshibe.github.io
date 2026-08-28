@@ -1,63 +1,90 @@
-# cho Bơ 🥑 — blog
+# viết về Bơ
 
-Content and theme are kept separate, so you can edit one without touching the other.
+A small no-build blog: write in Markdown, update one manifest, and publish.
+The current visual theme is separated from the content, so ordinary writing never
+requires editing HTML, CSS, or JavaScript.
 
+## Where everything lives
+
+```text
+viet-ve-bo/
+├── index.html                 landing-page structure (rarely edit)
+├── post.html                  reading-page structure (rarely edit)
+├── posts.json                 all editable site and post settings
+├── posts/
+│   ├── _template.md           copy this when starting a story
+│   └── <slug>.md              one Markdown file per story
+├── <slug>/                    photos used inside that story
+└── assets/
+    ├── css/
+    │   ├── theme.css          shared theme and reading-page styles
+    │   └── landing.css        landing-page styles
+    └── js/
+        ├── landing.js         builds the landing page from posts.json
+        └── post.js            turns Markdown into a reading page
 ```
-chobo/
-├── index.html      # the landing page (iPad-style home screen). don't usually edit.
-├── post.html       # the reading view that renders a markdown post. don't usually edit.
-├── theme.css       # ← edit this to restyle the WHOLE blog (colors, fonts, layout)
-├── posts.json      # ← the list of posts (title, date, cover, excerpt…)
-└── posts/
-    ├── bo-di-my.md         # ← post content, in markdown
-    └── bo-di-my/...        # images for that post (live in chobo/bo-di-my/)
-```
 
-## ✍️ Add a new post
+The older standalone HTML files and `.bak` files are preserved as archives. The
+live site uses `index.html`, `post.html`, `posts.json`, and the Markdown files.
 
-1. Write the post as markdown: `posts/<slug>.md` (e.g. `posts/roadtrip.md`).
-   - Images: put them in `chobo/<slug>/` and reference as `./<slug>/photo.png`.
-   - For an image caption, use the alt text: `![my caption here](./roadtrip/photo.png)`.
-2. Add an entry to `posts.json` (or flip an existing `"soon"` entry to `"live"`):
+## Write and publish a new story
+
+1. Copy `posts/_template.md` to `posts/<slug>.md`. Use a short lowercase slug,
+   for example `mot-ngay-cua-bo`.
+2. Create a matching `<slug>/` folder for its photos. In Markdown, add one with:
+
+   ```md
+   ![caption shown below the photo](./mot-ngay-cua-bo/photo.jpg)
+   ```
+
+3. Add the story to the `posts` list in `posts.json`:
 
    ```json
    {
-     "slug": "roadtrip",
+     "slug": "mot-ngay-cua-bo",
      "status": "live",
-     "emoji": "🚗",
-     "eyebrow": "du lịch",
-     "title": "Roadtrip cùng chó mèo",
-     "excerpt": "đường dài, ghế sau, và hai cái mũi ướt.",
-     "date": "2024-05-01",
-     "dateLabel": "May 2024",
-     "cover": "./roadtrip/cover.png"
+     "emoji": "🐕",
+     "title": "Một ngày của Bơ",
+     "excerpt": "A short description shown on the landing page.",
+     "date": "2026-08-11",
+     "dateLabel": "Aug 2026"
    }
    ```
 
-   - `status`: `"live"` (clickable) or `"soon"` (greyed-out placeholder).
-   - `featured: true` puts the post in the big center slot of the homepage.
-   - `cover` is optional — without it, the card shows the `emoji` on a pastel tile
-     (`ph` field, `ph-1`…`ph-9`, picks the tile color).
+4. Set `status` to `live` when it should be clickable. Use `soon` while it is a
+   visible placeholder. Then commit and push as usual; there is no build step.
 
-That's it — no build step.
+The order in `posts.json` is the order shown on the landing page.
 
-## 🎨 Restyle
+## Change the landing page
 
-Everything visual is in `theme.css`. The palette lives in the `:root` block at the
-top (background, accent color, fonts). Index styles and post-reading styles are
-clearly sectioned within the file.
+All frequently changed landing settings are at the top of `posts.json`, inside
+`site`:
 
-## 👀 Preview locally
+- `brand`, `tagline`, `author`, and `avatar` control the site identity.
+- `landingImages` controls the floating photos. Each item chooses a story row
+  with `post`, an image with `src`, and either `left` or `right` with `side`.
+  `variation` (1–4) selects one of the subtle tilts. Reorder, replace, add, or
+  remove these entries freely.
+- `timeline` controls all four dates, labels, and symbols. The current-day marker
+  positions itself automatically.
+- `footer` controls the copyright line and link.
 
-The pages load `.md`/`.json` with `fetch()`, which browsers block over `file://`.
-Run a tiny local server from the repo root, then open the URL:
+## Change the theme
+
+- Edit the color and font variables at the top of `assets/css/theme.css` for a
+  site-wide change.
+- Edit `assets/css/landing.css` only for the landing-page layout.
+- Reading-page rules are grouped in `assets/css/theme.css` under
+  `POST READING VIEW`.
+
+## Preview locally
+
+Browsers block the content fetches when HTML is opened directly from disk. From
+this directory, run:
 
 ```bash
 python3 -m http.server 8000
-# → http://127.0.0.1:8000/chobo/index.html
 ```
 
-On GitHub Pages it just works (it's served over HTTP).
-
-> Note: `bo-di-my.html` is the original Notion export, kept as a backup. The live
-> post is now generated from `posts/bo-di-my.md`.
+Then open <http://127.0.0.1:8000/>. GitHub Pages serves the same files directly.
