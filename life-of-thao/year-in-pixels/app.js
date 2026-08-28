@@ -94,6 +94,7 @@
         pixel.type = "button";
         pixel.classList.add("colored");
         pixel.style.setProperty("--day-color", entry.color);
+        if (entry.pattern) pixel.dataset.pattern = entry.pattern;
         pixel.setAttribute("aria-label", `${pixel.title}: ${entry.label || "colored day"}`);
         pixel.addEventListener("click", (event) => showCard(event.currentTarget, key, entry));
       } else {

@@ -8,17 +8,14 @@
   --ghost-pixel-fill: rgba(255,255,255,.04);
   --pixel-size: 9px;
   --pixel-gap: 2.5px;
+  --pattern-ink: rgba(120, 122, 118, .5);
+  --grid-fill: rgba(120, 122, 118, .06);
 }
 body { width: min(700px, calc(100% - 32px)); }
 nav { margin-bottom: 20px; }
 header {
   position: relative;
   margin-bottom: 28px;
-  padding: 20px;
-  border: 1px solid rgba(92,100,102,.2);
-  border-radius: 3px;
-  background: #fff;
-  box-shadow: 0 7px 20px rgba(44,52,58,.11), 0 1px 3px rgba(44,52,58,.08);
 }
 header > p { margin: 0; color: #555; }
 .data-note { margin-top: 7px !important; color: var(--muted) !important; font-size: 12px; }
@@ -99,6 +96,15 @@ h2 { margin: 0 0 10px; font-size: 16px; font-weight: 500; }
 .day.outside-year { visibility: hidden; }
 .day.colored { border-color: transparent; background: var(--day-color); cursor: pointer; }
 .day.colored:hover, .day.colored:focus-visible { outline: 2px solid #555; outline-offset: 1px; }
+/* Recovered Trello + Pomello days: same gray as GitHub, marked with a light grid. */
+.day.colored[data-pattern="grid"] {
+  background-color: var(--grid-fill);
+  background-image:
+    linear-gradient(var(--pattern-ink) .6px, transparent .6px),
+    linear-gradient(90deg, var(--pattern-ink) .6px, transparent .6px);
+  background-size: 3px 3px;
+  background-position: center;
+}
 .day.current { position: relative; z-index: 3; outline: 2px solid #bd7d18; outline-offset: 2px; }
 .now-label {
   position: absolute; left: calc(100% + 5px); top: 50%;
@@ -122,12 +128,13 @@ h2 { margin: 0 0 10px; font-size: 16px; font-weight: 500; }
 footer { margin-top: 42px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
 html[data-theme="dark"] {
   --line: #55504a;
+  --pattern-ink: rgba(232, 227, 220, .42);
+  --grid-fill: rgba(232, 227, 220, .05);
   --github-pixel: #706d69;
   --ghost-pixel-line: rgba(232,227,220,.06);
   --ghost-pixel-fill: rgba(62,59,55,.06);
 }
 html[data-theme="dark"] header > p { color: #b9b2a9; }
-html[data-theme="dark"] header { border-color: #514d48; background: #302e2b; box-shadow: 0 8px 24px rgba(0,0,0,.32), 0 1px 4px rgba(0,0,0,.28); }
 html[data-theme="dark"] main {
   border-color: #514d48;
   background: #302e2b;
@@ -136,7 +143,7 @@ html[data-theme="dark"] main {
 html[data-theme="dark"] code { color: #ddd7cf; background: #3c3935; }
 html[data-theme="dark"] .day { border-color: #59544e; background: rgba(62,59,55,.72); }
 html[data-theme="dark"] .day.ghost { border-color: var(--ghost-pixel-line); background: var(--ghost-pixel-fill); }
-html[data-theme="dark"] .day.colored { border-color: transparent; background: var(--day-color); }
+html[data-theme="dark"] .day.colored { border-color: transparent; background-color: var(--day-color); }
 html[data-theme="dark"] .now-label { border-color: #746c62; background: #302e2b; box-shadow: 0 3px 9px rgba(0,0,0,.3); }
 html[data-theme="dark"] .day-card { border-color: #6d675f; color: var(--ink); background: #302e2b; box-shadow: 0 4px 16px rgba(0,0,0,.34); }
 html[data-theme="dark"] .day-card p { color: #b9b2a9; }

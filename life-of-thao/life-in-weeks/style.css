@@ -34,11 +34,6 @@ main {
 .site-header {
   position: relative;
   margin-bottom: 28px;
-  padding: 20px;
-  border: 1px solid rgba(92, 100, 102, 0.2);
-  border-radius: 3px;
-  background: #fff;
-  box-shadow: 0 7px 20px rgba(44, 52, 58, 0.11), 0 1px 3px rgba(44, 52, 58, 0.08);
 }
 
 .site-header nav {
@@ -484,7 +479,6 @@ footer {
 
 footer p { margin: 0; }
 
-html[data-theme="dark"] .site-header,
 html[data-theme="dark"] .decade,
 html[data-theme="dark"] .memory-list-view,
 html[data-theme="dark"] .memory-image-view {
@@ -534,7 +528,6 @@ html[data-theme="dark"] .beyond-now { border-color: #68625b; background: rgba(62
     padding: 0;
   }
 
-  .site-header,
   .decade {
     padding: 14px;
   }
