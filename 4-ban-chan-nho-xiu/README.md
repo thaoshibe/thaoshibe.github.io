@@ -1,4 +1,4 @@
-# viết về Bơ
+# 4 bàn chân nhỏ xíu
 
 A small no-build blog: write in Markdown, update one manifest, and publish.
 The current visual theme is separated from the content, so ordinary writing never
@@ -7,7 +7,7 @@ requires editing HTML, CSS, or JavaScript.
 ## Where everything lives
 
 ```text
-viet-ve-bo/
+4-ban-chan-nho-xiu/
 ├── index.html                 landing-page structure (rarely edit)
 ├── post.html                  reading-page structure (rarely edit)
 ├── posts.json                 all editable site and post settings

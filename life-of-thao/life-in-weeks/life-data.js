@@ -36,7 +36,7 @@ window.LIFE_DATA = {
     { date: "2021-06-05", title: "adopted Bo", emoji: "🐶", image: "images/adopt-bo.png", imageAlt: "Thao holding Bo on the day she adopted him" },
     { date: "2021-07-20", title: "adopted Mam", emoji: "🐱", image: "images/adopt-mam.jpeg", imageAlt: "Thao holding Mam on the day she adopted her" },
     { date: "2022-02-05", title: "got admitted to UW–Madison CS PhD!" },
-    { date: "2022-08-08", title: "moved to US for PhD", description: "Bơ and Mắm travelled with chị Thảo too!", link: "https://thaoshibe.github.io/viet-ve-bo/post.html?post=bo-di-my", linkLabel: "Read Bơ đi Mỹ ↗" },
+    { date: "2022-08-08", title: "moved to US for PhD", description: "Bơ and Mắm travelled with chị Thảo too!", link: "https://thaoshibe.github.io/4-ban-chan-nho-xiu/post.html?post=bo-di-my", linkLabel: "Read Bơ đi Mỹ ↗" },
     { date: "2022-09-07", title: "1st day of my CS PhD @ UW–Madison", emoji: "🦡" },
     { date: "2023-09-22", title: "1st NeurIPS paper!", link: "https://thaoshibe.github.io/visii/", linkLabel: "View the paper project ↗" },
     { date: "2024-03-11", title: "got my US driving license", emoji: "🚗" },
@@ -44,7 +44,7 @@ window.LIFE_DATA = {
     { date: "2024-05-28", title: "first day as an intern @ Adobe", image: "images/first-day-intern-adobe.jpg", imageAlt: "Thao on her first day as an intern at Adobe" },
     { date: "2025-10-11", displayDate: "Oct 11–17, 2025", title: "visit Mexico 🇲🇽 (ICQE 2025)", image: "images/icqe-2025.jpg", imageAlt: "ICQE 2025 Best Poster Award slide listing Thao Nguyen in Mexico City", link: "https://www.qesoc.org/icqe-awards/", linkLabel: "View ICQE 2025 awards ↗" },
     { date: "2026-03-08", title: "published viet-wics/bai-viet", link: "https://viet-wics.github.io/vn/bai-viet/", linkLabel: "Visit viet-wics/bai-viet ↗" },
-    { date: "2026-05-24", title: "Bo went to Rainbow Bridge", description: "Bo, you are, and always will be my first child. Thank you for almost 5 years together. I love you 🧡", emoji: "🌈", image: "images/bo-went-to-rainbow-bridge.jpeg", imageAlt: "Thao holding Bo outside in the sunshine", link: "https://thaoshibe.github.io/viet-ve-bo/", linkLabel: "Read about Bo ↗" },
+    { date: "2026-05-24", title: "Bo went to Rainbow Bridge", description: "Bo, you are, and always will be my first child. Thank you for almost 5 years together. I love you 🧡", emoji: "🌈", image: "images/bo-went-to-rainbow-bridge.jpeg", imageAlt: "Thao holding Bo outside in the sunshine", link: "https://thaoshibe.github.io/4-ban-chan-nho-xiu/", linkLabel: "Read about Bo ↗" },
     { date: "2026-08-13", title: "start life-of-thao", emoji: "🌱" },
     { date: "2077-04-14", title: "I reached my life expectancy", link: "https://data.worldbank.org/indicator/SP.DYN.LE00.FE.IN?locations=VN", linkLabel: "World Bank source ↗" }
   ]

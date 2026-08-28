@@ -1,0 +1,210 @@
+/* Landing page only. Content and photos are configured in posts.json. */
+
+.landing-head {
+  padding: clamp(42px, 6vw, 72px) 24px clamp(28px, 4vw, 42px);
+  text-align: center;
+}
+
+.landing-brand {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 2.3vw, 1.9rem);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.landing-note {
+  color: var(--ink-4);
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  margin-top: 12px;
+}
+
+.story-stage {
+  margin: 0 auto;
+  max-width: 1280px;
+  overflow: visible;
+  padding: 0 28px clamp(80px, 11vw, 140px);
+}
+
+.post-list {
+  margin: 0 auto;
+  max-width: 460px;
+}
+
+.post-row {
+  color: inherit;
+  display: block;
+  padding: 9px 0 10px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+}
+
+.post-row.soon { cursor: default; }
+
+.row-title {
+  font-family: var(--serif);
+  font-size: clamp(.92rem, 1.4vw, 1.05rem);
+  font-weight: 500;
+  letter-spacing: -.018em;
+  line-height: 1.25;
+  transition: color .18s ease;
+}
+
+.row-status {
+  color: var(--ink-4);
+  font-family: var(--sans);
+  font-size: .64em;
+  font-weight: 400;
+  letter-spacing: .03em;
+  vertical-align: .08em;
+}
+
+.post-row:not(.soon):hover .row-title { color: var(--accent); }
+.post-row.soon .row-title { color: var(--ink-2); }
+
+.row-summary {
+  color: var(--ink-3);
+  font-size: 11.5px;
+  line-height: 1.35;
+  margin: 2px 0 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.side-memory {
+  --memory-rotate: -2deg;
+  --memory-shift: 0px;
+  border: 8px solid rgba(255, 254, 249, .96);
+  border-bottom-width: 22px;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, .12);
+  height: 200px;
+  max-height: 200px;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: calc(50% + var(--memory-shift));
+  transform: translateY(-50%) rotate(var(--memory-rotate));
+  width: max-content;
+  z-index: 1;
+}
+
+.side-memory img {
+  display: block;
+  height: 100%;
+  max-height: none;
+  max-width: none;
+  width: auto;
+}
+
+.memory-left { right: calc(100% + clamp(64px, 8vw, 128px)); }
+.memory-right { left: calc(100% + clamp(64px, 8vw, 128px)); }
+.memory-1 { --memory-rotate: -3.5deg; --memory-shift: -12px; }
+.memory-2 { --memory-rotate: 2.7deg; --memory-shift: -86px; }
+.memory-3 { --memory-rotate: -1.4deg; --memory-shift: 4px; }
+.memory-4 { --memory-rotate: 4deg; --memory-shift: 44px; }
+
+/* ── Life line — the story of us, from 🌱 to ✨ ────────────────
+   One cube per year (birth → 2100), a year-in-pixels grid. The warm
+   "Bơ" accent marks the together years, echoing /life-of-thao/. */
+.life-line {
+  --bo: #d98a2b;                    /* warm Bơ accent */
+  --bo-soft: rgba(217, 138, 43, .22);
+  margin: 0 auto clamp(54px, 8vw, 86px);
+  max-width: 600px;
+  padding: 50px 34px 46px;
+}
+
+/* one cube per year, birth → 2100 — a year-in-pixels grid */
+.year-grid {
+  --cube: 11px;
+  --cube-gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(20, var(--cube));
+  gap: var(--cube-gap);
+  justify-content: center;
+}
+.year-cube {
+  width: var(--cube);
+  height: var(--cube);
+  border-radius: 2px;
+  border: 1px solid var(--border-2);
+  background: rgba(127, 127, 127, .10);
+}
+/* the current year — solid grey marker with a halo (Bơ stays sacred to the
+   together years; listed BEFORE .is-together so 2026 keeps its warm fill) */
+.year-cube.is-now {
+  background: rgba(127, 127, 127, .38);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px rgba(127, 127, 127, .18);
+}
+/* the together era — warm Bơ, only the years with Bơ */
+.year-cube.is-together {
+  background: var(--bo);
+  border-color: var(--bo);
+}
+/* years still to come — faint ghosts */
+.year-cube.is-future {
+  background: transparent;
+  border-style: dashed;
+  opacity: .5;
+}
+/* milestone years — ringed so they read as markers */
+.year-cube.is-milestone {
+  border-color: var(--ink);
+}
+
+/* legend of the four milestones */
+.life-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+  margin-top: 22px;
+}
+.life-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--sans);
+}
+.life-emoji { font-size: 15px; line-height: 1; }
+.life-key time {
+  color: var(--ink-3);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .06em;
+}
+
+@media (max-width: 1040px) {
+  .memory-left { right: calc(100% + 38px); }
+  .memory-right { left: calc(100% + 38px); }
+  .side-memory { opacity: .82; }
+}
+
+@media (max-width: 980px) {
+  .story-stage { max-width: 650px; overflow: visible; padding-inline: 22px; }
+  .side-memory { display: none; }
+}
+
+@media (max-width: 520px) {
+  .landing-head { padding-bottom: 26px; }
+  .story-stage { padding-inline: 20px; }
+  .post-row { padding-block: 9px; }
+  .row-summary { font-size: 11px; white-space: normal; }
+  .life-line { padding: 44px 20px 40px; }
+  .life-emoji { font-size: 13px; }
+  .life-key time { font-size: 8px; }
+  .year-grid { --cube: 10px; --cube-gap: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row-title { transition: none; }
+}
