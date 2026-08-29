@@ -8,38 +8,89 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bitcount+Grid+Double&display=swap" rel="stylesheet" />
   <script src="theme.js"></script>
   <link rel="stylesheet" href="theme.css" />
   <style>
     /* Shared shell lives in theme.css; landing-only styles below. */
     body {
       width: min(680px, calc(100% - 32px));
-      padding: 54px 0;
+      min-height: 100vh;
+      padding: 28px 0;
+      display: flex;
+      flex-direction: column;
     }
-    nav { margin-bottom: 54px; }
-    .intro { max-width: 520px; margin: 13px 0 40px; color: #666; line-height: 1.65; }
-    .landing-meta { margin: 9px 0 0; color: #777; font-size: 13px; line-height: 1.55; }
-    .landing-meta a { text-underline-offset: 2px; }
+    /* The hero (title + caption + cards) centers vertically; footer sinks to the
+       bottom because <main> takes all the leftover height. */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    /* Center the theme switch under the caption in the hero (not corner-pinned). */
+    .theme-switch { position: static; margin-top: 12px; justify-content: center; }
+
     .landing-header {
-      position: relative;
-      margin-bottom: 14px;
+      margin-bottom: 40px;
+      text-align: center;
     }
-    .landing-header .intro { margin-bottom: 0; }
-    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .landing-header h1 { margin-bottom: 14px; }
+    .landing-meta {
+      max-width: 480px;
+      margin: 0 auto;
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .landing-meta a { text-underline-offset: 2px; }
+
+    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 534px; margin: 0 auto; width: 100%; }
     .choice {
-      min-height: 190px;
-      padding: 22px;
-      border: 1px solid rgba(92,100,102,.2);
-      border-radius: 3px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 22px 20px;
       color: inherit;
-      background: #fff;
-      box-shadow: 0 7px 20px rgba(44,52,58,.11), 0 1px 3px rgba(44,52,58,.08);
+      /* Airplane-ticket edge: scalloped notches left & right, thin line top &
+         bottom. Border shares the fill color (merged edge). Mid-day = cloud white;
+         sunset/night override the colors by data-sky below. */
+      --stamp-edge: #f4efe5;
+      --stamp-fill: rgba(252, 248, 241, 0.92);
+      --stamp-frame: #e6dfd2;
+      border-style: solid;
+      border-color: var(--stamp-edge);
+      border-width: 1px 9px;
+      background: var(--stamp-fill);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
       text-decoration: none;
-      transition: transform 150ms ease, box-shadow 150ms ease;
+      transition: transform 150ms ease, filter 150ms ease;
+      --scallop: 6px;      /* radius of each notch */
+      --scallop-gap: 17px; /* distance between notches */
+      -webkit-mask:
+        radial-gradient(var(--scallop) at 0 50%,   #0000 97%, #000) 0 50%   / 100% var(--scallop-gap) repeat-y,
+        radial-gradient(var(--scallop) at 100% 50%, #0000 97%, #000) 100% 50% / 100% var(--scallop-gap) repeat-y;
+      -webkit-mask-composite: source-in;
+      mask:
+        radial-gradient(var(--scallop) at 0 50%,   #0000 97%, #000) 0 50%   / 100% var(--scallop-gap) repeat-y,
+        radial-gradient(var(--scallop) at 100% 50%, #0000 97%, #000) 100% 50% / 100% var(--scallop-gap) repeat-y;
+      mask-composite: intersect;
+      filter: drop-shadow(0 5px 12px rgba(44,52,58,.16));
     }
-    .choice:hover { transform: translateY(-2px); box-shadow: 0 11px 26px rgba(44,52,58,.15), 0 2px 5px rgba(44,52,58,.1); }
-    .choice-mark { display: flex; align-items: center; gap: 5px; min-height: 18px; margin-bottom: 42px; color: #888; }
+    /* Thin inner frame line, like the printed border on a real stamp. */
+    .choice::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border: 1px solid var(--stamp-frame);
+      pointer-events: none;
+    }
+    .choice:hover {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 10px 20px rgba(44,52,58,.22));
+    }
+    .choice-mark { display: flex; align-items: center; gap: 5px; min-height: 18px; margin-bottom: 20px; color: #888; }
     .preview-week, .preview-pixel { width: 18px; height: 18px; border-radius: 2px; }
     .preview-week {
       display: grid; place-items: center;
@@ -47,35 +98,32 @@
       font-size: 9px; line-height: 1;
     }
     .preview-pixel { width: 15.5px; height: 15.5px; background: var(--preview-color); }
-    .choice strong { display: block; font-size: 19px; }
-    .choice p { margin: 7px 0 0; color: #777; font-size: 13px; line-height: 1.55; }
-    footer { margin-top: 44px; padding-top: 12px; border-top: 1px solid #ddd; color: var(--muted); font-size: 11px; }
+    .choice strong { display: block; font-family: "Bitcount Grid Double", monospace; font-weight: 400; font-size: 23px; }
+    .choice p { margin: 6px 0 0; color: var(--ink); font-size: 16px; line-height: 1.5; }
+    footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid #d7d7d1; color: var(--muted); font-size: 12px; text-align: center; }
     html[data-theme="dark"] nav,
-    html[data-theme="dark"] .intro,
-    html[data-theme="dark"] .landing-meta,
     html[data-theme="dark"] footer,
-    html[data-theme="dark"] .choice p,
     html[data-theme="dark"] .choice-mark { color: #aaa39a; }
     html[data-theme="dark"] footer { border-color: #55504a; }
-    html[data-theme="dark"] .choice {
-      border-color: #514d48;
-      background: #302e2b;
-      box-shadow: 0 8px 24px rgba(0,0,0,.32), 0 1px 4px rgba(0,0,0,.28);
+    html[data-theme="dark"] .choice { filter: drop-shadow(0 6px 16px rgba(0,0,0,.45)); }
+    html[data-theme="dark"] .choice:hover { filter: drop-shadow(0 10px 22px rgba(0,0,0,.5)); }
+    /* Ticket colors harmonize with each sky. */
+    html[data-sky="night"] .choice {
+      --stamp-edge: #10131d;
+      --stamp-fill: rgba(16, 19, 29, 0.92);
+      --stamp-frame: #262b39;
     }
     html[data-theme="dark"] .preview-week { border-color: #77716b; background: rgba(62,59,55,.72); }
     html[data-theme="dark"] .preview-pixel.github { --preview-color: #706d69 !important; }
     @media (max-width: 560px) {
-      body { padding-top: 28px; }
+      .landing-header { margin-bottom: 36px; }
       .choices { grid-template-columns: 1fr; }
-      .choice { min-height: 160px; }
-      .choice-mark { margin-bottom: 28px; }
     }
   </style>
 </head>
 <body>
   <main>
     <header class="landing-header">
-      <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
       <h1>life-of-thao</h1>
       <!-- <p class="intro">The same life at two scales: the long view in weeks, and the texture of ordinary days in color.</p> -->
       <p class="landing-meta">Start date: Aug 13, 2026 · Inspired by [
@@ -83,6 +131,7 @@
         <a href="https://busterbenson.com/life-in-weeks">Buster Benson’s Life in Weeks ↗</a>
         <a href="https://happycoding.io/blog/year-in-pixels-2019">happycoding's My Year in Pixels 2019 ↗</a>
       ]</p>
+      <button class="theme-toggle" id="theme-toggle" type="button">Theme</button>
     </header>
     <div class="choices">
       <a class="choice" href="life-in-weeks/">
@@ -91,8 +140,8 @@
           <span class="preview-week">2</span>
           <span class="preview-week">3</span>
         </span>
-        <strong>life-in-weeks →</strong>
-        <p>Years, milestones, and memories across a lifetime.</p>
+        <strong>life-in-weeks</strong>
+        <p>Each week as a cube.</p>
       </a>
       <a class="choice" href="year-in-pixels/">
         <span class="choice-mark" aria-hidden="true">
@@ -102,11 +151,17 @@
           <span class="preview-pixel" style="--preview-color:#839ed7"></span>
           <span class="preview-pixel github" style="--preview-color:#c3c3be"></span>
         </span>
-        <strong>year-in-pixels →</strong>
-        <p>One color for every day, seen together.</p>
+        <strong>year-in-pixels</strong>
+        <p>Each day as a pixel.</p>
       </a>
     </div>
   </main>
-  <footer>Created by <a href="https://thaoshibe.github.io/">Thao</a> ♡</footer>
+  <footer>Copyright © 2026 <a href="https://thaoshibe.github.io/">thaoshibe</a>. Background images [<a href="https://unsplash.com/photos/nimbus-clouds-and-blue-calm-sky-9BJRGlqoIUk" target="_blank" rel="noopener">Day</a>, <a href="https://unsplash.com/photos/aurora-borealis-on-night-sky-JKeIu3jjJFw" target="_blank" rel="noopener">Night</a>]</footer>
+  <svg class="sketch-defs" aria-hidden="true" focusable="false">
+    <filter id="sketch">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="1" seed="7" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+    </filter>
+  </svg>
 </body>
 </html>

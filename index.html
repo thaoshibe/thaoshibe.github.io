@@ -66,6 +66,8 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
     }
     .random-item {
       text-align: center;
@@ -133,6 +135,13 @@
       display: inline-block !important;
       vertical-align: middle;
       margin-right: 3px;
+    }
+    /* shrink rendered star-count iframes to match text size */
+    .gh-badges .github-button,
+    .gh-badges span.github-btn,
+    .gh-badges iframe {
+      zoom: 0.5;
+      vertical-align: middle;
     }
 
     /* Research Vision Toggle */
@@ -484,7 +493,7 @@
         <div class="random-flex">
           <div class="random-item" style="flex: 0 0 auto;">
             <a href="https://viet-wics.github.io/">
-              <img src="https://avatars.githubusercontent.com/u/166851392?v=4" alt="viet-wics" height="100px" />
+              <img src="https://avatars.githubusercontent.com/u/166851392?v=4" alt="viet-wics" height="110px" />
               vietnamese women 🇻🇳<br> in cs (viet-wics)<br>
             </a>
           </div>
@@ -497,32 +506,27 @@
           <div class="random-item" style="flex: 0 0 auto;">
             <a href="./4-ban-chan-nho-xiu/">
               <img src="./images/thuong-nho-bo.png" alt="4-ban-chan-nho-xiu" height="100px" />
-               4 bàn chân nhỏ xíu<br> (four tiny paws)
+               4 bàn chân nhỏ xíu [soon]<br> (four-tiny-paws)
             </a>
           </div>
-          <div class="random-item" style="text-align: left; flex: 0 0 auto;">
-            <div>and these GitHub's awesome lists:</div>
-            <ul style="margin-top: 5px; font-size: 80%; padding-left: 0; list-style-position: inside;">
-              <li>
-                <a href="https://github.com/thaoshibe/awesome-makeup-transfer">awesome-makeup-transfer</a> <a class="github-button" href="https://github.com/thaoshibe/awesome-makeup-transfer" data-color-scheme="no-preference: light; light: light; dark: light;" data-icon="octicon-star" data-show-count="true" aria-label="Star thaoshibe/awesome-makeup-transfer on GitHub">Star</a>
-              </li>
-              <li>
-                <a href="https://github.com/thaoshibe/awesome-personalized-lmms">awesome-personalized-lmms</a> <a class="github-button" href="https://github.com/thaoshibe/awesome-personalized-lmms" data-color-scheme="no-preference: light; light: light; dark: light;" data-icon="octicon-star" data-show-count="true" aria-label="Star thaoshibe/awesome-personalized-lmms on GitHub">Star</a>
-              </li>
-              <li>
-                <a href="https://github.com/thaoshibe/cs-conference-posters">cs-conference-posters (pptx)</a> <a class="github-button" href="https://github.com/thaoshibe/cs-conference-posters" data-color-scheme="no-preference: light; light: light; dark: light;" data-icon="octicon-star" data-show-count="true" aria-label="Star thaoshibe/cs-conference-posters on GitHub">Star</a>
-                <ul style="margin-top: 5px; font-size: 70%; padding-left: 20px; color: gray;">
-                  <li>the relsim (cvpr'26) poster gone viral ;) [<a href="https://x.com/PaulGavrikov/status/2064016574080823575" target="_blank">1</a>, <a href="https://x.com/thaoshibe/status/2063481226242277621" target="_blank">2</a>, <a href="https://x.com/JieWang_ZJUI/status/2063770663983395319" target="_blank">3</a>]</li>
-                  <li>and some silly memes (X, Xiaohongshu) ;) [<a href="https://x.com/dantkz/status/2063416988362563774" target="_blank">1</a>, <a href="https://x.com/thaoshibe/status/1804210024388136980" target="_blank">2</a>]</li>
-                </ul>
-              </li>
-            </ul>
+          <div class="random-item" style="flex: 0 0 auto;">
+            <a href="./life-of-thao/year-in-pixels/">
+              <img src="./images/year-in-pixels.png" alt="year-in-pixels" height="95px" />
+               my life, in pixels <br> (year-in-pixels)
+            </a>
           </div>
         </div>
         <br>
+                  <div class="random-item gh-badges" style="text-align: left; flex: 0 0 auto; font-size: 80%;">
+            and these GitHub's awesome lists:
+            <a href="https://github.com/thaoshibe/awesome-makeup-transfer">awesome-makeup-transfer</a> <a class="github-button" href="https://github.com/thaoshibe/awesome-makeup-transfer" data-color-scheme="no-preference: light; light: light; dark: light;" data-icon="octicon-star" data-show-count="true" aria-label="Star thaoshibe/awesome-makeup-transfer on GitHub">Star</a>,
+            <a href="https://github.com/thaoshibe/awesome-personalized-lmms">awesome-personalized-lmms</a> <a class="github-button" href="https://github.com/thaoshibe/awesome-personalized-lmms" data-color-scheme="no-preference: light; light: light; dark: light;" data-icon="octicon-star" data-show-count="true" aria-label="Star thaoshibe/awesome-personalized-lmms on GitHub">Star</a>,
+            <a href="https://github.com/thaoshibe/cs-conference-posters">cs-conference-posters (pptx)</a> <a class="github-button" href="https://github.com/thaoshibe/cs-conference-posters" data-color-scheme="no-preference: light; light: light; dark: light;" data-icon="octicon-star" data-show-count="true" aria-label="Star thaoshibe/cs-conference-posters on GitHub">Star</a>
+            <span style="color: #777;">(the relsim (cvpr'26) poster gone viral ;) [<a href="https://x.com/PaulGavrikov/status/2064016574080823575" target="_blank">1</a>, <a href="https://x.com/thaoshibe/status/2063481226242277621" target="_blank">2</a>, <a href="https://x.com/JieWang_ZJUI/status/2063770663983395319" target="_blank">3</a>], and some silly memes (X, Xiaohongshu) ;) [<a href="https://x.com/dantkz/status/2063416988362563774" target="_blank">1</a>, <a href="https://x.com/thaoshibe/status/1804210024388136980" target="_blank">2</a>])</span>
+          </div>
+        <br>
         <div style="text-align:right; font-size: 90%;">If you're a Vietnamese student wanting to apply for a CS/EE PhD in the US, you might find <a href="https://viet-wics.github.io/vn/bai-viet/">viet-wics's blog posts</a> helpful.<br>Or, if you're curious, I talked about my "expected" unexpected PhD experience in <a href="https://youtu.be/796-tohYROA?si=V6NYIMXHQ0BFHFUZ"><img src="./relsim/images/icon/youtube.png" height="18" style="vertical-align:middle;"> this YouTube video</a>. Good luck 🐢</div>
         
-
         <!-- Misc Section -->
         <h2>Misc</h2>
         <center>

@@ -1,37 +1,138 @@
 /* Shared shell for all life-of-thao pages: design tokens, dotted-grid
-   background, Poppins font, theme toggle, and dark-mode base. Page-specific
+   background, Inter body + Bitcount Grid Double titles, theme toggle,
+   and dark-mode base. Page-specific
    layout lives in each subpage's own style.css. */
 
 :root {
-  --ink: #292929;
-  --muted: #777;
+  --ink: #000;
+  --muted: #555;
   --link: #3567a8;
+  --sketch-line: #8f8f8f;
+  --sketch-fill: #fff;
 }
 
 html[data-theme="dark"] {
-  --ink: #e8e3dc;
-  --muted: #aaa39a;
+  --ink: #fff;
+  --muted: #bdb7ae;
   --link: #9bbbd8;
+  --sketch-line: #837e76;
+  --sketch-fill: #302e2b;
 }
 
+
 * { box-sizing: border-box; }
+
+/* Smooth the color-scheme change when switching themes. */
+:where(body, header, main, footer, nav, h1, h2, p, a, code,
+       .stamp, .stamp::before, .choice, .decade, .day-card, .tooltip,
+       .theme-switch, .theme-switch button, .theme-switch-label) {
+  transition: background-color 0.4s ease, color 0.4s ease,
+              border-color 0.4s ease, filter 0.4s ease;
+}
+
+/* Hand-drawn borders: uneven "wobbly" corners + an SVG turbulence filter that
+   wiggles the edge like a marker stroke. The border lives on ::before so the
+   card's text and background stay perfectly crisp. Needs the inline <svg>
+   filter (#sketch) that each page includes at the end of <body>. */
+.sketch-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.hand-drawn {
+  position: relative;
+  border-color: transparent !important;
+  background: transparent !important;
+  /* Round the element so its box-shadow matches the wobbly border's corners. */
+  border-radius: 14px 10px 18px 12px / 12px 18px 10px 16px !important;
+}
+/* The fill AND the border are drawn on this one filtered layer, so they wobble
+   as a single shape — no crisp background rectangle peeking past the border.
+   Sits behind the card's content (z-index below), which stays crisp. */
+.hand-drawn::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border: 1px solid var(--sketch-line);
+  border-radius: 14px 10px 18px 12px / 12px 18px 10px 16px;
+  background: var(--sketch-fill, #fff);
+  filter: url(#sketch);
+  pointer-events: none;
+}
+
+/* Postage-stamp container: a perforated scalloped edge (four radial-gradient
+   masks composited to cut all sides), a gray border, a very light fill, and a
+   thin inner frame line — like a blank postage stamp. Tunable via the vars.
+   drop-shadow (not box-shadow) is used because mask clips box-shadow away. */
+.stamp {
+  position: relative;
+  --scallop: 6px;
+  --scallop-gap: 17px;
+  /* Mid-day: warm cloud-white; border shares the fill color (merged edge). */
+  --stamp-edge: #f4efe5;
+  --stamp-fill: rgba(252, 248, 241, 0.92);
+  --stamp-frame: #e6dfd2;
+  /* Airplane-ticket edge: scalloped notches on the left & right, a thin plain
+     line on the top & bottom, no border color. */
+  border-style: solid !important;
+  border-color: var(--stamp-edge) !important;
+  border-width: 1px 9px !important;
+  border-radius: 0 !important;
+  background: var(--stamp-fill) !important;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  -webkit-mask:
+    radial-gradient(var(--scallop) at 0 50%,   #0000 97%, #000) 0 50%   / 100% var(--scallop-gap) repeat-y,
+    radial-gradient(var(--scallop) at 100% 50%, #0000 97%, #000) 100% 50% / 100% var(--scallop-gap) repeat-y;
+  -webkit-mask-composite: source-in;
+  mask:
+    radial-gradient(var(--scallop) at 0 50%,   #0000 97%, #000) 0 50%   / 100% var(--scallop-gap) repeat-y,
+    radial-gradient(var(--scallop) at 100% 50%, #0000 97%, #000) 100% 50% / 100% var(--scallop-gap) repeat-y;
+  mask-composite: intersect;
+  filter: drop-shadow(0 5px 12px rgba(44,52,58,.14));
+}
+.stamp::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid var(--stamp-frame);
+  pointer-events: none;
+  z-index: 1;
+}
+html[data-theme="dark"] .stamp { filter: drop-shadow(0 6px 16px rgba(0,0,0,.45)); }
+/* Ticket color harmonizes with each sky; border shares the fill color. */
+html[data-sky="night"] .stamp {
+  --stamp-edge: #10131d;
+  --stamp-fill: rgba(16, 19, 29, 0.92);
+  --stamp-frame: #262b39;
+}
 
 html { scroll-behavior: smooth; }
 
 a { color: var(--link); }
 
+/* Sky background on its own fixed layer, so it can be blurred without blurring
+   the page content. Hidden in dark mode (see below). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: url("https://images.unsplash.com/photo-1499346030926-9a72daac6c63?q=80&w=2340&auto=format&fit=crop");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+/* Sky image is chosen by data-sky (day is the default set on body::before above). */
+html[data-sky="night"] body::before {
+  background-image: url("https://images.unsplash.com/photo-1460751398360-a8d6be9b8208?q=80&w=2346&auto=format&fit=crop");
+}
+
 body {
   margin: 0 auto;
   padding: 28px 0 50px;
   color: var(--ink);
-  background-color: #fff;
-  background-image:
-    linear-gradient(rgba(92, 100, 102, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(92, 100, 102, 0.08) 1px, transparent 1px);
-  background-size: 20px 20px;
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: #cfe0ef;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -39,21 +140,23 @@ body {
    page. Pages set their own layout (widths, margins) but not these sizes. */
 h1 {
   margin: 0 0 7px;
-  font-size: 31px;
-  line-height: 1.2;
+  /* Bitcount Grid Double — a pixel/dot-grid display font, shared across all pages. */
+  font-family: "Bitcount Grid Double", monospace;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.1;
 }
 
 nav {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
 }
 
 html[data-theme="dark"] body {
   background-color: #242321;
-  background-image:
-    linear-gradient(rgba(205, 190, 174, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(205, 190, 174, 0.07) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: radial-gradient(rgba(205, 190, 174, 0.11) 1.2px, transparent 1.3px);
+  background-size: 22px 22px;
+  background-position: -1px -1px;
 }
 
 /* Anchored to the top-right corner of the title box (its header is
@@ -80,6 +183,39 @@ html[data-theme="dark"] body {
   outline: none;
 }
 
+/* Segmented theme switch (built by theme.js, replaces #theme-toggle). Anchored
+   top-right by default; the landing page re-centers it under the caption. */
+.theme-switch {
+  position: absolute;
+  z-index: 30;
+  top: 12px;
+  right: 14px;
+  display: inline-block;
+  color: var(--muted);
+  font-size: 12px;
+}
+.theme-switch-label { color: var(--muted); margin-right: 3px; }
+.theme-switch button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 120ms ease;
+}
+.theme-switch button:hover { color: var(--ink); }
+/* The active theme is bold ink with no underline. */
+.theme-switch button[aria-pressed="true"] {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: default;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  *, *::before { transition: none !important; }
 }

@@ -197,7 +197,7 @@
 
     for (let decade = 0; decade < data.yearsToShow; decade += 10) {
       const section = document.createElement("section");
-      section.className = "decade";
+      section.className = "decade stamp";
       section.setAttribute("aria-labelledby", `decade-${decade}`);
 
       const heading = document.createElement("h2");
