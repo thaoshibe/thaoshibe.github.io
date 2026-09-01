@@ -219,3 +219,15 @@ html[data-theme="dark"] body {
   html { scroll-behavior: auto; }
   *, *::before { transition: none !important; }
 }
+
+/* Phone shell: respect notches, prevent page-level sideways scrolling, and
+   keep long display-font titles from colliding with the theme control. */
+@media (max-width: 620px) {
+  html { width: 100%; overflow-x: hidden; }
+  body {
+    min-height: 100svh;
+    padding-top: max(18px, env(safe-area-inset-top));
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+  h1 { font-size: clamp(30px, 10vw, 36px); overflow-wrap: anywhere; }
+}

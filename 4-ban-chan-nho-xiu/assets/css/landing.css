@@ -7,12 +7,17 @@
 
 .landing-brand {
   color: var(--ink);
-  font-family: var(--serif);
+  font-family: var(--hand);
   font-size: clamp(1.45rem, 2.3vw, 1.9rem);
   font-weight: 500;
   letter-spacing: -.035em;
   line-height: 1;
   text-decoration: none;
+}
+
+.landing-head .theme-switch {
+  position: static;
+  margin-top: 12px;
 }
 
 .landing-note {
@@ -82,7 +87,7 @@
 .side-memory {
   --memory-rotate: -2deg;
   --memory-shift: 0px;
-  border: 8px solid rgba(255, 254, 249, .96);
+  border: 8px solid var(--photo-frame);
   border-bottom-width: 22px;
   box-shadow: 0 14px 38px rgba(0, 0, 0, .12);
   height: 200px;

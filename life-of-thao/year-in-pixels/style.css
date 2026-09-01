@@ -146,5 +146,44 @@ html[data-theme="dark"] .day.colored { border-color: transparent; background-col
 html[data-theme="dark"] .now-label { border-color: #746c62; background: #302e2b; box-shadow: 0 3px 9px rgba(0,0,0,.3); }
 html[data-theme="dark"] .day-card { border-color: #6d675f; color: var(--ink); background: #302e2b; box-shadow: 0 4px 16px rgba(0,0,0,.34); }
 @media (max-width: 620px) {
-  main { padding: 14px; }
+  :root {
+    --pixel-size: clamp(3.75px, calc((100vw - 102px) / 53), 5.5px);
+    --pixel-gap: .75px;
+  }
+  body { width: calc(100% - 16px); }
+  header { margin-bottom: 20px; }
+  header .theme-switch {
+    position: static;
+    display: block;
+    margin-bottom: 8px;
+    text-align: right;
+  }
+  nav { margin-bottom: 14px; }
+  .view-switch { justify-content: flex-start; gap: 4px 18px; }
+  .view-switch button { min-height: 36px; padding: 7px 0; }
+  main { padding: 14px 8px; }
+  .years { gap: 24px; }
+  .year + .year { padding-top: 20px; }
+  .calendar { overflow: visible; padding-bottom: 4px; }
+  .month-labels { margin-left: 31px; font-size: 7px; }
+  .weekday-labels { font-size: 7px; }
+  .now-label { right: calc(100% + 4px); left: auto; font-size: 8px; }
+  .pixel-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 10px;
+    max-width: 100%;
+  }
+  .year-note { margin-left: 0; font-size: 11px; }
+  .day-card {
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 12px !important;
+    top: auto !important;
+    width: auto;
+    max-height: 60svh;
+    overflow-y: auto;
+  }
+  footer { font-size: 10px; line-height: 1.5; }
 }

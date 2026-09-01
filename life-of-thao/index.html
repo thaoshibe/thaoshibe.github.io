@@ -116,8 +116,22 @@
     html[data-theme="dark"] .preview-week { border-color: #77716b; background: rgba(62,59,55,.72); }
     html[data-theme="dark"] .preview-pixel.github { --preview-color: #706d69 !important; }
     @media (max-width: 560px) {
-      .landing-header { margin-bottom: 36px; }
-      .choices { grid-template-columns: 1fr; }
+      body {
+        width: calc(100% - 24px);
+        min-height: 100svh;
+        padding-top: max(20px, env(safe-area-inset-top));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+      }
+      main { justify-content: flex-start; }
+      .landing-header { margin: 18px 0 26px; }
+      .landing-header h1 { margin-bottom: 10px; }
+      .landing-meta { font-size: 11px; line-height: 1.55; }
+      .choices { grid-template-columns: 1fr; gap: 16px; }
+      .choice { min-height: 132px; padding: 19px 18px; }
+      .choice-mark { margin-bottom: 14px; }
+      .choice strong { font-size: 21px; }
+      .choice p { font-size: 14px; }
+      footer { margin-top: 28px; font-size: 10px; line-height: 1.5; }
     }
   </style>
 </head>

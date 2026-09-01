@@ -521,6 +521,25 @@ html[data-theme="dark"] .beyond-now { border-color: #68625b; background: rgba(62
     width: calc(100% - 24px);
   }
 
+  .site-header .theme-switch {
+    position: static;
+    display: block;
+    margin-bottom: 8px;
+    text-align: right;
+  }
+
+  .site-header nav { margin-bottom: 14px; }
+
+  .view-switch {
+    justify-content: flex-start;
+    gap: 4px 18px;
+  }
+
+  .view-switch button {
+    min-height: 36px;
+    padding: 7px 0;
+  }
+
   main {
     padding: 0;
   }
@@ -539,16 +558,35 @@ html[data-theme="dark"] .beyond-now { border-color: #68625b; background: rgba(62
   }
 
   .year-row {
-    grid-template-columns: 76px 1fr;
+    display: block;
+    margin: 10px 0 16px;
+  }
+
+  .year-label { margin-bottom: 6px; }
+
+  .week-row {
+    --week-size: 10px;
+    --week-gap: 2px;
+    min-height: 18px;
   }
 
   .list-memory {
-    grid-template-columns: 105px 1fr;
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 
   .memory-image-view {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tooltip {
+    position: fixed;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 12px !important;
+    top: auto !important;
+    width: auto;
+    max-height: min(65svh, 520px);
   }
 }
 
