@@ -51,7 +51,7 @@
       06-23 06-24 06-25 06-26 06-27 06-28 06-29
       07-04 07-06 07-07 07-08 07-09 07-10 07-11 07-12 07-13 07-14 07-15 07-16 07-17 07-20 07-21 07-22 07-23 07-24 07-25 07-26 07-27 07-28 07-29 07-30
       08-01 08-03 08-04 08-05 08-06 08-07 08-08 08-10 08-11 08-12 08-13 08-14 08-15 08-17 08-18 08-19 08-20 08-21 08-22 08-23 08-24 08-25 08-26 08-27 08-28 08-29 08-31
-      09-01 09-02 09-03 09-04 09-06 09-07 09-08 09-09 09-10 09-11 09-12 09-13 09-14
+      09-01 09-02 09-03 09-04 09-06 09-07 09-08 09-09 09-10 09-11 09-12 09-13 09-14 09-15 09-16 09-17 09-18 09-19
     `
   };
 
@@ -206,19 +206,31 @@
     "2026-09-11": "neutral",
     "2026-09-12": "hard-working",
     "2026-09-13": "hard-working",
-    "2026-09-14": "hard-working"
+    "2026-09-14": "hard-working",
+    "2026-09-15": "hard-working",
+    "2026-09-16": "hard-working",
+    "2026-09-17": "hard-working",
+    "2026-09-18": "hard-working",
+    "2026-09-19": { mood: ["tired", "hard-working"] }
     // add a new line each day, e.g. "2026-08-16": "really-good",
+    // two moods? pass an array: "2026-08-16": { mood: ["tired", "hard-working"] }
   };
 
   const emotionDays = {};
   for (const [key, value] of Object.entries(emotionLog)) {
-    const mood = typeof value === "string" ? value : value.mood;
-    const style = emotionStyles[mood];
-    if (!style) continue;
-    const note = typeof value === "string" ? "" : value.note;
+    const raw = typeof value === "string" ? { mood: value } : value;
+    const moods = Array.isArray(raw.mood) ? raw.mood : [raw.mood];
+    const styles = moods.map((m) => emotionStyles[m]).filter(Boolean);
+    if (!styles.length) continue;
+    const note = raw.note || "";
+    // One mood → solid color. Two+ → smooth diagonal gradient blending each
+    // mood's color into the next (lower-left → upper-right).
+    const color = styles.length === 1
+      ? styles[0].color
+      : `linear-gradient(45deg, ${styles.map((s) => s.color).join(", ")})`;
     emotionDays[key] = {
-      color: style.color,
-      label: style.label,
+      color,
+      label: styles.map((s) => s.label).join(" + "),
       ...(note && { description: note })
     };
   }
@@ -316,7 +328,7 @@
         days: emotionDays,
         loggingPeriods: [{ start: "2026-08-13" }],
         yearNotes: {
-          2026: "Aug 13 2026 — Started logging emotions."
+          2026: "Aug 13 2026 — Started logging emotions.\nSep 20 2026 — Allowed multi-emotions. thank youuu"
         },
         legend: emotionLegend
       }

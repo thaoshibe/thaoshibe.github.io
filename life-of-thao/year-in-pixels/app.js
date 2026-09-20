@@ -94,6 +94,9 @@
         pixel.type = "button";
         pixel.classList.add("colored");
         pixel.style.setProperty("--day-color", entry.color);
+        // Gradients (multi-emotion split pixels) need the `background` shorthand;
+        // dark mode's `background-color` rule can't paint an image.
+        if (/gradient/.test(entry.color)) pixel.style.background = entry.color;
         if (entry.pattern) pixel.dataset.pattern = entry.pattern;
         pixel.setAttribute("aria-label", `${pixel.title}: ${entry.label || "colored day"}`);
         pixel.addEventListener("click", (event) => showCard(event.currentTarget, key, entry));

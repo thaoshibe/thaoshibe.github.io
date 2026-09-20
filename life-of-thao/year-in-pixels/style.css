@@ -119,7 +119,7 @@ h2 { margin: 0 0 10px; font-size: 16px; font-weight: 500; }
   0%, 100% { opacity: .35; }
   50% { opacity: 1; }
 }
-.year-note { margin: 4px 0 0 31px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.year-note { margin: 4px 0 0 31px; color: var(--muted); font-size: 12px; line-height: 1.5; white-space: pre-line; }
 .day-card { position: fixed; z-index: 10; width: min(220px, calc(100vw - 24px)); padding: 10px 12px; border: 1px solid #aaa; background: #fffefa; --sketch-fill: #fffefa; box-shadow: 0 3px 10px rgba(0,0,0,.1); }
 .day-card small, .day-card strong { display: block; }
 .day-card small { color: var(--muted); font-size: 12px; }
