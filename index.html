@@ -3,15 +3,64 @@
 <head>
   <meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="Thao Nguyen (Shibe) is a CS PhD student at UW-Madison working on personal AI agents, visual memory, and long-horizon reasoning over a user's own data — especially images (e.g., camera rolls), advised by Prof. Yong Jae Lee." />
+  <meta name="author" content="Thao Nguyen" />
+  <meta name="keywords" content="Thao Nguyen, personal AI agent, visual memory, long-horizon reasoning, user data, camera roll, images, multimodal large language models, MLLM, UW-Madison, computer vision, machine learning, PhD" />
+  <link rel="canonical" href="https://thaoshibe.github.io/" />
+  <meta property="og:type" content="profile" />
+  <meta property="og:url" content="https://thaoshibe.github.io/" />
   <meta property="og:image" content="./images/thao-flower.png" />
   <meta property="og:title" content="Thao Nguyen (.❛ ᴗ ❛.)" />
   <meta property="og:description" content="Hi Internet! I'm Thao and this is my personal webpage." />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:creator" content="@thaoshibe" />
+  <meta name="twitter:title" content="Thao Nguyen (Shibe)" />
+  <meta name="twitter:description" content="CS PhD student at UW-Madison working on personal AI agents, visual memory, and long-horizon reasoning over a user's own data — especially images (e.g., camera rolls)." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="jemdoc.css" type="text/css" />
   <link rel="icon" type="image/png" href="./images/wish-tree.png" />
   <title>Thao Nguyen (Shibe)</title>
+
+  <!-- Structured data for search engines & AI agents (schema.org Person). Invisible to visitors. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Thao Nguyen",
+    "alternateName": "Shibe",
+    "url": "https://thaoshibe.github.io/",
+    "image": "https://thaoshibe.github.io/images/thao-android.jpg",
+    "email": "thao.nguyen@wisc.edu",
+    "jobTitle": "PhD Student in Computer Sciences",
+    "description": "CS PhD student at UW-Madison working on personal AI agents, visual memory, and long-horizon reasoning over a user's own data — especially images (e.g., camera rolls).",
+    "knowsAbout": [
+      "Personal AI Agents",
+      "Visual Memory",
+      "Long-horizon Reasoning over User Data",
+      "Image Understanding (Camera Roll)",
+      "Multimodal Large Language Models",
+      "Computer Vision",
+      "Machine Learning"
+    ],
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Wisconsin-Madison",
+      "url": "https://www.wisc.edu/"
+    },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Wisconsin-Madison"
+    },
+    "sameAs": [
+      "https://scholar.google.com/citations?hl=en&user=P_6-46UAAAAJ",
+      "https://github.com/thaoshibe",
+      "https://x.com/thaoshibe"
+    ]
+  }
+  </script>
+
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
   <!-- Google tag (gtag.js) -->
@@ -155,13 +204,7 @@
       text-align: left;
     }
     .research-vision-toggle {
-      cursor: pointer;
       color: #555;
-      transition: color 0.2s;
-      user-select: none;
-    }
-    .research-vision-toggle:hover {
-      color: #0000CD;
     }
     .research-vision-details {
       display: none;
@@ -211,16 +254,16 @@
                 ｡𖦹°‧ I'm taking a PhD Minor in Educational Psychology and was lucky enough to learn a lot about stereotypes and STEM from <a href="https://edpsych.education.wisc.edu/fac-staff/starr-christy/">Prof. Christy Starr</a> (thank you!!).<br>
                 This inspired me to create <a href="https://viet-wics.github.io/"><img src="https://viet-wics.github.io/assets/img/favicon.ico" height="20"> viet-wisc: a collection of Vietnamese women working in Computer Science (PhD)</a>. If you're 🇻🇳🙋‍♀️, you might find it inspiring~ 🌱<br>
               </p> -->
-              <p style="font-size:80%" class="research-vision-container expanded">
-                <span class="research-vision-toggle active" onclick="toggleResearchVision()">"I hope everyone can have their very own <i>(multimodal) personal AI assistant</i>, very soon."</span><span class="research-vision-details active" id="research-vision-details">
-                  <br>To be helpful and relevant, such assistants must:
+              <p style="font-size:13px" class="research-vision-container expanded">
+                <span class="research-vision-toggle active">&gt; I work on building <i>Personal AI Agent</i>&mdash;one that understands your personal context, empowers your creativity + self-efficacy, and remains reliable, safe, &amp; trustworthy.</span><span class="research-vision-details active" id="research-vision-details">
+                  <br>To do this, such an agent must:
                   <br>&nbsp;&nbsp;&nbsp;&nbsp;. adapt seamlessly to user's inputs/ intentions [<a href="https://thaoshibe.github.io/visii/">NeurIPS'23</a>, <a href="https://thaoshibe.github.io/edit-one-for-all/">CVPR'24</a>, <a href="https://thaoshibe.github.io/relsim/">CVPR'26</a>];
                   <br>&nbsp;&nbsp;&nbsp;&nbsp;. understand users' knowledge/ environments [<a href="https://thaoshibe.github.io/YoLLaVA/">NeurIPS'24</a>, <a href="https://thaoshibe.github.io/YoChameleon/">CVPR'25</a>];
                   <!-- <br>&nbsp;&nbsp;&nbsp;&nbsp;. perceive the world in the same "unusual" way as humans do [<a href="https://thaoshibe.github.io/relsim/">CVPR'26</a>]; -->
                   <!-- <br>It must also maintain a (long-term) memory to provide more personalized and context-aware responses [<text style="color:red">tbd</text>]. -->
-                  <br>&nbsp;&nbsp;&nbsp;&nbsp;. and maintain a (long-term) memory to provide more personalized and context-aware responses [<a href="https://thaoshibe.github.io/camroll/">camroll (arXiv'26)</a>, <a href="https://viettmab.github.io/visualmem-page/">visualmem (arXiv'26)</a>, and... tbd ;)].
+                  <br>&nbsp;&nbsp;&nbsp;&nbsp;. and reason over user's data to extract relevant, helpful memory &mdash; so it can respond with personal context, in a more personalized and context-aware way [<a href="https://thaoshibe.github.io/camroll/">camroll (arXiv'26)</a>, <a href="https://viettmab.github.io/visualmem-page/">visualmem (arXiv'26)</a>, and... tbd ;)].
 
-                  <br>We have many powerful general-purpose models today (fig, left), and my research steps toward adapting them into more personalized ones (fig, right) (.❛ ᴗ ❛.).
+                  <br>Today's models are powerful but general-purpose (fig, left); my research steps toward adapting them into personal (and agentic) ones (fig, right) (.❛ ᴗ ❛.).
                 </span>
               </p>
               <p>
@@ -299,6 +342,7 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://viettmab.github.io/visualmem-page/"><b>VisualMem: Personal Visual Memory from Explicit and Implicit Evidence</b></a><br>
+                <i style="color:#888">building a personal visual memory of a user from explicit and implicit evidence in their photos.</i><br>
                 <i>Viet Nguyen, <b>Thao Nguyen</b>, Vishal M. Patel<sup>&dagger;</sup>, Yuheng Li<sup>&dagger;</sup></i><br>
                 arXiv preprint, 2026<br>
                 <i><small>(<sup>&dagger;</sup>: equal advising)</small></i><br>
@@ -318,6 +362,7 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://sichengmo.github.io/GroupDiff/"><b>Group Diffusion: Enhancing Image Generation by Unlocking Cross-Sample Collaboration</b></a><br>
+                <i style="color:#888">letting diffusion samples collaborate across a batch to improve image generation.</i><br>
                 <i>Sicheng Mo,<b>Thao Nguyen</b>, Richard Zhang, Nicholas Kolkin, Siddharth Srinivasan Iyer, Eli Shechtman, Krishna Kumar Singh, Yong Jae Lee, Bolei Zhou, Yuheng Li</i><br>
                 Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2026<br>
                 [<a href="https://sichengmo.github.io/GroupDiff/">ProjectPage</a>, <a href="https://github.com/adobe-research/GroupDiff">Code</a>, <a href="./relsim/404.html">Paper</a>]
@@ -336,6 +381,7 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://thaoshibe.github.io/relsim/"><b>Relational Visual Similarity</b></a><br>
+                <i style="color:#888">measuring visual similarity through relations — closer to how people intuitively compare images.</i><br>
                 <i><b>Thao Nguyen</b>, Sicheng Mo, Krishna Kumar Singh, Yilin Wang, Jing Shi, Nicholas Kolkin, Eli Shechtman, Yong Jae Lee<sup>&dagger;</sup>, Yuheng Li<sup>&dagger;</sup></i><br>
                 Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2026<br>
                 <i style="color:#ee2400"><small><a href="https://x.com/thaoshibe/status/2062396189115617368" target="_blank" style="color:#ee2400">Best Paper Award @ 🏆 CVPR 2026 Workshop: "CogVL: Cognitive Foundations for Multimodal Models"</a></small></i><br>
@@ -356,6 +402,7 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://sichengmo.github.io/XFusion/"><b>X-Fusion: Introducing New Modality to Frozen Large Language Models</b></a><br>
+                <i style="color:#888">adding a new (vision) modality to a frozen large language model, without retraining the LLM.</i><br>
                 <i>Sicheng Mo, <b>Thao Nguyen</b>, Xun Huang, Siddharth Srinivasan Iyer, Yijun Li, Yuchen Liu, Abhishek Tandon, Eli Shechtman, Krishna Kumar Singh, Yong Jae Lee, Bolei Zhou, Yuheng Li</i><br>
                 International Conference on Computer Vision (<b>ICCV</b>), 2025<br>
                 <i style="color:#ee2400"><small>Best Paper Award @ 🏆 CVPR 2025 Workshop: "Transformers for Vision (T4V)"</small></i><br>
@@ -376,6 +423,7 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://thaoshibe.github.io/YoChameleon/"><b>Yo'Chameleon: Personalized Vision and Language Generation</b></a><br>
+                <i style="color:#888">personalizing a unified multimodal model to understand and generate a specific user's concept.</i><br>
                 <i><b>Thao Nguyen</b>, Krishna Kumar Singh, Jing Shi, Trung Bui, Yong Jae Lee<sup>&dagger;</sup>, Yuheng Li<sup>&dagger;</sup></i><br>
                 Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025<br>
                 <i><small>(<sup>&dagger;</sup>: equal advising; also accepted at 🧷 CVPR 2025 Workshop: "What is Next in Multimodal Foundation Models?")</small></i><br>
@@ -396,6 +444,7 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://thaoshibe.github.io/YoLLaVA/"><b>Yo'LLaVA: Your Personalized Language and Vision Assistant</b></a><br>
+                <i style="color:#888">teaching a multimodal LLM your personal concepts (e.g., your pet) from just a few images.</i><br>
                 <i><b>Thao Nguyen</b>, Haotian Liu, Yuheng Li, Mu Cai, Utkarsh Ojha, Yong Jae Lee</i><br>
                 Neural Information Processing Systems (<b>NeurIPS</b>), 2024<br>
                 [<a href="https://thaoshibe.github.io/YoLLaVA/">ProjectPage</a>, <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202024/93737.png?t=1729115312.34047">Poster</a>, <a href="https://github.com/WisconsinAIVision/YoLLaVA">Code</a>, <a href="https://arxiv.org/abs/2406.09400">Paper</a>]
@@ -415,6 +464,7 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://thaoshibe.github.io/edit-one-for-all"><b>Edit One for All: Interactive Batch Image Editing</b></a><br>
+                <i style="color:#888">make one edit on a single image, then propagate it across a whole batch interactively.</i><br>
                 <i><b>Thao Nguyen</b>, Utkarsh Ojha, Yuheng Li, Haotian Liu, Yong Jae Lee</i><br>
                 Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2024<br>
                 [<a href="https://thaoshibe.github.io/edit-one-for-all">ProjectPage</a>, <a href="https://drive.google.com/file/d/13Yg0-5fv_u1y11Q1ZjbblmqQAHIi4ve9/view">Poster</a>, <a href="https://github.com/thaoshibe/edit-one-for-all">Code</a>, <a href="https://arxiv.org/abs/2401.10219">Paper</a>]
@@ -434,6 +484,7 @@
             <td align="left;vertical-align: middle;">
               <p>
                 <a href="https://thaoshibe.github.io/visii"><b>Visual Instruction Inversion: Image Editing via Visual Prompting</b></a><br>
+                <i style="color:#888">editing an image from a visual before-and-after example, instead of a text instruction.</i><br>
                 <i><b>Thao Nguyen</b>, Yuheng Li, Utkarsh Ojha, Yong Jae Lee</i><br>
                 Neural Information Processing Systems (<b>NeurIPS</b>), 2023<br>
                 [<a href="https://thaoshibe.github.io/visii">ProjectPage</a>, <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202023/70612.png?t=1702527232.3909361">Poster</a>, <a href="https://github.com/thaoshibe/visii">Code</a>, <a href="https://arxiv.org/abs/2307.14331">Paper</a>]
@@ -453,6 +504,7 @@
             <td align="left; vertical-align: middle;">
               <p>
                 <a href="https://thaoshibe.github.io/CPM"><b>Lipstick ain't enough: Beyond Color Matching for In-the-Wild Makeup Transfer</b></a><br>
+                <i style="color:#888">in-the-wild makeup transfer that captures patterns and textures, not just color.</i><br>
                 <i><b>Thao Nguyen</b>, Anh Tran, Minh Hoai</i><br>
                 Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021<br>
                 [<a href="https://thaoshibe.github.io/CPM">ProjectPage</a>, <a href="https://github.com/VinAIResearch/CPM">Code</a>, <a href="https://www.youtube.com/watch?v=8JbqCgdc8YU">Video</a>, <a href="https://arxiv.org/abs/2104.01867">Paper</a>]
@@ -697,15 +749,6 @@
 
   <script>
     // Research vision toggle functionality
-    function toggleResearchVision() {
-      const details = document.getElementById('research-vision-details');
-      const toggle = document.querySelector('.research-vision-toggle');
-      const container = document.querySelector('.research-vision-container');
-      
-      details.classList.toggle('active');
-      toggle.classList.toggle('active');
-      container.classList.toggle('expanded');
-    }
   </script>
 
 </body>

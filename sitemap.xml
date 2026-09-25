@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://thaoshibe.github.io/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://thaoshibe.github.io/camroll/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thaoshibe.github.io/relsim/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thaoshibe.github.io/YoChameleon/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thaoshibe.github.io/YoLLaVA/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thaoshibe.github.io/edit-one-for-all/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thaoshibe.github.io/visii/</loc>
+    <priority>0.8</priority>
+  </url>
+</urlset>
